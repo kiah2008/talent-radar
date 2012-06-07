@@ -28,7 +28,7 @@
  		<!--  Register Activity -->
         <activity
             android:label="Register New Account"
-            android:name="test.test.androidtest.RegisterActivity">
+            android:name=".RegisterActivity">
         </activity>
     </application>
  

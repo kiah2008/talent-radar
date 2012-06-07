@@ -52,7 +52,7 @@ public class RegisterActivity extends Activity {
                 String password = inputPassword.getText().toString();
  
                 ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this);
-    			progressDialog.setMessage("Logging in...");
+    			progressDialog.setMessage("Recording...");
     			progressDialog.setCancelable(false);
     			
     			RegisterTask registerTask = new RegisterTask(RegisterActivity.this, progressDialog);

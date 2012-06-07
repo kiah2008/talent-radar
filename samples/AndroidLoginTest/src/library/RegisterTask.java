@@ -28,7 +28,7 @@ import android.util.Log;
 
 public class RegisterTask extends AsyncTask<String, Void, Integer> {
 
-	private static String registerURL = "http://172.20.20.103/test_android/users/registerFromApp/";
+	private static String registerURL = "http://172.20.20.103/PHPServiceLoginTest/users/registerFromApp/";
 	
 	static JSONObject jObj = null;
     static String json = "";
