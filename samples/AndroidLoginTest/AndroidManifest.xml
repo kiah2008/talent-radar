@@ -24,7 +24,12 @@
             android:label="Login Account"
             android:name=".LoginActivity">
         </activity>
- 
+ 		
+ 		<!--  Register Activity -->
+        <activity
+            android:label="Register New Account"
+            android:name="test.test.androidtest.RegisterActivity">
+        </activity>
     </application>
  
     <!-- Allow to connect with internet -->
