@@ -60,36 +60,41 @@ class UsersController extends AppController {
  */
 	
 	public function registerFromApp() {
-		// Request type is Register new user
-        /*$name = $_POST['name'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
- 
-        // check if user is already existed
-        if ($db->isUserExisted($email)) {
-            // user is already existed - error response
-            $response["error"] = 2;
-            $response["error_msg"] = "User already existed";
-            echo json_encode($response);
-        } else {
-            // store user
-            $user = $db->storeUser($name, $email, $password);
-            if ($user) {
-                // user stored successfully
-                $response["success"] = 1;
-                $response["uid"] = $user["unique_id"];
-                $response["user"]["name"] = $user["name"];
-                $response["user"]["email"] = $user["email"];
-                $response["user"]["created_at"] = $user["created_at"];
-                $response["user"]["updated_at"] = $user["updated_at"];
-                echo json_encode($response);
-            } else {
-                // user failed to store
-                $response["error"] = 1;
-                $response["error_msg"] = "Error occured in Registartion";
-                echo json_encode($response);
-            }
-        }*/
+		
+		if (isset($_POST['name']) && $_POST['name'] != '' && isset($_POST['email']) && $_POST['email'] != '' && isset($_POST['password']) && $_POST['password'] != '') {
+			// Request type is Register new user
+	        $name = $_POST['name'];
+	        $email = $_POST['email'];
+	        $password = $_POST['password'];
+	 		
+	        // check if user is already existed
+	        $user = $this->User->find('first', array('conditions' => array('User.email' => $email)));
+	        if ($user) {
+	            // user is already existed - error response
+	            $response['error'] = 2;
+	            $response['error_msg'] = 'User already existed';
+	        } else {
+	            // store user
+	            $userToSave['User']['name'] = $_POST['name'];
+	            $userToSave['User']['email'] = $_POST['email'];
+	            $userToSave['User']['password'] = md5($_POST['password']);
+	            if ($this->User->save($userToSave)) {
+	                // user stored successfully
+	                $response['success'] = 1;
+	                $response['uid'] = $user['unique_id'];
+	                $response['user']['name'] = $user['name'];
+	                $response['user']['email'] = $user['email'];
+	                $response['user']['created_at'] = $user['created_at'];
+	                $response['user']['updated_at'] = $user['updated_at'];
+	            } else {
+	                // user failed to store
+	                $response['error'] = 1;
+	                $response['error_msg'] = 'Error occured in Registartion';
+	            }
+	        }
+	        echo json_encode($response);
+	        exit;
+		}
 	}
 	
 	public function loginFromApp() {
@@ -101,7 +106,7 @@ class UsersController extends AppController {
 				$password = $_POST['password'];
 				
 			    // response Array
-			    $response = array("success" => 0, "error" => 0);
+			    $response = array('success' => 0, 'error' => 0);
 			 
 		        $user = $this->User->find('first', array('conditions' => array('User.email' => $email, 'User.password' => md5($password))));
 
@@ -116,7 +121,7 @@ class UsersController extends AppController {
 		            // user not found
 		            // echo json with error = 1
 		            $response['error'] = 1;
-		            $response['error_msg'] = "Incorrect email or password!";
+		            $response['error_msg'] = 'Incorrect email or password!';
 		        }
 		        echo json_encode($response);
 		        exit;
