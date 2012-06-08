@@ -10,7 +10,7 @@ import android.widget.Button;
 
 public class DashboardActivity extends Activity {
     //UserFunctions userFunctions;
-    Button btnLogout;
+    Button btnLogout, btnViewMap;
     UserFunctions userFunctions;
     
     @Override
@@ -34,6 +34,20 @@ public class DashboardActivity extends Activity {
                     Intent login = new Intent(getApplicationContext(), LoginActivity.class);
                     login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(login);
+                    // Closing dashboard screen
+                    finish();
+                }
+            });
+            
+            btnViewMap = (Button) findViewById(R.id.btnViewMap);
+            
+            btnViewMap.setOnClickListener(new View.OnClickListener() {
+ 
+                public void onClick(View arg0) {
+                    // TODO Auto-generated method stub
+                    Intent viewMap = new Intent(getApplicationContext(), MapActivity.class);
+                    viewMap.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(viewMap);
                     // Closing dashboard screen
                     finish();
                 }
