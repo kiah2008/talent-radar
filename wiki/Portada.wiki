@@ -1,0 +1,14 @@
+#summary One-sentence summary of this page.
+
+= Introducción =
+
+Esta es la wiki del proyecto, que pretende por el momento ser un catálogo de instrucciones sobre las tecnologías que se manejarán durante el desarrollo del mismo en soporte de la sapiencia colectiva.
+
+
+= Tecnologías =
+
+  * [SVN]
+  * [Android]
+  * [PHP]
+  * [APIs y Servicios web]
+  * [Servidores y Cloud]
