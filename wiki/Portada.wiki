@@ -10,5 +10,5 @@ Esta es la wiki del proyecto, que pretende por el momento ser un catálogo de in
   * [SVN]
   * [Android]
   * [PHP]
-  * [APIs y Servicios web]
-  * [Servidores y Cloud]
+  * [APIs+ServiciosWeb APIs y Servicios web]
+  * [Servidores+Cloud Servidores y Cloud]
