@@ -12,6 +12,16 @@
               android:gravity="center"
               android:layout_marginTop="20dip"/>
  
+ 	<Button android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="View Map"
+        android:textSize="20dip"
+        android:textColor="#21dbd4"
+        android:textStyle="bold"
+        android:id="@+id/btnViewMap"
+        android:layout_marginTop="80dip"
+        android:background="@null"/>
+ 
     <Button android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Logout Me"
