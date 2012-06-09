@@ -1,0 +1,41 @@
+<mockup version="1.0" skin="sketch" measuredW="583" measuredH="519" mockupW="438" mockupH="510">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::ButtonBar" x="200" y="116" w="-1" h="-1" measuredW="172" measuredH="29" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>One%2C%20Two%2C%20Three</text>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::iPhone" x="145" y="9" w="-1" h="-1" measuredW="282" measuredH="510" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::RoundButton" x="227" y="207" w="118" h="115" measuredW="32" measuredH="32" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::RoundButton" x="251" y="228" w="71" h="72" measuredW="32" measuredH="32" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <shape>star</shape>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Switch" x="200" y="154" w="-1" h="-1" measuredW="68" measuredH="28" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <onOffState>on</onOffState>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::PointyButton" x="314" y="155" w="-1" h="-1" measuredW="58" measuredH="27" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Button</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::MultilineButton" x="218" y="337" w="-1" h="-1" measuredW="136" measuredH="69" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Multiline%20Button%0ASecond%20line%20of%20text</text>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::StickyNote" x="474" y="242" w="-1" h="-1" measuredW="109" measuredH="123" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>A%20comment</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
