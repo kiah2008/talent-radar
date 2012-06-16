@@ -3,6 +3,7 @@
 	<name>tr-mobile-app-test</name>
 	<comment></comment>
 	<projects>
+		<project>tr-mobile-app</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
