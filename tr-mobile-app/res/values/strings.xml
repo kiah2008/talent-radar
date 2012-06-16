@@ -3,5 +3,11 @@
 
     <string name="hello">Hello World, TrMobileAppActivity!</string>
     <string name="app_name">Talent Radar</string>
+    <string name="login_fancy_message">... las oportunidades están cerca...</string>
+    <string name="login_new_user">Soy nuevo aquí</string>
+    <string name="login_login">Ingresar!</string>
+    <string name="login_label_password">Contraseña</string>
+    <string name="login_label_email">Email</string>
+    <string name="login_label_login_with_linkedin">Ingresar con LinkedIn</string>
 
 </resources>
