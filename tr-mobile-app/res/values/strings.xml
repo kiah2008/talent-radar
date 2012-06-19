@@ -9,5 +9,11 @@
     <string name="login_label_password">Contraseña</string>
     <string name="login_label_email">Email</string>
     <string name="login_label_login_with_linkedin">Ingresar con LinkedIn</string>
+    <string name="register_title">Registrar cuenta</string>
+    <string name="register_name">Nombre real</string>
+    <string name="register_nickname">Pseudónimo/alias</string>
+    <string name="register_headline">Perfil profesional (140 caracteres)</string>
+    <string name="register_cancel">Cancelar</string>
+    <string name="register_next">Personalizar skills!</string>
 
 </resources>
