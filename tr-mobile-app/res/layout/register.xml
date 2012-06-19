@@ -26,6 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/register_label_title"
+            android:layout_alignLeft="@+id/register_label_title"
+            android:layout_marginRight="8dp"
             android:orientation="vertical" >
 
             <TextView
@@ -52,6 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/register_layout_name"
+            android:layout_alignLeft="@+id/register_label_title"
+            android:layout_marginRight="8dp"
             android:orientation="vertical" >
 
             <TextView
@@ -77,6 +81,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/register_layout_nickname"
+            android:layout_alignLeft="@+id/register_label_title"
+            android:layout_marginRight="8dp"
             android:orientation="vertical" >
 
             <TextView
