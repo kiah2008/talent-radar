@@ -62,10 +62,10 @@ class DATABASE_CONFIG {
 	public $default = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'root',
-		'password' => '',
-		'database' => 'talent_radar',
+		'host' => 'apuntatelo.com',
+		'login' => 'gonza_tr',
+		'password' => 'R#F9*;GsZ=Md',
+		'database' => 'gonza_talent_radar',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
