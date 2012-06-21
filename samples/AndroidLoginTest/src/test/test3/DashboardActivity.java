@@ -38,20 +38,6 @@ public class DashboardActivity extends Activity {
                     finish();
                 }
             });
-            
-            btnViewMap = (Button) findViewById(R.id.btnViewMap);
-            
-            btnViewMap.setOnClickListener(new View.OnClickListener() {
- 
-                public void onClick(View arg0) {
-                    // TODO Auto-generated method stub
-                    Intent viewMap = new Intent(getApplicationContext(), MapActivity.class);
-                    viewMap.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(viewMap);
-                    // Closing dashboard screen
-                    finish();
-                }
-            });
  
         }else{
             // user is not logged in show login screen
