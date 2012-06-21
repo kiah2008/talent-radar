@@ -32,34 +32,51 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController {
 
 	public $name = 'Users';
-	public $helpers = array('Html', 'Session');
 
 	public function beforeFilter() {
 		parent::beforeFilter();
+		
+		$this->Auth->allow('app_register', 'app_login');
 	}
 	
 	public function app_register() {
-		
 		if(!empty($this->data)) {
-			if($this->User->save($this->data)) {
-				
+			$response['status'] = 'error';
+			$response['message'] = __('', true);
+			
+			$this->User->set($this->data);
+			if($ok = $this->User->validates())
+			{
+				$this->request->data['User']['password'] = $this->Auth->password($this->data['User']['password_original']);
+				if($ok = $this->User->save($this->data)) {
+					$response['status'] = 'ok';
+					$response['message'] = __('', true);
+				}
 			}
+
+			if(!$ok) {
+				$response['message'] = __('', true);
+				$response['content'] = $this->User->invalidFields();
+			}
+
+			$this->set('response', $response);
 		}
 	}
 	
 	public function app_login() {
-		
-		$response['message'] = '';
-		$response['status'] = '';
-		
 		if(!empty($this->data)) {
-			if($response['content'] = $this->User->find('first', array('conditions' => array('User.email' => $email, 'User.password' => md5($password))))) {
-				$response['message'] = '';
-				$response['status'] = '';
+			$response['status'] = 'error';
+			$response['message'] = __('', true);
+			
+			if($response['content'] = $this->User->find('first', array('conditions' => array('User.email' => $email, 'User.password' => $this->Auth->password($password))))) {
+				$response['status'] = 'ok';
+				$response['message'] = __('', true);
 			}
 			else {
-				$response['message'] = '';
+				$response['message'] = __('', true);
 			}
+			
+			$this->set('response', $response);
 		}
 	}
 }
