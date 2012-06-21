@@ -67,7 +67,7 @@ class DATABASE_CONFIG {
 		'password' => 'R#F9*;GsZ=Md',
 		'database' => 'gonza_talent_radar',
 		'prefix' => '',
-		//'encoding' => 'utf8',
+		'encoding' => 'utf8',
 	);
 
 	public $test = array(
@@ -78,6 +78,6 @@ class DATABASE_CONFIG {
 		'password' => 'password',
 		'database' => 'test_database_name',
 		'prefix' => '',
-		//'encoding' => 'utf8',
+		'encoding' => 'utf8',
 	);
 }
