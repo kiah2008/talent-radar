@@ -1,12 +1,12 @@
 package com.menatwork;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.menatwork.register.RegisterChooseTypeActivity;
+import com.menatwork.utils.StartActivityOnClickListener;
 import com.mentatwork.R;
 
 public class LoginActivity extends Activity {
@@ -17,18 +17,19 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.login);
 
 		setupLoginWithLinkedinButton();
+		setupRegisterButton();
+	}
+
+	private void setupRegisterButton() {
+		Button registerButton = (Button) findViewById(R.id.login_button_register);
+		registerButton.setOnClickListener(new StartActivityOnClickListener(
+				this, RegisterChooseTypeActivity.class));
 	}
 
 	private void setupLoginWithLinkedinButton() {
 		final ImageButton button = (ImageButton) findViewById(R.id.login_button_linkedin);
-		button.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(LoginActivity.this,
-						MainActivity.class);
-				startActivity(intent);
-			}
-		});
+		button.setOnClickListener(new StartActivityOnClickListener(this,
+				DashboardActivity.class));
 	}
 
 }
