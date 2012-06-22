@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background" >
+
+    <RelativeLayout
+        android:id="@+id/register_type_layout_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" >
+
+        <Button
+            android:id="@+id/register_type_button_linkedin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/register_type_label_description"
+            android:layout_centerHorizontal="true"
+            android:text="@string/register_type_button_linkedin" />
+
+        <Button
+            android:id="@+id/register_type_button_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/register_type_button_linkedin"
+            android:layout_centerHorizontal="true"
+            android:text="@string/register_type_button_normal" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/register_type_label_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/register_type_description"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>
