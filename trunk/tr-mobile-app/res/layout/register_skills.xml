@@ -25,7 +25,7 @@
         android:layout_alignLeft="@+id/register_skills_label_title"
         android:layout_below="@+id/register_skills_label_title"
         android:orientation="vertical" >
-
+
         <TextView
             android:id="@+id/register_label_headline"
             android:layout_width="wrap_content"
@@ -41,6 +41,98 @@
             android:layout_below="@+id/register_label_headline"
             android:ems="10"
             android:inputType="textMultiLine" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/register_skills_layout_skills"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/register_skills_layout_headline"
+        android:layout_centerHorizontal="true" >
+
+        <TextView
+            android:id="@+id/register_skills_label_skills"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/register_skills_skills"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <LinearLayout
+            android:id="@+id/register_skills_layout_available"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/register_skills_label_skills"
+            android:layout_centerHorizontal="true" >
+
+            <Button
+                android:id="@+id/register_skills_button_java"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/skills_java" />
+
+            <Button
+                android:id="@+id/register_skills_button_eclipse"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/skills_eclipse" />
+
+            <Button
+                android:id="@+id/register_skills_button_maven"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/skills_maven" />
+
+            <Button
+                android:id="@+id/register_skills_button_subversion"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/skills_subversion" />
+
+            <Button
+                android:id="@+id/register_skills_button_git"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/skills_git" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/register_skills_skills"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/register_skills_layout_available"
+            android:editable="false"
+            android:ems="10"
+            android:inputType="textMultiLine" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/register_skills_layout_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/register_skills_layout_skills"
+        android:layout_centerHorizontal="true" >
+
+        <Button
+            android:id="@+id/register_skills_button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_cancel" />
+
+        <Button
+            android:id="@+id/register_skills_button_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_skills_finish" />
+
     </LinearLayout>
 
 </RelativeLayout>
