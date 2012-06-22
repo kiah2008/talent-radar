@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_background" >
-
+
     <RelativeLayout
         android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical" >
 
         <TextView
@@ -21,17 +22,28 @@
             android:text="@string/register_title"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
+        <TextView
+            android:id="@+id/register_label_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/register_label_title"
+            android:layout_below="@+id/register_label_title"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/register_description" />
+
         <LinearLayout
             android:id="@+id/register_layout_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/register_label_title"
             android:layout_alignLeft="@+id/register_label_title"
+            android:layout_below="@+id/register_label_description"
             android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/register_label_name"
+                android:id="@+id/register_label_realname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -44,18 +56,59 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/register_label_name"
+                android:layout_below="@+id/register_label_realname"
                 android:ems="10"
                 android:inputType="textPersonName" />
+
+            <CheckBox
+                android:id="@+id/register_checkbox_public_realname"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:text="@string/register_label_public_data" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/register_layout_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/register_label_title"
+            android:layout_below="@+id/register_layout_name"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/register_label_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/register_realname"
+                android:text="@string/register_label_email"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/register_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/register_label_nickname"
+                android:ems="10" android:bufferType="normal" android:inputType="textEmailAddress"/>
+
+            <CheckBox
+                android:id="@+id/register_checkbox_public_email"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:text="@string/register_label_public_data" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/register_layout_nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/register_layout_name"
             android:layout_alignLeft="@+id/register_label_title"
+            android:layout_below="@+id/register_layout_email"
             android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             android:orientation="vertical" >
 
             <TextView
@@ -77,38 +130,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/register_layout_headline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/register_layout_nickname"
-            android:layout_alignLeft="@+id/register_label_title"
-            android:layout_marginRight="8dp"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/register_label_headline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/register_nickname"
-                android:text="@string/register_headline"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <EditText
-                android:id="@+id/register_headline"
-                android:layout_width="match_parent"
-                android:layout_height="96dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/register_label_headline"
-                android:ems="10"
-                android:inputType="textMultiLine" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/register_layout_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/register_layout_headline"
+            android:layout_below="@+id/register_layout_nickname"
             android:layout_centerHorizontal="true" >
 
             <Button
