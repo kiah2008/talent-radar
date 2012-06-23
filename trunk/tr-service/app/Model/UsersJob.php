@@ -1,8 +1,8 @@
 <?php
 App::uses('Model', 'Model');
 
-class UsersBanned extends AppModel {
-	public $name = 'UsersBanned';
+class UsersJob extends AppModel {
+	public $name = 'UsersJob';
 	
 	public $belongsTo = array(
     							'User'
