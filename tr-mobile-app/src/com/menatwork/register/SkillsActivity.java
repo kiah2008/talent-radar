@@ -2,6 +2,7 @@ package com.menatwork.register;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.menatwork.LoginActivity;
 import com.menatwork.MainActivity;
@@ -29,7 +30,13 @@ public class SkillsActivity extends DataInputActivity {
 
 	@Override
 	Bundle getConfiguredData() {
-		// TODO Auto-generated method stub
-		return null;
+		Bundle bundle = new Bundle();
+		bundle.putString(RegistrationExtras.HEADLINE, getControlHeadline()
+				.getText().toString());
+		return bundle;
+	}
+
+	private TextView getControlHeadline() {
+		return (TextView) findViewById(R.id.register_skills_headline);
 	}
 }
