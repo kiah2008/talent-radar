@@ -30,41 +30,19 @@ class User extends AppModel {
 			                                          )
 		                        ),
 		                        
-		                        'password_1'	=> array(
+		                        'password'	=> array(
         							'notEmpty',
 					        		array(
 										'rule' => 'notEmpty',
 		                            	'message' => 'Required Field'
 		                        	),
                         			 ),
-		                        'password_2' 	=> array(
-			        				'notEmpty',
-					        		array(
-										'rule' => 'notEmpty',
-		                            	'message' => 'Required Field'
-		                        	),
-		        					'identicalFieldValues' => array(
-					        										'rule' => array('identicalFieldValues', 'password_1' ),
-					        										'message' => 'Passwords not are the same'
-									  								)
-					            	),
-					            'password_old_db' 	=> array(
+		                        'password_old_db' 	=> array(
 									'notEmpty',
 					        		array(
 										'rule' => 'notEmpty',
 		                            	'message' => 'Required Field'
 		                        	),
                         		),
-       							'password_old' 	=> array(
-				        			'notEmpty',
-					        		array(
-										'rule' => 'notEmpty',
-		                            	'message' => 'Required Field'
-		                        	),
-        							'identicalFieldValues' => array(
-			        										'rule' => array('identicalFieldValues', 'password_old_db' ),
-			        										'message' => 'Previous password is wrong'
-							  								)
-			            		),
     						);
 }
