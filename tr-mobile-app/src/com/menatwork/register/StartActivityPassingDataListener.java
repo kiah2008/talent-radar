@@ -1,4 +1,4 @@
-package com.menatwork.utils;
+package com.menatwork.register;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,18 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class StartActivityOnClickListener implements OnClickListener {
-	private final Activity source;
+class StartActivityPassingDataListener implements OnClickListener {
+	private final DataInputActivity source;
 	private final Class<? extends Activity> destiny;
-	private Bundle extras;
 
-	public StartActivityOnClickListener(Activity source,
-			Class<? extends Activity> destiny, Bundle extras) {
-		this(source, destiny);
-		this.extras = extras;
-	}
-
-	public StartActivityOnClickListener(Activity source,
+	public StartActivityPassingDataListener(DataInputActivity source,
 			Class<? extends Activity> destiny) {
 		super();
 		this.source = source;
@@ -27,8 +20,14 @@ public class StartActivityOnClickListener implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		Intent intent = new Intent(source, destiny);
-		if (extras != null)
+		Bundle configuredData = source.getConfiguredData();
+		Bundle extras = source.getIntent().getExtras();
+		if (extras != null) {
+			extras.putAll(configuredData);
 			intent.putExtras(extras);
+		} else {
+			intent.putExtras(configuredData);
+		}
 		source.startActivity(intent);
 	}
 

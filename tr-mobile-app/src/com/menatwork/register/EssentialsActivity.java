@@ -1,18 +1,15 @@
 package com.menatwork.register;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.menatwork.LoginActivity;
 import com.menatwork.utils.StartActivityOnClickListener;
 import com.mentatwork.R;
 
-public class EssentialsActivity extends Activity {
+public class EssentialsActivity extends DataInputActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +23,8 @@ public class EssentialsActivity extends Activity {
 		Button nextButton = (Button) findViewById(R.id.register_button_next);
 		Button cancelButton = (Button) findViewById(R.id.register_button_cancel);
 
-		nextButton.setOnClickListener(new NextButtonClickListener());
+		nextButton.setOnClickListener(new StartActivityPassingDataListener(
+				this, PasswordActivity.class));
 		cancelButton.setOnClickListener(new StartActivityOnClickListener(this,
 				LoginActivity.class));
 	}
@@ -43,21 +41,27 @@ public class EssentialsActivity extends Activity {
 		return (TextView) findViewById(R.id.register_email);
 	}
 
-	private class NextButtonClickListener implements OnClickListener {
+	Bundle getConfiguredData() {
+		Bundle data = new Bundle();
+		data.putString(RegistrationExtras.REALNAME, getControlRealname()
+				.getText().toString());
+		data.putBoolean(RegistrationExtras.PUBLIC_REALNAME,
+				getControlPublicRealname().isChecked());
+		data.putString(RegistrationExtras.NICKNAME, getControlNickname()
+				.getText().toString());
+		data.putString(RegistrationExtras.EMAIL, getControlEmail().getText()
+				.toString());
+		data.putBoolean(RegistrationExtras.PUBLIC_EMAIL,
+				getControlPublicEmail().isChecked());
+		return data;
+	}
 
-		@Override
-		public void onClick(View v) {
-			final Intent intent = new Intent(EssentialsActivity.this,
-					PasswordActivity.class);
-			intent.putExtra(RegistrationExtras.REALNAME, getControlRealname()
-					.getText().toString());
-			intent.putExtra(RegistrationExtras.NICKNAME, getControlNickname()
-					.getText().toString());
-			intent.putExtra(RegistrationExtras.EMAIL, getControlEmail()
-					.getText().toString());
-			
-			startActivity(intent);
-		}
+	private CheckBox getControlPublicEmail() {
+		return (CheckBox) findViewById(R.id.register_checkbox_public_email);
+	}
+
+	private CheckBox getControlPublicRealname() {
+		return (CheckBox) findViewById(R.id.register_checkbox_public_realname);
 	}
 
 }
