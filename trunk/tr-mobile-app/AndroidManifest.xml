@@ -21,24 +21,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.menatwork.register.RegisterChooseTypeActivity"
+            android:name="com.menatwork.register.ChooseTypeActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            android:theme="@android:style/Theme.Light" >
         </activity>
         <activity
-            android:name="com.menatwork.register.RegisterEssentialActivity"
+            android:name="com.menatwork.register.EssentialsActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            android:theme="@android:style/Theme.Light" >
         </activity>
         <activity
-            android:name="com.menatwork.register.RegisterSkillsActivity"
+            android:name="com.menatwork.register.PasswordActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            android:theme="@android:style/Theme.Light" >
+        </activity>
+        <activity
+            android:name="com.menatwork.register.SkillsActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light" >
         </activity>
         <activity
             android:name="com.menatwork.MainActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            android:theme="@android:style/Theme.Light" >
         </activity>
         <activity android:name="com.menatwork.DashboardActivity" >
         </activity>

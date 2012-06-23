@@ -10,12 +10,17 @@
     <string name="register_description">Por favor, cuéntenos sobre usted. Los siguientes datos son necesarios para poder usar Talent Radar. No se preocupe que no divulgaremos sus datos a menos que usted expresamente lo configure!</string>
     <string name="register_label_public_data">Mostrar en perfil público</string>
     <string name="register_label_email">Correo electrónico</string>
+    <!-- x -->
     <string name="register_type_description">Si usted posee una cuenta en LinkedIn, puede crear su cuenta Talent Radar a partir de ella! (Recomendado). También puede crear una cuenta normal y luego (si desea) asociar su perfil de LinkedIn.</string>
     <string name="register_type_button_linkedin">Ingresar con LinkedIn</string>
     <string name="register_type_button_normal">Ingresar con Talent Radar</string>
-    <string name="register_password">Contraseña</string>
+    <!-- x -->
     <string name="register_skills_title">Perfil profesional</string>
     <string name="register_skills_skills">Skills</string>
     <string name="register_skills_finish">Listo!</string>
+    <!-- x -->
+    <string name="register_password_title">Configura tu contraseña</string>
+    <string name="register_password_description">Ingresa una combinacion de letras y numeros (a..z | 0..9) que puedas recordar!</string>
+	<string name="register_password_repeat">Por favor, vuelve a ingresar la contraseña, asi estamos seguros que sera la que has elegido.</string>
     
 </resources>
