@@ -33,14 +33,15 @@
             android:layout_alignParentLeft="true"
             android:text="@string/register_headline"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
         <EditText
-            android:id="@+id/register_headline"
+            android:id="@+id/register_skills_headline"
             android:layout_width="match_parent"
             android:layout_height="96dp"
             android:layout_below="@+id/register_label_headline"
             android:ems="10"
             android:inputType="textMultiLine" />
+
     </LinearLayout>
 
     <RelativeLayout
