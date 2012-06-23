@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.menatwork.register.RegisterChooseTypeActivity;
+import com.menatwork.register.ChooseTypeActivity;
 import com.menatwork.utils.StartActivityOnClickListener;
 import com.mentatwork.R;
 
@@ -23,7 +23,7 @@ public class LoginActivity extends Activity {
 	private void setupRegisterButton() {
 		Button registerButton = (Button) findViewById(R.id.login_button_register);
 		registerButton.setOnClickListener(new StartActivityOnClickListener(
-				this, RegisterChooseTypeActivity.class));
+				this, ChooseTypeActivity.class));
 	}
 
 	private void setupLoginWithLinkedinButton() {

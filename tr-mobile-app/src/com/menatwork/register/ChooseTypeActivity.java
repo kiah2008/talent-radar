@@ -7,7 +7,7 @@ import android.widget.Button;
 import com.menatwork.utils.StartActivityOnClickListener;
 import com.mentatwork.R;
 
-public class RegisterChooseTypeActivity extends Activity {
+public class ChooseTypeActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -22,7 +22,7 @@ public class RegisterChooseTypeActivity extends Activity {
 
 		linkedinButton.setEnabled(false);
 		normalButton.setOnClickListener(new StartActivityOnClickListener(this,
-				RegisterEssentialActivity.class));
+				EssentialsActivity.class));
 	}
 
 }
