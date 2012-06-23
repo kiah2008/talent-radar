@@ -68,12 +68,12 @@ class UsersController extends AppController {
 			$response['status'] = 'error';
 			$response['message'] = __('', true);
 			
-			if($response['content'] = $this->User->find('first', array('conditions' => array('User.email' => $email, 'User.password' => $this->Auth->password($password))))) {
+			if($response['content'] = $this->User->find('first', array('conditions' => array('User.email' => $this->data['User']['email'], 'User.password' => $this->Auth->password($this->data['User']['password']))))) {
 				$response['status'] = 'ok';
 				$response['message'] = __('', true);
 			}
 			else {
-				$response['message'] = __('', true);
+				$response['message'] = __('Incorrect Email/Password', true);
 			}
 			
 			$this->set('response', $response);

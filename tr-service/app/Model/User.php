@@ -7,7 +7,7 @@ class User extends AppModel {
 	public $hasMany = array(
     							'UsersJob',
 								'UsersSkill',
-								'UsersMessage',
+								//'UsersMessage',
 								'UsersStudy' 
 							  );
 							 
