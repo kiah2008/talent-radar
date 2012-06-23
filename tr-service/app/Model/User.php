@@ -30,21 +30,21 @@ class User extends AppModel {
 			                                          )
 		                        ),
 		                        
-		                        'password_original'	=> array(
+		                        'password_1'	=> array(
         							'notEmpty',
 					        		array(
 										'rule' => 'notEmpty',
 		                            	'message' => 'Required Field'
 		                        	),
                         			 ),
-		                        'password_confirm' 	=> array(
+		                        'password_2' 	=> array(
 			        				'notEmpty',
 					        		array(
 										'rule' => 'notEmpty',
 		                            	'message' => 'Required Field'
 		                        	),
 		        					'identicalFieldValues' => array(
-					        										'rule' => array('identicalFieldValues', 'password_original' ),
+					        										'rule' => array('identicalFieldValues', 'password_1' ),
 					        										'message' => 'Passwords not are the same'
 									  								)
 					            	),
