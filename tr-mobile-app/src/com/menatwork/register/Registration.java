@@ -5,7 +5,11 @@ import java.util.List;
 
 public class Registration {
 
-	private String realname, nickname, email, password, headline;
+	private String realname, //
+			nickname, //
+			email, //
+			password, //
+			headline;
 	private List<Skill> skills;
 
 	public Registration() {
