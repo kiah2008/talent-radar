@@ -12,7 +12,6 @@ class StartActivityPassingDataListener implements OnClickListener {
 
 	public StartActivityPassingDataListener(DataInputActivity source,
 			Class<? extends Activity> destiny) {
-		super();
 		this.source = source;
 		this.destiny = destiny;
 	}
