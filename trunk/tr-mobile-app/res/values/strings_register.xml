@@ -21,6 +21,9 @@
     <!-- x -->
     <string name="register_password_title">Configura tu contraseña</string>
     <string name="register_password_description">Ingresa una combinacion de letras y numeros (a..z | 0..9) que puedas recordar!</string>
-	<string name="register_password_repeat">Por favor, vuelve a ingresar la contraseña, asi estamos seguros que sera la que has elegido.</string>
-    
+    <string name="register_password_repeat">Por favor, vuelve a ingresar la contraseña, asi estamos seguros que sera la que has elegido.</string>
+    <!-- x -->
+    <string name="register_finaldialog_title">Registracion</string>
+    <string name="register_finaldialog_message">Espere por favor...</string>
+
 </resources>

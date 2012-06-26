@@ -1,10 +1,10 @@
 package com.menatwork.register;
 
-import java.util.Set;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.menatwork.utils.LogUtils;
 
 abstract class DataInputActivity extends Activity {
 	abstract Bundle getConfiguredData();
@@ -21,10 +21,8 @@ abstract class DataInputActivity extends Activity {
 		if (extras == null) {
 			Log.d(this.getClass().getName(), "This activity received no input");
 		} else {
-			Set<String> keys = extras.keySet();
-			for (String key : keys) {
-				Log.d(this.getClass().getName(), key + " = " + extras.get(key));
-			}
+			LogUtils.d(this, "Input parameters for current activity", extras);
+
 		}
 	}
 }
