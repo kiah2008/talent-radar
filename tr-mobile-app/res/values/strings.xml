@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, TrMobileAppActivity!</string>
     <string name="app_name">Talent Radar</string>
     <string name="login_fancy_message">... las oportunidades están cerca...</string>
     <string name="login_new_user">Soy nuevo aquí</string>
@@ -9,5 +8,14 @@
     <string name="login_label_password">Contraseña</string>
     <string name="login_label_email">Email</string>
     <string name="login_label_login_with_linkedin">Ingresar con LinkedIn</string>
+
+    <!-- HTTP Post parameter keys -->
+    <string name="post_key_register_email">data[User][email]</string>
+    <string name="post_key_register_username">data[User][username]</string>
+    <string name="post_key_register_password">data[User][password]</string>
+    <string name="post_key_register_name">data[User][name]</string>
+    <string name="post_key_register_surname">data[User][surname]</string>
+    <string name="post_key_register_headline">data[User][headline]</string>
+    <string name="post_uri_registration">http://localhost/tr-service/users/app_register</string>
 
 </resources>
