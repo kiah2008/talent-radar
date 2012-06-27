@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.menatwork.LoginActivity;
 import com.menatwork.MainActivity;
 import com.menatwork.utils.StartActivityOnClickListener;
 import com.mentatwork.R;
@@ -24,9 +23,8 @@ public class SkillsActivity extends DataInputActivity {
 		Button finishButton = (Button) findViewById(R.id.register_skills_button_finish);
 		Button cancelButton = (Button) findViewById(R.id.register_skills_button_cancel);
 
-		finishButton.setOnClickListener(getNextButtonClickListener());
-		cancelButton.setOnClickListener(new StartActivityOnClickListener(this,
-				LoginActivity.class));
+		finishButton.setOnClickListener(this.getNextButtonClickListener());
+		cancelButton.setOnClickListener(new CancelButtonListener(this));
 	}
 
 	@Override

@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 public class StartActivityOnClickListener implements OnClickListener {
-	private final Activity source;
-	private final Class<? extends Activity> destiny;
-	private Bundle extras;
+	protected final Activity source;
+	protected final Class<? extends Activity> destiny;
+	protected Bundle extras;
 
 	public StartActivityOnClickListener(Activity source,
 			Class<? extends Activity> destiny, Bundle extras) {

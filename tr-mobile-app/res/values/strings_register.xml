@@ -25,5 +25,6 @@
     <!-- x -->
     <string name="register_finaldialog_title">Registracion</string>
     <string name="register_finaldialog_message">Espere por favor...</string>
+    <string name="register_cancel_message">Registracion cancelada</string>
 
 </resources>
