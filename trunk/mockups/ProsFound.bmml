@@ -1,4 +1,4 @@
-<mockup version="1.0" skin="sketch" measuredW="947" measuredH="552" mockupW="832" mockupH="508">
+<mockup version="1.0" skin="sketch" measuredW="1165" measuredH="552" mockupW="1050" mockupH="508">
   <controls>
     <control controlID="0" controlTypeID="com.balsamiq.mockups::Component" x="476" y="44" w="273" h="508" measuredW="273" measuredH="508" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
@@ -115,12 +115,12 @@
         </control>
       </groupChildrenDescriptors>
     </control>
-    <control controlID="37" controlTypeID="com.balsamiq.mockups::CallOut" x="389" y="203" w="-1" h="-1" measuredW="37" measuredH="43" zOrder="18" locked="false" isInGroup="-1">
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::CallOut" x="389" y="203" w="-1" h="-1" measuredW="37" measuredH="37" zOrder="18" locked="false" isInGroup="-1">
       <controlProperties>
         <text>1</text>
       </controlProperties>
     </control>
-    <control controlID="38" controlTypeID="com.balsamiq.mockups::CallOut" x="838" y="118" w="-1" h="-1" measuredW="37" measuredH="39" zOrder="20" locked="false" isInGroup="-1">
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::CallOut" x="838" y="118" w="-1" h="-1" measuredW="37" measuredH="43" zOrder="20" locked="false" isInGroup="-1">
       <controlProperties>
         <text>1</text>
       </controlProperties>
@@ -128,6 +128,21 @@
     <control controlID="39" controlTypeID="com.balsamiq.mockups::StickyNote" x="838" y="132" w="-1" h="-1" measuredW="109" measuredH="123" zOrder="19" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Hac%E9s%20clic%20para%20ir%20vi%E9ndo%20a%20qui%E9nes%20te%20van%20apareciendo</text>
+      </controlProperties>
+    </control>
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::StickyNote" x="1007" y="132" w="158" h="160" measuredW="109" measuredH="123" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Si%20lo%20guard%E1s%20se%20deshabilita%20el%20bot%F3n%2C%20y%20queda%20para%20que%20le%20mandes%20el%20mail.%20Pero%20si%20te%20arrepent%EDs%20y%20lo%20pingueas%2C%20se%20borra.</text>
+      </controlProperties>
+    </control>
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::CallOut" x="572" y="282" w="33" h="32" measuredW="39" measuredH="39" zOrder="22" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>2</text>
+      </controlProperties>
+    </control>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::CallOut" x="999" y="125" w="-1" h="-1" measuredW="39" measuredH="39" zOrder="23" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>2</text>
       </controlProperties>
     </control>
   </controls>

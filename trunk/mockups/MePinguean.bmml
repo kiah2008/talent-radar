@@ -1,0 +1,152 @@
+<mockup version="1.0" skin="sketch" measuredW="1098" measuredH="552" mockupW="983" mockupH="508">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::Component" x="115" y="44" w="273" h="508" measuredW="273" measuredH="508" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/Samsung%20Galaxy%20S.bmml#Samsung%20Galaxy%20S</src>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Icon" x="131" y="104" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>0</color>
+        <icon>GeoLocation2Icon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::Label" x="147" y="106" w="-1" h="-1" measuredW="112" measuredH="17" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>0</color>
+        <size>10</size>
+        <text>Somebody%20want%27s%20you...</text>
+      </controlProperties>
+    </control>
+    <control controlID="28" controlTypeID="com.balsamiq.mockups::Component" x="126" y="104" w="249" h="387" measuredW="249" measuredH="387" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0" x="4" y="1" w="245" h="386"/>
+        <override controlID="1" x="10" y="33" w="232" h="67"/>
+        <override controlID="2" x="24" y="184" w="57" h="45"/>
+        <override controlID="3" x="3" y="0" w="246" h="22"/>
+        <override controlID="4" x="0" y="265" w="249" h="122"/>
+        <override controlID="4:204" x="171" y="67" w="5" h="52"/>
+        <override controlID="3:51" x="148" y="2" w="16" h="16"/>
+        <override controlID="4:210" x="188" y="65" w="49" h="42"/>
+        <override controlID="4:184" x="85" y="71" w="85" h="51"/>
+        <override controlID="3:49" x="192" y="0" w="52" h="22"/>
+        <override controlID="4:207" x="152" y="16" w="59" h="42"/>
+        <override controlID="4:201" x="0" y="59" w="245" h="5"/>
+        <override controlID="4:185" x="119" y="88" w="16" h="16"/>
+        <override controlID="3:48" x="0" y="1" w="246" h="21"/>
+        <override controlID="4:181" x="97" y="0" w="69" h="45"/>
+        <override controlID="1:9" x="176" y="17" w="40" h="27"/>
+        <override controlID="4:180" x="24" y="1" w="59" h="45"/>
+        <override controlID="4:186" x="3" y="11" w="246" h="111"/>
+        <override controlID="-1"/>
+        <override controlID="1:10" x="46" y="17" w="120" h="27"/>
+        <override controlID="3:52" x="170" y="2" w="16" h="16"/>
+        <override controlID="4:182" x="182" y="2" w="40" h="45"/>
+        <override controlID="4:209" x="88" y="65" w="69" h="42"/>
+        <override controlID="3:50" x="127" y="2" w="16" h="16"/>
+        <override controlID="1:11" x="12" y="18" w="29" h="30"/>
+        <override controlID="4:205" x="75" y="65" w="5" h="52"/>
+        <override controlID="1:8" x="0" y="0" w="232" h="67"/>
+        <override controlID="4:208" x="21" y="63" w="43" h="42"/>
+        <override controlID="4:206" x="53" y="16" w="27" h="42"/>
+        <override controlID="4:203" x="121" y="13" w="5" h="52"/>
+        <src>./assets/Android%20Controls.bmml#Options%20Menu</src>
+      </controlProperties>
+    </control>
+    <control controlID="29" controlTypeID="com.balsamiq.mockups::Component" x="460" y="44" w="273" h="508" measuredW="273" measuredH="508" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/Samsung%20Galaxy%20S.bmml#Samsung%20Galaxy%20S</src>
+      </controlProperties>
+    </control>
+    <control controlID="31" controlTypeID="com.balsamiq.mockups::Label" x="513" y="134" w="-1" h="-1" measuredW="167" measuredH="37" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>28</size>
+        <text>Talent%20Radar</text>
+      </controlProperties>
+    </control>
+    <control controlID="32" controlTypeID="com.balsamiq.mockups::Image" x="551" y="197" w="90" h="120" measuredW="353" measuredH="338" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <src>../../../Cabezon/Desktop/peluchin-meme-224989.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="33" controlTypeID="com.balsamiq.mockups::Paragraph" x="496" y="321" w="-1" h="-1" measuredW="200" measuredH="80" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>center</align>
+        <text>Hola%20Mariano%2C%20te%20contactamos%20de%20MenAtWork%20para%20ofrecerte%20un%20puesto%20como%20@busqueda.%20Si%20est%E1s%20interesado%2C%20responde%20mi%20ping%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="35" controlTypeID="com.balsamiq.mockups::Label" x="515" y="171" w="163" h="28" measuredW="163" measuredH="26" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Lic.%20Alfredo%20Romero</text>
+      </controlProperties>
+    </control>
+    <control controlID="36" controlTypeID="com.balsamiq.mockups::Button" x="535" y="390" w="135" h="45" measuredW="123" measuredH="30" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>AddCommentIcon%7Csmall</icon>
+        <text>Accept%20Ping%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::Button" x="561" y="442" w="70" h="30" measuredW="61" measuredH="27" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Ignore</text>
+      </controlProperties>
+    </control>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::Alert" x="861" y="255" w="-1" h="-1" measuredW="200" measuredH="101" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%20%0AWould%20you%20like%20to%20block%20Alfredo%3F%0ANo%2C%20Yes</text>
+      </controlProperties>
+    </control>
+    <control controlID="45" controlTypeID="com.balsamiq.mockups::Component" x="825" y="44" w="273" h="508" measuredW="273" measuredH="508" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/Samsung%20Galaxy%20S.bmml#Samsung%20Galaxy%20S</src>
+      </controlProperties>
+    </control>
+    <control controlID="46" controlTypeID="com.balsamiq.mockups::Label" x="878" y="134" w="-1" h="-1" measuredW="167" measuredH="37" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>28</size>
+        <text>Talent%20Radar</text>
+      </controlProperties>
+    </control>
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::Image" x="916" y="205" w="90" h="120" measuredW="353" measuredH="338" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <src>../../../Cabezon/Desktop/peluchin-meme-224989.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::Label" x="880" y="171" w="163" h="28" measuredW="163" measuredH="26" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Lic.%20Alfredo%20Romero</text>
+      </controlProperties>
+    </control>
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::Button" x="926" y="442" w="70" h="30" measuredW="61" measuredH="27" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Ignore</text>
+      </controlProperties>
+    </control>
+    <control controlID="52" controlTypeID="com.balsamiq.mockups::Arrow" x="631" y="352" w="230" h="114" measuredW="150" measuredH="100" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13369344</color>
+        <curvature>-1</curvature>
+        <direction>bottom</direction>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::Paragraph" x="858" y="321" w="-1" h="-1" measuredW="200" measuredH="80" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>center</align>
+        <text>Hola%20Mariano%2C%20te%20contactamos%20de%20MenAtWork%20para%20ofrecerte%20un%20puesto%20como%20@busqueda.%20Si%20est%E1s%20interesado%2C%20responde%20mi%20ping%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="54" controlTypeID="com.balsamiq.mockups::Button" x="897" y="388" w="135" h="45" measuredW="123" measuredH="30" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>AddCommentIcon%7Csmall</icon>
+        <text>Accept%20Ping%21</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

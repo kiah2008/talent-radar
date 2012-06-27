@@ -16,6 +16,7 @@
           <text>Talent%20Radar</text>
         </override>
         <override controlID="55" x="0" y="1" w="239" h="19"/>
+        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Screen%20Label%20%2F%20Title%20Bar</src>
       </controlProperties>
     </control>
@@ -29,7 +30,6 @@
         <override controlID="0" x="0" y="0" w="213" h="27">
           <text>Programador%20Java%20Backend</text>
         </override>
-        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Text%20Input%20Active</src>
       </controlProperties>
     </control>
@@ -61,6 +61,7 @@
         <override controlID="0" x="0" y="0" w="-1" h="-1">
           <text>SWT</text>
         </override>
+        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
       </controlProperties>
     </control>
@@ -113,7 +114,6 @@
           <color>14540253</color>
           <text>svn</text>
         </override>
-        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
       </controlProperties>
     </control>
@@ -122,6 +122,7 @@
         <override controlID="0" x="0" y="0" w="69" h="27">
           <text>smalltalk</text>
         </override>
+        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
       </controlProperties>
     </control>
@@ -131,6 +132,7 @@
           <italic>true</italic>
           <text>eclipse</text>
         </override>
+        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Pressed%20%2F%20Button%20Active</src>
       </controlProperties>
     </control>
@@ -139,6 +141,7 @@
         <override controlID="0" x="0" y="0" w="51" h="27">
           <text>JUnit</text>
         </override>
+        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
       </controlProperties>
     </control>
@@ -215,7 +218,6 @@
           <text>Talent%20Radar</text>
         </override>
         <override controlID="55" x="0" y="1" w="239" h="19"/>
-        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Screen%20Label%20%2F%20Title%20Bar</src>
       </controlProperties>
     </control>
@@ -224,6 +226,7 @@
         <override controlID="0" x="0" y="0" w="213" h="27">
           <text>Programador%20Java%20Backend</text>
         </override>
+        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Text%20Input%20Active</src>
       </controlProperties>
     </control>
@@ -282,6 +285,7 @@
           <color>14540253</color>
           <text>svn</text>
         </override>
+        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
       </controlProperties>
     </control>
@@ -290,7 +294,6 @@
         <override controlID="0" x="0" y="0" w="69" h="27">
           <text>smalltalk</text>
         </override>
-        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
       </controlProperties>
     </control>
@@ -300,7 +303,6 @@
           <italic>true</italic>
           <text>eclipse</text>
         </override>
-        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Pressed%20%2F%20Button%20Active</src>
       </controlProperties>
     </control>
@@ -309,7 +311,6 @@
         <override controlID="0" x="0" y="0" w="51" h="27">
           <text>JUnit</text>
         </override>
-        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
       </controlProperties>
     </control>
@@ -318,7 +319,6 @@
         <override controlID="0" x="0" y="0" w="-1" h="-1">
           <text>SWT</text>
         </override>
-        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
       </controlProperties>
     </control>
@@ -388,7 +388,7 @@
     </control>
     <control controlID="66" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="651" y="127" w="-1" h="335" measuredW="16" measuredH="100" zOrder="45" locked="false" isInGroup="-1">
       <controlProperties>
-        <value>99</value>
+        <value>62</value>
       </controlProperties>
     </control>
     <control controlID="67" controlTypeID="com.balsamiq.mockups::Label" x="438" y="375" w="-1" h="-1" measuredW="123" measuredH="21" zOrder="41" locked="false" isInGroup="-1">
@@ -467,7 +467,6 @@
           <color>14540253</color>
           <text>svn</text>
         </override>
-        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
       </controlProperties>
     </control>
@@ -476,6 +475,7 @@
         <override controlID="0" x="0" y="0" w="69" h="27">
           <text>smalltalk</text>
         </override>
+        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
       </controlProperties>
     </control>
@@ -485,6 +485,7 @@
           <italic>true</italic>
           <text>eclipse</text>
         </override>
+        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Pressed%20%2F%20Button%20Active</src>
       </controlProperties>
     </control>
@@ -493,6 +494,7 @@
         <override controlID="0" x="0" y="0" w="51" h="27">
           <text>JUnit</text>
         </override>
+        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
       </controlProperties>
     </control>
@@ -501,6 +503,7 @@
         <override controlID="0" x="0" y="0" w="-1" h="-1">
           <text>SWT</text>
         </override>
+        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
       </controlProperties>
     </control>
@@ -585,6 +588,7 @@
           <text>Talent%20Radar</text>
         </override>
         <override controlID="55" x="0" y="1" w="239" h="19"/>
+        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Screen%20Label%20%2F%20Title%20Bar</src>
       </controlProperties>
     </control>
