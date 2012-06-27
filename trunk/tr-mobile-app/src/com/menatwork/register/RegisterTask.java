@@ -25,14 +25,11 @@ import com.mentatwork.R;
 
 public class RegisterTask extends AsyncTask<Bundle, Integer, Integer> {
 
-	private String registrationUri;
 	private ProgressDialog progressDialog;
 	private final Context context;
 
 	public RegisterTask(Context context) {
 		this.context = context;
-		this.registrationUri = context
-				.getString(R.string.post_uri_registration);
 	}
 
 	@Override
@@ -75,7 +72,8 @@ public class RegisterTask extends AsyncTask<Bundle, Integer, Integer> {
 	}
 
 	private HttpPost buildRegistrationPost(Bundle bundle) {
-		HttpPost httpPost = new HttpPost(registrationUri);
+		HttpPost httpPost = new HttpPost(
+				context.getString(R.string.post_uri_registration));
 		List<NameValuePair> params = new ArrayList<NameValuePair>(bundle.size());
 
 		params.add(new BasicNameValuePair(context
