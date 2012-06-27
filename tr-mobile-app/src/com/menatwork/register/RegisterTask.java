@@ -14,7 +14,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,14 +26,20 @@ import com.mentatwork.R;
 public class RegisterTask extends AsyncTask<Bundle, Integer, Integer> {
 
 	private String registrationUri;
-	private final AlertDialog alertDialog;
+	private ProgressDialog progressDialog;
 	private final Context context;
 
-	public RegisterTask(Context context, AlertDialog alertDialog) {
+	public RegisterTask(Context context) {
 		this.context = context;
-		this.alertDialog = alertDialog;
 		this.registrationUri = context
 				.getString(R.string.post_uri_registration);
+	}
+
+	@Override
+	protected void onPreExecute() {
+		progressDialog = ProgressDialog.show(context,
+				context.getString(R.string.register_finaldialog_title),
+				context.getString(R.string.register_finaldialog_message), true);
 	}
 
 	@Override
@@ -60,7 +66,7 @@ public class RegisterTask extends AsyncTask<Bundle, Integer, Integer> {
 	@Override
 	protected void onPostExecute(Integer result) {
 		super.onPostExecute(result);
-		alertDialog.dismiss();
+		progressDialog.dismiss();
 	}
 
 	private void handleResponse(HttpResponse response) {
