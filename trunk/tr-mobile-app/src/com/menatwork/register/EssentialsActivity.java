@@ -3,7 +3,7 @@ package com.menatwork.register;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.menatwork.LoginActivity;
 import com.menatwork.utils.StartActivityOnClickListener;
@@ -29,16 +29,16 @@ public class EssentialsActivity extends DataInputActivity {
 				LoginActivity.class));
 	}
 
-	private TextView getControlRealname() {
-		return (TextView) findViewById(R.id.register_realname);
+	private EditText getControlRealname() {
+		return (EditText) findViewById(R.id.register_realname);
 	}
 
-	private TextView getControlNickname() {
-		return (TextView) findViewById(R.id.register_nickname);
+	private EditText getControlNickname() {
+		return (EditText) findViewById(R.id.register_nickname);
 	}
 
-	private TextView getControlEmail() {
-		return (TextView) findViewById(R.id.register_email);
+	private EditText getControlEmail() {
+		return (EditText) findViewById(R.id.register_email);
 	}
 
 	Bundle getConfiguredData() {
