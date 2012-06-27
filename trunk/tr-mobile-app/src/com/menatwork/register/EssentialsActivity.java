@@ -5,8 +5,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.menatwork.LoginActivity;
-import com.menatwork.utils.StartActivityOnClickListener;
 import com.mentatwork.R;
 
 public class EssentialsActivity extends DataInputActivity {
@@ -25,8 +23,7 @@ public class EssentialsActivity extends DataInputActivity {
 
 		nextButton.setOnClickListener(new StartActivityPassingDataListener(
 				this, PasswordActivity.class));
-		cancelButton.setOnClickListener(new StartActivityOnClickListener(this,
-				LoginActivity.class));
+		cancelButton.setOnClickListener(new CancelButtonListener(this));
 	}
 
 	private EditText getControlRealname() {

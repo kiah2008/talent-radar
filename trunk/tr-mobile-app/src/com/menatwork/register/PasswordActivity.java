@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.menatwork.LoginActivity;
 import com.mentatwork.R;
 
 public class PasswordActivity extends DataInputActivity {
@@ -23,10 +22,10 @@ public class PasswordActivity extends DataInputActivity {
 		setContentView(R.layout.register_password);
 
 		this.setupButtons();
-		this.setupSaraza();
+		this.setupPasswordTextWatchers();
 	}
 
-	private void setupSaraza() {
+	private void setupPasswordTextWatchers() {
 		this.getControlPassword1().addTextChangedListener(
 				new Password1TextWatcher());
 		this.getControlPassword2().addTextChangedListener(
@@ -52,8 +51,7 @@ public class PasswordActivity extends DataInputActivity {
 		nextButton.setEnabled(false);
 		nextButton.setOnClickListener(new StartActivityPassingDataListener(
 				this, SkillsActivity.class));
-		cancelButton.setOnClickListener(new StartActivityPassingDataListener(
-				this, LoginActivity.class));
+		cancelButton.setOnClickListener(new CancelButtonListener(this));
 	}
 
 	private Button getControlButtonNext() {
