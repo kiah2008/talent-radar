@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout1"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/login_background"
-    android:orientation="vertical" >
-
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background" >
+
     <RelativeLayout
         android:id="@+id/login_centering_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" >
-
+        android:layout_height="match_parent"
+        android:layout_gravity="center" >
+
         <RelativeLayout
             android:id="@+id/login_layout_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
             android:orientation="vertical" >
 
             <ImageView
@@ -107,8 +105,6 @@
                 android:id="@+id/login_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/linearLayout1"
-                android:layout_centerHorizontal="true"
                 android:ems="10"
                 android:inputType="textPassword" />
         </LinearLayout>
@@ -135,4 +131,4 @@
         </LinearLayout>
     </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>

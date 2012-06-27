@@ -1,5 +1,19 @@
 package com.menatwork;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -10,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.menatwork.register.ChooseTypeActivity;
+import com.menatwork.utils.LogUtils;
 import com.menatwork.utils.StartActivityOnClickListener;
 import com.mentatwork.R;
 
@@ -95,19 +110,60 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			progressDialog = ProgressDialog.show(LoginActivity.this, "",
-					"Autenticando...", true);
+			progressDialog = ProgressDialog
+					.show(LoginActivity.this, "", LoginActivity.this
+							.getString(R.string.login_authenticating), true);
 		}
 
 		@Override
 		protected Boolean doInBackground(String... arg0) {
 			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
+				String email = arg0[0];
+				String password = arg0[1];
+				HttpClient httpClient = new DefaultHttpClient();
+				HttpPost loginPost = this.buildLoginPost(email, password);
+				LogUtils.d(this, "Login POST", loginPost);
+				HttpResponse response;
+				response = httpClient.execute(loginPost);
+				this.handleResponse(response);
+				return true;
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return true;
+			return false;
+		}
+
+		private HttpPost buildLoginPost(String email, String password) {
+			LoginActivity context = LoginActivity.this;
+			HttpPost loginPost = new HttpPost(
+					context.getString(R.string.post_uri_login));
+			List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+
+			params.add(new BasicNameValuePair(context
+					.getString(R.string.post_key_login_email), email));
+			params.add(new BasicNameValuePair(context
+					.getString(R.string.post_key_login_password), password));
+
+			setSafeEntity(loginPost, params);
+
+			return loginPost;
+		}
+
+		private void setSafeEntity(HttpPost loginPost,
+				List<NameValuePair> params) {
+			try {
+				loginPost.setEntity(new UrlEncodedFormEntity(params));
+			} catch (UnsupportedEncodingException e) {
+			}
+		}
+
+		private void handleResponse(HttpResponse response) {
+			// TODO Auto-generated method stub
+			throw new UnsupportedOperationException("LoginTask.handleResponse");
 		}
 
 		@Override
