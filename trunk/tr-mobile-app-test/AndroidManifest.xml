@@ -8,11 +8,12 @@
 
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="com.menatwork" />
+        android:targetPackage="com.mentatwork" >
+</instrumentation>
 
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name" >F
         <uses-library android:name="android.test.runner" />
     </application>
 
