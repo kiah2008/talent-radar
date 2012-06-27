@@ -1,4 +1,4 @@
-<mockup version="1.0" skin="sketch" measuredW="868" measuredH="539" mockupW="834" mockupH="508">
+<mockup version="1.0" skin="sketch" measuredW="1083" measuredH="548" mockupW="1049" mockupH="517">
   <controls>
     <control controlID="0" controlTypeID="com.balsamiq.mockups::Component" x="34" y="31" w="273" h="508" measuredW="273" measuredH="508" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
@@ -405,6 +405,203 @@
     <control controlID="69" controlTypeID="com.balsamiq.mockups::VCurly" x="688" y="392" w="180" h="66" measuredW="180" measuredH="140" zOrder="44" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Funcionalidad%20VIP</text>
+      </controlProperties>
+    </control>
+    <control controlID="70" controlTypeID="com.balsamiq.mockups::Component" x="810" y="40" w="273" h="508" measuredW="273" measuredH="508" zOrder="46" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/Samsung%20Galaxy%20S.bmml#Samsung%20Galaxy%20S</src>
+      </controlProperties>
+    </control>
+    <control controlID="72" controlTypeID="com.balsamiq.mockups::Label" x="838" y="131" w="-1" h="-1" measuredW="74" measuredH="21" zOrder="47" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Target%20skills</text>
+      </controlProperties>
+    </control>
+    <control controlID="73" controlTypeID="com.balsamiq.mockups::Label" x="841" y="226" w="-1" h="-1" measuredW="33" measuredH="21" zOrder="48" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Skills</text>
+      </controlProperties>
+    </control>
+    <control controlID="74" controlTypeID="com.balsamiq.mockups::Component" x="879" y="223" w="26" h="26" measuredW="26" measuredH="26" zOrder="49" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0">
+          <color>15110456</color>
+        </override>
+        <src>./assets/Android%20Controls.bmml#Circle%20Button%20Add%20Hover</src>
+      </controlProperties>
+    </control>
+    <control controlID="75" controlTypeID="com.balsamiq.mockups::Component" x="914" y="223" w="26" h="26" measuredW="26" measuredH="26" zOrder="50" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/Android%20Controls.bmml#Circle%20Button%20Minus%20Hover</src>
+      </controlProperties>
+    </control>
+    <control controlID="76" controlTypeID="com.balsamiq.mockups::Component" x="845" y="282" w="53" h="27" measuredW="53" measuredH="27" zOrder="51" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0">
+          <color>13421772</color>
+          <text>J2EE</text>
+        </override>
+        <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
+      </controlProperties>
+    </control>
+    <control controlID="77" controlTypeID="com.balsamiq.mockups::Component" x="904" y="282" w="45" h="27" measuredW="45" measuredH="27" zOrder="52" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0">
+          <color>14540253</color>
+          <text>mvn</text>
+        </override>
+        <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
+      </controlProperties>
+    </control>
+    <control controlID="78" controlTypeID="com.balsamiq.mockups::Component" x="954" y="282" w="35" h="27" measuredW="35" measuredH="27" zOrder="53" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0">
+          <text>git</text>
+        </override>
+        <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
+      </controlProperties>
+    </control>
+    <control controlID="79" controlTypeID="com.balsamiq.mockups::Component" x="997" y="282" w="41" h="27" measuredW="41" measuredH="27" zOrder="54" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0" x="0" y="0" w="-1" h="-1">
+          <color>14540253</color>
+          <text>svn</text>
+        </override>
+        <override controlID="-1"/>
+        <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
+      </controlProperties>
+    </control>
+    <control controlID="80" controlTypeID="com.balsamiq.mockups::Component" x="847" y="255" w="69" h="27" measuredW="69" measuredH="27" zOrder="55" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0" x="0" y="0" w="69" h="27">
+          <text>smalltalk</text>
+        </override>
+        <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
+      </controlProperties>
+    </control>
+    <control controlID="81" controlTypeID="com.balsamiq.mockups::Component" x="919" y="255" w="61" h="27" measuredW="61" measuredH="27" zOrder="56" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0" x="0" y="0" w="61" h="27">
+          <italic>true</italic>
+          <text>eclipse</text>
+        </override>
+        <src>./assets/Android%20Controls.bmml#Button%20Pressed%20%2F%20Button%20Active</src>
+      </controlProperties>
+    </control>
+    <control controlID="82" controlTypeID="com.balsamiq.mockups::Component" x="984" y="255" w="51" h="27" measuredW="51" measuredH="27" zOrder="57" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0" x="0" y="0" w="51" h="27">
+          <text>JUnit</text>
+        </override>
+        <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
+      </controlProperties>
+    </control>
+    <control controlID="83" controlTypeID="com.balsamiq.mockups::Component" x="858" y="309" w="51" h="27" measuredW="51" measuredH="27" zOrder="58" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0" x="0" y="0" w="-1" h="-1">
+          <text>SWT</text>
+        </override>
+        <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
+      </controlProperties>
+    </control>
+    <control controlID="84" controlTypeID="com.balsamiq.mockups::Component" x="915" y="309" w="57" h="27" measuredW="57" measuredH="27" zOrder="59" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0">
+          <color>14540253</color>
+          <text>Spring</text>
+        </override>
+        <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
+      </controlProperties>
+    </control>
+    <control controlID="85" controlTypeID="com.balsamiq.mockups::Component" x="977" y="309" w="48" h="27" measuredW="48" measuredH="27" zOrder="60" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0">
+          <text>UML</text>
+        </override>
+        <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
+      </controlProperties>
+    </control>
+    <control controlID="86" controlTypeID="__group__" x="851" y="152" w="196" h="27" measuredW="196" measuredH="27" zOrder="61" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Component" x="0" y="0" w="53" h="27" measuredW="53" measuredH="27" zOrder="0" locked="false" isInGroup="86">
+          <controlProperties>
+            <override controlID="0">
+              <text>J2EE</text>
+            </override>
+            <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Component" x="53" y="0" w="45" h="27" measuredW="45" measuredH="27" zOrder="1" locked="false" isInGroup="86">
+          <controlProperties>
+            <override controlID="0">
+              <text>mvn</text>
+            </override>
+            <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::Component" x="98" y="0" w="41" h="27" measuredW="41" measuredH="27" zOrder="2" locked="false" isInGroup="86">
+          <controlProperties>
+            <override controlID="0">
+              <text>svn</text>
+            </override>
+            <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::Component" x="139" y="0" w="57" h="27" measuredW="57" measuredH="27" zOrder="3" locked="false" isInGroup="86">
+          <controlProperties>
+            <override controlID="0">
+              <text>Spring</text>
+            </override>
+            <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="87" controlTypeID="com.balsamiq.mockups::Component" x="919" y="179" w="61" h="27" measuredW="61" measuredH="27" zOrder="62" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0">
+          <direction>center</direction>
+          <italic>true</italic>
+          <state>up</state>
+          <text>eclipse</text>
+        </override>
+        <src>./assets/Android%20Controls.bmml#Button%20Hover</src>
+      </controlProperties>
+    </control>
+    <control controlID="88" controlTypeID="com.balsamiq.mockups::Label" x="838" y="343" w="-1" h="-1" measuredW="123" measuredH="21" zOrder="63" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Mensaje%20de%20contacto</text>
+      </controlProperties>
+    </control>
+    <control controlID="89" controlTypeID="com.balsamiq.mockups::TextArea" x="838" y="360" w="213" h="66" measuredW="200" measuredH="140" zOrder="64" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>11</size>
+        <text>Hola%20@usuario%2C%20te%20contactamos%20de%20MenAtWork%20para%20ofrecerte%20un%20puesto%20como%20@busqueda.%20Si%20est%E1s%20interesado%2C%20responde%20mi%20ping%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="90" controlTypeID="com.balsamiq.mockups::Component" x="827" y="119" w="239" h="20" measuredW="239" measuredH="20" zOrder="65" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="56" x="5" y="0" w="234" h="20">
+          <text>Talent%20Radar</text>
+        </override>
+        <override controlID="55" x="0" y="1" w="239" h="19"/>
+        <src>./assets/Android%20Controls.bmml#Screen%20Label%20%2F%20Title%20Bar</src>
+      </controlProperties>
+    </control>
+    <control controlID="91" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="1053" y="140" w="-1" h="335" measuredW="16" measuredH="100" zOrder="66" locked="false" isInGroup="-1">
+      <controlProperties>
+        <value>99</value>
+      </controlProperties>
+    </control>
+    <control controlID="92" controlTypeID="com.balsamiq.mockups::Button" x="865" y="433" w="-1" h="-1" measuredW="54" measuredH="27" zOrder="67" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Save</text>
+      </controlProperties>
+    </control>
+    <control controlID="93" controlTypeID="com.balsamiq.mockups::Button" x="935" y="433" w="-1" h="-1" measuredW="96" measuredH="30" zOrder="68" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>SearchIcon%7Csmall</icon>
+        <text>Search%21</text>
       </controlProperties>
     </control>
   </controls>
