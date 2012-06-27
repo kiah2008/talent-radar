@@ -13,10 +13,10 @@
         <verticalScrollbar>false</verticalScrollbar>
       </controlProperties>
     </control>
-    <control controlID="15" controlTypeID="com.balsamiq.mockups::Image" x="495" y="183" w="62" h="71" measuredW="349" measuredH="429" zOrder="3" locked="false" isInGroup="-1">
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::Image" x="495" y="183" w="63" h="80" measuredW="110" measuredH="130" zOrder="3" locked="false" isInGroup="-1">
       <controlProperties>
         <borderStyle>square</borderStyle>
-        <src>../../../Cabezon/Desktop/yao-ming-meme.png</src>
+        <src>./images/jao-ming.png</src>
         <text/>
       </controlProperties>
     </control>
@@ -27,7 +27,7 @@
         <text>Ping%21</text>
       </controlProperties>
     </control>
-    <control controlID="19" controlTypeID="com.balsamiq.mockups::Label" x="562" y="185" w="128" h="37" measuredW="230" measuredH="21" zOrder="5" locked="false" isInGroup="-1">
+    <control controlID="19" controlTypeID="com.balsamiq.mockups::Label" x="558" y="185" w="128" h="37" measuredW="230" measuredH="21" zOrder="5" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Lic.%20en%20Inform%E1tica%20Egresado%20UADE%20%2703</text>
       </controlProperties>
@@ -115,12 +115,12 @@
         </control>
       </groupChildrenDescriptors>
     </control>
-    <control controlID="37" controlTypeID="com.balsamiq.mockups::CallOut" x="389" y="203" w="-1" h="-1" measuredW="37" measuredH="37" zOrder="18" locked="false" isInGroup="-1">
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::CallOut" x="389" y="203" w="-1" h="-1" measuredW="37" measuredH="39" zOrder="18" locked="false" isInGroup="-1">
       <controlProperties>
         <text>1</text>
       </controlProperties>
     </control>
-    <control controlID="38" controlTypeID="com.balsamiq.mockups::CallOut" x="838" y="118" w="-1" h="-1" measuredW="37" measuredH="43" zOrder="20" locked="false" isInGroup="-1">
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::CallOut" x="838" y="118" w="-1" h="-1" measuredW="37" measuredH="40" zOrder="20" locked="false" isInGroup="-1">
       <controlProperties>
         <text>1</text>
       </controlProperties>
@@ -135,12 +135,12 @@
         <text>Si%20lo%20guard%E1s%20se%20deshabilita%20el%20bot%F3n%2C%20y%20queda%20para%20que%20le%20mandes%20el%20mail.%20Pero%20si%20te%20arrepent%EDs%20y%20lo%20pingueas%2C%20se%20borra.</text>
       </controlProperties>
     </control>
-    <control controlID="41" controlTypeID="com.balsamiq.mockups::CallOut" x="572" y="282" w="33" h="32" measuredW="39" measuredH="39" zOrder="22" locked="false" isInGroup="-1">
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::CallOut" x="572" y="282" w="33" h="32" measuredW="39" measuredH="40" zOrder="22" locked="false" isInGroup="-1">
       <controlProperties>
         <text>2</text>
       </controlProperties>
     </control>
-    <control controlID="42" controlTypeID="com.balsamiq.mockups::CallOut" x="999" y="125" w="-1" h="-1" measuredW="39" measuredH="39" zOrder="23" locked="false" isInGroup="-1">
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::CallOut" x="999" y="125" w="-1" h="-1" measuredW="39" measuredH="40" zOrder="23" locked="false" isInGroup="-1">
       <controlProperties>
         <text>2</text>
       </controlProperties>
