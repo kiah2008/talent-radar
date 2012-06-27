@@ -15,14 +15,23 @@ public class PasswordActivity extends DataInputActivity {
 
 	private EditText password1;
 	private EditText password2;
+	private Button nextButton;
+	private Button cancelButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register_password);
-
+		findViewElements();
 		this.setupButtons();
 		this.setupPasswordTextWatchers();
+	}
+
+	private void findViewElements() {
+		password1 = (EditText) findViewById(R.id.register_password_password1);
+		password2 = (EditText) findViewById(R.id.register_password_password2);
+		nextButton = (Button) findViewById(R.id.register_password_button_next);
+		cancelButton = (Button) findViewById(R.id.register_password_button_cancel);
 	}
 
 	private void setupPasswordTextWatchers() {
@@ -32,30 +41,11 @@ public class PasswordActivity extends DataInputActivity {
 				new Password2TextWatcher());
 	}
 
-	private EditText getControlPassword1() {
-		if (password1 == null)
-			password1 = (EditText) findViewById(R.id.register_password_password1);
-		return password1;
-	}
-
-	private EditText getControlPassword2() {
-		if (password2 == null)
-			password2 = (EditText) findViewById(R.id.register_password_password2);
-		return password2;
-	}
-
 	private void setupButtons() {
-		Button nextButton = getControlButtonNext();
-		Button cancelButton = (Button) findViewById(R.id.register_password_button_cancel);
-
 		nextButton.setEnabled(false);
 		nextButton.setOnClickListener(new StartActivityPassingDataListener(
 				this, SkillsActivity.class));
 		cancelButton.setOnClickListener(new CancelButtonListener(this));
-	}
-
-	private Button getControlButtonNext() {
-		return (Button) findViewById(R.id.register_password_button_next);
 	}
 
 	Bundle getConfiguredData() {
@@ -63,6 +53,14 @@ public class PasswordActivity extends DataInputActivity {
 		data.putString(RegistrationExtras.PASSWORD, this.getControlPassword()
 				.getText().toString());
 		return data;
+	}
+
+	private EditText getControlPassword1() {
+		return password1;
+	}
+
+	private EditText getControlPassword2() {
+		return password2;
 	}
 
 	private TextView getControlPassword() {
@@ -79,7 +77,8 @@ public class PasswordActivity extends DataInputActivity {
 			String otherPassword = getControlPassword2().getText().toString();
 			boolean enabled = "".equals(thisPassword) ? false : thisPassword
 					.equals(otherPassword);
-			getControlButtonNext().setEnabled(enabled);
+			((Button) findViewById(R.id.register_password_button_next))
+					.setEnabled(enabled);
 		}
 
 		@Override
@@ -104,7 +103,8 @@ public class PasswordActivity extends DataInputActivity {
 			String otherPassword = getControlPassword1().getText().toString();
 			boolean enabled = "".equals(thisPassword) ? false : thisPassword
 					.equals(otherPassword);
-			getControlButtonNext().setEnabled(enabled);
+			((Button) findViewById(R.id.register_password_button_next))
+					.setEnabled(enabled);
 		}
 
 		@Override

@@ -9,17 +9,33 @@ import com.mentatwork.R;
 
 public class EssentialsActivity extends DataInputActivity {
 
+	private EditText realname;
+	private EditText nickname;
+	private EditText email;
+	private CheckBox publicEmail;
+	private CheckBox publicRealname;
+	private Button nextButton;
+	private Button cancelButton;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register_essential);
-
+		findViewElements();
 		this.setupButtons();
 	}
 
+	private void findViewElements() {
+		realname = (EditText) findViewById(R.id.register_realname);
+		nickname = (EditText) findViewById(R.id.register_nickname);
+		email = (EditText) findViewById(R.id.register_email);
+		publicEmail = (CheckBox) findViewById(R.id.register_checkbox_public_email);
+		publicRealname = (CheckBox) findViewById(R.id.register_checkbox_public_realname);
+		nextButton = (Button) findViewById(R.id.register_button_next);
+		cancelButton = (Button) findViewById(R.id.register_button_cancel);
+	}
+
 	private void setupButtons() {
-		Button nextButton = (Button) findViewById(R.id.register_button_next);
-		Button cancelButton = (Button) findViewById(R.id.register_button_cancel);
 
 		nextButton.setOnClickListener(new StartActivityPassingDataListener(
 				this, PasswordActivity.class));
@@ -27,15 +43,23 @@ public class EssentialsActivity extends DataInputActivity {
 	}
 
 	private EditText getControlRealname() {
-		return (EditText) findViewById(R.id.register_realname);
+		return realname;
 	}
 
 	private EditText getControlNickname() {
-		return (EditText) findViewById(R.id.register_nickname);
+		return nickname;
 	}
 
 	private EditText getControlEmail() {
-		return (EditText) findViewById(R.id.register_email);
+		return email;
+	}
+
+	private CheckBox getControlPublicEmail() {
+		return publicEmail;
+	}
+
+	private CheckBox getControlPublicRealname() {
+		return publicRealname;
 	}
 
 	Bundle getConfiguredData() {
@@ -51,14 +75,6 @@ public class EssentialsActivity extends DataInputActivity {
 		data.putBoolean(RegistrationExtras.PUBLIC_EMAIL,
 				getControlPublicEmail().isChecked());
 		return data;
-	}
-
-	private CheckBox getControlPublicEmail() {
-		return (CheckBox) findViewById(R.id.register_checkbox_public_email);
-	}
-
-	private CheckBox getControlPublicRealname() {
-		return (CheckBox) findViewById(R.id.register_checkbox_public_realname);
 	}
 
 }
