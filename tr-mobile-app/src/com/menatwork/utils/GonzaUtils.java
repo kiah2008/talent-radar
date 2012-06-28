@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,33 +19,34 @@ import org.json.JSONObject;
 
 public class GonzaUtils {
 
-	public static InputStream httpPost(String url,
-			ArrayList<NameValuePair> params) {
-
-		InputStream resultContent = null;
-
+	public static JSONObject executePost(HttpPost httpPost)
+			throws JSONException, IOException {
 		try {
-			// defaultHttpClient
 			DefaultHttpClient httpClient = new DefaultHttpClient();
-			HttpPost httpPost = new HttpPost(url);
-			httpPost.setEntity(new UrlEncodedFormEntity(params));
-
 			HttpResponse httpResponse = httpClient.execute(httpPost);
 			HttpEntity httpEntity = httpResponse.getEntity();
-			resultContent = httpEntity.getContent();
-
+			return readJSON(httpEntity.getContent());
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			// should not happen
+			throw new RuntimeException(e);
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			// should not happen
+			throw new RuntimeException(e);
 		}
-
-		return resultContent;
 	}
 
-	public static JSONObject readJSON(InputStream content)
+	public static HttpPost buildPost(String url, List<NameValuePair> params) {
+		try {
+			HttpPost httpPost = new HttpPost(url);
+			httpPost.setEntity(new UrlEncodedFormEntity(params));
+			return httpPost;
+		} catch (UnsupportedEncodingException e) {
+			// should not happen
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static JSONObject readJSON(InputStream content)
 			throws JSONException, IOException {
 		String json = readContents(content);
 		return new JSONObject(json);

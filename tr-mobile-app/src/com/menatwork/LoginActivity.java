@@ -1,22 +1,20 @@
 package com.menatwork;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,11 +27,13 @@ import android.widget.ImageButton;
 import com.menatwork.register.ChooseTypeActivity;
 import com.menatwork.utils.GonzaUtils;
 import com.menatwork.utils.LogUtils;
+import com.menatwork.utils.NaiveDialogClickListener;
 import com.menatwork.utils.StartActivityOnClickListener;
 import com.mentatwork.R;
 
 public class LoginActivity extends Activity {
-	public static final int DIALOG_WAIT = 0;
+	public static final int DIALOG_INCORRECT_LOGIN = 1;
+	public static final int DIALOG_ERROR = 2;
 	private Button registerButton;
 	private ImageButton linkedInButton;
 	private Button loginButton;
@@ -68,6 +68,27 @@ public class LoginActivity extends Activity {
 				new LoginButtonListener(this, MainActivity.class));
 	}
 
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Builder builder = new AlertDialog.Builder(this);
+		switch (id) {
+		case DIALOG_INCORRECT_LOGIN:
+			builder.setTitle(this
+					.getString(R.string.login_dialog_incorrectLogin_title));
+			builder.setMessage(this
+					.getString(R.string.login_dialog_incorrectLogin_message));
+			builder.setPositiveButton("OK", new NaiveDialogClickListener());
+			return builder.create();
+		case DIALOG_ERROR:
+			builder.setTitle(this.getString(R.string.login_dialog_error_title));
+			builder.setMessage(this
+					.getString(R.string.login_dialog_error_message));
+			builder.setPositiveButton("OK", new NaiveDialogClickListener());
+			return builder.create();
+		}
+		return null;
+	}
+
 	public Button getRegisterButton() {
 		return registerButton;
 	}
@@ -98,18 +119,39 @@ public class LoginActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 
-			String email = getEmail().getText().toString();
-			String password = getPassword().getText().toString();
+			try {
+				String email = getEmail().getText().toString();
+				String password = getPassword().getText().toString();
 
-			LoginTask task = new LoginTask();
-			task.execute(email, password);
+				LoginTask task = new LoginTask();
+				task.execute(email, password);
+				switch (task.get()) {
 
-			super.onClick(v);
+				case LoginTask.SUCCESS:
+					super.onClick(v);
+					break;
+				case LoginTask.WRONG_ID:
+					showDialog(DIALOG_INCORRECT_LOGIN);
+					break;
+				case LoginTask.ERROR:
+					showDialog(DIALOG_ERROR);
+					break;
+				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
-	private class LoginTask extends AsyncTask<String, Integer, Boolean> {
+	private class LoginTask extends AsyncTask<String, Integer, Integer> {
 
+		public static final int SUCCESS = 0;
+		public static final int WRONG_ID = 1;
+		public static final int ERROR = 2;
 		private ProgressDialog progressDialog;
 
 		@Override
@@ -120,70 +162,51 @@ public class LoginActivity extends Activity {
 		}
 
 		@Override
-		protected Boolean doInBackground(String... arg0) {
+		protected Integer doInBackground(String... arg0) {
 			try {
 				String email = arg0[0];
 				String password = arg0[1];
-				HttpClient httpClient = new DefaultHttpClient();
 				HttpPost loginPost = this.buildLoginPost(email, password);
 				LogUtils.d(this, "Login POST", loginPost);
-				HttpResponse response;
-				response = httpClient.execute(loginPost);
-				this.handleResponse(response);
-				return true;
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JSONObject response = GonzaUtils.executePost(loginPost);
+				return this.handleResponse(response);
+			} catch (JSONException e) {
+				Log.e("LoginTask", "Error parsing JSON response", e);
+				return ERROR;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e("LoginTask", "IO error trying to log in", e);
+				return ERROR;
 			}
-			return false;
 		}
 
 		private HttpPost buildLoginPost(String email, String password) {
 			LoginActivity context = LoginActivity.this;
-			HttpPost loginPost = new HttpPost(
-					context.getString(R.string.post_uri_login));
 			List<NameValuePair> params = new ArrayList<NameValuePair>(2);
 
 			params.add(new BasicNameValuePair(context
 					.getString(R.string.post_key_login_email), email));
 			params.add(new BasicNameValuePair(context
 					.getString(R.string.post_key_login_password), password));
-
-			setSafeEntity(loginPost, params);
-
-			return loginPost;
+			return GonzaUtils.buildPost(
+					context.getString(R.string.post_uri_login), params);
 		}
 
-		private void setSafeEntity(HttpPost loginPost,
-				List<NameValuePair> params) {
+		private Integer handleResponse(JSONObject response) {
 			try {
-				loginPost.setEntity(new UrlEncodedFormEntity(params));
-			} catch (UnsupportedEncodingException e) {
-			}
-		}
-
-		private void handleResponse(HttpResponse response) {
-			JSONObject jsonResponse;
-			try {
-				jsonResponse = GonzaUtils.readJSON(response.getEntity()
-						.getContent());
-				Log.d("LoginTask", jsonResponse.toString());
-			} catch (IllegalStateException e) {
-				// ignore 
+				Log.d("LoginTask", "JSON Response");
+				Log.d("LoginTask", response.toString());
+				// TODO response should be reviewed
+				return !"error".equals(response.getString("status")) ? SUCCESS
+						: WRONG_ID;
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 		}
 
 		@Override
-		protected void onPostExecute(Boolean result) {
+		protected void onPostExecute(Integer result) {
 			progressDialog.dismiss();
 		}
 	}

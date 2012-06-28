@@ -9,6 +9,10 @@
     <string name="login_label_email">Email</string>
     <string name="login_label_login_with_linkedin">Ingresar con LinkedIn</string>
     <string name="login_authenticating">Autenticando...</string>
+    <string name="login_dialog_incorrectLogin_title">Ups!</string>
+    <string name="login_dialog_incorrectLogin_message">Usuario o contrasena incorrectos</string>
+    <string name="login_dialog_error_title">Ups!</string>
+    <string name="login_dialog_error_message">Problema al contactar con el servidor</string>
 
     <!-- Services-related strins -->
     <!-- Registration -->
