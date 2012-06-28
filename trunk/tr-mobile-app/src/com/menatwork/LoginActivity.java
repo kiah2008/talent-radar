@@ -13,17 +13,21 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.menatwork.register.ChooseTypeActivity;
+import com.menatwork.utils.GonzaUtils;
 import com.menatwork.utils.LogUtils;
 import com.menatwork.utils.StartActivityOnClickListener;
 import com.mentatwork.R;
@@ -162,8 +166,20 @@ public class LoginActivity extends Activity {
 		}
 
 		private void handleResponse(HttpResponse response) {
-			// TODO Auto-generated method stub
-			throw new UnsupportedOperationException("LoginTask.handleResponse");
+			JSONObject jsonResponse;
+			try {
+				jsonResponse = GonzaUtils.readJSON(response.getEntity()
+						.getContent());
+				Log.d("LoginTask", jsonResponse.toString());
+			} catch (IllegalStateException e) {
+				// ignore 
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		@Override
