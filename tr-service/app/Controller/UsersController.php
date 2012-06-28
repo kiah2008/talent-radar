@@ -20,6 +20,7 @@ class UsersController extends AppController {
 			$this->User->set($this->data);
 			if($ok = $this->User->validates())
 			{
+				$this->request->data['User']['password'] = $this->Auth->password($this->request->data['User']['password']);
 				if($ok = $this->User->save($this->data)) {
 					$response['status'] = 'ok';
 					$response['message'] = __('', true);
