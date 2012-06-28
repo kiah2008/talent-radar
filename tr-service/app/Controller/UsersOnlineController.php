@@ -8,7 +8,7 @@ class UsersOnlineController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		
-		$this->Auth->allow('app_shareLocation');
+		$this->Auth->allow('app_shareLocation', 'app_getUsers');
 	}
 	
 	public function app_shareLocation() {
@@ -34,6 +34,27 @@ class UsersOnlineController extends AppController {
 				$response['content'] = $this->UsersOnline->invalidFields();
 			}
 
+			$this->set('response', $response);
+		}
+		else {
+			$this->loadModel('User');
+			$this->set('users', $this->User->find('list', array('fields' => array('id', 'id'))));
+		}
+	}
+	
+	public function app_getUsers() {
+		if(!empty($this->data)) {
+			$response['status'] = 'error';
+			$response['message'] = __('', true);
+			
+			if(1) {
+				$conditions['sqrt(pow(69.1 * (UsersOnline.latitude - '.$this->data['UsersOnline']['latitude'].'), 2) + pow(53.0 * (UsersOnline.longitude - '.$this->data['UsersOnline']['latitude'].'), 2)) <'] = (1/1.609344); //Calculate if distance is lower than input. (Convertion miles to kilometres)
+				$conditions['UsersOnline.user_id <>'] = $this->data['UsersOnline']['user_id'];
+				$response['content'] = $this->UsersOnline->find('all', array('conditions' => $conditions));
+				$response['status'] = 'ok';
+				$response['message'] = __('', true);
+			}
+			
 			$this->set('response', $response);
 		}
 		else {
