@@ -35,10 +35,10 @@ public class PasswordActivity extends DataInputActivity {
 	}
 
 	private void setupPasswordTextWatchers() {
-		this.getControlPassword1().addTextChangedListener(
-				new Password1TextWatcher());
+		getControlPassword1().addTextChangedListener(
+				new PasswordTextWatcher(getControlPassword2()));
 		this.getControlPassword2().addTextChangedListener(
-				new Password2TextWatcher());
+				new PasswordTextWatcher(getControlPassword1()));
 	}
 
 	private void setupButtons() {
@@ -67,14 +67,20 @@ public class PasswordActivity extends DataInputActivity {
 		return (TextView) findViewById(R.id.register_password_password1);
 	}
 
-	private class Password1TextWatcher implements TextWatcher {
+	private class PasswordTextWatcher implements TextWatcher {
+
+		private final EditText theOneToCompareAgainst;
+
+		public PasswordTextWatcher(EditText theOneToCompareAgainst) {
+			this.theOneToCompareAgainst = theOneToCompareAgainst;
+		}
 
 		@Override
 		public void afterTextChanged(Editable s) {
 			if (s == null)
 				return;
 			String thisPassword = s.toString();
-			String otherPassword = getControlPassword2().getText().toString();
+			String otherPassword = theOneToCompareAgainst.getText().toString();
 			boolean enabled = "".equals(thisPassword) ? false : thisPassword
 					.equals(otherPassword);
 			((Button) findViewById(R.id.register_password_button_next))
@@ -93,29 +99,4 @@ public class PasswordActivity extends DataInputActivity {
 
 	}
 
-	private class Password2TextWatcher implements TextWatcher {
-
-		@Override
-		public void afterTextChanged(Editable s) {
-			if (s == null)
-				return;
-			String thisPassword = s.toString();
-			String otherPassword = getControlPassword1().getText().toString();
-			boolean enabled = "".equals(thisPassword) ? false : thisPassword
-					.equals(otherPassword);
-			((Button) findViewById(R.id.register_password_button_next))
-					.setEnabled(enabled);
-		}
-
-		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count,
-				int after) {
-		}
-
-		@Override
-		public void onTextChanged(CharSequence s, int start, int before,
-				int count) {
-		}
-
-	}
 }
