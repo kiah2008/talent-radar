@@ -46,7 +46,7 @@ class AppController extends Controller {
 		
 		if(substr($this->params['action'], 0, 4) == 'app_' && !empty($this->data)) {
 			$this->layout = 'app';
-			$this->render('/pages/app');
+			$this->render('/Pages/app');
 		}
 	}
 }
