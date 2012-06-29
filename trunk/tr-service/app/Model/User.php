@@ -10,39 +10,37 @@ class User extends AppModel {
 								//'UsersMessage',
 								'UsersStudy' 
 							  );
-							 
-	public $validate = array(
+
+	public $validate = array();						  
+	
+	public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+		$this->validate = array(
     							'username' => array(
-									'notEmpty' => array(
-			                                             'rule' => 'notEmpty',
-			                                             'message' => 'Required Field'
-			                                          )
+									'rule' => 'notEmpty',
+									'message' => __('Required Field', true)
 		                        ),
 								'email' => array(
-			                        'notEmpty',
-									'email' => array(
-			                                             'rule' => 'email',
-			                                             'message' => 'Invalid Email'
+			                        'rule1' => array(
+			                                             'rule' => 'notEmpty',
+		                        						 'required' => true,
+			                                             'message' => __('Required Field', true)
 			                                          ),
-			                        'unique' => array(
+									'rule2' => array(
+			                                             'rule' => 'email',
+			                                             'message' => __('Invalid Email', true)
+			                                          ),
+			                        'rule3' => array(
 			                                           'rule' => 'isUnique',
-			                                           'message' => 'Email is already in system'
+			                                           'message' => __('Email is already in system', true)
 			                                          )
 		                        ),
 		                        
 		                        'password'	=> array(
-        							'notEmpty',
-					        		array(
-										'rule' => 'notEmpty',
-		                            	'message' => 'Required Field'
-		                        	),
-                        			 ),
-		                        'password_old_db' 	=> array(
-									'notEmpty',
-					        		array(
-										'rule' => 'notEmpty',
-		                            	'message' => 'Required Field'
-		                        	),
-                        		),
+									'rule' => 'notEmpty',
+	                            	'message' => __('Required Field', true)
+			                    ),
     						);
+	}						  
+
 }

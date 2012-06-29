@@ -14,22 +14,21 @@ class UsersController extends AppController {
 	
 	public function app_register() {
 		if(!empty($this->data)) {
-			$response['status'] = 'error';
-			$response['message'] = __('', true);
+			$response['status'] = 'ok';
+			$response['result']['status'] = 'error';
 			
 			$this->User->set($this->data);
-			if($ok = $this->User->validates())
+			if($ok = ($invalidFields = $this->User->invalidFields()) ? false : true)
 			{
 				$this->request->data['User']['password'] = $this->Auth->password($this->request->data['User']['password']);
 				if($ok = $this->User->save($this->data)) {
-					$response['status'] = 'ok';
-					$response['message'] = __('', true);
+					$response['result']['status'] = 'ok';
 				}
 			}
 
 			if(!$ok) {
-				$response['message'] = __('', true);
-				$response['content'] = $this->User->invalidFields();
+				$response['result']['status'] = 'error';
+				$response['result']['invalidFields'] = $invalidFields;
 			}
 
 			$this->set('response', $response);
@@ -38,15 +37,12 @@ class UsersController extends AppController {
 	
 	public function app_login() {
 		if(!empty($this->data)) {
-			$response['status'] = 'error';
-			$response['message'] = __('', true);
+			$response['status'] = 'ok';
+			$response['result']['status'] = 'error';
 			
-			if($response['content'] = $this->User->find('first', array('conditions' => array('User.email' => $this->data['User']['email'], 'User.password' => $this->Auth->password($this->data['User']['password']))))) {
-				$response['status'] = 'ok';
-				$response['message'] = __('', true);
-			}
-			else {
-				$response['message'] = __('Incorrect Email/Password', true);
+			if($user = $this->User->find('first', array('conditions' => array('User.email' => $this->data['User']['email'], 'User.password' => $this->Auth->password($this->data['User']['password']))))) {
+				$response['result']['User'] = $user['User'];
+				$response['result']['status'] = 'ok';
 			}
 			
 			$this->set('response', $response);
