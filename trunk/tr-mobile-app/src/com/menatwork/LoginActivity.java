@@ -195,9 +195,12 @@ public class LoginActivity extends Activity {
 			try {
 				Log.d("LoginTask", "JSON Response");
 				Log.d("LoginTask", response.toString());
-				// TODO response should be reviewed
-				return !"error".equals(response.getString("status")) ? SUCCESS
-						: WRONG_ID;
+				/*
+				 * TODO maybe wrap responses in objects that know how to deal
+				 * with them: ResponseHandler.wrapLoginResponse(response);
+				 */
+				return !"error".equals(response.getJSONObject("result")
+						.getString("status")) ? SUCCESS : WRONG_ID;
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
