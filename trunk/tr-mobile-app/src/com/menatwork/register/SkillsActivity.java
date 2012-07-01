@@ -3,7 +3,6 @@ package com.menatwork.register;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpPost;
@@ -11,6 +10,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,15 +23,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.menatwork.LoginActivity;
 import com.menatwork.MainActivity;
 import com.menatwork.utils.GonzaUtils;
 import com.menatwork.utils.LogUtils;
-import com.menatwork.utils.StartActivityOnClickListener;
+import com.menatwork.utils.NaiveDialogClickListener;
+import com.menatwork.utils.StartActivityListener;
 import com.mentatwork.R;
 
 public class SkillsActivity extends DataInputActivity {
 
+	public static final int DIALOG_ERROR = 0;
 	private Button finishButton;
 	private Button cancelButton;
 	private EditText headline;
@@ -65,38 +68,31 @@ public class SkillsActivity extends DataInputActivity {
 		return headline;
 	}
 
-	private StartActivityOnClickListener getNextButtonClickListener() {
-		return new StartActivityOnClickListener(this, MainActivity.class) {
+	@Override
+	protected Dialog onCreateDialog(int id, Bundle args) {
+		Builder builder = new AlertDialog.Builder(this);
+		switch (id) {
+		case DIALOG_ERROR:
+			builder.setMessage(args.getString("message"));
+			builder.setPositiveButton("OK", new NaiveDialogClickListener());
+			return builder.create();
+		}
+		return null;
+	}
+
+	private StartActivityListener getNextButtonClickListener() {
+		return new StartActivityListener(this, MainActivity.class) {
 
 			@Override
 			public void onClick(View v) {
 				Bundle bundle = getIntent().getExtras();
 				bundle.putAll(getConfiguredData());
-				RegisterTask registerTask = new RegisterTask();
-				registerTask.execute(bundle);
-				try {
-					if (registerTask.get())
-						super.onClick(v);
-					else {
-						// show dialog and return to main screen
-						// showDialog()
-						Intent intent = new Intent(SkillsActivity.this,
-								LoginActivity.class);
-						startActivity(intent);
-						return;
-					}
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				new RegisterTask().execute(bundle);
 			}
 		};
 	}
 
-	private class RegisterTask extends AsyncTask<Bundle, Integer, Boolean> {
+	private class RegisterTask extends AsyncTask<Bundle, Void, JSONObject> {
 
 		private ProgressDialog progressDialog;
 		private final Context context;
@@ -114,7 +110,7 @@ public class SkillsActivity extends DataInputActivity {
 		}
 
 		@Override
-		protected Boolean doInBackground(Bundle... params) {
+		protected JSONObject doInBackground(Bundle... params) {
 			try {
 				List<NameValuePair> postParams = buildParams(params[0]);
 				HttpPost httpPost = GonzaUtils.buildPost(
@@ -130,7 +126,7 @@ public class SkillsActivity extends DataInputActivity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return false;
+			return null;
 		}
 
 		private List<NameValuePair> buildParams(
@@ -166,18 +162,36 @@ public class SkillsActivity extends DataInputActivity {
 		}
 
 		@Override
-		protected void onPostExecute(Boolean result) {
-			super.onPostExecute(result);
-			progressDialog.dismiss();
+		protected void onPostExecute(JSONObject response) {
+			try {
+				super.onPostExecute(response);
+				progressDialog.dismiss();
+				String resultStatus;
+				resultStatus = response.getJSONObject("result").getString(
+						"status");
+				if ("ok".equals(resultStatus)) {
+					Intent intent = new Intent(SkillsActivity.this,
+							MainActivity.class);
+					startActivity(intent);
+				} else {
+					Bundle bundleWithMessage = new Bundle();
+					String message; // should be message defined by service
+					message = getString(R.string.register_errordialog_message);
+					bundleWithMessage.putString("message", message);
+					showDialog(DIALOG_ERROR, bundleWithMessage);
+				}
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 
-		private Boolean handleResponse(JSONObject response)
-				throws JSONException {
+		private JSONObject handleResponse(JSONObject response) {
 			Log.d("RegisterTask", "JSON Response");
 			Log.d("RegisterTask", response.toString());
-			String resultStatus = response.getJSONObject("result").getString(
-					"status");
-			return "ok".equals(resultStatus);
+			return response;
 		}
 
 	}

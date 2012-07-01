@@ -7,10 +7,10 @@ import android.content.DialogInterface.OnClickListener;
 import android.view.View;
 
 import com.menatwork.LoginActivity;
-import com.menatwork.utils.StartActivityOnClickListener;
+import com.menatwork.utils.StartActivityListener;
 import com.mentatwork.R;
 
-public class CancelButtonListener extends StartActivityOnClickListener {
+public class CancelButtonListener extends StartActivityListener {
 
 	public CancelButtonListener(Activity source) {
 		super(source, LoginActivity.class);
