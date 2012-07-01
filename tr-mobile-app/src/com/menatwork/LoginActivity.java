@@ -206,19 +206,14 @@ public class LoginActivity extends Activity {
 	// from here on, 'exploratory' code for logging in with LinkedIn! :)
 	private LinkedInOAuthService oAuthService;
 	private LinkedInRequestToken liToken;
-	// private LinkedInApiClient client;
-	// private LinkedInApiClientFactory apiClientFactory;
 
 	@Override
 	protected void onNewIntent(Intent intent) {
 		String verifier = intent.getData().getQueryParameter("oauth_verifier");
-
 		LinkedInAccessToken accessToken = oAuthService.getOAuthAccessToken(
 				liToken, verifier);
-		// client = apiClientFactory.createLinkedInApiClient(accessToken);
 
 		Log.d("Linking in", accessToken.getToken());
-		// client.postNetworkUpdate("LinkedIn Android app test");
 	}
 
 	private class LoginWithLinkedinListener implements OnClickListener {
@@ -230,14 +225,12 @@ public class LoginActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			String consumerKey = LoginActivity.this
-					.getString(R.string.linkedin_consumer_key);
-			String consumerSecret = LoginActivity.this
-					.getString(R.string.linkedin_consumer_secret);
+			String apiKey = LoginActivity.this
+					.getString(R.string.linkedin_api_key);
+			String apiSecret = LoginActivity.this
+					.getString(R.string.linkedin_api_secret);
 			oAuthService = LinkedInOAuthServiceFactory.getInstance()
-					.createLinkedInOAuthService(consumerKey, consumerSecret);
-			// apiClientFactory = LinkedInApiClientFactory.newInstance(
-			// consumerKey, consumerSecret);
+					.createLinkedInOAuthService(apiKey, apiSecret);
 			liToken = oAuthService.getOAuthRequestToken(OAUTH_CALLBACK_URL);
 			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(liToken
 					.getAuthorizationUrl()));
