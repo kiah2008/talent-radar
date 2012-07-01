@@ -25,6 +25,7 @@
     <!-- x -->
     <string name="register_finaldialog_title">Registracion</string>
     <string name="register_finaldialog_message">Espere por favor...</string>
+    <string name="register_errordialog_message">Hubo un error en la solicitud de registro. Revise los campos ingresados.</string>
     <string name="register_cancel_message">Registracion cancelada</string>
 
 </resources>

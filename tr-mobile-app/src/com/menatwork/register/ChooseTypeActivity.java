@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.menatwork.utils.StartActivityOnClickListener;
+import com.menatwork.utils.StartActivityListener;
 import com.mentatwork.R;
 
 public class ChooseTypeActivity extends Activity {
@@ -21,7 +21,7 @@ public class ChooseTypeActivity extends Activity {
 		Button normalButton = (Button) findViewById(R.id.register_type_button_normal);
 
 		linkedinButton.setEnabled(false);
-		normalButton.setOnClickListener(new StartActivityOnClickListener(this,
+		normalButton.setOnClickListener(new StartActivityListener(this,
 				EssentialsActivity.class));
 	}
 
