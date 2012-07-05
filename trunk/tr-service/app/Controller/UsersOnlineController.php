@@ -50,7 +50,7 @@ class UsersOnlineController extends AppController {
 			if(1) {
 				$conditions['sqrt(pow(69.1 * (UsersOnline.latitude - '.$this->data['UsersOnline']['latitude'].'), 2) + pow(53.0 * (UsersOnline.longitude - '.$this->data['UsersOnline']['latitude'].'), 2)) <'] = (1/1.609344); //Calculate if distance is lower than input. (Convertion miles to kilometres)
 				$conditions['UsersOnline.user_id <>'] = $this->data['UsersOnline']['user_id'];
-				//$conditions['NOW() <'] = '-!ADDTIME(UsersOnline.modified, UsersOnline.duration)';
+				$conditions['TIMEDIFF(ADDTIME(UsersOnline.modified, UsersOnline.duration), NOW()) >'] = 0;
 				$response['content'] = $this->UsersOnline->find('all', array('conditions' => $conditions));
 				$response['status'] = 'ok';
 				$response['message'] = __('', true);
