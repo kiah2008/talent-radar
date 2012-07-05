@@ -1,4 +1,4 @@
-<mockup version="1.0" skin="sketch" measuredW="983" measuredH="532" mockupW="961" mockupH="517">
+<mockup version="1.0" skin="sketch" measuredW="675" measuredH="532" mockupW="653" mockupH="508">
   <controls>
     <control controlID="2" controlTypeID="com.balsamiq.mockups::Image" x="85" y="296" w="-1" h="-1" measuredW="142" measuredH="32" zOrder="2" locked="false" isInGroup="-1">
       <controlProperties>
@@ -44,6 +44,7 @@
         <override controlID="0" x="0" y="0" w="-1" h="-1">
           <text>Ingresar%21</text>
         </override>
+        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button</src>
       </controlProperties>
     </control>
@@ -52,10 +53,11 @@
         <override controlID="0" x="0" y="0" w="-1" h="-1">
           <text>Soy%20nuevo%20aqui</text>
         </override>
+        <override controlID="-1"/>
         <src>./assets/Android%20Controls.bmml#Button</src>
       </controlProperties>
     </control>
-    <control controlID="13" controlTypeID="com.balsamiq.mockups::CallOut" x="239" y="435" w="-1" h="-1" measuredW="37" measuredH="39" zOrder="11" locked="false" isInGroup="-1">
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::CallOut" x="239" y="435" w="-1" h="-1" measuredW="37" measuredH="43" zOrder="11" locked="false" isInGroup="-1">
       <controlProperties>
         <text>1</text>
       </controlProperties>
@@ -65,29 +67,14 @@
         <text>1%29%20Al%20dashboard/pantalla%20principal</text>
       </controlProperties>
     </control>
-    <control controlID="15" controlTypeID="com.balsamiq.mockups::CallOut" x="193" y="307" w="-1" h="-1" measuredW="39" measuredH="39" zOrder="13" locked="false" isInGroup="-1">
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::CallOut" x="193" y="307" w="-1" h="-1" measuredW="39" measuredH="40" zOrder="13" locked="false" isInGroup="-1">
       <controlProperties>
         <text>2</text>
       </controlProperties>
     </control>
-    <control controlID="16" controlTypeID="com.balsamiq.mockups::StickyNote" x="451" y="24" w="206" h="159" measuredW="109" measuredH="123" zOrder="14" locked="false" isInGroup="-1">
+    <control controlID="16" controlTypeID="com.balsamiq.mockups::StickyNote" x="469" y="36" w="206" h="159" measuredW="109" measuredH="123" zOrder="14" locked="false" isInGroup="-1">
       <controlProperties>
         <text>2%29%20Si%20existe%20la%20cuenta%2C%20igual%20que%201.%0ASi%20no%20existe%2C%20a%20una%20pantalla%20que%20todav%EDa%20no%20pens%E9%20%28dashboard%20con%20la%20cuenta%20ya%20creada%3F%20o%20confirmaci%F3n%20de%20algo%3F%29</text>
-      </controlProperties>
-    </control>
-    <control controlID="17" controlTypeID="com.balsamiq.mockups::CallOut" x="40" y="436" w="-1" h="-1" measuredW="38" measuredH="39" zOrder="15" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>3</text>
-      </controlProperties>
-    </control>
-    <control controlID="18" controlTypeID="com.balsamiq.mockups::Component" x="710" y="24" w="273" h="508" measuredW="273" measuredH="508" zOrder="16" locked="false" isInGroup="-1">
-      <controlProperties>
-        <src>./assets/Samsung%20Galaxy%20S.bmml#Samsung%20Galaxy%20S</src>
-      </controlProperties>
-    </control>
-    <control controlID="19" controlTypeID="com.balsamiq.mockups::CallOut" x="702" y="15" w="-1" h="-1" measuredW="38" measuredH="39" zOrder="17" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>3</text>
       </controlProperties>
     </control>
     <control controlID="20" controlTypeID="com.balsamiq.mockups::Component" x="22" y="24" w="273" h="508" measuredW="273" measuredH="508" zOrder="0" locked="false" isInGroup="-1">
