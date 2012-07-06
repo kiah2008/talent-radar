@@ -16,7 +16,6 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,11 +26,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.google.code.linkedinapi.client.oauth.LinkedInAccessToken;
-import com.google.code.linkedinapi.client.oauth.LinkedInOAuthService;
-import com.google.code.linkedinapi.client.oauth.LinkedInOAuthServiceFactory;
-import com.google.code.linkedinapi.client.oauth.LinkedInRequestToken;
 import com.menatwork.register.ChooseTypeActivity;
 import com.menatwork.utils.GonzaUtils;
+import com.menatwork.utils.LinkedInLoginHelper;
 import com.menatwork.utils.LogUtils;
 import com.menatwork.utils.NaiveDialogClickListener;
 import com.menatwork.utils.StartActivityListener;
@@ -45,6 +42,7 @@ public class LoginActivity extends Activity {
 	private Button loginButton;
 	private EditText email;
 	private EditText password;
+	private LinkedInLoginHelper linkedInloginHelper;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -53,6 +51,14 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.login);
 		findViewElements();
 		setupButtons();
+		instantiateLoginHelper();
+	}
+
+	private void instantiateLoginHelper() {
+		String apiKey = LoginActivity.this.getString(R.string.linkedin_api_key);
+		String apiSecret = LoginActivity.this
+				.getString(R.string.linkedin_api_secret);
+		linkedInloginHelper = new LinkedInLoginHelper(apiKey, apiSecret);
 	}
 
 	private void findViewElements() {
@@ -91,6 +97,15 @@ public class LoginActivity extends Activity {
 		return null;
 	}
 
+	@Override
+	protected void onNewIntent(Intent intent) {
+		Log.d("LoginActivity", "Linkedin access token key/secret");
+		LinkedInAccessToken accessToken = linkedInloginHelper.getAccessToken(intent);
+		Log.d("LoginActivity", accessToken.getToken());
+		Log.d("LoginActivity", accessToken.getTokenSecret());
+		startActivity(new Intent(this, MainActivity.class));
+	}
+
 	public Button getRegisterButton() {
 		return registerButton;
 	}
@@ -121,6 +136,15 @@ public class LoginActivity extends Activity {
 			LoginTask task = new LoginTask();
 			task.execute(email, password);
 		}
+	}
+
+	private class LoginWithLinkedinListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			startActivity(linkedInloginHelper.getLoginIntent());
+		}
+
 	}
 
 	private class LoginTask extends AsyncTask<String, Integer, Integer> {
@@ -201,41 +225,5 @@ public class LoginActivity extends Activity {
 				break;
 			}
 		}
-	}
-
-	// from here on, 'exploratory' code for logging in with LinkedIn! :)
-	private LinkedInOAuthService oAuthService;
-	private LinkedInRequestToken liToken;
-
-	@Override
-	protected void onNewIntent(Intent intent) {
-		String verifier = intent.getData().getQueryParameter("oauth_verifier");
-		LinkedInAccessToken accessToken = oAuthService.getOAuthAccessToken(
-				liToken, verifier);
-
-		Log.d("Linking in", accessToken.getToken());
-	}
-
-	private class LoginWithLinkedinListener implements OnClickListener {
-
-		private static final String OAUTH_CALLBACK_SCHEME = "x-oauthflow-linkedin";
-		private static final String OAUTH_CALLBACK_HOST = "callback";
-		private static final String OAUTH_CALLBACK_URL = OAUTH_CALLBACK_SCHEME
-				+ "://" + OAUTH_CALLBACK_HOST;
-
-		@Override
-		public void onClick(View v) {
-			String apiKey = LoginActivity.this
-					.getString(R.string.linkedin_api_key);
-			String apiSecret = LoginActivity.this
-					.getString(R.string.linkedin_api_secret);
-			oAuthService = LinkedInOAuthServiceFactory.getInstance()
-					.createLinkedInOAuthService(apiKey, apiSecret);
-			liToken = oAuthService.getOAuthRequestToken(OAUTH_CALLBACK_URL);
-			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(liToken
-					.getAuthorizationUrl()));
-			startActivity(i);
-		}
-
 	}
 }
