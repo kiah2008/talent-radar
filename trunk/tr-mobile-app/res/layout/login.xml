@@ -65,10 +65,11 @@
             <ImageButton
                 android:id="@+id/login_button_linkedin"
                 android:layout_width="wrap_content"
-                android:layout_height="64dp"
+                android:layout_height="76dp"
                 android:layout_below="@+id/login_label_login_with_linkedin"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/login_linkedin" />
+                android:background="@null" 
+                android:src="@drawable/login_linked_in" />
         </RelativeLayout>
 
         <LinearLayout
