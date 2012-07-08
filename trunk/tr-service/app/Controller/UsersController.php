@@ -27,7 +27,6 @@ class UsersController extends AppController {
 			}
 
 			if(!$ok) {
-				$response['result']['status'] = 'error';
 				$response['result']['invalidFields'] = $invalidFields;
 			}
 
