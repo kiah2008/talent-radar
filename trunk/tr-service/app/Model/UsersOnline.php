@@ -23,7 +23,7 @@ class UsersOnline extends AppModel {
 			                                          ),
 									'rule2' => array(
 			                                             'rule' => 'numeric',
-			                                             'message' => __('Invalid Latitude', true)
+			                                             'message' => __('Invalid Value', true)
 			                                          ),
 		                       	),
 		                       	'longitude' => array(
@@ -34,7 +34,7 @@ class UsersOnline extends AppModel {
 			                                          ),
 									'rule2' => array(
 			                                             'rule' => 'numeric',
-			                                             'message' => __('Invalid Longitude', true)
+			                                             'message' => __('Invalid Value', true)
 			                                          ),
 		                       	)
 		                    	);
