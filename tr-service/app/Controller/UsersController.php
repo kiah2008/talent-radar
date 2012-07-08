@@ -9,7 +9,7 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		
-		$this->Auth->allow('app_register', 'app_login');
+		$this->Auth->allow('app_register', 'app_login', 'app_loginLinkedin');
 	}
 	
 	public function app_register() {
@@ -42,6 +42,27 @@ class UsersController extends AppController {
 			if($user = $this->User->find('first', array('conditions' => array('User.email' => $this->data['User']['email'], 'User.password' => $this->Auth->password($this->data['User']['password']))))) {
 				$response['result']['User'] = $user['User'];
 				$response['result']['status'] = 'ok';
+			}
+			
+			$this->set('response', $response);
+		}
+	}
+	
+	public function app_loginLinkedin() {
+		if(!empty($this->data)) {
+			$response['status'] = 'ok';
+			$response['result']['status'] = 'error';
+			
+			if($user = $this->User->find('first', array('conditions' => array('User.token_linkedin' => $this->data['User']['token_linkedin'])))) {
+				$response['result']['User'] = $user['User'];
+				$response['result']['status'] = 'ok';
+			}
+			else
+			{
+				if($user = $this->User->save($this->data, false)) {
+					$response['result']['User'] = $user['User'];
+					$response['result']['status'] = 'ok';
+				}
 			}
 			
 			$this->set('response', $response);
