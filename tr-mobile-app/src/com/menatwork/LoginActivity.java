@@ -2,7 +2,9 @@ package com.menatwork;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpPost;
@@ -25,14 +27,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.google.code.linkedinapi.client.LinkedInApiClient;
+import com.google.code.linkedinapi.client.LinkedInApiClientFactory;
+import com.google.code.linkedinapi.client.enumeration.ProfileField;
 import com.google.code.linkedinapi.client.oauth.LinkedInAccessToken;
+import com.google.code.linkedinapi.schema.Person;
+import com.google.code.linkedinapi.schema.Skill;
+import com.google.code.linkedinapi.schema.Skills;
 import com.menatwork.register.ChooseTypeActivity;
 import com.menatwork.utils.GonzaUtils;
 import com.menatwork.utils.LinkedInLoginHelper;
 import com.menatwork.utils.LogUtils;
 import com.menatwork.utils.NaiveDialogClickListener;
 import com.menatwork.utils.StartActivityListener;
-import com.mentatwork.R;
 
 public class LoginActivity extends Activity {
 	public static final int DIALOG_INCORRECT_LOGIN = 1;
@@ -55,9 +62,8 @@ public class LoginActivity extends Activity {
 	}
 
 	private void instantiateLoginHelper() {
-		String apiKey = LoginActivity.this.getString(R.string.linkedin_api_key);
-		String apiSecret = LoginActivity.this
-				.getString(R.string.linkedin_api_secret);
+		String apiKey = this.getString(R.string.linkedin_api_key);
+		String apiSecret = this.getString(R.string.linkedin_api_secret);
 		linkedInloginHelper = new LinkedInLoginHelper(apiKey, apiSecret);
 	}
 
@@ -99,11 +105,38 @@ public class LoginActivity extends Activity {
 
 	@Override
 	protected void onNewIntent(Intent intent) {
+		// handle logging in with linked in
 		Log.d("LoginActivity", "Linkedin access token key/secret");
-		LinkedInAccessToken accessToken = linkedInloginHelper.getAccessToken(intent);
-		Log.d("LoginActivity", accessToken.getToken());
-		Log.d("LoginActivity", accessToken.getTokenSecret());
+		LinkedInAccessToken accessToken = linkedInloginHelper
+				.getAccessToken(intent);
+		Log.d("LoginActivity", "Access Token " + accessToken.getToken());
+		Log.d("LoginActivity", "Access Secret " + accessToken.getTokenSecret());
+		foo(accessToken);
+		// new LoginWithLinkedInTask();
 		startActivity(new Intent(this, MainActivity.class));
+	}
+
+	void foo(LinkedInAccessToken accessToken) {
+		// Little sample code that makes a specific API call to get skills
+		String consumerKey = LoginActivity.this
+				.getString(R.string.linkedin_api_key);
+		String consumerSecret = LoginActivity.this
+				.getString(R.string.linkedin_api_secret);
+		LinkedInApiClient client = LinkedInApiClientFactory.newInstance(
+				consumerKey, consumerSecret).createLinkedInApiClient(
+				accessToken);
+		Set<ProfileField> fields = new HashSet<ProfileField>();
+		fields.add(ProfileField.SKILLS);
+		fields.add(ProfileField.SKILLS_SKILL);
+		fields.add(ProfileField.SKILLS_SKILL_NAME);
+		Person profileForCurrentUser = client.getProfileForCurrentUser(fields);
+		Skills skills = profileForCurrentUser.getSkills();
+		Log.d("Skills", skills.getTotal() + " " + skills);
+		List<Skill> skillList = skills.getSkillList();
+		for (Skill skill : skillList) {
+			Log.d("Skill:", skill.getSkill().getName());
+		}
+
 	}
 
 	public Button getRegisterButton() {

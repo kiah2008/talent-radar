@@ -1,12 +1,12 @@
 package com.menatwork.utils;
 
+import android.content.Intent;
+import android.net.Uri;
+
 import com.google.code.linkedinapi.client.oauth.LinkedInAccessToken;
 import com.google.code.linkedinapi.client.oauth.LinkedInOAuthService;
 import com.google.code.linkedinapi.client.oauth.LinkedInOAuthServiceFactory;
 import com.google.code.linkedinapi.client.oauth.LinkedInRequestToken;
-
-import android.content.Intent;
-import android.net.Uri;
 
 public class LinkedInLoginHelper {
 
@@ -38,7 +38,6 @@ public class LinkedInLoginHelper {
 		String verifier = intent.getData().getQueryParameter("oauth_verifier");
 		LinkedInAccessToken accessToken = oAuthService.getOAuthAccessToken(
 				liToken, verifier);
-
 		return accessToken;
 	}
 

@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.menatwork.R;
 import com.menatwork.utils.StartActivityListener;
-import com.mentatwork.R;
 
 public class ChooseTypeActivity extends Activity {
 	@Override

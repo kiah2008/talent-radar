@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.mentatwork.R;
+import com.menatwork.R;
 
 public class PasswordActivity extends DataInputActivity {
 

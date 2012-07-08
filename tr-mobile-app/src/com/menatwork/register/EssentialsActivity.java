@@ -5,7 +5,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.mentatwork.R;
+import com.menatwork.R;
 
 public class EssentialsActivity extends DataInputActivity {
 
