@@ -24,11 +24,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.menatwork.MainActivity;
+import com.menatwork.R;
 import com.menatwork.utils.GonzaUtils;
 import com.menatwork.utils.LogUtils;
 import com.menatwork.utils.NaiveDialogClickListener;
 import com.menatwork.utils.StartActivityListener;
-import com.mentatwork.R;
 
 public class SkillsActivity extends DataInputActivity {
 

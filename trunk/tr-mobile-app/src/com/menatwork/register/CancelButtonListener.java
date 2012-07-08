@@ -7,8 +7,8 @@ import android.content.DialogInterface.OnClickListener;
 import android.view.View;
 
 import com.menatwork.LoginActivity;
+import com.menatwork.R;
 import com.menatwork.utils.StartActivityListener;
-import com.mentatwork.R;
 
 public class CancelButtonListener extends StartActivityListener {
 

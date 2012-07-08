@@ -13,7 +13,7 @@
         android:id="@+id/register_skills_label_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentLeft="true" 
         android:layout_alignParentTop="true"
         android:text="@string/register_skills_title"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -33,7 +33,7 @@
             android:layout_alignParentLeft="true"
             android:text="@string/register_headline"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
         <EditText
             android:id="@+id/register_skills_headline"
             android:layout_width="match_parent"
@@ -41,7 +41,6 @@
             android:layout_below="@+id/register_label_headline"
             android:ems="10"
             android:inputType="textMultiLine" />
-
     </LinearLayout>
 
     <RelativeLayout
@@ -69,38 +68,43 @@
 
             <Button
                 android:id="@+id/register_skills_button_java"
-                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/skills_java" />
+                android:background="@drawable/skill"
+                android:text="@string/skills_java"
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/register_skills_button_eclipse"
-                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/skills_eclipse" />
+                android:background="@drawable/skill"
+                android:text="@string/skills_eclipse"
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/register_skills_button_maven"
-                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/skills_maven" />
+                android:background="@drawable/skill"
+                android:text="@string/skills_maven"
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/register_skills_button_subversion"
-                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/skills_subversion" />
+                android:background="@drawable/skill"
+                android:text="@string/skills_subversion"
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/register_skills_button_git"
-                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/skills_git" />
+                android:background="@drawable/skill"
+                android:text="@string/skills_git"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <EditText
@@ -112,16 +116,15 @@
             android:editable="false"
             android:ems="10"
             android:inputType="textMultiLine" />
-
     </RelativeLayout>
-
+
     <LinearLayout
         android:id="@+id/register_skills_layout_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/register_skills_layout_skills"
         android:layout_centerHorizontal="true" >
-
+
         <Button
             android:id="@+id/register_skills_button_cancel"
             android:layout_width="wrap_content"
@@ -133,7 +136,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/register_skills_finish" />
-
     </LinearLayout>
 
 </RelativeLayout>
