@@ -37,43 +37,22 @@ public class EssentialsActivity extends DataInputActivity {
 
 	private void setupButtons() {
 
-		nextButton.setOnClickListener(new StartActivityPassingDataListener(
+		nextButton.setOnClickListener(new DataCarrierListener(
 				this, PasswordActivity.class));
 		cancelButton.setOnClickListener(new CancelButtonListener(this));
 	}
 
-	private EditText getControlRealname() {
-		return realname;
-	}
-
-	private EditText getControlNickname() {
-		return nickname;
-	}
-
-	private EditText getControlEmail() {
-		return email;
-	}
-
-	private CheckBox getControlPublicEmail() {
-		return publicEmail;
-	}
-
-	private CheckBox getControlPublicRealname() {
-		return publicRealname;
-	}
-
 	Bundle getConfiguredData() {
 		Bundle data = new Bundle();
-		data.putString(RegistrationExtras.REALNAME, getControlRealname()
-				.getText().toString());
-		data.putBoolean(RegistrationExtras.PUBLIC_REALNAME,
-				getControlPublicRealname().isChecked());
-		data.putString(RegistrationExtras.NICKNAME, getControlNickname()
-				.getText().toString());
-		data.putString(RegistrationExtras.EMAIL, getControlEmail().getText()
+		data.putString(RegistrationExtras.REALNAME, realname.getText()
 				.toString());
+		data.putBoolean(RegistrationExtras.PUBLIC_REALNAME,
+				publicRealname.isChecked());
+		data.putString(RegistrationExtras.NICKNAME, nickname.getText()
+				.toString());
+		data.putString(RegistrationExtras.EMAIL, email.getText().toString());
 		data.putBoolean(RegistrationExtras.PUBLIC_EMAIL,
-				getControlPublicEmail().isChecked());
+				publicEmail.isChecked());
 		return data;
 	}
 

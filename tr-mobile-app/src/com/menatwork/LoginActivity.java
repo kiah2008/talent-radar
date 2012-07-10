@@ -35,6 +35,8 @@ import com.google.code.linkedinapi.schema.Person;
 import com.google.code.linkedinapi.schema.Skill;
 import com.google.code.linkedinapi.schema.Skills;
 import com.menatwork.register.ChooseTypeActivity;
+import com.menatwork.service.Response;
+import com.menatwork.service.ServiceCall;
 import com.menatwork.utils.GonzaUtils;
 import com.menatwork.utils.LinkedInLoginHelper;
 import com.menatwork.utils.LogUtils;
@@ -189,9 +191,8 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			progressDialog = ProgressDialog
-					.show(LoginActivity.this, "", LoginActivity.this
-							.getString(R.string.login_authenticating), true);
+			progressDialog = ProgressDialog.show(LoginActivity.this, "",
+					getString(R.string.login_authenticating), true);
 		}
 
 		@Override
@@ -202,7 +203,7 @@ public class LoginActivity extends Activity {
 				HttpPost loginPost = this.buildLoginPost(email, password);
 				LogUtils.d(this, "Login POST", loginPost);
 				JSONObject response = GonzaUtils.executePost(loginPost);
-				return this.handleResponse(response);
+				return this.handleResponse(ServiceCall.LOGIN.wrap(response));
 			} catch (JSONException e) {
 				Log.e("LoginTask", "Error parsing JSON response", e);
 				return ERROR;
@@ -224,21 +225,10 @@ public class LoginActivity extends Activity {
 					context.getString(R.string.post_uri_login), params);
 		}
 
-		private Integer handleResponse(JSONObject response) {
-			try {
-				Log.d("LoginTask", "JSON Response");
-				Log.d("LoginTask", response.toString());
-				/*
-				 * TODO maybe wrap responses in objects that know how to deal
-				 * with them: ResponseHandler.wrapLoginResponse(response);
-				 */
-				return !"error".equals(response.getJSONObject("result")
-						.getString("status")) ? SUCCESS : WRONG_ID;
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				throw new RuntimeException(e);
-			}
+		private Integer handleResponse(Response response) {
+			Log.d("LoginTask", "JSON Response");
+			Log.d("LoginTask", response.toString());
+			return response.isSuccessful() ? SUCCESS : WRONG_ID;
 		}
 
 		@Override
