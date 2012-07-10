@@ -11,8 +11,6 @@ import com.menatwork.R;
 
 public class PasswordActivity extends DataInputActivity {
 
-	// TODO define/implement restrictions on passwords (a..z|1..9)
-
 	private EditText password1;
 	private EditText password2;
 	private Button nextButton;
@@ -35,39 +33,29 @@ public class PasswordActivity extends DataInputActivity {
 	}
 
 	private void setupPasswordTextWatchers() {
-		getControlPassword1().addTextChangedListener(
-				new PasswordTextWatcher(getControlPassword2()));
-		this.getControlPassword2().addTextChangedListener(
-				new PasswordTextWatcher(getControlPassword1()));
+		password1.addTextChangedListener(new PasswordTextWatcher(password2));
+		this.password2
+				.addTextChangedListener(new PasswordTextWatcher(password1));
 	}
 
 	private void setupButtons() {
 		nextButton.setEnabled(false);
-		nextButton.setOnClickListener(new StartActivityPassingDataListener(
+		nextButton.setOnClickListener(new DataCarrierListener(
 				this, SkillsActivity.class));
 		cancelButton.setOnClickListener(new CancelButtonListener(this));
 	}
 
 	Bundle getConfiguredData() {
 		Bundle data = new Bundle();
-		data.putString(RegistrationExtras.PASSWORD, this.getControlPassword()
-				.getText().toString());
+		data.putString(RegistrationExtras.PASSWORD, ((TextView) this
+				.findViewById(R.id.register_password_password1)).getText()
+				.toString());
 		return data;
 	}
 
-	private EditText getControlPassword1() {
-		return password1;
-	}
-
-	private EditText getControlPassword2() {
-		return password2;
-	}
-
-	private TextView getControlPassword() {
-		return (TextView) findViewById(R.id.register_password_password1);
-	}
-
 	private class PasswordTextWatcher implements TextWatcher {
+
+		// TODO implement password validation (a..z|0..9)
 
 		private final EditText theOneToCompareAgainst;
 
@@ -83,8 +71,7 @@ public class PasswordActivity extends DataInputActivity {
 			String otherPassword = theOneToCompareAgainst.getText().toString();
 			boolean enabled = "".equals(thisPassword) ? false : thisPassword
 					.equals(otherPassword);
-			((Button) findViewById(R.id.register_password_button_next))
-					.setEnabled(enabled);
+			nextButton.setEnabled(enabled);
 		}
 
 		@Override
