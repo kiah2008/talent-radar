@@ -11,7 +11,7 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		
-		$this->Auth->allow('app_getUser', 'app_register', 'app_login', 'app_loginLinkedin', 'app_loginLinkedinCallback', 'app_linkedinAuthorizeCallback');
+		$this->Auth->allow('app_getUser', 'app_register', 'app_login', 'app_loginLinkedin', 'app_loginLinkedinCallback', 'app_loginLinkedinAuthorizeCallback');
 	}
 	
 	public function app_getUser() {
@@ -72,23 +72,17 @@ class UsersController extends AppController {
 	}
 	
 	public function app_loginLinkedinCallback() {
-		$this->Linkedin->authorize(array('action' => 'app_linkedinAuthorizeCallback'));
+		$this->Linkedin->authorize(array('action' => 'app_loginLinkedinAuthorizeCallback'));
 	}
 
 
-	public function app_linkedinAuthorizeCallback() {
+	public function app_loginLinkedinAuthorizeCallback() {
 		$linkedinToken = $this->Linkedin->getKeyAndSecretOfUser();
 		if(!empty($linkedinToken)) {
-			if($user = $this->User->find('first', array('conditions' => array('User.linkedin_key' => $linkedinToken['linkedin_key'], 'User.linkedin_secret' => $linkedinToken['linkedin_secret'])))) {
-				$response['User'] = $user['User'];
-			}
-			else
+			if(!$user = $this->User->find('first', array('conditions' => array('User.linkedin_key' => $linkedinToken['linkedin_key'], 'User.linkedin_secret' => $linkedinToken['linkedin_secret']))))
 			{
-				if($user = $this->User->save(array('User' => $linkedinToken), false)) {
-					$response['result']['User'] = $user['User'];
-				}
+				$user = $this->User->save(array('User' => $linkedinToken), false);
 			}
-			
 			$this->redirect('talent.call.linkedin.back://'.$user['User']['id']);
 		}
 		exit;
