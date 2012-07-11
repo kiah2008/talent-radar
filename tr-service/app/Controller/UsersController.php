@@ -1,15 +1,17 @@
 <?php
 
 App::uses('AppController', 'Controller');
-
+CakePlugin::load('Linkedin');
 class UsersController extends AppController {
 
 	public $name = 'Users';
+	
+	var $components = array('Linkedin.Linkedin');
 
 	public function beforeFilter() {
 		parent::beforeFilter();
 		
-		$this->Auth->allow('app_register', 'app_login', 'app_loginLinkedin');
+		$this->Auth->allow('app_register', 'app_login', 'app_loginLinkedin', 'app_loginLinkedinCallback', 'app_linkedinAuthorizeCallback');
 	}
 	
 	public function app_register() {
@@ -49,23 +51,42 @@ class UsersController extends AppController {
 	}
 	
 	public function app_loginLinkedin() {
-		if(!empty($this->data)) {
-			$response['status'] = 'ok';
-			$response['result']['status'] = 'error';
-			
-			if($user = $this->User->find('first', array('conditions' => array('User.token_linkedin' => $this->data['User']['token_linkedin'])))) {
-				$response['result']['User'] = $user['User'];
-				$response['result']['status'] = 'ok';
+		$this->Linkedin->connect(array('action' => 'app_loginLinkedinCallback'));
+	}
+	
+	public function app_loginLinkedinCallback() {
+		$linkedinToken = $this->Linkedin->getKeyAndSecretOfUser();
+		if(!empty($linkedinToken)) {
+			if($user = $this->User->find('first', array('conditions' => array('User.linkedin_key' => $linkedinToken['linkedin_key'], 'User.linkedin_secret' => $linkedinToken['linkedin_secret'])))) {
+				$response['User'] = $user['User'];
 			}
 			else
 			{
-				if($user = $this->User->save($this->data, false)) {
+				if($user = $this->User->save(array('User' => $linkedinToken), false)) {
 					$response['result']['User'] = $user['User'];
-					$response['result']['status'] = 'ok';
 				}
 			}
 			
-			$this->set('response', $response);
+			$this->redirect('talent.call.linkedin.back://'.$user['User']['id']);
 		}
+		exit;
+		//$this->Linkedin->authorize(array('action' => 'app_linkedinAuthorizeCallback'));
 	}
+
+	/*
+	public function app_linkedinAuthorizeCallback() {
+		debug($this->Linkedin->call('people/~',
+			   array(
+			        'id',
+			        'picture-url',
+			        'first-name', 'last-name', 'summary', 'specialties', 'associations', 'honors', 'interests', 'twitter-accounts',
+			        'positions' => array('title', 'summary', 'start-date', 'end-date', 'is-current', 'company'),
+			        'educations',
+			        'certifications',
+			        'skills' => array('id', 'skill', 'proficiency', 'years'),
+			        'recommendations-received',
+			   )));
+		exit;
+	}
+	*/
 }
