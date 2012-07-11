@@ -11,7 +11,24 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		
-		$this->Auth->allow('app_register', 'app_login', 'app_loginLinkedin', 'app_loginLinkedinCallback', 'app_linkedinAuthorizeCallback');
+		$this->Auth->allow('app_getUser', 'app_register', 'app_login', 'app_loginLinkedin', 'app_loginLinkedinCallback', 'app_linkedinAuthorizeCallback');
+	}
+	
+	public function app_getUser() {
+		if(!empty($this->data)) {
+			$response['status'] = 'ok';
+			$response['result']['status'] = 'error';
+			
+			if($response['result']['user'] = $this->User->find('first', array('User.id' => $this->data['User']['id']))) {
+				$response['result']['status'] = 'ok';
+			}
+			
+			$this->set('response', $response);
+		}
+		else
+		{
+			$this->set('users', $this->User->find('list', array('fields' => array('id', 'id'))));
+		}
 	}
 	
 	public function app_register() {
