@@ -72,6 +72,11 @@ class UsersController extends AppController {
 	}
 	
 	public function app_loginLinkedinCallback() {
+		$this->Linkedin->authorize(array('action' => 'app_linkedinAuthorizeCallback'));
+	}
+
+
+	public function app_linkedinAuthorizeCallback() {
 		$linkedinToken = $this->Linkedin->getKeyAndSecretOfUser();
 		if(!empty($linkedinToken)) {
 			if($user = $this->User->find('first', array('conditions' => array('User.linkedin_key' => $linkedinToken['linkedin_key'], 'User.linkedin_secret' => $linkedinToken['linkedin_secret'])))) {
@@ -87,12 +92,7 @@ class UsersController extends AppController {
 			$this->redirect('talent.call.linkedin.back://'.$user['User']['id']);
 		}
 		exit;
-		//$this->Linkedin->authorize(array('action' => 'app_linkedinAuthorizeCallback'));
-	}
-
-	/*
-	public function app_linkedinAuthorizeCallback() {
-		debug($this->Linkedin->call('people/~',
+		/*debug($this->Linkedin->call('people/~',
 			   array(
 			        'id',
 			        'picture-url',
@@ -103,7 +103,6 @@ class UsersController extends AppController {
 			        'skills' => array('id', 'skill', 'proficiency', 'years'),
 			        'recommendations-received',
 			   )));
-		exit;
+		exit;*/
 	}
-	*/
 }
