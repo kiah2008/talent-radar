@@ -2,9 +2,7 @@ package com.menatwork;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpPost;
@@ -18,6 +16,7 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,18 +26,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.google.code.linkedinapi.client.LinkedInApiClient;
-import com.google.code.linkedinapi.client.LinkedInApiClientFactory;
-import com.google.code.linkedinapi.client.enumeration.ProfileField;
-import com.google.code.linkedinapi.client.oauth.LinkedInAccessToken;
-import com.google.code.linkedinapi.schema.Person;
-import com.google.code.linkedinapi.schema.Skill;
-import com.google.code.linkedinapi.schema.Skills;
 import com.menatwork.register.ChooseTypeActivity;
 import com.menatwork.service.Response;
 import com.menatwork.service.ServiceCall;
 import com.menatwork.utils.GonzaUtils;
-import com.menatwork.utils.LinkedInLoginHelper;
 import com.menatwork.utils.LogUtils;
 import com.menatwork.utils.NaiveDialogClickListener;
 import com.menatwork.utils.StartActivityListener;
@@ -51,7 +42,6 @@ public class LoginActivity extends Activity {
 	private Button loginButton;
 	private EditText email;
 	private EditText password;
-	private LinkedInLoginHelper linkedInloginHelper;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -60,13 +50,6 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.login);
 		findViewElements();
 		setupButtons();
-		instantiateLoginHelper();
-	}
-
-	private void instantiateLoginHelper() {
-		String apiKey = this.getString(R.string.linkedin_api_key);
-		String apiSecret = this.getString(R.string.linkedin_api_secret);
-		linkedInloginHelper = new LinkedInLoginHelper(apiKey, apiSecret);
 	}
 
 	private void findViewElements() {
@@ -108,37 +91,8 @@ public class LoginActivity extends Activity {
 	@Override
 	protected void onNewIntent(Intent intent) {
 		// handle logging in with linked in
-		Log.d("LoginActivity", "Linkedin access token key/secret");
-		LinkedInAccessToken accessToken = linkedInloginHelper
-				.getAccessToken(intent);
-		Log.d("LoginActivity", "Access Token " + accessToken.getToken());
-		Log.d("LoginActivity", "Access Secret " + accessToken.getTokenSecret());
-		foo(accessToken);
-		// new LoginWithLinkedInTask();
-		startActivity(new Intent(this, MainActivity.class));
-	}
-
-	void foo(LinkedInAccessToken accessToken) {
-		// Little sample code that makes a specific API call to get skills
-		String consumerKey = LoginActivity.this
-				.getString(R.string.linkedin_api_key);
-		String consumerSecret = LoginActivity.this
-				.getString(R.string.linkedin_api_secret);
-		LinkedInApiClient client = LinkedInApiClientFactory.newInstance(
-				consumerKey, consumerSecret).createLinkedInApiClient(
-				accessToken);
-		Set<ProfileField> fields = new HashSet<ProfileField>();
-		fields.add(ProfileField.SKILLS);
-		fields.add(ProfileField.SKILLS_SKILL);
-		fields.add(ProfileField.SKILLS_SKILL_NAME);
-		Person profileForCurrentUser = client.getProfileForCurrentUser(fields);
-		Skills skills = profileForCurrentUser.getSkills();
-		Log.d("Skills", skills.getTotal() + " " + skills);
-		List<Skill> skillList = skills.getSkillList();
-		for (Skill skill : skillList) {
-			Log.d("Skill:", skill.getSkill().getName());
-		}
-
+		Log.d("LoginActivity", "Linkedin access");
+		// TODO get the id from the intent
 	}
 
 	public Button getRegisterButton() {
@@ -177,7 +131,10 @@ public class LoginActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			startActivity(linkedInloginHelper.getLoginIntent());
+			Intent browserIntent = new Intent(
+					Intent.ACTION_VIEW,
+					Uri.parse("http://www.talent-radar.com/users/app_loginLinkedin"));
+			startActivity(browserIntent);
 		}
 
 	}
