@@ -30,14 +30,21 @@ class UsersSkillsController extends AppController {
 				$data = $this->Linkedin->call('people/~', array(
 														        'skills' => array('id', 'skill', 'proficiency', 'years'),
 														   ));
-				
 				$userSkills = array();
-				if(is_array($data['person'])) {
-					foreach($data['person']['skills']['skill'] as $userSkill) {
-						$userSkills[] = $userSkill['skill']['name'];
+				if(is_array($data['person']) && is_array($data['person']['skills'])) {
+					
+					if(!isset($data['person']['skills']['skill']['id']))
+					{
+						foreach($data['person']['skills']['skill'] as $userSkill) {
+							$userSkills[] = $userSkill['skill']['name'];
+						}
+					}
+					else
+					{
+						$userSkills[] = $data['person']['skills']['skill']['skill']['name'];
 					}
 				}
-				
+							
 				$this->loadModel('Skill');
 				$skills = $this->Skill->find('list', array('fields' => array('id', 'name')));
 				$skillsToSave = array_diff($userSkills, $skills);
