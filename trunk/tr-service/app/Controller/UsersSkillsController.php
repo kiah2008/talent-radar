@@ -33,7 +33,7 @@ class UsersSkillsController extends AppController {
 				$userSkills = array();
 				if(is_array($data['person']) && is_array($data['person']['skills'])) {
 					
-					if(!isset($data['person']['skills']['skill']['id']))
+					if($data['person']['skills']['@total'] > 1)
 					{
 						foreach($data['person']['skills']['skill'] as $userSkill) {
 							$userSkills[] = $userSkill['skill']['name'];
