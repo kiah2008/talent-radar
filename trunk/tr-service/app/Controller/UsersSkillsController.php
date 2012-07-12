@@ -65,7 +65,7 @@ class UsersSkillsController extends AppController {
 			else
 			{
 				$response['result']['status'] = 'error';
-				$response['result']['message'] = __('This user doesn\'t have a Linkedin account associated', true);
+				$response['result']['message'] = __('There isn\'t a Linkedin account associated', true);
 			}
 			
 			$this->set('response', $response);
