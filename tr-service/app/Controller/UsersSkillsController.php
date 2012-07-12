@@ -30,9 +30,12 @@ class UsersSkillsController extends AppController {
 				$data = $this->Linkedin->call('people/~', array(
 														        'skills' => array('id', 'skill', 'proficiency', 'years'),
 														   ));
-	
-				foreach($data['person']['skills']['skill'] as $userSkill) {
-					$userSkills[] = $userSkill['skill']['name'];
+				
+				$userSkills = array();
+				if(is_array($data['person'])) {
+					foreach($data['person']['skills']['skill'] as $userSkill) {
+						$userSkills[] = $userSkill['skill']['name'];
+					}
 				}
 				
 				$this->loadModel('Skill');
@@ -49,10 +52,12 @@ class UsersSkillsController extends AppController {
 				
 				$userSkills = $this->Skill->find('list', array('conditions' => array('Skill.name' => $userSkills), 'fields' => array('id', 'name')));
 				$this->UsersSkill->deleteAll(array('UsersSkill.user_id' => $this->data['UsersSkill']['user_id']));
-				foreach($userSkills as $k => $v) {
-					$userSkillsDB[] = array('user_id' => $this->data['UsersSkill']['user_id'], 'skill_id' => $k);
+				if(!empty($userSkills)) {
+					foreach($userSkills as $k => $v) {
+						$userSkillsDB[] = array('user_id' => $this->data['UsersSkill']['user_id'], 'skill_id' => $k);
+					}
+					$this->UsersSkill->saveAll($userSkillsDB);
 				}
-				$this->UsersSkill->saveAll($userSkillsDB);
 				
 				$response['result']['status'] = 'ok';
 				$response['result']['result'] = $userSkills;
