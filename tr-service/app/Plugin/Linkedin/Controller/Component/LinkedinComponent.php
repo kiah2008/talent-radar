@@ -158,6 +158,18 @@ class LinkedinComponent extends Component {
 		
 		return $values;
 	}
+	
+	/**
+	 * Set key and secret
+	 *
+	 * @return array
+	 */
+	public function setKeyAndSecretOfUser($key, $secret) {
+		$object = new Object();
+		$object->key = $key;
+		$object->secret = $secret;
+		return $this->Session->write($this->sessionAccess, $object);
+	}
 
 	/**
 	 * Create a valid consumer which provides an API
@@ -181,17 +193,15 @@ class LinkedinComponent extends Component {
 			$contentType = $matches[1];
 			$charset = $matches[2];
 		}
-
+		//debug($response->body);exit;
 		// Decode response according to content type
 		switch ($contentType) {
 			case 'application/xml':
 			case 'application/atom+xml':
 			case 'application/rss+xml':
 				App::uses('Xml', 'Utility');
-				$Xml = new Xml($response);
-				$response = $Xml->toArray(false); // Send false to get separate elements
-				$Xml->__destruct();
-				$Xml = null;
+				$Xml = Xml::build($response->body);
+				$response = Xml::toArray($Xml); // Send false to get separate elements
 				unset($Xml);
 				break;
 			case 'application/json':
