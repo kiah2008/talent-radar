@@ -18,23 +18,17 @@
             android:name="com.menatwork.LoginActivity"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Light" >
+			<intent-filter>
+				<data android:scheme="talent.call.linkedin.back" />
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT"/>
+				<category android:name="android.intent.category.BROWSABLE"/>
+			</intent-filter>
+			
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-
-                <!-- intent filter for LinkedIn interaction -->
-
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="callback"
-                    android:scheme="x-oauthflow-linkedin" />
             </intent-filter>
         </activity>
         <activity
