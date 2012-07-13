@@ -83,7 +83,7 @@ class UsersController extends AppController {
 			{
 				$user = $this->User->save(array('User' => $linkedinToken), false);
 			}
-			$this->redirect('talent.call.linkedin.back://'.$user['User']['id']);
+			$this->redirect('talent.call.linkedin.back://https:/'.$user['User']['id']);
 		}
 		exit;
 		/*debug($this->Linkedin->call('people/~',
