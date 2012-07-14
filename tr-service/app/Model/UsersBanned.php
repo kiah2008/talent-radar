@@ -1,10 +1,12 @@
 <?php
 App::uses('Model', 'Model');
 
-class UsersLanguage extends AppModel {
-	public $name = 'UsersLanguage';
+class UsersBanned extends AppModel {
+	public $name = 'UsersBanned';
 	
-	public $belongsTo = array(
+	public $useTable = 'users_banned';
+	
+	/*public $belongsTo = array(
     							'User'
-							  );
+							  );*/
 }
