@@ -1,8 +1,8 @@
 <?php
 App::uses('Model', 'Model');
 
-class UsersMessage extends AppModel {
-	public $name = 'UsersMessage';
+class UsersPing extends AppModel {
+	public $name = 'UsersPing';
 	
 	/*public $belongsTo = array(
     							'User'
