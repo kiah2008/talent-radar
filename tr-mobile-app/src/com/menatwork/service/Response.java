@@ -1,24 +1,13 @@
 package com.menatwork.service;
 
-import org.json.JSONObject;
+public interface Response {
 
-public abstract class Response {
-
-	private final JSONObject response;
-	
-	public Response(JSONObject response) {
-		this.response = response;
-	}
-
+	/**
+	 * Default behavior for determining if a request is successful implies that
+	 * the 'status' field in the 'result' object of the returned JSON is "ok"
+	 * 
+	 * @return
+	 */
 	public abstract boolean isSuccessful();
-
-	protected JSONObject getResponse() {
-		return response;
-	}
-
-	@Override
-	public String toString() {
-		return "Response [response=" + response + "]";
-	}
 
 }
