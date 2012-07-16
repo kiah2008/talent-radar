@@ -1,40 +1,41 @@
 package com.menatwork.service;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpPost;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-public enum ServiceCall {
-	LOGIN {
-		@Override
-		Class<? extends Response> getWrapperClass() {
-			return LoginResponse.class;
-		}
-	}, REGISTER {
-		@Override
-		Class<? extends Response> getWrapperClass() {
-			return RegisterResponse.class;
-		}
+import android.content.Context;
+
+import com.menatwork.utils.GonzaUtils;
+
+public abstract class ServiceCall<T extends Response> {
+
+	protected final Context context;
+
+	public ServiceCall(Context context) {
+		super();
+		this.context = context;
 	}
 
-	;
-
-	abstract Class<? extends Response> getWrapperClass();
-
-	@SuppressWarnings("unchecked")
-	public <T extends Response> T wrap(JSONObject response) {
-		try {
-			return (T) this.getWrapperClass().getConstructor(JSONObject.class)
-					.newInstance(response);
-		} catch (Exception
-		/*
-		 * IllegalArgumentException, SecurityException, InstantiationException,
-		 * IllegalAccessException, InvocationTargetException,
-		 * NoSuchMethodException
-		 * 
-		 * Seriously bro, safe code.
-		 *///
-		e) {
-			throw new RuntimeException(e);
-		}
+	protected String getString(int resId) {
+		return context.getString(resId);
 	}
+
+	public T execute() throws JSONException, IOException {
+		HttpPost httpPost = GonzaUtils.buildPost(this.getMethodUri(),
+				this.buildPostParametersList());
+		JSONObject response = GonzaUtils.executePost(httpPost);
+		return this.wrap(response);
+	}
+
+	protected abstract List<NameValuePair> buildPostParametersList();
+
+	protected abstract T wrap(JSONObject response);
+
+	protected abstract String getMethodUri();
 
 }

@@ -1,14 +1,8 @@
 package com.menatwork.register;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -25,10 +19,8 @@ import android.widget.EditText;
 
 import com.menatwork.MainActivity;
 import com.menatwork.R;
+import com.menatwork.service.Register;
 import com.menatwork.service.Response;
-import com.menatwork.service.ServiceCall;
-import com.menatwork.utils.GonzaUtils;
-import com.menatwork.utils.LogUtils;
 import com.menatwork.utils.NaiveDialogClickListener;
 
 public class SkillsActivity extends DataInputActivity {
@@ -106,12 +98,21 @@ public class SkillsActivity extends DataInputActivity {
 		@Override
 		protected Integer doInBackground(Bundle... params) {
 			try {
-				List<NameValuePair> postParams = buildParams(params[0]);
-				HttpPost httpPost = GonzaUtils.buildPost(
-						getString(R.string.post_uri_registration), postParams);
-				LogUtils.d(this, "Registration POST object", httpPost);
-				JSONObject response = GonzaUtils.executePost(httpPost);
-				return this.handleResponse(ServiceCall.REGISTER.wrap(response));
+				Bundle bundleWithRegistrationData = params[0];
+				Register register = Register.newInstance(SkillsActivity.this,
+						bundleWithRegistrationData
+								.getString(RegistrationExtras.EMAIL),
+						bundleWithRegistrationData
+								.getString(RegistrationExtras.NICKNAME),
+						bundleWithRegistrationData
+								.getString(RegistrationExtras.PASSWORD),
+						bundleWithRegistrationData
+								.getString(RegistrationExtras.REALNAME),
+						bundleWithRegistrationData
+								.getString(RegistrationExtras.REALNAME),
+						bundleWithRegistrationData
+								.getString(RegistrationExtras.HEADLINE));
+				return this.handleResponse(register.execute());
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -120,38 +121,6 @@ public class SkillsActivity extends DataInputActivity {
 				e.printStackTrace();
 			}
 			return FAILURE;
-		}
-
-		private List<NameValuePair> buildParams(
-				Bundle bundleWithRegistrationData) {
-			List<NameValuePair> params = new ArrayList<NameValuePair>(
-					bundleWithRegistrationData.size());
-
-			params.add(new BasicNameValuePair(
-					getString(R.string.post_key_register_email),
-					bundleWithRegistrationData
-							.getString(RegistrationExtras.EMAIL)));
-			params.add(new BasicNameValuePair(
-					getString(R.string.post_key_register_username),
-					bundleWithRegistrationData
-							.getString(RegistrationExtras.NICKNAME)));
-			params.add(new BasicNameValuePair(
-					getString(R.string.post_key_register_password),
-					bundleWithRegistrationData
-							.getString(RegistrationExtras.PASSWORD)));
-			params.add(new BasicNameValuePair(
-					getString(R.string.post_key_register_name),
-					bundleWithRegistrationData
-							.getString(RegistrationExtras.REALNAME)));
-			params.add(new BasicNameValuePair(
-					getString(R.string.post_key_register_surname),
-					bundleWithRegistrationData
-							.getString(RegistrationExtras.REALNAME)));
-			params.add(new BasicNameValuePair(
-					getString(R.string.post_key_register_headline),
-					bundleWithRegistrationData
-							.getString(RegistrationExtras.HEADLINE)));
-			return params;
 		}
 
 		@Override

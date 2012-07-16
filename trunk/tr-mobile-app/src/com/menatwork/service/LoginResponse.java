@@ -1,21 +1,12 @@
 package com.menatwork.service;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginResponse extends Response {
+public class LoginResponse extends BaseResponse {
 
 	public LoginResponse(JSONObject response) {
 		super(response);
+		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public boolean isSuccessful() {
-		try {
-			return !"error".equals(getResponse().getJSONObject("result")
-					.getString("status"));
-		} catch (JSONException e) {
-			throw new ResponseException(e);
-		}
-	}
 }

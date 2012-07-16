@@ -1,14 +1,8 @@
 package com.menatwork;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,10 +21,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.menatwork.register.ChooseTypeActivity;
+import com.menatwork.service.GetUser;
+import com.menatwork.service.GetUserResponse;
+import com.menatwork.service.Login;
 import com.menatwork.service.Response;
-import com.menatwork.service.ServiceCall;
-import com.menatwork.utils.GonzaUtils;
-import com.menatwork.utils.LogUtils;
 import com.menatwork.utils.NaiveDialogClickListener;
 import com.menatwork.utils.StartActivityListener;
 
@@ -61,10 +55,10 @@ public class LoginActivity extends Activity {
 	}
 
 	private void setupButtons() {
-		getRegisterButton().setOnClickListener(
-				new StartActivityListener(this, ChooseTypeActivity.class));
-		getLinkedInButton().setOnClickListener(new LoginWithLinkedinListener());
-		getLoginButton().setOnClickListener(new LoginButtonListener());
+		registerButton.setOnClickListener(new StartActivityListener(this,
+				ChooseTypeActivity.class));
+		linkedInButton.setOnClickListener(new LoginWithLinkedinListener());
+		loginButton.setOnClickListener(new LoginButtonListener());
 	}
 
 	@Override
@@ -92,38 +86,24 @@ public class LoginActivity extends Activity {
 	protected void onNewIntent(Intent intent) {
 		// handle logging in with linked in
 		Log.d("LoginActivity", "Linkedin access");
-		// TODO get the id from the intent
-	}
-
-	public Button getRegisterButton() {
-		return registerButton;
-	}
-
-	public ImageButton getLinkedInButton() {
-		return linkedInButton;
-	}
-
-	public Button getLoginButton() {
-		return loginButton;
-	}
-
-	public EditText getEmail() {
-		return email;
-	}
-
-	public EditText getPassword() {
-		return password;
+		Uri data = intent.getData();
+		String userId = data.getPathSegments().get(0);
+		if (userId == null) {
+			showDialog(DIALOG_ERROR);
+			return;
+		}
+		Log.d("LoginActivity", "Returning id from Login with Linkedin service");
+		Log.d("LoginActivity", userId);
+		new LoadLocalUserTask().execute(userId);
 	}
 
 	private class LoginButtonListener implements OnClickListener {
 
 		@Override
 		public void onClick(View v) {
-			String email = getEmail().getText().toString();
-			String password = getPassword().getText().toString();
-
 			LoginTask task = new LoginTask();
-			task.execute(email, password);
+			task.execute(email.getText().toString(), password.getText()
+					.toString());
 		}
 	}
 
@@ -131,12 +111,50 @@ public class LoginActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			Intent browserIntent = new Intent(
-					Intent.ACTION_VIEW,
-					Uri.parse("http://www.talent-radar.com/users/app_loginLinkedin"));
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+					Uri.parse(getString(R.string.uri_login_with_linkedin)));
 			startActivity(browserIntent);
 		}
 
+	}
+
+	private class LoadLocalUserTask extends
+			AsyncTask<String, Void, GetUserResponse> {
+		private ProgressDialog progressDialog;
+
+		@Override
+		protected void onPreExecute() {
+			progressDialog = ProgressDialog.show(LoginActivity.this, "",
+					getString(R.string.login_authenticating), true);
+		}
+
+		@Override
+		protected GetUserResponse doInBackground(String... params) {
+			try {
+				GetUser getUser = GetUser.newInstance(LoginActivity.this,
+						params[0]);
+				return getUser.execute();
+			} catch (JSONException e) {
+				Log.e("LoginTask", "Error parsing JSON response", e);
+			} catch (IOException e) {
+				Log.e("LoginTask", "IO error trying to get user data", e);
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(GetUserResponse result) {
+			progressDialog.dismiss();
+			if (result != null && result.isSuccessful()) {
+				((TalentRadarApplication) getApplication())
+						.loadLocalUser(result.getUser());
+				Intent intent = new Intent(LoginActivity.this,
+						MainActivity.class);
+				startActivity(intent);
+			} else {
+				showDialog(DIALOG_ERROR);
+			}
+		}
 	}
 
 	private class LoginTask extends AsyncTask<String, Integer, Integer> {
@@ -155,12 +173,9 @@ public class LoginActivity extends Activity {
 		@Override
 		protected Integer doInBackground(String... arg0) {
 			try {
-				String email = arg0[0];
-				String password = arg0[1];
-				HttpPost loginPost = this.buildLoginPost(email, password);
-				LogUtils.d(this, "Login POST", loginPost);
-				JSONObject response = GonzaUtils.executePost(loginPost);
-				return this.handleResponse(ServiceCall.LOGIN.wrap(response));
+				Login login = Login.newInstance(LoginActivity.this, arg0[0],
+						arg0[1]);
+				return this.handleResponse(login.execute());
 			} catch (JSONException e) {
 				Log.e("LoginTask", "Error parsing JSON response", e);
 				return ERROR;
@@ -168,18 +183,6 @@ public class LoginActivity extends Activity {
 				Log.e("LoginTask", "IO error trying to log in", e);
 				return ERROR;
 			}
-		}
-
-		private HttpPost buildLoginPost(String email, String password) {
-			LoginActivity context = LoginActivity.this;
-			List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-
-			params.add(new BasicNameValuePair(context
-					.getString(R.string.post_key_login_email), email));
-			params.add(new BasicNameValuePair(context
-					.getString(R.string.post_key_login_password), password));
-			return GonzaUtils.buildPost(
-					context.getString(R.string.post_uri_login), params);
 		}
 
 		private Integer handleResponse(Response response) {
