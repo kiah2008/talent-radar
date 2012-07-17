@@ -1,10 +1,10 @@
 package com.menatwork.service;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 import com.menatwork.model.User;
+import com.menatwork.model.UserBuilder;
 
 public class GetUserResponse extends BaseResponse {
 
@@ -13,10 +13,20 @@ public class GetUserResponse extends BaseResponse {
 	}
 
 	public User getUser() {
-		// TODO Auto-generated method stub
-		// throw new UnsupportedOperationException("GetUserResponse.getUser()");
-		Log.d("GetUserResponse", "getUser()");
-		return null;
+		UserBuilder userBuilder = UserBuilder.newInstance();
+		try {
+			JSONObject userJsonObject = getResponse().getJSONObject("result")
+					.getJSONObject("User");
+			userBuilder.setId(userJsonObject.getString("id"));
+			userBuilder.setUserName(userJsonObject.getString("name"));
+			userBuilder.setUserSurname(userJsonObject.getString("surname"));
+			userBuilder.setEmail(userJsonObject.getString("email"));
+			userBuilder.setHeadline(userJsonObject.getString("headline"));
+			// userBuilder.setExtract(userJsonObject.getString("extract"));
+			return userBuilder.build();
+		} catch (JSONException e) {
+			throw new ResponseException(e);
+		}
 	}
 
 }
