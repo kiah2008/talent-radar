@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".RadarActivity" >
+
+    <ImageView
+        android:id="@+id/radar_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="95dp"
+        android:src="@drawable/radar" 
+        android:contentDescription="@string/radar_image_content_description"/>
+
+    <TextView
+        android:id="@+id/radar_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/radar_image"
+        android:layout_centerHorizontal="true"
+        android:text="@string/radar_searching_state"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <SlidingDrawer
+        android:id="@+id/slidingDrawer1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="14dp"
+        android:content="@+id/content"
+        android:handle="@+id/handle" >
+
+        <Button
+            android:id="@+id/handle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radar_handle_button_text" />
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </LinearLayout>
+    </SlidingDrawer>
+
+</RelativeLayout>
