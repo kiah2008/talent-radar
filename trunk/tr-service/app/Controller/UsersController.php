@@ -19,7 +19,7 @@ class UsersController extends AppController {
 			$response['status'] = 'ok';
 			$response['result']['status'] = 'error';
 			
-			if($response['result']['user'] = $this->User->find('first', array('User.id' => $this->data['User']['id']))) {
+			if($response['result']['user'] = $this->User->find('first', array('conditions' => array('User.id' => $this->data['User']['id'])))) {
 				$response['result']['status'] = 'ok';
 			}
 			
