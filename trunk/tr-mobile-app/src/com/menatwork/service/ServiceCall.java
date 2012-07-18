@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.menatwork.utils.GonzaUtils;
+import com.menatwork.utils.LogUtils;
 
 public abstract class ServiceCall<T extends Response> {
 
@@ -28,7 +29,9 @@ public abstract class ServiceCall<T extends Response> {
 	public T execute() throws JSONException, IOException {
 		HttpPost httpPost = GonzaUtils.buildPost(this.getMethodUri(),
 				this.buildPostParametersList());
+		LogUtils.d(this, "About to execute POST:", httpPost);
 		JSONObject response = GonzaUtils.executePost(httpPost);
+		LogUtils.d(this, "Received response:", response);
 		return this.wrap(response);
 	}
 

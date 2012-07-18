@@ -35,4 +35,13 @@ public class BaseResponse implements Response {
 		return "Response [response=" + response + "]";
 	}
 
+	@Override
+	public boolean isValid() {
+		try {
+			return "ok".equals(getResponse().getString("status"));
+		} catch (JSONException e) {
+			throw new ResponseException(e);
+		}
+	}
+
 }

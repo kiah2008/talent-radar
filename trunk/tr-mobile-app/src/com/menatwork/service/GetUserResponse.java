@@ -16,7 +16,7 @@ public class GetUserResponse extends BaseResponse {
 		UserBuilder userBuilder = UserBuilder.newInstance();
 		try {
 			JSONObject userJsonObject = getResponse().getJSONObject("result")
-					.getJSONObject("User");
+					.getJSONObject("user").getJSONObject("User");
 			userBuilder.setId(userJsonObject.getString("id"));
 			userBuilder.setUserName(userJsonObject.getString("name"));
 			userBuilder.setUserSurname(userJsonObject.getString("surname"));
