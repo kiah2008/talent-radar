@@ -1,5 +1,7 @@
 package com.menatwork;
 
+import com.menatwork.radar.RadarActivity;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;

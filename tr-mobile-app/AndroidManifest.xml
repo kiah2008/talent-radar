@@ -62,7 +62,7 @@
         </activity>
         <activity android:name="com.menatwork.ProfileActivity" >
         </activity>
-        <activity android:name="com.menatwork.RadarActivity" >
+        <activity android:name=".radar.RadarActivity" >
         </activity>
     </application>
 
