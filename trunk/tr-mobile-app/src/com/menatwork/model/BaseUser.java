@@ -34,4 +34,14 @@ public class BaseUser implements User {
 				+ ", email=" + email + ", headline=" + headline + "]";
 	}
 
+	@Override
+	public String getFullName() {
+		return name + " " + surname;
+	}
+
+	@Override
+	public String getHeadline() {
+		return headline;
+	}
+
 }

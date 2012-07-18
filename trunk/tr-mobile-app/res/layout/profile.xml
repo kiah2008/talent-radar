@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp" >
+
+        <RelativeLayout
+            android:id="@+id/profile_layout_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/profile_profile_pic"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/default_profile_pic" />
+
+            <TextView
+                android:id="@+id/profile_fullname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/profile_profile_pic"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/profile_profile_pic"
+                android:text="Duke Nukem"
+                android:textSize="32dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/profile_headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/profile_fullname"
+                android:layout_below="@+id/profile_fullname"
+                android:text="Time to kick ass and chew bubblegum..."
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/profile_layout_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_layout_card" >
+
+            <TextView
+                android:id="@+id/profile_label_skills"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_skills"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <com.menatwork.utils.FlowLayout
+                android:id="@+id/profile_layout_skills"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_label_skills" >
+
+                <Button
+                    android:id="@+id/button1"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/skill"
+                    android:text="Aliens" />
+
+                <Button
+                    android:id="@+id/button2"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/skill"
+                    android:text="Ladies" />
+
+                <Button
+                    android:id="@+id/button3"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/skill"
+                    android:text="Ass-kicking" />
+
+                <Button
+                    android:id="@+id/button4"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/skill"
+                    android:text="Politeness" />
+
+                <Button
+                    android:id="@+id/button6"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/skill"
+                    android:text="Spaceships" />
+            </com.menatwork.utils.FlowLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>
