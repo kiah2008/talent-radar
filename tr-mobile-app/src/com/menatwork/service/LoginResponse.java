@@ -1,12 +1,33 @@
 package com.menatwork.service;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.menatwork.model.User;
+import com.menatwork.model.UserBuilder;
 
 public class LoginResponse extends BaseResponse {
 
 	public LoginResponse(JSONObject response) {
 		super(response);
 		// TODO Auto-generated constructor stub
+	}
+
+	public User getUser() {
+		UserBuilder userBuilder = UserBuilder.newInstance();
+		try {
+			JSONObject userJsonObject = getResponse().getJSONObject("result")
+					.getJSONObject("User");
+			userBuilder.setId(userJsonObject.getString("id"));
+			userBuilder.setUserName(userJsonObject.getString("name"));
+			userBuilder.setUserSurname(userJsonObject.getString("surname"));
+			userBuilder.setEmail(userJsonObject.getString("email"));
+			userBuilder.setHeadline(userJsonObject.getString("headline"));
+			// userBuilder.setExtract(userJsonObject.getString("extract"));
+			return userBuilder.build();
+		} catch (JSONException e) {
+			throw new ResponseException(e);
+		}
 	}
 
 }

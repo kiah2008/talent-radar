@@ -10,4 +10,12 @@ public interface Response {
 	 */
 	public abstract boolean isSuccessful();
 
+	/**
+	 * Checks wether the response indicates the service call was valid (correct
+	 * parameters). An false response may indicate a malformed request (wrong
+	 * post parameters, invalid input, etc).
+	 * 
+	 * @return
+	 */
+	public abstract boolean isValid();
 }

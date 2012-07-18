@@ -24,6 +24,7 @@ import com.menatwork.register.ChooseTypeActivity;
 import com.menatwork.service.GetUser;
 import com.menatwork.service.GetUserResponse;
 import com.menatwork.service.Login;
+import com.menatwork.service.LoginResponse;
 import com.menatwork.service.Response;
 import com.menatwork.utils.NaiveDialogClickListener;
 import com.menatwork.utils.StartActivityListener;
@@ -157,7 +158,7 @@ public class LoginActivity extends Activity {
 		}
 	}
 
-	private class LoginTask extends AsyncTask<String, Integer, Integer> {
+	private class LoginTask extends AsyncTask<String, Void, LoginResponse> {
 
 		public static final int SUCCESS = 0;
 		public static final int WRONG_ID = 1;
@@ -171,42 +172,39 @@ public class LoginActivity extends Activity {
 		}
 
 		@Override
-		protected Integer doInBackground(String... arg0) {
+		protected LoginResponse doInBackground(String... arg0) {
 			try {
 				Login login = Login.newInstance(LoginActivity.this, arg0[0],
 						arg0[1]);
 				return this.handleResponse(login.execute());
 			} catch (JSONException e) {
 				Log.e("LoginTask", "Error parsing JSON response", e);
-				return ERROR;
+				return null;
 			} catch (IOException e) {
 				Log.e("LoginTask", "IO error trying to log in", e);
-				return ERROR;
+				return null;
 			}
 		}
 
-		private Integer handleResponse(Response response) {
+		private LoginResponse handleResponse(LoginResponse response) {
 			Log.d("LoginTask", "JSON Response");
 			Log.d("LoginTask", response.toString());
-			return response.isSuccessful() ? SUCCESS : WRONG_ID;
+			return response;
 		}
 
 		@Override
-		protected void onPostExecute(Integer result) {
+		protected void onPostExecute(LoginResponse result) {
 			progressDialog.dismiss();
-			switch (result) {
-			case LoginTask.SUCCESS:
+			if (result.isValid() && result.isSuccessful()) {
+				((TalentRadarApplication) getApplication())
+						.loadLocalUser(result.getUser());
 				Intent intent = new Intent(LoginActivity.this,
 						MainActivity.class);
 				startActivity(intent);
-				break;
-			case LoginTask.WRONG_ID:
+			} else if (result.isValid())
 				showDialog(DIALOG_INCORRECT_LOGIN);
-				break;
-			case LoginTask.ERROR:
+			else
 				showDialog(DIALOG_ERROR);
-				break;
-			}
 		}
 	}
 }
