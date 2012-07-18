@@ -14,4 +14,8 @@ public class TalentRadarApplication extends Application {
 		this.localUser = user;
 	}
 
+	public User getLocalUser() {
+		return localUser;
+	}
+
 }

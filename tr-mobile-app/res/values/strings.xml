@@ -32,5 +32,6 @@
     <!-- Get user -->
     <string name="post_uri_getUser">http://www.talent-radar.com/users/app_getUser</string>
     <string name="post_key_userId">data[User][id]</string>
+    <string name="profile_skills">Skills</string>
 
 </resources>
