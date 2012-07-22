@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.menatwork"
     android:id="@+id/ScrollView1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,34 +17,58 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
-            <ImageView
-                android:id="@+id/profile_profile_pic"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/default_profile_pic" />
-
-            <TextView
-                android:id="@+id/profile_fullname"
+            <RelativeLayout
+                android:id="@+id/profile_layout_name_and_pic"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/profile_profile_pic"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@+id/profile_profile_pic"
-                android:text="Duke Nukem"
-                android:textSize="32dp"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:id="@+id/profile_profile_pic"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/default_profile_pic" />
+
+                <TextView
+                    android:id="@+id/profile_fullname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/profile_profile_pic"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@+id/profile_profile_pic"
+                    android:text="Duke Nukem"
+                    android:textSize="32dp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/profile_button_poke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/profile_fullname"
+                    android:layout_below="@+id/profile_fullname"
+                    android:layout_toRightOf="@+id/profile_profile_pic"
+                    android:background="@null"
+                    android:src="@drawable/poke" />
+
+                <ImageButton
+                    android:id="@+id/profile_button_capture"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignBottom="@+id/profile_button_poke"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@+id/profile_button_poke"
+                    android:background="@null"
+                    android:src="@drawable/capture" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/profile_headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/profile_fullname"
-                android:layout_below="@+id/profile_fullname"
-                android:text="Time to kick ass and chew bubblegum..."
+                android:layout_below="@+id/profile_layout_name_and_pic"
+                android:text="Time to kick ass and chew bubblegum... and I&apos;m all outta gum."
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </RelativeLayout>
 
@@ -51,20 +76,25 @@
             android:id="@+id/profile_layout_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_layout_card" >
+            android:layout_below="@+id/profile_layout_card"
+            android:layout_marginTop="8dp" >
 
             <TextView
                 android:id="@+id/profile_label_skills"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/background_light"
                 android:text="@string/profile_skills"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <com.menatwork.utils.FlowLayout
                 android:id="@+id/profile_layout_skills"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/profile_label_skills" >
+                android:layout_below="@+id/profile_label_skills"
+                android:padding="4dp"
+                app:horizontalSpacing="4dp"
+                app:verticalSpacing="4dp" >
 
                 <Button
                     android:id="@+id/button1"
@@ -106,6 +136,26 @@
                     android:background="@drawable/skill"
                     android:text="Spaceships" />
             </com.menatwork.utils.FlowLayout>
+
+            <TextView
+                android:id="@+id/profile_label_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_layout_skills"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/background_light"
+                android:text="@string/profile_label_email"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/profile_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_label_email"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="4dp"
+                android:text="duke_nukem@3drealms.com"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
         </RelativeLayout>
     </RelativeLayout>
 
