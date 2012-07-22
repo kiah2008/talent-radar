@@ -1,5 +1,7 @@
 package com.menatwork.model;
 
+import java.util.List;
+
 public class BaseUser implements User {
 
 	private String id;
@@ -42,6 +44,18 @@ public class BaseUser implements User {
 	@Override
 	public String getHeadline() {
 		return headline;
+	}
+
+	@Override
+	public List<String> getSkills() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("User.getSkills()");
+	}
+
+	@Override
+	public void setSkills(List<String> skills) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("User.setSkills()");
 	}
 
 }

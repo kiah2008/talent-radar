@@ -20,9 +20,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.menatwork.model.User;
 import com.menatwork.register.ChooseTypeActivity;
 import com.menatwork.service.GetUser;
 import com.menatwork.service.GetUserResponse;
+import com.menatwork.service.GetUserSkills;
+import com.menatwork.service.GetUserSkillsResponse;
 import com.menatwork.service.Login;
 import com.menatwork.service.LoginResponse;
 import com.menatwork.service.Response;
@@ -122,6 +125,7 @@ public class LoginActivity extends Activity {
 	private class LoadLocalUserTask extends
 			AsyncTask<String, Void, GetUserResponse> {
 		private ProgressDialog progressDialog;
+		private GetUserSkillsResponse getUserSkillsResponse;
 
 		@Override
 		protected void onPreExecute() {
@@ -134,7 +138,11 @@ public class LoginActivity extends Activity {
 			try {
 				GetUser getUser = GetUser.newInstance(LoginActivity.this,
 						params[0]);
-				return getUser.execute();
+				GetUserSkills getUserSkills = GetUserSkills.newInstance(
+						LoginActivity.this, params[0]);
+				GetUserResponse getUserResponse = getUser.execute();
+				getUserSkillsResponse = getUserSkills.execute();
+				return getUserResponse;
 			} catch (JSONException e) {
 				Log.e("LoginTask", "Error parsing JSON response", e);
 			} catch (IOException e) {
@@ -147,8 +155,9 @@ public class LoginActivity extends Activity {
 		protected void onPostExecute(GetUserResponse result) {
 			progressDialog.dismiss();
 			if (result != null && result.isSuccessful()) {
-				((TalentRadarApplication) getApplication())
-						.loadLocalUser(result.getUser());
+				User user = result.getUser();
+				user.setSkills(getUserSkillsResponse.getSkills());
+				((TalentRadarApplication) getApplication()).loadLocalUser(user);
 				Intent intent = new Intent(LoginActivity.this,
 						MainActivity.class);
 				startActivity(intent);

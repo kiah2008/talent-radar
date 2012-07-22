@@ -18,4 +18,9 @@ public class TalentRadarApplication extends Application {
 		return localUser;
 	}
 
+	public SkillButtonFactory getSkillButtonFactory() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("TalentRadarApplication.getSkillButtonFactory()");
+	}
+
 }
