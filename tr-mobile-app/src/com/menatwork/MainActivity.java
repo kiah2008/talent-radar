@@ -1,12 +1,13 @@
 package com.menatwork;
 
-import com.menatwork.radar.RadarActivity;
-
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.TabHost;
+
+import com.menatwork.radar.RadarActivity;
+import com.menatwork.radar.RadarService;
 
 public class MainActivity extends TabActivity {
 
@@ -14,7 +15,17 @@ public class MainActivity extends TabActivity {
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		initilizeTabs();
+		startRadarService();
+	}
 
+	private void startRadarService() {
+		// TODO - shoulda start service here? - miguel - 25/07/2012
+		final Intent intent = new Intent(this, RadarService.class);
+		startService(intent);
+	}
+
+	private void initilizeTabs() {
 		final Resources res = getResources();
 
 		// Drawables
@@ -23,12 +34,16 @@ public class MainActivity extends TabActivity {
 
 		final Intent dashboardIntent = new Intent(this, DashboardActivity.class);
 		spec = tabHost.newTabSpec("dashboard");
-		spec.setIndicator("Dashboard", res.getDrawable(R.drawable.icon_dashboard_tab));
+		spec.setIndicator("Dashboard",
+				res.getDrawable(R.drawable.icon_dashboard_tab));
 		spec.setContent(dashboardIntent);
 		tabHost.addTab(spec);
 
 		final Intent radarIntent = new Intent(this, RadarActivity.class);
-		spec = tabHost.newTabSpec("radar").setIndicator("Radar", res.getDrawable(R.drawable.icon_radar_tab))
+		spec = tabHost
+				.newTabSpec("radar")
+				.setIndicator("Radar",
+						res.getDrawable(R.drawable.icon_radar_tab))
 				.setContent(radarIntent);
 		tabHost.addTab(spec);
 
@@ -37,7 +52,6 @@ public class MainActivity extends TabActivity {
 				, res.getDrawable(R.drawable.icon_profile_tab) //
 				).setContent(profileIntent);
 		tabHost.addTab(spec);
-
 	}
 
 }
