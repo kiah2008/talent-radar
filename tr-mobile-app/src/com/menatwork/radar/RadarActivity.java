@@ -1,16 +1,9 @@
 package com.menatwork.radar;
 
-import android.os.Bundle;
-
-import com.menatwork.MenAtWorkActivity;
 import com.menatwork.R;
+import com.menatwork.TalentRadarActivity;
 
-public class RadarActivity extends MenAtWorkActivity {
-
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+public class RadarActivity extends TalentRadarActivity {
 
 	@Override
 	protected void setupButtons() {

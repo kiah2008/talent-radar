@@ -19,44 +19,44 @@ import org.json.JSONObject;
 
 public class GonzaUtils {
 
-	public static JSONObject executePost(HttpPost httpPost)
+	public static JSONObject executePost(final HttpPost httpPost)
 			throws JSONException, IOException {
 		try {
-			DefaultHttpClient httpClient = new DefaultHttpClient();
-			HttpResponse httpResponse = httpClient.execute(httpPost);
-			HttpEntity httpEntity = httpResponse.getEntity();
+			final DefaultHttpClient httpClient = new DefaultHttpClient();
+			final HttpResponse httpResponse = httpClient.execute(httpPost);
+			final HttpEntity httpEntity = httpResponse.getEntity();
 			return readJSON(httpEntity.getContent());
-		} catch (UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			// should not happen
 			throw new RuntimeException(e);
-		} catch (ClientProtocolException e) {
+		} catch (final ClientProtocolException e) {
 			// should not happen
 			throw new RuntimeException(e);
 		}
 	}
 
-	public static HttpPost buildPost(String url, List<NameValuePair> params) {
+	public static HttpPost buildPost(final String url, final List<NameValuePair> params) {
 		try {
-			HttpPost httpPost = new HttpPost(url);
+			final HttpPost httpPost = new HttpPost(url);
 			httpPost.setEntity(new UrlEncodedFormEntity(params));
 			return httpPost;
-		} catch (UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			// should not happen
 			throw new RuntimeException(e);
 		}
 	}
 
-	private static JSONObject readJSON(InputStream content)
+	private static JSONObject readJSON(final InputStream content)
 			throws JSONException, IOException {
-		String json = readContents(content);
+		final String json = readContents(content);
 		return new JSONObject(json);
 	}
 
-	private static String readContents(InputStream content) throws IOException {
+	private static String readContents(final InputStream content) throws IOException {
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
+			final BufferedReader reader = new BufferedReader(new InputStreamReader(
 					content), 8);
-			StringBuilder stringBuilder = new StringBuilder();
+			final StringBuilder stringBuilder = new StringBuilder();
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				stringBuilder.append(line + "n");
@@ -65,7 +65,7 @@ public class GonzaUtils {
 		} finally {
 			try {
 				content.close();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 			}
 		}
 	}
