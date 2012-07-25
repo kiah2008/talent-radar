@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -12,7 +11,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,11 +26,10 @@ import com.menatwork.service.GetUserSkills;
 import com.menatwork.service.GetUserSkillsResponse;
 import com.menatwork.service.Login;
 import com.menatwork.service.LoginResponse;
-import com.menatwork.service.Response;
 import com.menatwork.utils.NaiveDialogClickListener;
 import com.menatwork.utils.StartActivityListener;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends TalentRadarActivity {
 	public static final int DIALOG_INCORRECT_LOGIN = 1;
 	public static final int DIALOG_ERROR = 2;
 	private Button registerButton;
@@ -41,24 +38,22 @@ public class LoginActivity extends Activity {
 	private EditText email;
 	private EditText password;
 
-	/** Called when the activity is first created. */
 	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.login);
-		findViewElements();
-		setupButtons();
+	protected int getViewLayoutId() {
+		return R.layout.login;
 	}
 
-	private void findViewElements() {
-		registerButton = (Button) findViewById(R.id.login_button_register);
-		loginButton = (Button) findViewById(R.id.login_button_login);
-		linkedInButton = (ImageButton) findViewById(R.id.login_button_linkedin);
-		email = (EditText) findViewById(R.id.login_email);
-		password = (EditText) findViewById(R.id.login_password);
+	@Override
+	protected void findViewElements() {
+		registerButton = findButtonById(R.id.login_button_register);
+		loginButton = findButtonById(R.id.login_button_login);
+		linkedInButton = findImageButtonById(R.id.login_button_linkedin);
+		email = findEditTextById(R.id.login_email);
+		password = findEditTextById(R.id.login_password);
 	}
 
-	private void setupButtons() {
+	@Override
+	protected void setupButtons() {
 		registerButton.setOnClickListener(new StartActivityListener(this,
 				ChooseTypeActivity.class));
 		linkedInButton.setOnClickListener(new LoginWithLinkedinListener());
@@ -66,8 +61,8 @@ public class LoginActivity extends Activity {
 	}
 
 	@Override
-	protected Dialog onCreateDialog(int id) {
-		Builder builder = new AlertDialog.Builder(this);
+	protected Dialog onCreateDialog(final int id) {
+		final Builder builder = new AlertDialog.Builder(this);
 		switch (id) {
 		case DIALOG_INCORRECT_LOGIN:
 			builder.setTitle(this
@@ -87,11 +82,11 @@ public class LoginActivity extends Activity {
 	}
 
 	@Override
-	protected void onNewIntent(Intent intent) {
+	protected void onNewIntent(final Intent intent) {
 		// handle logging in with linked in
 		Log.d("LoginActivity", "Linkedin access");
-		Uri data = intent.getData();
-		String userId = data.getPathSegments().get(0);
+		final Uri data = intent.getData();
+		final String userId = data.getPathSegments().get(0);
 		if (userId == null) {
 			showDialog(DIALOG_ERROR);
 			return;
@@ -104,8 +99,8 @@ public class LoginActivity extends Activity {
 	private class LoginButtonListener implements OnClickListener {
 
 		@Override
-		public void onClick(View v) {
-			LoginTask task = new LoginTask();
+		public void onClick(final View v) {
+			final LoginTask task = new LoginTask();
 			task.execute(email.getText().toString(), password.getText()
 					.toString());
 		}
@@ -114,8 +109,8 @@ public class LoginActivity extends Activity {
 	private class LoginWithLinkedinListener implements OnClickListener {
 
 		@Override
-		public void onClick(View v) {
-			Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+		public void onClick(final View v) {
+			final Intent browserIntent = new Intent(Intent.ACTION_VIEW,
 					Uri.parse(getString(R.string.uri_login_with_linkedin)));
 			startActivity(browserIntent);
 		}
@@ -134,37 +129,38 @@ public class LoginActivity extends Activity {
 		}
 
 		@Override
-		protected GetUserResponse doInBackground(String... params) {
+		protected GetUserResponse doInBackground(final String... params) {
 			try {
-				GetUser getUser = GetUser.newInstance(LoginActivity.this,
+				final GetUser getUser = GetUser.newInstance(LoginActivity.this,
 						params[0]);
-				GetUserSkills getUserSkills = GetUserSkills.newInstance(
+				final GetUserSkills getUserSkills = GetUserSkills.newInstance(
 						LoginActivity.this, params[0]);
-				GetUserResponse getUserResponse = getUser.execute();
+				final GetUserResponse getUserResponse = getUser.execute();
 				getUserSkillsResponse = getUserSkills.execute();
 				return getUserResponse;
-			} catch (JSONException e) {
+			} catch (final JSONException e) {
 				Log.e("LoginTask", "Error parsing JSON response", e);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				Log.e("LoginTask", "IO error trying to get user data", e);
 			}
 			return null;
 		}
 
 		@Override
-		protected void onPostExecute(GetUserResponse result) {
+		protected void onPostExecute(final GetUserResponse result) {
 			progressDialog.dismiss();
 			if (result != null && result.isSuccessful()) {
-				User user = result.getUser();
+				final User user = result.getUser();
 				user.setSkills(getUserSkillsResponse.getSkills());
-				((TalentRadarApplication) getApplication()).loadLocalUser(user);
-				Intent intent = new Intent(LoginActivity.this,
+				getTalentRadarApplication().loadLocalUser(user);
+				final Intent intent = new Intent(LoginActivity.this,
 						MainActivity.class);
 				startActivity(intent);
 			} else {
 				showDialog(DIALOG_ERROR);
 			}
 		}
+
 	}
 
 	private class LoginTask extends AsyncTask<String, Void, LoginResponse> {
@@ -181,33 +177,33 @@ public class LoginActivity extends Activity {
 		}
 
 		@Override
-		protected LoginResponse doInBackground(String... arg0) {
+		protected LoginResponse doInBackground(final String... arg0) {
 			try {
-				Login login = Login.newInstance(LoginActivity.this, arg0[0],
-						arg0[1]);
+				final Login login = Login.newInstance(LoginActivity.this,
+						arg0[0], arg0[1]);
 				return this.handleResponse(login.execute());
-			} catch (JSONException e) {
+			} catch (final JSONException e) {
 				Log.e("LoginTask", "Error parsing JSON response", e);
 				return null;
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				Log.e("LoginTask", "IO error trying to log in", e);
 				return null;
 			}
 		}
 
-		private LoginResponse handleResponse(LoginResponse response) {
+		private LoginResponse handleResponse(final LoginResponse response) {
 			Log.d("LoginTask", "JSON Response");
 			Log.d("LoginTask", response.toString());
 			return response;
 		}
 
 		@Override
-		protected void onPostExecute(LoginResponse result) {
+		protected void onPostExecute(final LoginResponse result) {
 			progressDialog.dismiss();
 			if (result.isValid() && result.isSuccessful()) {
 				((TalentRadarApplication) getApplication())
 						.loadLocalUser(result.getUser());
-				Intent intent = new Intent(LoginActivity.this,
+				final Intent intent = new Intent(LoginActivity.this,
 						MainActivity.class);
 				startActivity(intent);
 			} else if (result.isValid())
@@ -216,4 +212,5 @@ public class LoginActivity extends Activity {
 				showDialog(DIALOG_ERROR);
 		}
 	}
+
 }

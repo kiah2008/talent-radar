@@ -1,35 +1,47 @@
 package com.menatwork;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.menatwork.model.User;
 
-public class ProfileActivity extends Activity {
+public class ProfileActivity extends TalentRadarActivity {
 
 	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void postCreate(final Bundle savedInstanceState) {
+		super.postCreate(savedInstanceState);
 
-		setContentView(R.layout.profile);
-		AlphaAnimation alpha = new AlphaAnimation(0.5F, 0.5F);
+		final AlphaAnimation alpha = new AlphaAnimation(0.5F, 0.5F);
 		alpha.setDuration(0); // Make animation instant
 		alpha.setFillAfter(true); // Tell it to persist after the animation ends
+
 		// And then on your layout
 		findViewById(R.id.profile_label_skills).startAnimation(alpha);
 		findViewById(R.id.profile_label_email).startAnimation(alpha);
 
-		User localUser = getLocalUser();
-		((TextView) findViewById(R.id.profile_fullname)).setText(localUser
-				.getFullName());
-		((TextView) findViewById(R.id.profile_headline)).setText(localUser
-				.getHeadline());
+		final User localUser = getLocalUser();
+		findTextViewById(R.id.profile_fullname)
+				.setText(localUser.getFullName());
+		findTextViewById(R.id.profile_headline)
+				.setText(localUser.getHeadline());
 
 		loadSkills();
+	}
+
+	@Override
+	protected void setupButtons() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	protected void findViewElements() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	protected int getViewLayoutId() {
+		return R.layout.profile;
 	}
 
 	private User getLocalUser() {
@@ -37,11 +49,12 @@ public class ProfileActivity extends Activity {
 	}
 
 	private void loadSkills() {
-		for (String skill : getLocalUser().getSkills()) {
-			Button skillButton = ((TalentRadarApplication) getApplication())
+		for (final String skill : getLocalUser().getSkills()) {
+			final Button skillButton = getTalentRadarApplication()
 					.getSkillButtonFactory().getSkillButton(skill);
-			((ViewGroup) findViewById(R.id.profile_layout_skills))
-					.addView(skillButton);
+
+			findViewGroupById(R.id.profile_layout_skills).addView(skillButton);
 		}
 	}
+
 }
