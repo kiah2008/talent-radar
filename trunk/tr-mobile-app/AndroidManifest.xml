@@ -67,8 +67,12 @@
 
         <service
             android:name="RadarService"
-            android:label="@string/radar_service_name"
-            android:process=":radar_process" >
+            android:label="@string/radar_service_name" >
+
+            <!-- TODO - This would be a good idea in the future for our service, -->
+            <!-- but we could might as well avoid it for a while! Our present implementation -->
+            <!-- android:process=":radar_process" -->
+
         </service>
     </application>
 

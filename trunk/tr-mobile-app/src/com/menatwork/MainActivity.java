@@ -15,17 +15,15 @@ public class MainActivity extends TabActivity {
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		initilizeTabs();
+		initializeTabs();
 		startRadarService();
 	}
 
 	private void startRadarService() {
-		// TODO - shoulda start service here? - miguel - 25/07/2012
-		final Intent intent = new Intent(this, RadarService.class);
-		startService(intent);
+		startService(new Intent(this, RadarService.class));
 	}
 
-	private void initilizeTabs() {
+	private void initializeTabs() {
 		final Resources res = getResources();
 
 		// Drawables
@@ -34,16 +32,12 @@ public class MainActivity extends TabActivity {
 
 		final Intent dashboardIntent = new Intent(this, DashboardActivity.class);
 		spec = tabHost.newTabSpec("dashboard");
-		spec.setIndicator("Dashboard",
-				res.getDrawable(R.drawable.icon_dashboard_tab));
+		spec.setIndicator("Dashboard", res.getDrawable(R.drawable.icon_dashboard_tab));
 		spec.setContent(dashboardIntent);
 		tabHost.addTab(spec);
 
 		final Intent radarIntent = new Intent(this, RadarActivity.class);
-		spec = tabHost
-				.newTabSpec("radar")
-				.setIndicator("Radar",
-						res.getDrawable(R.drawable.icon_radar_tab))
+		spec = tabHost.newTabSpec("radar").setIndicator("Radar", res.getDrawable(R.drawable.icon_radar_tab))
 				.setContent(radarIntent);
 		tabHost.addTab(spec);
 
