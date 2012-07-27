@@ -32,6 +32,7 @@ import com.menatwork.utils.StartActivityListener;
 public class LoginActivity extends TalentRadarActivity {
 	public static final int DIALOG_INCORRECT_LOGIN = 1;
 	public static final int DIALOG_ERROR = 2;
+
 	private Button registerButton;
 	private ImageButton linkedInButton;
 	private Button loginButton;

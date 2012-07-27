@@ -4,6 +4,7 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TabHost;
 
 import com.menatwork.radar.RadarActivity;
@@ -14,13 +15,27 @@ public class MainActivity extends TabActivity {
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.main);
 		initializeTabs();
 		startRadarService();
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		stopRadarService();
+	}
+
+	private void stopRadarService() {
+		stopService(new Intent(this, RadarService.class));
+		Log.i("MainActivity", "stopping radar service");
+	}
+
 	private void startRadarService() {
 		startService(new Intent(this, RadarService.class));
+		Log.i("MainActivity", "starting radar service");
 	}
 
 	private void initializeTabs() {

@@ -1,17 +1,22 @@
 package com.menatwork.radar;
 
+import java.util.Collection;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.menatwork.R;
 import com.menatwork.TalentRadarActivity;
+import com.menatwork.model.User;
 import com.menatwork.radar.RadarService.RadarBinder;
 
-public class RadarActivity extends TalentRadarActivity {
+public class RadarActivity extends TalentRadarActivity implements
+		RadarServiceListener {
 
 	private final ServiceConnection serviceConnection = new RadarServiceConnection();
 	private boolean boundToRadarService = false;
@@ -37,8 +42,8 @@ public class RadarActivity extends TalentRadarActivity {
 
 		// Binding with RadarService
 		final Intent intent = new Intent(this, RadarService.class);
-		bindService(intent, serviceConnection, Context.BIND_NOT_FOREGROUND);
-
+		bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+		Log.i("RadarActivity", "binding service");
 	}
 
 	@Override
@@ -51,16 +56,29 @@ public class RadarActivity extends TalentRadarActivity {
 		}
 	}
 
+	@Override
+	public void usersFound(final Collection<? extends User> users) {
+		// TODO - Jao, como has estao! Basically, we should (1) replace the last
+		// users found list with the new one and (2) replace the dots in the
+		// radar with new random ones - miguel - 26/07/2012
+		Toast.makeText(this, "llegaron nuevos usuarios", Toast.LENGTH_SHORT)
+				.show();
+	}
+
+	/* *************************************************** */
+	/* ********* RadarServiceConnection ****************** */
+	/* *************************************************** */
+
 	private final class RadarServiceConnection implements ServiceConnection {
 		@Override
-		public void onServiceConnected(final ComponentName className, final IBinder service) {
+		public void onServiceConnected(final ComponentName className,
+				final IBinder service) {
 			// We've bound to RadarService, cast the IBinder and get
 			// RadarService instance
 			final RadarBinder binder = (RadarBinder) service;
 			final RadarService radarService = binder.getService();
-			// TODO - the idea is to tell the service to add this activity to
-			// some kind of listenership so that it can tell us when new user
-			// notificaciones arrive - boris - 25/07/2012
+
+			radarService.addRadarServiceListener(RadarActivity.this);
 
 			boundToRadarService = true;
 			Log.i("radar activity", "radar service connected");
