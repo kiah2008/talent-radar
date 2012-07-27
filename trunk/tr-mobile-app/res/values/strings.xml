@@ -15,6 +15,7 @@
     <string name="login_dialog_error_message">Problema al contactar con el servidor</string>
 
     <!-- Services-related strings -->
+    
     <!-- Registration -->
     <string name="post_uri_registration">http://talent-radar.com/users/app_register</string>
     <string name="post_key_register_email">data[User][email]</string>
@@ -23,17 +24,28 @@
     <string name="post_key_register_name">data[User][name]</string>
     <string name="post_key_register_surname">data[User][surname]</string>
     <string name="post_key_register_headline">data[User][headline]</string>
+    
     <!-- Login -->
     <string name="post_uri_login">http://talent-radar.com/users/app_login</string>
     <string name="post_key_login_email">data[User][email]</string>
     <string name="post_key_login_password">data[User][password]</string>
+    
+    <!-- Share Location and Get Users -->
+    <string name="post_uri_share_location_and_get_users">http://www.talent-radar.com/usersOnline/app_shareLocationAndGetUsers</string>
+    <string name="post_key_share_location_and_get_users_user_id">user_id</string>
+    <string name="post_key_share_location_and_get_users_latitude">latitude</string>
+    <string name="post_key_share_location_and_get_users_longitude">longitude</string>
+    <string name="post_key_share_location_and_get_users_duration">duration</string>
+
     <!-- Login with Linkedin -->
     <string name="uri_login_with_linkedin">http://www.talent-radar.com/users/app_loginLinkedin</string>
+    
     <!-- Get user -->
     <string name="post_uri_getUser">http://www.talent-radar.com/users/app_getUser</string>
     <string name="post_key_userId">data[User][id]</string>
     <string name="profile_skills">Skills</string>
     <string name="profile_label_email">Email</string>
+    
     <!-- Get User skills -->
     <string name="getUserSkills_uri">http://www.talent-radar.com/usersSkills/app_getFromLinkedin</string>
     <string name="getUserSkills_param_user_id">data[UsersSkill][user_id]</string>
