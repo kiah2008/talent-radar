@@ -94,6 +94,8 @@ public class RadarService extends Service {
 						e.printStackTrace();
 					}
 
+					// TODO - los 5 segundos deberían venir por configuración -
+					// miguel - 28/07/2012
 					Thread.sleep(5000);
 				} // main while
 

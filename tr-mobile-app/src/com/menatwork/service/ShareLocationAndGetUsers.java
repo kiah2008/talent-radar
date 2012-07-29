@@ -20,17 +20,17 @@ public class ShareLocationAndGetUsers extends
 			final String userId, final double latitude, final double longitude,
 			final int duration) {
 		super(context, ShareLocationAndGetUsersResponse.class);
-		addParameter( //
-				context.getString(R.string.post_key_share_location_and_get_users_user_id), //
+		setParameter( //
+				getString(R.string.post_key_share_location_and_get_users_user_id), //
 				userId);
-		addParameter( //
-				context.getString(R.string.post_key_share_location_and_get_users_latitude), //
+		setParameter( //
+				getString(R.string.post_key_share_location_and_get_users_latitude), //
 				latitude);
-		addParameter( //
-				context.getString(R.string.post_key_share_location_and_get_users_longitude), //
+		setParameter( //
+				getString(R.string.post_key_share_location_and_get_users_longitude), //
 				longitude);
-		addParameter( //
-				context.getString(R.string.post_key_share_location_and_get_users_duration), //
+		setParameter( //
+				getString(R.string.post_key_share_location_and_get_users_duration), //
 				duration);
 	}
 
@@ -44,7 +44,6 @@ public class ShareLocationAndGetUsers extends
 
 	@Override
 	protected String getMethodUri() {
-		return context
-				.getString(R.string.post_uri_share_location_and_get_users);
+		return getString(R.string.post_uri_share_location_and_get_users);
 	}
 }
