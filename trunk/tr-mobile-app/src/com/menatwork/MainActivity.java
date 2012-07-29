@@ -1,8 +1,9 @@
 package com.menatwork;
 
+import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TabHost;
@@ -39,28 +40,38 @@ public class MainActivity extends TabActivity {
 	}
 
 	private void initializeTabs() {
-		final Resources res = getResources();
+		addTab(DashboardActivity.class, //
+				"dashboard", //
+				"Dashboard", //
+				R.drawable.icon_dashboard_tab);
 
-		// Drawables
-		final TabHost tabHost = getTabHost(); // The activity TabHost
-		TabHost.TabSpec spec; // Resusable TabSpec for each tab
+		addTab(RadarActivity.class, //
+				"radar", //
+				"Radar", //
+				R.drawable.icon_radar_tab);
 
-		final Intent dashboardIntent = new Intent(this, DashboardActivity.class);
-		spec = tabHost.newTabSpec("dashboard");
-		spec.setIndicator("Dashboard", res.getDrawable(R.drawable.icon_dashboard_tab));
-		spec.setContent(dashboardIntent);
-		tabHost.addTab(spec);
+		addTab(ProfileActivity.class, //
+				"profile", //
+				"Profile", //
+				R.drawable.icon_profile_tab);
+	}
 
-		final Intent radarIntent = new Intent(this, RadarActivity.class);
-		spec = tabHost.newTabSpec("radar").setIndicator("Radar", res.getDrawable(R.drawable.icon_radar_tab))
-				.setContent(radarIntent);
-		tabHost.addTab(spec);
+	private void addTab(final Class<? extends Activity> tabClass,
+			final String tabTag, final String tabLabel, final int tabIconId) {
 
-		final Intent profileIntent = new Intent(this, ProfileActivity.class);
-		spec = tabHost.newTabSpec("profile").setIndicator("Profile" //
-				, res.getDrawable(R.drawable.icon_profile_tab) //
-				).setContent(profileIntent);
-		tabHost.addTab(spec);
+		// get tab host
+		final TabHost tabHost = getTabHost();
+
+		// create tab spec
+		final Drawable tabIcon = getResources().getDrawable(tabIconId);
+		final Intent intent = new Intent(this, tabClass);
+
+		final TabHost.TabSpec tabSpec = tabHost.newTabSpec(tabTag) //
+				.setIndicator(tabLabel, tabIcon) //
+				.setContent(intent);
+
+		// add tabs pec to host
+		tabHost.addTab(tabSpec);
 	}
 
 }

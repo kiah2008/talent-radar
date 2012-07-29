@@ -22,7 +22,7 @@ public abstract class StandardServiceCall<T extends Response> extends
 	 * Constructs a StandardServiceCall with a context, a response class (to
 	 * wrap the JSONObject response after the POST method) and no parameters (to
 	 * be added later by the
-	 * {@link StandardServiceCall#addParameter(String, Object)} interface.
+	 * {@link StandardServiceCall#setParameter(String, Object)} interface.
 	 *
 	 * @param context
 	 *            Some context
@@ -37,13 +37,13 @@ public abstract class StandardServiceCall<T extends Response> extends
 	}
 
 	/**
-	 * Adds a parameter with a key and value corresponding to the key an value
+	 * Sets a parameter with a key and value corresponding to the key an value
 	 * for the POST method.
 	 *
 	 * @param key
 	 * @param value
 	 */
-	public void addParameter(final String key, final Object value) {
+	public void setParameter(final String key, final Object value) {
 		parameters.put(key, value);
 	}
 
@@ -54,7 +54,7 @@ public abstract class StandardServiceCall<T extends Response> extends
 	 *            Key of the parameter
 	 * @return Value of the parameter
 	 */
-	public Object get(final String key) {
+	public Object getParameter(final String key) {
 		return parameters.get(key);
 	}
 
@@ -65,10 +65,10 @@ public abstract class StandardServiceCall<T extends Response> extends
 
 		// For each parameter we just create a NameValuePair and add it to the
 		// parameter list
-		for (final String key : parameters.keySet())
+		for (final Map.Entry<String, Object> entry : parameters.entrySet())
 			postParams.add(new BasicNameValuePair( //
-					key, //
-					String.valueOf(parameters.get(key)) //
+					entry.getKey(), //
+					String.valueOf(entry.getValue()) //
 					));
 
 		return postParams;
