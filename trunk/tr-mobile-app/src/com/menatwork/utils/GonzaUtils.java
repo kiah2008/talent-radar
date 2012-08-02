@@ -35,7 +35,8 @@ public class GonzaUtils {
 		}
 	}
 
-	public static HttpPost buildPost(final String url, final List<NameValuePair> params) {
+	public static HttpPost buildPost(final String url,
+			final List<NameValuePair> params) {
 		try {
 			final HttpPost httpPost = new HttpPost(url);
 			httpPost.setEntity(new UrlEncodedFormEntity(params));
@@ -52,12 +53,15 @@ public class GonzaUtils {
 		return new JSONObject(json);
 	}
 
-	private static String readContents(final InputStream content) throws IOException {
+	private static String readContents(final InputStream content)
+			throws IOException {
 		try {
-			final BufferedReader reader = new BufferedReader(new InputStreamReader(
-					content), 8);
+			final BufferedReader reader = new BufferedReader(
+					new InputStreamReader(content), 8);
 			final StringBuilder stringBuilder = new StringBuilder();
 			String line = null;
+			// XXX - Consultonta: se appendea "n", por que? puede ser un "\n"
+			// capaz? - miguel - 02/08/2012
 			while ((line = reader.readLine()) != null) {
 				stringBuilder.append(line + "n");
 			}
