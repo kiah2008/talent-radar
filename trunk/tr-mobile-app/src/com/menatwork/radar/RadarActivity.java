@@ -56,15 +56,20 @@ public class RadarActivity extends TalentRadarActivity implements
 
 	protected void shareLocationAndGetUsers() {
 		try {
+
+			final User localUser = getTalentRadarApplication().getLocalUser();
+
 			// TODO - we've got to take the gps location first -
 			// miguel - 27/07/2012
+			final double longitude = 0;
+			final double latitude = 0;
 
-			// TODO - where do i get my own user id from? - miguel -
-			// 27/07/2012
+			// TODO - should be gotten from configuration - miguel - 02/08/2012
+			final int durationSeconds = 30;
 
-			// TODO - fuckin duration? - miguel - 27/07/2012
 			final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers
-					.newInstance(this, "1", 0, 0, 30);
+					.newInstance(this, localUser.getId(), latitude, longitude,
+							durationSeconds);
 
 			handleResponse(serviceCall.execute());
 		} catch (final JSONException e) {

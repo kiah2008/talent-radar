@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface User {
 
+	String getId();
+
 	String getFullName();
 
 	String getHeadline();
@@ -11,5 +13,9 @@ public interface User {
 	List<String> getSkills();
 
 	void setSkills(List<String> skills);
+
+	String getEmail();
+
+//	String getUsername();
 
 }

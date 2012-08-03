@@ -1,6 +1,16 @@
 package com.menatwork.service;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.util.Log;
+
+import com.menatwork.model.User;
+import com.menatwork.model.UserBuilder;
 
 public class ShareLocationAndGetUsersResponse extends BaseResponse {
 
@@ -8,30 +18,76 @@ public class ShareLocationAndGetUsersResponse extends BaseResponse {
 		super(response);
 	}
 
-	// TODO - create methods to request online users - miguel - 02/08/2012
+	public List<? extends User> parseSurroundingUsers() {
+		Log.i("users obtained from sharing location", getResponse().toString());
+		try {
+			final LinkedList<User> surroundingUsers = new LinkedList<User>();
 
-	// public Collection<? extends User> getUsers() {
-	// final UserBuilder userBuilder = UserBuilder.newInstance();
-	// try {
-	// // TODO - this won't work - miguel - 27/07/2012
-	// final JSONObject userJsonObject = getResponse()
-	// .getJSONObject("result").getJSONObject("user")
-	// .getJSONObject("User");
-	// Log.i("users obtained from sharing location", getResponse()
-	// .toString());
-	//
-	// userBuilder.setId(userJsonObject.getString("id"));
-	// userBuilder.setUserName(userJsonObject.getString("name"));
-	// userBuilder.setUserSurname(userJsonObject.getString("surname"));
-	// userBuilder.setEmail(userJsonObject.getString("email"));
-	// userBuilder.setHeadline(userJsonObject.getString("headline"));
-	// // userBuilder.setExtract(userJsonObject.getString("extract"));
-	//
-	// // TODO - Ponele que por ahora es esto - miguel - 26/07/2012
-	// return Arrays.asList(userBuilder.build());
-	// } catch (final JSONException e) {
-	// throw new ResponseException(e);
-	// }
-	// }
+			final JSONArray usersArray = getResponse().getJSONObject("result")
+					.getJSONArray("users");
 
+			final int usersArrayLength = usersArray.length();
+			JSONObject userDuple;
+			for (int i = 0; i < usersArrayLength; i++) {
+				userDuple = usersArray.getJSONObject(i);
+
+				final User user = parseUserDuple(userDuple);
+				surroundingUsers.add(user);
+			}
+
+			return surroundingUsers;
+		} catch (final JSONException e) {
+			throw new ResponseException(e);
+		}
+	}
+
+	private User parseUserDuple(final JSONObject userDuple)
+			throws JSONException {
+		parseOnlineStatus(userDuple.getJSONObject("UsersOnline"));
+		final User user = parseUser(userDuple.getJSONObject("User"));
+
+		return user;
+	}
+
+	private User parseUser(final JSONObject userJson) throws JSONException {
+		final UserBuilder userBuilder = UserBuilder.newInstance();
+
+		userBuilder.setId(userJson.getString("id"));
+		// FIXME - Woooow, wait a minute here... User name ain't username! -
+		// miguel - 03/08/2012
+		// userBuilder.setUsername(userJson.getString("username"));
+		userBuilder.setUserName(userJson.getString("name"));
+		userBuilder.setUserSurname(userJson.getString("surname"));
+		userBuilder.setEmail(userJson.getString("email"));
+		userBuilder.setHeadline(userJson.getString("headline"));
+		// userBuilder.setExtract(userJsonObject.getString("extract"));
+
+		return userBuilder.build();
+	}
+
+	/**
+	 * "id":"5", <br />
+	 * "user_id":"1", <br />
+	 * "duration":"30", <br />
+	 * "latitude":"1", <br />
+	 * "longitude":"1", <br />
+	 * "created":"2012-07-05 09:37:56", <br />
+	 * "modified":"2012-07-27 16:16:47"
+	 *
+	 * @param onlineJson
+	 *
+	 * @throws JSONException
+	 */
+	private void parseOnlineStatus(final JSONObject onlineJson)
+			throws JSONException {
+		// TODO - and someday we may know if this will be helpful or not -
+		// miguel - 03/08/2012
+		onlineJson.getString("id");
+		onlineJson.getString("user_id");
+		onlineJson.getString("duration");
+		onlineJson.getString("latitude");
+		onlineJson.getString("longitude");
+		onlineJson.getString("created");
+		onlineJson.getString("modified");
+	}
 }
