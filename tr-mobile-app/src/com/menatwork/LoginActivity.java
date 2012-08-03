@@ -202,8 +202,7 @@ public class LoginActivity extends TalentRadarActivity {
 		protected void onPostExecute(final LoginResponse result) {
 			progressDialog.dismiss();
 			if (result.isValid() && result.isSuccessful()) {
-				((TalentRadarApplication) getApplication())
-						.loadLocalUser(result.getUser());
+				getTalentRadarApplication().loadLocalUser(result.getUser());
 				final Intent intent = new Intent(LoginActivity.this,
 						MainActivity.class);
 				startActivity(intent);
