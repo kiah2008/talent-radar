@@ -62,8 +62,9 @@ public class GonzaUtils {
 			String line = null;
 			// XXX - Consultonta: se appendea "n", por que? puede ser un "\n"
 			// capaz? - miguel - 02/08/2012
+			// fair enough - alme - 05/08/2012
 			while ((line = reader.readLine()) != null) {
-				stringBuilder.append(line + "n");
+				stringBuilder.append(line + "\n");
 			}
 			return stringBuilder.toString();
 		} finally {
