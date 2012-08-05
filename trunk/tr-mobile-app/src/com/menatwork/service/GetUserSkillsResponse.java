@@ -1,5 +1,7 @@
 package com.menatwork.service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -12,16 +14,20 @@ public class GetUserSkillsResponse extends BaseResponse implements Response {
 		super(response);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<String> getSkills() {
 		try {
-			// TODO: define/implement how this response should be structured
-			JSONArray skillsArray = getResponse().getJSONObject("result")
-					.getJSONArray("skills");
+			JSONObject skillsObject = getResponse().getJSONObject("result")
+					.getJSONObject("skills");
+			List<String> skills = new ArrayList<String>(skillsObject.length());
+			Iterator<String> keys = skillsObject.keys();
+			while (keys.hasNext()) {
+				String key = keys.next();
+				skills.add(skillsObject.getString(key));
+			}
+			return skills;
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ResponseException(e);
 		}
-		return null;
 	}
-
 }

@@ -3,6 +3,7 @@ package com.menatwork;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,9 +12,9 @@ import android.widget.TextView;
 
 /**
  * Common Activity superclass for all our activities.
- *
+ * 
  * @author miguel
- *
+ * 
  */
 public abstract class TalentRadarActivity extends Activity {
 
@@ -29,7 +30,7 @@ public abstract class TalentRadarActivity extends Activity {
 	/**
 	 * This method is called once the activity is created, its view content is
 	 * initialized as well as its view elements found and buttons configured.
-	 *
+	 * 
 	 * @param savedInstanceState
 	 */
 	protected void postCreate(final Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public abstract class TalentRadarActivity extends Activity {
 	/**
 	 * Retrieves the {@link Application} object casted to a
 	 * {@link TalentRadarApplication}
-	 *
+	 * 
 	 * @return {@link TalentRadarApplication} for the app
 	 */
 	protected TalentRadarApplication getTalentRadarApplication() {
@@ -60,7 +61,7 @@ public abstract class TalentRadarActivity extends Activity {
 	/**
 	 * Returns a view layout ID. Tipically would be something like
 	 * R.layout.myLayout
-	 *
+	 * 
 	 * @return Layout ID
 	 */
 	protected abstract int getViewLayoutId();
@@ -69,7 +70,8 @@ public abstract class TalentRadarActivity extends Activity {
 	/* ********* Finding views ****************** */
 	/* ****************************************** */
 
-	protected <T> T findViewById(final int id, final Class<T> viewType) {
+	protected <T extends View> T findViewById(final int id,
+			final Class<T> viewType) {
 		return viewType.cast(findViewById(id));
 	}
 

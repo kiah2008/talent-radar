@@ -13,6 +13,8 @@
     <string name="login_dialog_incorrectLogin_message">Usuario o contrasena incorrectos</string>
     <string name="login_dialog_error_title">Ups!</string>
     <string name="login_dialog_error_message">Problema al contactar con el servidor</string>
+    <string name="profile_no_skills_button">No skills</string>
+    <string name="profile_no_headline">(Este usuario no ha ingresado una descripción)</string>
 
     <!-- Services-related strings -->
 

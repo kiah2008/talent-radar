@@ -1,5 +1,6 @@
 package com.menatwork.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class BaseUser implements User {
@@ -9,7 +10,7 @@ public class BaseUser implements User {
 	private String surname;
 	private String email;
 	private String headline;
-//	private String username;
+	private List<String> skills = new LinkedList<String>();
 
 	@Override
 	public String getId() {
@@ -59,19 +60,12 @@ public class BaseUser implements User {
 
 	@Override
 	public List<String> getSkills() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("User.getSkills()");
+		return skills;
 	}
 
 	@Override
-	public void setSkills(final List<String> skills) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("User.setSkills()");
+	public void setSkills(List<String> skills) {
+		this.skills = skills;
 	}
-
-//	@Override
-//	public String getUsername() {
-//		return username;
-//	}
 
 }
