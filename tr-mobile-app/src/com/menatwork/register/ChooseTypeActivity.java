@@ -9,16 +9,15 @@ import com.menatwork.utils.StartActivityListener;
 
 public class ChooseTypeActivity extends Activity {
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register_choose_type);
 		setupButtons();
 	}
 
 	private void setupButtons() {
-		Button linkedinButton = (Button) findViewById(R.id.register_type_button_linkedin);
-		Button normalButton = (Button) findViewById(R.id.register_type_button_normal);
+		final Button linkedinButton = (Button) findViewById(R.id.register_type_button_linkedin);
+		final Button normalButton = (Button) findViewById(R.id.register_type_button_normal);
 
 		linkedinButton.setEnabled(false);
 		normalButton.setOnClickListener(new StartActivityListener(this,

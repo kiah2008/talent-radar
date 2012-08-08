@@ -17,7 +17,7 @@ public class PasswordActivity extends DataInputActivity {
 	private Button cancelButton;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register_password);
 		findViewElements();
@@ -40,13 +40,14 @@ public class PasswordActivity extends DataInputActivity {
 
 	private void setupButtons() {
 		nextButton.setEnabled(false);
-		nextButton.setOnClickListener(new DataCarrierListener(
-				this, SkillsActivity.class));
+		nextButton.setOnClickListener(new DataCarrierListener(this,
+				SkillsActivity.class));
 		cancelButton.setOnClickListener(new CancelButtonListener(this));
 	}
 
+	@Override
 	Bundle getConfiguredData() {
-		Bundle data = new Bundle();
+		final Bundle data = new Bundle();
 		data.putString(RegistrationExtras.PASSWORD, ((TextView) this
 				.findViewById(R.id.register_password_password1)).getText()
 				.toString());
@@ -56,32 +57,36 @@ public class PasswordActivity extends DataInputActivity {
 	private class PasswordTextWatcher implements TextWatcher {
 
 		// TODO implement password validation (a..z|0..9)
+		// XXX - Tipititap - miguel - 07/08/2012
+		// Pattern pattern = Pattern.compile("(a..z|0..9)");
+		// pattern.matcher("unfuckingpasswordingresado");
 
 		private final EditText theOneToCompareAgainst;
 
-		public PasswordTextWatcher(EditText theOneToCompareAgainst) {
+		public PasswordTextWatcher(final EditText theOneToCompareAgainst) {
 			this.theOneToCompareAgainst = theOneToCompareAgainst;
 		}
 
 		@Override
-		public void afterTextChanged(Editable s) {
+		public void afterTextChanged(final Editable s) {
 			if (s == null)
 				return;
-			String thisPassword = s.toString();
-			String otherPassword = theOneToCompareAgainst.getText().toString();
-			boolean enabled = "".equals(thisPassword) ? false : thisPassword
-					.equals(otherPassword);
+			final String thisPassword = s.toString();
+			final String otherPassword = theOneToCompareAgainst.getText()
+					.toString();
+			final boolean enabled = "".equals(thisPassword) ? false
+					: thisPassword.equals(otherPassword);
 			nextButton.setEnabled(enabled);
 		}
 
 		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count,
-				int after) {
+		public void beforeTextChanged(final CharSequence s, final int start,
+				final int count, final int after) {
 		}
 
 		@Override
-		public void onTextChanged(CharSequence s, int start, int before,
-				int count) {
+		public void onTextChanged(final CharSequence s, final int start,
+				final int before, final int count) {
 		}
 
 	}

@@ -13,14 +13,13 @@ abstract class DataInputActivity extends Activity {
 	abstract Bundle getConfiguredData();
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.logIncomingData();
 	}
 
 	private final void logIncomingData() {
-		Bundle extras = this.getIntent().getExtras();
+		final Bundle extras = this.getIntent().getExtras();
 		if (extras == null) {
 			Log.d(this.getClass().getName(), "This activity received no input");
 		} else {
@@ -33,17 +32,17 @@ class DataCarrierListener implements OnClickListener {
 	private final DataInputActivity source;
 	private final Class<? extends Activity> destiny;
 
-	public DataCarrierListener(DataInputActivity source,
-			Class<? extends Activity> destiny) {
+	public DataCarrierListener(final DataInputActivity source,
+			final Class<? extends Activity> destiny) {
 		this.source = source;
 		this.destiny = destiny;
 	}
 
 	@Override
-	public void onClick(View v) {
-		Intent intent = new Intent(source, destiny);
-		Bundle configuredData = source.getConfiguredData();
-		Bundle extras = source.getIntent().getExtras();
+	public void onClick(final View v) {
+		final Intent intent = new Intent(source, destiny);
+		final Bundle configuredData = source.getConfiguredData();
+		final Bundle extras = source.getIntent().getExtras();
 		if (extras != null) {
 			extras.putAll(configuredData);
 			intent.putExtras(extras);

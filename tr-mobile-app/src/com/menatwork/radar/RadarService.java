@@ -78,18 +78,25 @@ public class RadarService extends Service {
 					try {
 						// TODO - we've got to take the gps location first -
 						// miguel - 27/07/2012
+						final int latitude = 0;
+						final int longitude = 0;
 
-						// TODO - where do i get my own user id from? - miguel -
-						// 27/07/2012
-							// XXX - take a look at the snippet down here 
-							((TalentRadarApplication)RadarService.this.getApplication()).getLocalUser().getId();
-							// alme - 07/08/2012
+						final String localUserId = getTalentRadarApplication()
+								.getLocalUser().getId();
 
-						// TODO - fuckin duration? - miguel - 27/07/2012
+						// TODO - get from configuration - miguel - 07/08/2012
+						final int durationSeconds = 30;
+
 						final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers
-								.newInstance(RadarService.this, "1", 0, 0, 30);
+								.newInstance( //
+										RadarService.this, //
+										localUserId, //
+										latitude, //
+										longitude, //
+										durationSeconds);
 
 						handleResponse(serviceCall.execute());
+
 					} catch (final JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -114,6 +121,10 @@ public class RadarService extends Service {
 			Log.d("RadarSericeRunnable", response.toString());
 			return response;
 		}
+	}
+
+	protected TalentRadarApplication getTalentRadarApplication() {
+		return (TalentRadarApplication) RadarService.this.getApplication();
 	}
 
 	/* ************************************************** */
