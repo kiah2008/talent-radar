@@ -13,6 +13,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.menatwork.TalentRadarApplication;
 import com.menatwork.service.ShareLocationAndGetUsers;
 import com.menatwork.service.ShareLocationAndGetUsersResponse;
 
@@ -80,6 +81,9 @@ public class RadarService extends Service {
 
 						// TODO - where do i get my own user id from? - miguel -
 						// 27/07/2012
+							// XXX - take a look at the snippet down here 
+							((TalentRadarApplication)RadarService.this.getApplication()).getLocalUser().getId();
+							// alme - 07/08/2012
 
 						// TODO - fuckin duration? - miguel - 27/07/2012
 						final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers
