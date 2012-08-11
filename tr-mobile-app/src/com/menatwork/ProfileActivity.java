@@ -15,24 +15,68 @@ import android.widget.Toast;
 import com.menatwork.model.User;
 import com.menatwork.skills.SkillButtonFactory;
 
+/**
+ * In order to make this view reusable for viewing any user profile, you need to
+ * pass along in a bundle the user id that you are trying to visualize (or
+ * nothing for the local user, that means, don't put anything in the extras!)
+ * 
+ * key: userid / value: a string with the user id (eg. "25")
+ * 
+ * @see {@link ProfileActivity#EXTRAS_USERID}
+ * 
+ * @author aabdala
+ * 
+ */
 public class ProfileActivity extends TalentRadarActivity {
+
+	/**
+	 * Param for extras bundle to pass along what user to show in this view
+	 */
+	public static final String EXTRAS_USERID = "userid";
 
 	private ViewGroup skillsLayout;
 	private TextView fullname;
 	private TextView headline;
 	private ImageButton pingButton;
 	private ImageButton captureButton;
+	private User user;
 
 	@Override
 	protected void postCreate(final Bundle savedInstanceState) {
 		super.postCreate(savedInstanceState);
 
-		fullname.setText(getLocalUser().getFullName());
-		String headline = getLocalUser().getHeadline();
-		this.headline
-				.setText("null".equals(headline) ? getString(R.string.profile_no_headline)
-						: headline);
+		this.makeTitleLabelsTransparent();
+		this.initializeUser();
+		this.loadUserData();
+	}
 
+	private void loadUserData() {
+		fullname.setText(user.getFullName());
+		this.headline.setText(getHeadlineTextFromUser(user));
+		this.loadSkills();
+	}
+
+	private void initializeUser() {
+		Bundle extras = getIntent().getExtras();
+		if (extras != null && extras.containsKey(EXTRAS_USERID))
+			user = this.getUserById(extras.getString(EXTRAS_USERID));
+		else {
+			user = getLocalUser();
+			this.disablePingAndCaptureButtons();
+		}
+	}
+
+	private void disablePingAndCaptureButtons() {
+		pingButton.setVisibility(View.INVISIBLE);
+		captureButton.setVisibility(View.INVISIBLE);
+	}
+
+	private String getHeadlineTextFromUser(User user) {
+		return "null".equals(user.getHeadline()) ? getString(R.string.profile_no_headline)
+				: user.getHeadline();
+	}
+
+	private void makeTitleLabelsTransparent() {
 		final AlphaAnimation alpha = new AlphaAnimation(0.5F, 0.5F);
 		alpha.setDuration(0); // Make animation instant
 		alpha.setFillAfter(true); // Tell it to persist after the animation ends
@@ -40,8 +84,6 @@ public class ProfileActivity extends TalentRadarActivity {
 		// And then on your layout
 		findViewById(R.id.profile_label_skills).startAnimation(alpha);
 		findViewById(R.id.profile_label_email).startAnimation(alpha);
-
-		this.loadSkills();
 	}
 
 	@Override
@@ -74,12 +116,8 @@ public class ProfileActivity extends TalentRadarActivity {
 		return R.layout.profile;
 	}
 
-	private User getLocalUser() {
-		return ((TalentRadarApplication) getApplication()).getLocalUser();
-	}
-
 	private void loadSkills() {
-		List<String> userSkills = getLocalUser().getSkills();
+		List<String> userSkills = user.getSkills();
 		SkillButtonFactory skillButtonFactory = getTalentRadarApplication()
 				.getSkillButtonFactory();
 		if (userSkills.isEmpty()) {
