@@ -1,5 +1,7 @@
 package com.menatwork;
 
+import com.menatwork.model.User;
+
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
@@ -93,6 +95,19 @@ public abstract class TalentRadarActivity extends Activity {
 
 	protected ViewGroup findViewGroupById(final int id) {
 		return findViewById(id, ViewGroup.class);
+	}
+
+	/* ****************************************** */
+	/* ********* Business' commons ************** */
+	/* ****************************************** */
+
+	protected User getLocalUser() {
+		return ((TalentRadarApplication) getApplication()).getLocalUser();
+	}
+
+	protected User getUserById(String userid) {
+		throw new UnsupportedOperationException(
+				"TalentRadarActivity.getUserById()");
 	}
 
 }
