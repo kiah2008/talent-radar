@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">Talent Radar</string>
+
+    <!-- Login screen -->
     <string name="login_fancy_message">... las oportunidades están cerca...</string>
     <string name="login_new_user">Soy nuevo aquí</string>
     <string name="login_login">Ingresar!</string>
@@ -13,8 +15,12 @@
     <string name="login_dialog_incorrectLogin_message">Usuario o contrasena incorrectos</string>
     <string name="login_dialog_error_title">Ups!</string>
     <string name="login_dialog_error_message">Problema al contactar con el servidor</string>
+
+    <!-- Profile view -->
     <string name="profile_no_skills_button">No skills</string>
     <string name="profile_no_headline">(Este usuario no ha ingresado una descripción)</string>
+    <string name="profile_skills">Skills</string>
+    <string name="profile_label_email">Email</string>
 
     <!-- Services-related strings -->
 
@@ -46,11 +52,20 @@
     <!-- Get user -->
     <string name="post_uri_getUser">http://www.talent-radar.com/users/app_getUser</string>
     <string name="post_key_userId">data[User][id]</string>
-    <string name="profile_skills">Skills</string>
-    <string name="profile_label_email">Email</string>
 
     <!-- Get User skills -->
-    <string name="getUserSkills_uri">http://www.talent-radar.com/usersSkills/app_getFromLinkedin</string>
-    <string name="getUserSkills_param_user_id">data[UsersSkill][user_id]</string>
+    <string name="post_uri_get_user_skills">http://www.talent-radar.com/usersSkills/app_getFromLinkedin</string>
+    <string name="post_key_get_user_skills_user_id">data[UsersSkill][user_id]</string>
+
+    <!-- Ping -->
+    <string name="post_uri_ping">http://www.talent-radar.com/usersPings/app_addPing</string>
+    <string name="post_key_ping_from_id">data[UsersPing][user_from_id]</string>
+    <string name="post_key_ping_to_id">data[UsersPing][user_to_id]</string>
+    <string name="post_key_ping_content">data[UsersPing][content]</string>
+
+    <!-- Reply ping -->
+    <string name="post_uri_reply_ping">http://www.talent-radar.com/usersPings/app_replyPing</string>
+    <string name="post_key_reply_ping_id">data[UsersPing][id]</string>
+    <string name="post_key_reply_ping_response">data[UsersPing][response]</string>
 
 </resources>

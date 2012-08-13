@@ -27,7 +27,7 @@ public class GetUserSkills extends ServiceCall<GetUserSkillsResponse> {
 	protected List<NameValuePair> buildPostParametersList() {
 		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>(1);
 		params.add(new BasicNameValuePair(
-				getString(R.string.getUserSkills_param_user_id), userId));
+				getString(R.string.post_key_get_user_skills_user_id), userId));
 		return params;
 	}
 
@@ -38,7 +38,7 @@ public class GetUserSkills extends ServiceCall<GetUserSkillsResponse> {
 
 	@Override
 	protected String getMethodUri() {
-		return getString(R.string.getUserSkills_uri);
+		return getString(R.string.post_uri_get_user_skills);
 	}
 
 }
