@@ -36,8 +36,8 @@ class LinkedinComponent extends Component {
 	 */
 	public function initialize(&$controller, $settings = array()) {
 		$this->controller = $controller;
-		$this->key = 'hsarodnkza71';
-		$this->secret = '4DuQF5fpLCXZvnl1';
+		$this->key = Configure::read('LinkedinApiKey');
+		$this->secret = Configure::read('LinkedinApiSecret');
 	}
 
 	/**
