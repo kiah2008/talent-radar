@@ -16,6 +16,10 @@ public interface User {
 
 	String getEmail();
 
-//	String getUsername();
+	String getName();
+
+	String getSurname();
+
+	// String getUsername();
 
 }

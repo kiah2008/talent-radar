@@ -41,6 +41,8 @@ public class ProfileActivity extends TalentRadarActivity {
 	private ImageButton captureButton;
 	private User user;
 
+	private TextView email;
+
 	@Override
 	protected void postCreate(final Bundle savedInstanceState) {
 		super.postCreate(savedInstanceState);
@@ -54,6 +56,13 @@ public class ProfileActivity extends TalentRadarActivity {
 		fullname.setText(user.getFullName());
 		this.headline.setText(getHeadlineTextFromUser(user));
 		this.loadSkills();
+		this.loadEmail();
+	}
+
+	private void loadEmail() {
+		String email = this.user.getEmail();
+		this.email.setText(email.equals("null") ? user.getName().toLowerCase()
+				+ "." + user.getSurname().toLowerCase() + "@gmail.com" : email);
 	}
 
 	private void initializeUser() {
@@ -109,6 +118,7 @@ public class ProfileActivity extends TalentRadarActivity {
 		skillsLayout = findViewGroupById(R.id.profile_layout_skills);
 		pingButton = findImageButtonById(R.id.profile_button_ping);
 		captureButton = findImageButtonById(R.id.profile_button_capture);
+		email = findTextViewById(R.id.profile_email);
 	}
 
 	@Override

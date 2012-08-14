@@ -68,4 +68,14 @@ public class BaseUser implements User {
 		this.skills = skills;
 	}
 
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public String getSurname() {
+		return surname;
+	}
+
 }

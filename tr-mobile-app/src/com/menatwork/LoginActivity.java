@@ -166,9 +166,6 @@ public class LoginActivity extends TalentRadarActivity {
 
 	private class LoginTask extends AsyncTask<String, Void, LoginResponse> {
 
-		public static final int SUCCESS = 0;
-		public static final int WRONG_ID = 1;
-		public static final int ERROR = 2;
 		private ProgressDialog progressDialog;
 
 		@Override
