@@ -11,7 +11,7 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		
-		$this->Auth->allow('app_getUser', 'app_register', 'app_login', 'app_loginLinkedin', 'app_loginLinkedinCallback', 'app_loginLinkedinAuthorizeCallback');
+		$this->Auth->allow('app_getUser', 'app_register', 'app_login', 'app_loginLinkedin', 'app_loginLinkedinCallback', 'app_loginLinkedinAuthorizeCallback', 'app_android_saveDeviceId');
 	}
 	
 	public function app_getUser() {
@@ -63,6 +63,25 @@ class UsersController extends AppController {
 			}
 			
 			$this->set('response', $response);
+		}
+	}
+	
+	public function app_android_saveDeviceId() {
+		if(!empty($this->data)) {
+			$response['status'] = 'ok';
+			$response['result']['status'] = 'error';
+			
+			$this->User->id = $this->data['User']['id'];
+			if($this->User->saveField('android_device_id', $this->data['User']['android_device_id'])) {
+				$response['result']['status'] = 'ok';
+				$response['result']['User'] = $this->data['User'];
+			}
+			
+			$this->set('response', $response);
+		}
+		else
+		{
+			$this->set('ids', $this->User->find('list', array('fields' => array('id', 'id'))));
 		}
 	}
 	
