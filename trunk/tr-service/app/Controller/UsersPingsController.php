@@ -5,6 +5,8 @@ class UsersPingsController extends AppController {
 
 	public $name = 'UsersPings';
 	
+	public $components = array('GCMNotification');
+	
 	public function beforeFilter() {
 		parent::beforeFilter();
 		
@@ -21,6 +23,13 @@ class UsersPingsController extends AppController {
 			if($this->UsersPing->save($this->data))
 			{
 				$response['result']['status'] = 'ok';
+				
+				$this->loadModel('User');
+				$userTo = $this->User->read(null, $this->data['UsersPing']['user_to_id']);
+				if(!empty($userTo['User']['android_device_id'])) {
+					$result = $this->GCMNotification->send($userTo['User']['android_device_id'], __('Hola', true));
+					debug($result);exit;
+				}
 			}
 			
 			$this->set('response', $response);

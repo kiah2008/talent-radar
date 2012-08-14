@@ -129,3 +129,8 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
+
+Configure::write('LinkedinApiKey', 'hsarodnkza71');
+Configure::write('LinkedinApiSecret', '4DuQF5fpLCXZvnl1');
+
+Configure::write('GCMApiKey', 'AIzaSyBd0K-XNCdkNHsJ2ra0wjNCAe_s2ojfZWM');
