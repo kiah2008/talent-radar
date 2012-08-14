@@ -19,11 +19,14 @@ public class BaseResponse implements Response {
 	@Override
 	public boolean isSuccessful() {
 		try {
-			return "ok".equals(getResponse().getJSONObject("result").getString(
-					"status"));
+			return "ok".equals(getResult().getString("status"));
 		} catch (JSONException e) {
 			throw new ResponseException(e);
 		}
+	}
+
+	public JSONObject getResult() throws JSONException {
+		return getResponse().getJSONObject("result");
 	}
 
 	protected JSONObject getResponse() {

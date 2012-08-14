@@ -1,6 +1,8 @@
 package com.menatwork;
 
 import com.menatwork.model.User;
+import com.menatwork.service.GetUser;
+import com.menatwork.service.GetUserResponse;
 
 import android.app.Activity;
 import android.app.Application;
@@ -106,8 +108,17 @@ public abstract class TalentRadarActivity extends Activity {
 	}
 
 	protected User getUserById(String userid) {
-		throw new UnsupportedOperationException(
-				"TalentRadarActivity.getUserById()");
+		// XXX does it make sense to have this here?
+		// alme - 14-08-2012
+		try {
+			GetUser getUser = GetUser.newInstance(this, userid);
+			GetUserResponse response = getUser.execute();
+			return response.getUser();
+		} catch (Exception e) {
+			// TODO get this right please
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

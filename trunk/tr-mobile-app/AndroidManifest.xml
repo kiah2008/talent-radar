@@ -60,7 +60,10 @@
         </activity>
         <activity android:name="com.menatwork.DashboardActivity" >
         </activity>
-        <activity android:name="com.menatwork.ProfileActivity" >
+        <activity
+            android:name="com.menatwork.ProfileActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light" >
         </activity>
         <activity android:name=".radar.RadarActivity" >
         </activity>
