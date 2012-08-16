@@ -9,6 +9,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
@@ -48,44 +53,10 @@ public class RadarActivity extends TalentRadarActivity implements
 		shareButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				// TODO - Do this in asynctask - miguel - 02/08/2012
-				shareLocationAndGetUsers();
+				final ShareLocationAndGetUsersTask task = new ShareLocationAndGetUsersTask();
+				task.execute();
 			}
 		});
-	}
-
-	protected void shareLocationAndGetUsers() {
-		try {
-
-			final User localUser = getTalentRadarApplication().getLocalUser();
-
-			// TODO - we've got to take the gps location first -
-			// miguel - 27/07/2012
-			final double longitude = 0;
-			final double latitude = 0;
-
-			// TODO - should be gotten from configuration - miguel - 02/08/2012
-			final int durationSeconds = 30;
-
-			final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers
-					.newInstance(this, localUser.getId(), latitude, longitude,
-							durationSeconds);
-
-			handleResponse(serviceCall.execute());
-		} catch (final JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (final IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	private ShareLocationAndGetUsersResponse handleResponse(
-			final ShareLocationAndGetUsersResponse response) {
-		Log.d("RadarSericeRunnable", "JSON Response");
-		Log.d("RadarSericeRunnable", response.toString());
-		return response;
 	}
 
 	// ************************************************ //
@@ -119,6 +90,96 @@ public class RadarActivity extends TalentRadarActivity implements
 		// radar with new random ones - miguel - 26/07/2012
 		Toast.makeText(this, "llegaron nuevos usuarios", Toast.LENGTH_SHORT)
 				.show();
+	}
+
+	// ************************************************ //
+	// ====== ShareLocationAsyncTask ======
+	// ************************************************ //
+
+	private class ShareLocationAndGetUsersTask extends
+			AsyncTask<Void, Void, ShareLocationAndGetUsersResponse> {
+
+		@Override
+		protected ShareLocationAndGetUsersResponse doInBackground(
+				final Void... params) {
+			try {
+
+				final User localUser = getTalentRadarApplication()
+						.getLocalUser();
+
+				// TODO - we've got to take the gps location first -
+				// miguel - 27/07/2012
+
+				// Acquire a reference to the system Location Manager
+				final LocationManager locationManager = (LocationManager) RadarActivity.this
+						.getSystemService(Context.LOCATION_SERVICE);
+
+				// Define a listener that responds to location updates
+				final LocationListener locationListener = new LocationListener() {
+					@Override
+					public void onLocationChanged(final Location location) {
+						// Called when a new location is found by the network
+						// location
+						// provider.
+//						makeUseOfNewLocation(location);
+					}
+
+					@Override
+					public void onStatusChanged(final String provider,
+							final int status, final Bundle extras) {
+					}
+
+					@Override
+					public void onProviderEnabled(final String provider) {
+					}
+
+					@Override
+					public void onProviderDisabled(final String provider) {
+					}
+				};
+
+				// Register the listener with the Location Manager to receive
+				// location
+				// updates
+				final int millisecondsBetweenUpdates = 10000; // 10 seconds
+				locationManager.requestLocationUpdates(
+						LocationManager.NETWORK_PROVIDER, millisecondsBetweenUpdates, millisecondsBetweenUpdates,
+						locationListener);
+
+				// para arrancar cuando todavía no tenemos nada. :P
+				final Location lastKnownLocation = locationManager
+						.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+				final double longitude = millisecondsBetweenUpdates;
+				final double latitude = millisecondsBetweenUpdates;
+
+				// TODO - should be gotten from configuration - miguel -
+				// 02/08/2012
+				final int durationSeconds = 30;
+
+				final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers
+						.newInstance(RadarActivity.this, localUser.getId(),
+								latitude, longitude, durationSeconds);
+
+				handleResponse(serviceCall.execute());
+			} catch (final JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (final IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return null;
+		}
+
+		private ShareLocationAndGetUsersResponse handleResponse(
+				final ShareLocationAndGetUsersResponse response) {
+			Log.d("RadarSericeRunnable", "JSON Response");
+			Log.d("RadarSericeRunnable", response.toString());
+			return response;
+		}
+
 	}
 
 	/* *************************************************** */
