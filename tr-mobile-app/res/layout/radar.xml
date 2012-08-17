@@ -5,6 +5,7 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/login_background"
     android:orientation="vertical"
     tools:context=".RadarActivity" >
 
@@ -34,20 +35,19 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="14dp"
-        android:content="@+id/content"
-        android:handle="@+id/handle" >
+        android:content="@+id/radar_mini_profiles_list_view"
+        android:handle="@+id/radar_surrounders_list_button" >
 
         <Button
-            android:id="@+id/handle"
+            android:id="@id/radar_surrounders_list_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/radar_handle_button_text" />
 
-        <LinearLayout
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-        </LinearLayout>
+        <ListView
+            android:id="@+id/radar_mini_profiles_list_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
     </SlidingDrawer>
 
     <Button

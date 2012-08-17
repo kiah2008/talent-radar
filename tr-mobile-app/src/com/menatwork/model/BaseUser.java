@@ -44,8 +44,8 @@ public class BaseUser implements User {
 
 	@Override
 	public String toString() {
-		return "BaseUser [id=" + id + ", name=" + name + ", surname=" + surname
-				+ ", email=" + email + ", headline=" + headline + "]";
+		return "BaseUser [id=" + id + ", name=" + name + ", surname=" + surname + ", email=" + email
+				+ ", headline=" + headline + "]";
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class BaseUser implements User {
 	}
 
 	@Override
-	public void setSkills(List<String> skills) {
+	public void setSkills(final List<String> skills) {
 		this.skills = skills;
 	}
 
@@ -76,6 +76,13 @@ public class BaseUser implements User {
 	@Override
 	public String getSurname() {
 		return surname;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO - this must return the username rather than the name - boris -
+		// 16/08/2012
+		return name;
 	}
 
 }

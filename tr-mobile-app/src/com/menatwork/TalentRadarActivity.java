@@ -1,9 +1,5 @@
 package com.menatwork;
 
-import com.menatwork.model.User;
-import com.menatwork.service.GetUser;
-import com.menatwork.service.GetUserResponse;
-
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
@@ -13,6 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.menatwork.model.User;
+import com.menatwork.service.GetUser;
+import com.menatwork.service.GetUserResponse;
 
 /**
  * Common Activity superclass for all our activities.
@@ -74,28 +74,27 @@ public abstract class TalentRadarActivity extends Activity {
 	/* ********* Finding views ****************** */
 	/* ****************************************** */
 
-	protected <T extends View> T findViewById(final int id,
-			final Class<T> viewType) {
+	public <T extends View> T findViewById(final int id, final Class<T> viewType) {
 		return viewType.cast(findViewById(id));
 	}
 
-	protected Button findButtonById(final int id) {
+	public Button findButtonById(final int id) {
 		return findViewById(id, Button.class);
 	}
 
-	protected EditText findEditTextById(final int id) {
+	public EditText findEditTextById(final int id) {
 		return findViewById(id, EditText.class);
 	}
 
-	protected ImageButton findImageButtonById(final int id) {
+	public ImageButton findImageButtonById(final int id) {
 		return findViewById(id, ImageButton.class);
 	}
 
-	protected TextView findTextViewById(final int id) {
+	public TextView findTextViewById(final int id) {
 		return findViewById(id, TextView.class);
 	}
 
-	protected ViewGroup findViewGroupById(final int id) {
+	public ViewGroup findViewGroupById(final int id) {
 		return findViewById(id, ViewGroup.class);
 	}
 
@@ -107,14 +106,14 @@ public abstract class TalentRadarActivity extends Activity {
 		return ((TalentRadarApplication) getApplication()).getLocalUser();
 	}
 
-	protected User getUserById(String userid) {
+	protected User getUserById(final String userid) {
 		// XXX does it make sense to have this here?
 		// alme - 14-08-2012
 		try {
-			GetUser getUser = GetUser.newInstance(this, userid);
-			GetUserResponse response = getUser.execute();
+			final GetUser getUser = GetUser.newInstance(this, userid);
+			final GetUserResponse response = getUser.execute();
 			return response.getUser();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			// TODO get this right please
 			e.printStackTrace();
 		}

@@ -1,7 +1,10 @@
 package com.menatwork.radar;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.json.JSONException;
 
@@ -9,9 +12,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -19,17 +19,21 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.SlidingDrawer;
+import android.widget.SlidingDrawer.OnDrawerOpenListener;
 import android.widget.Toast;
 
 import com.menatwork.R;
 import com.menatwork.TalentRadarActivity;
+import com.menatwork.miniprofile.MiniProfileItemRow;
+import com.menatwork.miniprofile.MiniProfileListController;
 import com.menatwork.model.User;
+import com.menatwork.model.UserBuilder;
 import com.menatwork.radar.RadarService.RadarBinder;
 import com.menatwork.service.ShareLocationAndGetUsers;
 import com.menatwork.service.ShareLocationAndGetUsersResponse;
 
-public class RadarActivity extends TalentRadarActivity implements
-		RadarServiceListener {
+public class RadarActivity extends TalentRadarActivity implements RadarServiceListener {
 
 	private final ServiceConnection serviceConnection = new RadarServiceConnection();
 	private boolean boundToRadarService = false;
@@ -37,6 +41,7 @@ public class RadarActivity extends TalentRadarActivity implements
 	// TODO - Stub implementation so that we can test this service and
 	// notificaciones - miguel - 02/08/2012
 	private Button shareButton;
+	private SlidingDrawer slidingDrawer;
 
 	@Override
 	protected int getViewLayoutId() {
@@ -46,6 +51,7 @@ public class RadarActivity extends TalentRadarActivity implements
 	@Override
 	protected void findViewElements() {
 		shareButton = findButtonById(R.id.sharelocation);
+		slidingDrawer = findViewById(R.id.slidingDrawer1, SlidingDrawer.class);
 	}
 
 	@Override
@@ -57,6 +63,20 @@ public class RadarActivity extends TalentRadarActivity implements
 				task.execute();
 			}
 		});
+		slidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() {
+			@Override
+			public void onDrawerOpened() {
+				Log.d("RadarActivity", "Show surrounders button pressed");
+				showMiniProfileList();
+			}
+		});
+	}
+
+	@Override
+	protected void postCreate(final Bundle savedInstanceState) {
+		super.postCreate(savedInstanceState);
+		// TODO - not sure if i should instantiate a new
+		// miniprofilelistcontroller here - boris - 17/08/2012
 	}
 
 	// ************************************************ //
@@ -88,8 +108,7 @@ public class RadarActivity extends TalentRadarActivity implements
 		// TODO - Jao, como has estao! Basically, we should (1) replace the last
 		// users found list with the new one and (2) replace the dots in the
 		// radar with new random ones - miguel - 26/07/2012
-		Toast.makeText(this, "llegaron nuevos usuarios", Toast.LENGTH_SHORT)
-				.show();
+		Toast.makeText(this, "llegaron nuevos usuarios", Toast.LENGTH_SHORT).show();
 	}
 
 	// ************************************************ //
@@ -100,68 +119,69 @@ public class RadarActivity extends TalentRadarActivity implements
 			AsyncTask<Void, Void, ShareLocationAndGetUsersResponse> {
 
 		@Override
-		protected ShareLocationAndGetUsersResponse doInBackground(
-				final Void... params) {
+		protected ShareLocationAndGetUsersResponse doInBackground(final Void... params) {
 			try {
 
-				final User localUser = getTalentRadarApplication()
-						.getLocalUser();
+				final User localUser = getTalentRadarApplication().getLocalUser();
 
 				// TODO - we've got to take the gps location first -
 				// miguel - 27/07/2012
 
-				// Acquire a reference to the system Location Manager
-				final LocationManager locationManager = (LocationManager) RadarActivity.this
-						.getSystemService(Context.LOCATION_SERVICE);
+				// // Acquire a reference to the system Location Manager
+				// final LocationManager locationManager = (LocationManager)
+				// RadarActivity.this
+				// .getSystemService(Context.LOCATION_SERVICE);
 
-				// Define a listener that responds to location updates
-				final LocationListener locationListener = new LocationListener() {
-					@Override
-					public void onLocationChanged(final Location location) {
-						// Called when a new location is found by the network
-						// location
-						// provider.
-//						makeUseOfNewLocation(location);
-					}
+				// // Define a listener that responds to location updates
+				// final LocationListener locationListener = new
+				// LocationListener() {
+				// @Override
+				// public void onLocationChanged(final Location location) {
+				// // Called when a new location is found by the network
+				// // location
+				// // provider.
+				// // makeUseOfNewLocation(location);
+				// }
+				//
+				// @Override
+				// public void onStatusChanged(final String provider, final int
+				// status, final Bundle extras) {
+				// }
+				//
+				// @Override
+				// public void onProviderEnabled(final String provider) {
+				// }
+				//
+				// @Override
+				// public void onProviderDisabled(final String provider) {
+				// }
+				// };
+				//
+				// // Register the listener with the Location Manager to receive
+				// // location
+				// // updates
+				// final int millisecondsBetweenUpdates = 10000; // 10 seconds
+				// locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+				// millisecondsBetweenUpdates, 0, locationListener);
+				//
+				// // para arrancar cuando todavía no tenemos nada. :P
+				// final Location lastKnownLocation = locationManager
+				// .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-					@Override
-					public void onStatusChanged(final String provider,
-							final int status, final Bundle extras) {
-					}
-
-					@Override
-					public void onProviderEnabled(final String provider) {
-					}
-
-					@Override
-					public void onProviderDisabled(final String provider) {
-					}
-				};
-
-				// Register the listener with the Location Manager to receive
-				// location
-				// updates
-				final int millisecondsBetweenUpdates = 10000; // 10 seconds
-				locationManager.requestLocationUpdates(
-						LocationManager.NETWORK_PROVIDER, millisecondsBetweenUpdates, millisecondsBetweenUpdates,
-						locationListener);
-
-				// para arrancar cuando todavía no tenemos nada. :P
-				final Location lastKnownLocation = locationManager
-						.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-				final double longitude = millisecondsBetweenUpdates;
-				final double latitude = millisecondsBetweenUpdates;
+				final double longitude = 0;
+				final double latitude = 0;
 
 				// TODO - should be gotten from configuration - miguel -
 				// 02/08/2012
 				final int durationSeconds = 30;
 
-				final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers
-						.newInstance(RadarActivity.this, localUser.getId(),
-								latitude, longitude, durationSeconds);
+				final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers.newInstance(
+						RadarActivity.this, localUser.getId(), latitude, longitude, durationSeconds);
 
-				handleResponse(serviceCall.execute());
+				final ShareLocationAndGetUsersResponse response = handleResponse(serviceCall.execute());
+
+				refreshSurroundingContacts(response.parseSurroundingUsers());
+
 			} catch (final JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -175,8 +195,8 @@ public class RadarActivity extends TalentRadarActivity implements
 
 		private ShareLocationAndGetUsersResponse handleResponse(
 				final ShareLocationAndGetUsersResponse response) {
-			Log.d("RadarSericeRunnable", "JSON Response");
-			Log.d("RadarSericeRunnable", response.toString());
+			Log.d("RadarServiceRunnable", "JSON Response");
+			Log.d("RadarServiceRunnable", response.toString());
 			return response;
 		}
 
@@ -188,8 +208,7 @@ public class RadarActivity extends TalentRadarActivity implements
 
 	private final class RadarServiceConnection implements ServiceConnection {
 		@Override
-		public void onServiceConnected(final ComponentName className,
-				final IBinder service) {
+		public void onServiceConnected(final ComponentName className, final IBinder service) {
 			// We've bound to RadarService, cast the IBinder and get
 			// RadarService instance
 			final RadarBinder binder = (RadarBinder) service;
@@ -206,6 +225,45 @@ public class RadarActivity extends TalentRadarActivity implements
 			Log.e("radar activity", "radar service disconnected");
 			boundToRadarService = false;
 		}
+	}
+
+	public void refreshSurroundingContacts(final List<? extends User> parseSurroundingUsers) {
+		// TODO - should save these contacts so that they can be displayed later
+		// in the contact list - boris - 17/08/2012
+		final List<MiniProfileItemRow> newMiniProfileItems = new LinkedList<MiniProfileItemRow>();
+		for (final User user : parseSurroundingUsers)
+			newMiniProfileItems.add(new MiniProfileItemRow(user));
+
+		// and here we should clear a list we already had and addAll the new
+		// users
+		// presentMiniProfileItems.clear();
+		// presentMiniProfileItems.addAll(newMiniProfileItems);
+	}
+
+	private void showMiniProfileList() {
+		// XXX - get item rows from the actual users captured by the location
+		// service - boris - 17/08/2012
+		final List<MiniProfileItemRow> itemRows = Arrays
+				.asList( //
+				new MiniProfileItemRow(UserBuilder.newInstance().setHeadline("Java Dev")
+						.setUserName("Graciela").build()), //
+						new MiniProfileItemRow(UserBuilder.newInstance().setHeadline("Le Putite")
+								.setUserName("Rita").build()), //
+						// FIXME - what to do when headline exceeds the maximum
+						// space for text - boris - 17/08/2012
+						new MiniProfileItemRow(
+								UserBuilder
+										.newInstance()
+										.setHeadline(
+												"Pero me puedes decir: el hombre mas grande de la fuckin historia del universo. FUCK YEAH!")
+										.setUserName("Chuck Norris").build()), //
+						new MiniProfileItemRow(UserBuilder.newInstance().setHeadline("PHP EA PP WOW Web")
+								.setUserName("Gonzalox").build()) //
+				);
+
+		final MiniProfileListController listController = new MiniProfileListController(RadarActivity.this,
+				R.id.radar_mini_profiles_list_view, itemRows);
+		listController.showList();
 	}
 
 }
