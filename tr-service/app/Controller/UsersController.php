@@ -58,7 +58,7 @@ class UsersController extends AppController {
 			$response['status'] = 'ok';
 			$response['result']['status'] = 'error';
 			
-			if($response['result']['user'] = $this->User->find('first', array('conditions' => array('User.email' => $this->data['User']['email'], 'User.password' => $this->Auth->password($this->data['User']['password']))))) {
+			if($response['result']['user'] = $this->User->find('first', array('fields' => array('id', 'auth_token', 'email', 'username', 'name', 'surname', 'headline'), 'conditions' => array('User.email' => $this->data['User']['email'], 'User.password' => $this->Auth->password($this->data['User']['password']))))) {
 				$response['result']['status'] = 'ok';
 			}
 			
