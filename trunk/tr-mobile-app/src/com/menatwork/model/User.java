@@ -20,6 +20,6 @@ public interface User {
 
 	String getSurname();
 
-	// String getUsername();
+	String getUsername();
 
 }
