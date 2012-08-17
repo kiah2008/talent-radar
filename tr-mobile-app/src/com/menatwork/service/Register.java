@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.menatwork.R;
+import com.menatwork.service.response.RegisterResponse;
 
 public class Register extends ServiceCall<RegisterResponse> {
 

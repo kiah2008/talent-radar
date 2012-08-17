@@ -27,9 +27,9 @@
         android:layout_centerHorizontal="true"
         android:text="@string/radar_searching_state"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
     <SlidingDrawer
-        android:id="@+id/slidingDrawer1"
+        android:id="@+id/radar_sliding_drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"

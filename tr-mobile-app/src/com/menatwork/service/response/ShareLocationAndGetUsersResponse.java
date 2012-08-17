@@ -1,4 +1,4 @@
-package com.menatwork.service;
+package com.menatwork.service.response;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.menatwork.model.User;
 import com.menatwork.model.UserBuilder;
+import com.menatwork.service.ResponseException;
 
 public class ShareLocationAndGetUsersResponse extends BaseResponse {
 

@@ -23,4 +23,8 @@ public class MiniProfileItemRow {
 		return null;
 	}
 
+	public String getUserId() {
+		return user.getId();
+	}
+
 }

@@ -10,6 +10,8 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
+import com.menatwork.service.response.Response;
+
 import android.content.Context;
 
 public abstract class StandardServiceCall<T extends Response> extends

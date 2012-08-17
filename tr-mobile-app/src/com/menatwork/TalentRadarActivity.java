@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.menatwork.model.User;
 import com.menatwork.service.GetUser;
-import com.menatwork.service.GetUserResponse;
+import com.menatwork.service.response.GetUserResponse;
 
 /**
  * Common Activity superclass for all our activities.

@@ -47,40 +47,6 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 			holder.txtHeadline = (TextView) row.findViewById(R.id.mini_profile_headline);
 			holder.imgPicture = (ImageView) row.findViewById(R.id.mini_profile_user_pic);
 
-			// find thy buttons
-			final Button seeProfileButton = (Button) row.findViewById(R.id.mini_profile_see_profile_button);
-			final Button pingButton = (Button) row.findViewById(R.id.mini_profile_ping_button);
-			final Button saveContactButton = (Button) row.findViewById(R.id.mini_profile_save_contact_button);
-
-			// set buttons' on click listeners
-			seeProfileButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(final View v) {
-					final Intent intent = new Intent(activity, ProfileActivity.class);
-					// TODO - get user id from here, try to reach the
-					// miniprofileitemrow if possible - boris - 17/08/2012
-					// intent.putExtra(ProfileActivity.EXTRAS_USERID, userId);
-					intent.putExtra(ProfileActivity.EXTRAS_USERID, "1" /*for now userId = 1*/); 
-					activity.startActivity(intent);
-				}
-			});
-			pingButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(final View v) {
-					// TODO - ping the almighty user - boris - 17/08/2012
-					Toast.makeText(activity, "Ping! ... ping, ping! Hmff... PIINAGFIANGPRREAIG",
-							Toast.LENGTH_SHORT).show();
-				}
-			});
-			saveContactButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(final View v) {
-					// TODO - save the contact which means... - boris -
-					// 17/08/2012
-					Toast.makeText(activity, "saving the contact... ohh, WTF!!!", Toast.LENGTH_SHORT).show();
-				}
-			});
-
 			// magic needed
 			row.setTag(holder);
 
@@ -88,21 +54,62 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 			holder = (MiniProfileItemRowHolder) row.getTag();
 
 		// gets the item to be modified (i suppose)
-		final MiniProfileItemRow itemRow = items[position];
+		final MiniProfileItemRow miniProfileItem = items[position];
 
+		initializeRow(row, holder, miniProfileItem);
+
+		// voila!
+		return row;
+	}
+
+	private void initializeRow(final View row, final MiniProfileItemRowHolder holder,
+			final MiniProfileItemRow miniProfileItem) {
 		// sets stuff
-		holder.txtUsername.setText(itemRow.getUsername());
-		holder.txtHeadline.setText(itemRow.getHeadline());
+		holder.txtUsername.setText(miniProfileItem.getUsername());
+		holder.txtHeadline.setText(miniProfileItem.getHeadline());
 
-		if (itemRow.getPicture() == null)
+		if (miniProfileItem.getPicture() == null)
 			holder.imgPicture.setImageResource(R.drawable.default_profile_pic);
 		else
 			// in case it indeed have a user picture (not yet implemented!)
 			throw new UnsupportedOperationException(
 					"don't know how to present a non predetermined user picture");
 
-		// voila!
-		return row;
+		// find thy buttons
+		final Button seeProfileButton = (Button) row.findViewById(R.id.mini_profile_see_profile_button);
+		final Button pingButton = (Button) row.findViewById(R.id.mini_profile_ping_button);
+		final Button saveContactButton = (Button) row.findViewById(R.id.mini_profile_save_contact_button);
+
+		// set buttons' on click listeners
+		seeProfileButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				final Intent intent = new Intent(activity, ProfileActivity.class);
+				intent.putExtra(ProfileActivity.EXTRAS_USERID, miniProfileItem.getUserId());
+				activity.startActivity(intent);
+			}
+		});
+		pingButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				// TODO - ping the almighty user - boris - 17/08/2012
+				// le ping ping activitie?
+				Toast.makeText(
+						activity,
+						"Ping " + miniProfileItem.getUsername()
+								+ "! ... ping, ping! Hmff... PIINAGFIANGPRREAIG", Toast.LENGTH_SHORT).show();
+			}
+		});
+		saveContactButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				// TODO - save the contact which means... I suppose some other
+				// kind of activity, right? - boris - 17/08/2012
+				Toast.makeText(activity,
+						"saving the contact " + miniProfileItem.getUsername() + "... ohh, WTF!!!",
+						Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	/**

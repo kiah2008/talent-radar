@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import android.test.AndroidTestCase;
 
 import com.menatwork.model.User;
-import com.menatwork.service.ShareLocationAndGetUsersResponse;
+import com.menatwork.service.response.ShareLocationAndGetUsersResponse;
 
 public class ShareLocationAndGetUsersResponseTest extends AndroidTestCase {
 
