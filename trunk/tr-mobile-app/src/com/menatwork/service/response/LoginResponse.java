@@ -1,4 +1,4 @@
-package com.menatwork.service;
+package com.menatwork.service.response;
 
 import org.json.JSONObject;
 

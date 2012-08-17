@@ -20,7 +20,7 @@ import android.widget.EditText;
 import com.menatwork.MainActivity;
 import com.menatwork.R;
 import com.menatwork.service.Register;
-import com.menatwork.service.Response;
+import com.menatwork.service.response.Response;
 import com.menatwork.utils.NaiveDialogClickListener;
 
 public class SkillsActivity extends DataInputActivity {

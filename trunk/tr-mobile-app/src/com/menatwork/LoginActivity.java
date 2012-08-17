@@ -21,11 +21,11 @@ import android.widget.ImageButton;
 import com.menatwork.model.User;
 import com.menatwork.register.ChooseTypeActivity;
 import com.menatwork.service.GetUser;
-import com.menatwork.service.GetUserResponse;
 import com.menatwork.service.GetUserSkills;
-import com.menatwork.service.GetUserSkillsResponse;
 import com.menatwork.service.Login;
-import com.menatwork.service.LoginResponse;
+import com.menatwork.service.response.GetUserResponse;
+import com.menatwork.service.response.GetUserSkillsResponse;
+import com.menatwork.service.response.LoginResponse;
 import com.menatwork.utils.NaiveDialogClickListener;
 import com.menatwork.utils.StartActivityListener;
 

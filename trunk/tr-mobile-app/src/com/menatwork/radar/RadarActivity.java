@@ -31,7 +31,7 @@ import com.menatwork.model.User;
 import com.menatwork.model.UserBuilder;
 import com.menatwork.radar.RadarService.RadarBinder;
 import com.menatwork.service.ShareLocationAndGetUsers;
-import com.menatwork.service.ShareLocationAndGetUsersResponse;
+import com.menatwork.service.response.ShareLocationAndGetUsersResponse;
 
 public class RadarActivity extends TalentRadarActivity implements RadarServiceListener {
 
@@ -51,7 +51,7 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 	@Override
 	protected void findViewElements() {
 		shareButton = findButtonById(R.id.sharelocation);
-		slidingDrawer = findViewById(R.id.slidingDrawer1, SlidingDrawer.class);
+		slidingDrawer = findViewById(R.id.radar_sliding_drawer, SlidingDrawer.class);
 	}
 
 	@Override
@@ -246,9 +246,9 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 		final List<MiniProfileItemRow> itemRows = Arrays
 				.asList( //
 				new MiniProfileItemRow(UserBuilder.newInstance().setHeadline("Java Dev")
-						.setUserName("Graciela").build()), //
+						.setUserName("Graciela").setId("1").build()), //
 						new MiniProfileItemRow(UserBuilder.newInstance().setHeadline("Le Putite")
-								.setUserName("Rita").build()), //
+								.setUserName("Rita").setId("2").build()), //
 						// FIXME - what to do when headline exceeds the maximum
 						// space for text - boris - 17/08/2012
 						new MiniProfileItemRow(
@@ -256,9 +256,9 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 										.newInstance()
 										.setHeadline(
 												"Pero me puedes decir: el hombre mas grande de la fuckin historia del universo. FUCK YEAH!")
-										.setUserName("Chuck Norris").build()), //
+										.setUserName("Chuck Norris").setId("3").build()), //
 						new MiniProfileItemRow(UserBuilder.newInstance().setHeadline("PHP EA PP WOW Web")
-								.setUserName("Gonzalox").build()) //
+								.setUserName("Gonzalox").setId("4").build()) //
 				);
 
 		final MiniProfileListController listController = new MiniProfileListController(RadarActivity.this,

@@ -1,7 +1,9 @@
-package com.menatwork.service;
+package com.menatwork.service.response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.menatwork.service.ResponseException;
 
 public class SaveDeviceIdResponse extends BaseResponse {
 

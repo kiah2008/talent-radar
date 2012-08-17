@@ -3,6 +3,7 @@ package com.menatwork.service;
 import android.content.Context;
 
 import com.menatwork.R;
+import com.menatwork.service.response.ShareLocationAndGetUsersResponse;
 
 /**
  * data[UsersOnline][user_id] <br />

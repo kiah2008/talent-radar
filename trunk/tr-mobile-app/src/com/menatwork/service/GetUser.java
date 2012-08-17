@@ -8,6 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import com.menatwork.R;
+import com.menatwork.service.response.GetUserResponse;
 
 import android.content.Context;
 

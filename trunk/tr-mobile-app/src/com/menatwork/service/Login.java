@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.menatwork.R;
+import com.menatwork.service.response.LoginResponse;
 
 public class Login extends ServiceCall<LoginResponse> {
 	private String email;

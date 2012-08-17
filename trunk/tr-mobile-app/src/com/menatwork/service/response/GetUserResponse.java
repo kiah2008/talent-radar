@@ -1,10 +1,11 @@
-package com.menatwork.service;
+package com.menatwork.service.response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.menatwork.model.User;
 import com.menatwork.model.UserBuilder;
+import com.menatwork.service.ResponseException;
 
 public class GetUserResponse extends BaseResponse {
 
