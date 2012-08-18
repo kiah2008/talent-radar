@@ -20,15 +20,15 @@ class UsersPingsController extends AppController {
 			$response['status'] = 'ok';
 			$response['result']['status'] = 'error';
 			
-			if($this->UsersPing->save($this->data))
+			if($usersPing = $this->UsersPing->save($this->data))
 			{
 				$response['result']['status'] = 'ok';
+				$response['result']['UsersPing'] = $usersPing['UsersPing'];
 				
 				$this->loadModel('User');
 				$userTo = $this->User->read(null, $this->data['UsersPing']['user_to_id']);
 				if(!empty($userTo['User']['android_device_id'])) {
-					$result = $this->GCMNotification->send($userTo['User']['android_device_id'], __('Hola', true));
-					debug($result);exit;
+					$response['result']['notification'] = $this->GCMNotification->send($userTo['User']['android_device_id'], __('Hola', true));
 				}
 			}
 			
