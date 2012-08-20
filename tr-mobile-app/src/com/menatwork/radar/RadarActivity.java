@@ -38,12 +38,15 @@ import com.menatwork.service.response.ShareLocationAndGetUsersResponse;
 
 public class RadarActivity extends TalentRadarActivity implements RadarServiceListener {
 
+	// TODO - used for the RadarService implementation -> Not used right now! -
+	// boris - 17/08/2012
 	private final ServiceConnection serviceConnection = new RadarServiceConnection();
 	private boolean boundToRadarService = false;
 
 	// TODO - Stub implementation so that we can test this service and
 	// notificaciones - miguel - 02/08/2012
 	private Button shareButton;
+
 	private SlidingDrawer slidingDrawer;
 	private List<MiniProfileItemRow> miniProfileItems;
 
@@ -222,8 +225,7 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 			};
 
 			// Register the listener with the Location Manager to receive
-			// location
-			// updates
+			// location updates
 			final int millisecondsBetweenUpdates = 10000; // 10 seconds
 			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
 					millisecondsBetweenUpdates, 0, locationListener);
@@ -231,6 +233,11 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 			// para arrancar cuando todavía no tenemos nada. :P
 			final Location lastKnownLocation = locationManager
 					.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			if (lastKnownLocation != null)
+				Log.d("lastKnownLocation", "location.latitude = " + lastKnownLocation.getLatitude()
+						+ " location.longitude = " + lastKnownLocation.getLongitude());
+			else
+				Log.d("lastKnownLocation", "location == null");
 
 			return null;
 		}
@@ -277,9 +284,14 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 		miniProfileItems = newMiniProfileItems;
 	}
 
-	private void showMiniProfileList() {
+	protected void showMiniProfileList() {
 		// XXX - get item rows from the actual users captured by the location
 		// service - boris - 17/08/2012
+		// final MiniProfileListController listController = new
+		// MiniProfileListController(RadarActivity.this,
+		// R.id.radar_mini_profiles_list_view, miniProfileItems);
+		// listController.showList();
+
 		final List<MiniProfileItemRow> itemRows = Arrays
 				.asList( //
 				new MiniProfileItemRow( //
