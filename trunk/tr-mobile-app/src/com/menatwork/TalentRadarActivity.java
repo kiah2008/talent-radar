@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.menatwork.model.User;
 import com.menatwork.service.GetUser;
+import com.menatwork.service.GetUserSkills;
 import com.menatwork.service.response.GetUserResponse;
+import com.menatwork.service.response.GetUserSkillsResponse;
 
 /**
  * Common Activity superclass for all our activities.
@@ -107,12 +109,16 @@ public abstract class TalentRadarActivity extends Activity {
 	}
 
 	protected User getUserById(final String userid) {
-		// XXX does it make sense to have this here?
-		// alme - 14-08-2012
 		try {
 			final GetUser getUser = GetUser.newInstance(this, userid);
 			final GetUserResponse response = getUser.execute();
-			return response.getUser();
+			final GetUserSkills getUserSkills = GetUserSkills.newInstance(this,
+					userid);
+			final User user = response.getUser();
+			final GetUserSkillsResponse userSkillsResponse = getUserSkills
+					.execute();
+			user.setSkills(userSkillsResponse.getSkills());
+			return user;
 		} catch (final Exception e) {
 			// TODO get this right please
 			e.printStackTrace();

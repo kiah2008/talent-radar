@@ -10,7 +10,20 @@
         android:targetSdkVersion="8" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- GCM -->
+    <permission
+        android:name="com.menatwork.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.menatwork.permission.C2D_MESSAGE" />
+    <!-- App receives GCM messages. -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <!-- GCM requires a Google account. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- Keeps the processor from sleeping when a message is received. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name="com.menatwork.TalentRadarApplication"
@@ -66,6 +79,11 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Light" >
         </activity>
+        <activity
+            android:name="com.menatwork.PingAlertActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light" >
+        </activity>
         <activity android:name=".radar.RadarActivity" >
         </activity>
 
@@ -76,8 +94,20 @@
             <!-- TODO - This would be a good idea in the future for our service, -->
             <!-- but we could might as well avoid it for a while! Our present implementation -->
             <!-- android:process=":radar_process" -->
-
         </service>
+
+        <receiver
+            android:name="com.google.android.gcm.GCMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.menatwork" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".GCMIntentService" />
     </application>
 
 </manifest>

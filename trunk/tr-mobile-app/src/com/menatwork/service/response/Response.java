@@ -18,4 +18,5 @@ public interface Response {
 	 * @return
 	 */
 	public abstract boolean isValid();
+
 }
