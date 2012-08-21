@@ -11,21 +11,23 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.google.android.gcm.GCMRegistrar;
 import com.menatwork.model.User;
 import com.menatwork.register.ChooseTypeActivity;
-import com.menatwork.service.GetUser;
-import com.menatwork.service.GetUserSkills;
 import com.menatwork.service.Login;
-import com.menatwork.service.response.GetUserResponse;
-import com.menatwork.service.response.GetUserSkillsResponse;
+import com.menatwork.service.SaveDeviceId;
 import com.menatwork.service.response.LoginResponse;
+import com.menatwork.service.response.SaveDeviceIdResponse;
+import com.menatwork.utils.LogUtils;
 import com.menatwork.utils.NaiveDialogClickListener;
 import com.menatwork.utils.StartActivityListener;
 
@@ -42,6 +44,12 @@ public class LoginActivity extends TalentRadarActivity {
 	@Override
 	protected int getViewLayoutId() {
 		return R.layout.login;
+	}
+
+	@Override
+	protected void postCreate(Bundle savedInstanceState) {
+		// XXX - test-purposed, comment if necessary
+//		GCMRegistrar.unregister(this);
 	}
 
 	@Override
@@ -85,17 +93,54 @@ public class LoginActivity extends TalentRadarActivity {
 	@Override
 	protected void onNewIntent(final Intent intent) {
 		// handle logging in with linked in
-		Log.d("LoginActivity", "Linkedin access");
+		Log.d("LoginActivity", "New intent: " + intent.getDataString());
+		Uri dataUri = intent.getData();
+		if ("talent".equals(dataUri.getScheme())) {
+			if ("notification".equals(dataUri.getSchemeSpecificPart()))
+				handleTestNotification();
+		} else if ("talent.call.linkedin.back".equals(dataUri.getScheme())) {
+			handleLoginWithLinkedin(intent);
+		}
+	}
+
+	private void handleTestNotification() {
+		Toast.makeText(this, "Te abri— la app VITEH\'", Toast.LENGTH_LONG)
+				.show();
+	}
+
+	private void handleLoginWithLinkedin(Intent intent) {
+		LogUtils.d(this, "Returning from Login with Linkedin service", intent);
 		final Uri data = intent.getData();
-		final String userId = data.getPathSegments().get(0);
-		if (userId == null) {
+		final String userid = data.getPathSegments().get(0);
+		if (userid == null) {
 			showDialog(DIALOG_ERROR);
 			return;
 		}
+		ProgressDialog progressDialog = ProgressDialog.show(this, "",
+				getString(R.string.login_authenticating), true);
 		Log.d("LoginActivity", "Returning id from Login with Linkedin service");
-		Log.d("LoginActivity", userId);
-		new LoadLocalUserTask().execute(userId);
+		Log.d("LoginActivity", userid);
+		User user = getUserById(userid);
+		this.finishSuccessfulLogin(user, progressDialog);
 	}
+
+	private void finishSuccessfulLogin(final User user,
+			final ProgressDialog progressDialog) {
+		new SaveDeviceIdTask() {
+
+			@Override
+			protected void onPostExecute(SaveDeviceIdResponse result) {
+				getTalentRadarApplication().loadLocalUser(user);
+				progressDialog.dismiss();
+				final Intent intent = new Intent(LoginActivity.this,
+						MainActivity.class);
+				startActivity(intent);
+			}
+
+		}.execute(user.getId());
+	}
+
+	// ******** login innards *********
 
 	private class LoginButtonListener implements OnClickListener {
 
@@ -118,52 +163,6 @@ public class LoginActivity extends TalentRadarActivity {
 
 	}
 
-	private class LoadLocalUserTask extends
-			AsyncTask<String, Void, GetUserResponse> {
-		private ProgressDialog progressDialog;
-		private GetUserSkillsResponse getUserSkillsResponse;
-
-		@Override
-		protected void onPreExecute() {
-			progressDialog = ProgressDialog.show(LoginActivity.this, "",
-					getString(R.string.login_authenticating), true);
-		}
-
-		@Override
-		protected GetUserResponse doInBackground(final String... params) {
-			try {
-				final GetUser getUser = GetUser.newInstance(LoginActivity.this,
-						params[0]);
-				final GetUserSkills getUserSkills = GetUserSkills.newInstance(
-						LoginActivity.this, params[0]);
-				final GetUserResponse getUserResponse = getUser.execute();
-				getUserSkillsResponse = getUserSkills.execute();
-				return getUserResponse;
-			} catch (final JSONException e) {
-				Log.e("LoginTask", "Error parsing JSON response", e);
-			} catch (final IOException e) {
-				Log.e("LoginTask", "IO error trying to get user data", e);
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(final GetUserResponse result) {
-			progressDialog.dismiss();
-			if (result != null && result.isSuccessful()) {
-				final User user = result.getUser();
-				user.setSkills(getUserSkillsResponse.getSkills());
-				getTalentRadarApplication().loadLocalUser(user);
-				final Intent intent = new Intent(LoginActivity.this,
-						MainActivity.class);
-				startActivity(intent);
-			} else {
-				showDialog(DIALOG_ERROR);
-			}
-		}
-
-	}
-
 	private class LoginTask extends AsyncTask<String, Void, LoginResponse> {
 
 		private ProgressDialog progressDialog;
@@ -179,7 +178,9 @@ public class LoginActivity extends TalentRadarActivity {
 			try {
 				final Login login = Login.newInstance(LoginActivity.this,
 						arg0[0], arg0[1]);
-				return this.handleResponse(login.execute());
+				LoginResponse loginResponse = login.execute();
+				LogUtils.d(LoginActivity.this, "Login response", loginResponse);
+				return loginResponse;
 			} catch (final JSONException e) {
 				Log.e("LoginTask", "Error parsing JSON response", e);
 				return null;
@@ -189,25 +190,49 @@ public class LoginActivity extends TalentRadarActivity {
 			}
 		}
 
-		private LoginResponse handleResponse(final LoginResponse response) {
-			Log.d("LoginTask", "JSON Response");
-			Log.d("LoginTask", response.toString());
-			return response;
-		}
-
 		@Override
 		protected void onPostExecute(final LoginResponse result) {
-			progressDialog.dismiss();
 			if (result.isValid() && result.isSuccessful()) {
-				getTalentRadarApplication().loadLocalUser(result.getUser());
-				final Intent intent = new Intent(LoginActivity.this,
-						MainActivity.class);
-				startActivity(intent);
+				finishSuccessfulLogin(result.getUser(), progressDialog);
 			} else if (result.isValid())
 				showDialog(DIALOG_INCORRECT_LOGIN);
 			else
 				showDialog(DIALOG_ERROR);
 		}
+
+	}
+
+	private class SaveDeviceIdTask extends
+			AsyncTask<String, Void, SaveDeviceIdResponse> {
+
+		@Override
+		protected SaveDeviceIdResponse doInBackground(String... params) {
+			String userId = params[0];
+
+			try {
+				TalentRadarApplication talentRadarApplication = getTalentRadarApplication();
+				if (!talentRadarApplication.isDeviceRegistered()) {
+					talentRadarApplication.registerDevice();
+				}
+				String deviceId = talentRadarApplication
+						.getDeviceRegistrationId();
+				SaveDeviceId saveDeviceId = SaveDeviceId.newInstance(
+						LoginActivity.this, userId, deviceId);
+				SaveDeviceIdResponse saveDeviceIdResponse;
+				saveDeviceIdResponse = saveDeviceId.execute();
+				LogUtils.d(LoginActivity.this, "GCM Registration response",
+						saveDeviceIdResponse);
+				return saveDeviceIdResponse;
+			} catch (final JSONException e) {
+				Log.e("SaveDeviceIdTask", "Error parsing JSON response", e);
+				throw new RuntimeException(e);
+			} catch (final IOException e) {
+				Log.e("SaveDeviceIdTask", "IO error trying to register device",
+						e);
+				throw new RuntimeException(e);
+			}
+		}
+
 	}
 
 }

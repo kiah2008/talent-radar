@@ -7,6 +7,12 @@ import android.content.Context;
 
 public class SaveDeviceId extends StandardServiceCall<SaveDeviceIdResponse> {
 
+	public static SaveDeviceId newInstance(Context context, String userId,
+			String deviceId) {
+		return new SaveDeviceId(context, SaveDeviceIdResponse.class, userId,
+				deviceId);
+	}
+
 	private SaveDeviceId(Context context,
 			Class<SaveDeviceIdResponse> responseClass, String userId,
 			String deviceId) {

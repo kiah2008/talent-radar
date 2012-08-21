@@ -7,8 +7,11 @@ import java.util.Set;
 import org.apache.http.client.methods.HttpPost;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.menatwork.service.response.Response;
 
 public class LogUtils {
 
@@ -40,6 +43,16 @@ public class LogUtils {
 		Log.d(caller.getClass().getSimpleName(), message);
 		Log.d(caller.getClass().getSimpleName(), jsonObject == null ? NULL
 				: jsonObject.toString());
+	}
+
+	public static <T> void d(T caller, String message, Response response) {
+		Log.d(caller.getClass().getSimpleName(), message);
+		Log.d(caller.getClass().getSimpleName(), response.toString());
+	}
+
+	public static <T> void d(T caller, String message, Intent intent) {
+		Log.d(caller.getClass().getSimpleName(), message);
+		Log.d(caller.getClass().getSimpleName(), intent.getDataString());
 	}
 
 }
