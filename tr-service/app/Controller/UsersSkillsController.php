@@ -39,7 +39,7 @@ class UsersSkillsController extends AppController {
 							$userSkills[] = $userSkill['skill']['name'];
 						}
 					}
-					else
+					else if($data['person']['skills']['@total'] == 1)
 					{
 						$userSkills[] = $data['person']['skills']['skill']['skill']['name'];
 					}
