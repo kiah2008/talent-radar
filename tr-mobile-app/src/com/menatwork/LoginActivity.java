@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.google.android.gcm.GCMRegistrar;
 import com.menatwork.model.User;
 import com.menatwork.register.ChooseTypeActivity;
 import com.menatwork.service.Login;
@@ -47,9 +46,9 @@ public class LoginActivity extends TalentRadarActivity {
 	}
 
 	@Override
-	protected void postCreate(Bundle savedInstanceState) {
+	protected void postCreate(final Bundle savedInstanceState) {
 		// XXX - test-purposed, comment if necessary
-//		GCMRegistrar.unregister(this);
+		// GCMRegistrar.unregister(this);
 	}
 
 	@Override
@@ -63,8 +62,7 @@ public class LoginActivity extends TalentRadarActivity {
 
 	@Override
 	protected void setupButtons() {
-		registerButton.setOnClickListener(new StartActivityListener(this,
-				ChooseTypeActivity.class));
+		registerButton.setOnClickListener(new StartActivityListener(this, ChooseTypeActivity.class));
 		linkedInButton.setOnClickListener(new LoginWithLinkedinListener());
 		loginButton.setOnClickListener(new LoginButtonListener());
 	}
@@ -74,16 +72,13 @@ public class LoginActivity extends TalentRadarActivity {
 		final Builder builder = new AlertDialog.Builder(this);
 		switch (id) {
 		case DIALOG_INCORRECT_LOGIN:
-			builder.setTitle(this
-					.getString(R.string.login_dialog_incorrectLogin_title));
-			builder.setMessage(this
-					.getString(R.string.login_dialog_incorrectLogin_message));
+			builder.setTitle(this.getString(R.string.login_dialog_incorrectLogin_title));
+			builder.setMessage(this.getString(R.string.login_dialog_incorrectLogin_message));
 			builder.setPositiveButton("OK", new NaiveDialogClickListener());
 			return builder.create();
 		case DIALOG_ERROR:
 			builder.setTitle(this.getString(R.string.login_dialog_error_title));
-			builder.setMessage(this
-					.getString(R.string.login_dialog_error_message));
+			builder.setMessage(this.getString(R.string.login_dialog_error_message));
 			builder.setPositiveButton("OK", new NaiveDialogClickListener());
 			return builder.create();
 		}
@@ -94,7 +89,7 @@ public class LoginActivity extends TalentRadarActivity {
 	protected void onNewIntent(final Intent intent) {
 		// handle logging in with linked in
 		Log.d("LoginActivity", "New intent: " + intent.getDataString());
-		Uri dataUri = intent.getData();
+		final Uri dataUri = intent.getData();
 		if ("talent".equals(dataUri.getScheme())) {
 			if ("notification".equals(dataUri.getSchemeSpecificPart()))
 				handleTestNotification();
@@ -104,11 +99,10 @@ public class LoginActivity extends TalentRadarActivity {
 	}
 
 	private void handleTestNotification() {
-		Toast.makeText(this, "Te abri— la app VITEH\'", Toast.LENGTH_LONG)
-				.show();
+		Toast.makeText(this, "Te abri— la app VITEH\'", Toast.LENGTH_LONG).show();
 	}
 
-	private void handleLoginWithLinkedin(Intent intent) {
+	private void handleLoginWithLinkedin(final Intent intent) {
 		LogUtils.d(this, "Returning from Login with Linkedin service", intent);
 		final Uri data = intent.getData();
 		final String userid = data.getPathSegments().get(0);
@@ -116,24 +110,22 @@ public class LoginActivity extends TalentRadarActivity {
 			showDialog(DIALOG_ERROR);
 			return;
 		}
-		ProgressDialog progressDialog = ProgressDialog.show(this, "",
+		final ProgressDialog progressDialog = ProgressDialog.show(this, "",
 				getString(R.string.login_authenticating), true);
 		Log.d("LoginActivity", "Returning id from Login with Linkedin service");
 		Log.d("LoginActivity", userid);
-		User user = getUserById(userid);
+		final User user = getUserById(userid);
 		this.finishSuccessfulLogin(user, progressDialog);
 	}
 
-	private void finishSuccessfulLogin(final User user,
-			final ProgressDialog progressDialog) {
+	private void finishSuccessfulLogin(final User user, final ProgressDialog progressDialog) {
 		new SaveDeviceIdTask() {
 
 			@Override
-			protected void onPostExecute(SaveDeviceIdResponse result) {
+			protected void onPostExecute(final SaveDeviceIdResponse result) {
 				getTalentRadarApplication().loadLocalUser(user);
 				progressDialog.dismiss();
-				final Intent intent = new Intent(LoginActivity.this,
-						MainActivity.class);
+				final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 				startActivity(intent);
 			}
 
@@ -147,8 +139,9 @@ public class LoginActivity extends TalentRadarActivity {
 		@Override
 		public void onClick(final View v) {
 			final LoginTask task = new LoginTask();
-			task.execute(email.getText().toString(), password.getText()
-					.toString());
+			// FIXME - Wooow! app shouldn't explodeee if no inet - boris -
+			// 22/08/2012
+			task.execute(email.getText().toString(), password.getText().toString());
 		}
 	}
 
@@ -176,9 +169,8 @@ public class LoginActivity extends TalentRadarActivity {
 		@Override
 		protected LoginResponse doInBackground(final String... arg0) {
 			try {
-				final Login login = Login.newInstance(LoginActivity.this,
-						arg0[0], arg0[1]);
-				LoginResponse loginResponse = login.execute();
+				final Login login = Login.newInstance(LoginActivity.this, arg0[0], arg0[1]);
+				final LoginResponse loginResponse = login.execute();
 				LogUtils.d(LoginActivity.this, "Login response", loginResponse);
 				return loginResponse;
 			} catch (final JSONException e) {
@@ -202,33 +194,29 @@ public class LoginActivity extends TalentRadarActivity {
 
 	}
 
-	private class SaveDeviceIdTask extends
-			AsyncTask<String, Void, SaveDeviceIdResponse> {
+	private class SaveDeviceIdTask extends AsyncTask<String, Void, SaveDeviceIdResponse> {
 
 		@Override
-		protected SaveDeviceIdResponse doInBackground(String... params) {
-			String userId = params[0];
+		protected SaveDeviceIdResponse doInBackground(final String... params) {
+			final String userId = params[0];
 
 			try {
-				TalentRadarApplication talentRadarApplication = getTalentRadarApplication();
+				final TalentRadarApplication talentRadarApplication = getTalentRadarApplication();
 				if (!talentRadarApplication.isDeviceRegistered()) {
 					talentRadarApplication.registerDevice();
 				}
-				String deviceId = talentRadarApplication
-						.getDeviceRegistrationId();
-				SaveDeviceId saveDeviceId = SaveDeviceId.newInstance(
-						LoginActivity.this, userId, deviceId);
+				final String deviceId = talentRadarApplication.getDeviceRegistrationId();
+				final SaveDeviceId saveDeviceId = SaveDeviceId.newInstance(LoginActivity.this, userId,
+						deviceId);
 				SaveDeviceIdResponse saveDeviceIdResponse;
 				saveDeviceIdResponse = saveDeviceId.execute();
-				LogUtils.d(LoginActivity.this, "GCM Registration response",
-						saveDeviceIdResponse);
+				LogUtils.d(LoginActivity.this, "GCM Registration response", saveDeviceIdResponse);
 				return saveDeviceIdResponse;
 			} catch (final JSONException e) {
 				Log.e("SaveDeviceIdTask", "Error parsing JSON response", e);
 				throw new RuntimeException(e);
 			} catch (final IOException e) {
-				Log.e("SaveDeviceIdTask", "IO error trying to register device",
-						e);
+				Log.e("SaveDeviceIdTask", "IO error trying to register device", e);
 				throw new RuntimeException(e);
 			}
 		}

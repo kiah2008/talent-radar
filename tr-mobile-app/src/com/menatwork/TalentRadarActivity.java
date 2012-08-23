@@ -49,7 +49,7 @@ public abstract class TalentRadarActivity extends Activity {
 	 * 
 	 * @return {@link TalentRadarApplication} for the app
 	 */
-	protected TalentRadarApplication getTalentRadarApplication() {
+	public TalentRadarApplication getTalentRadarApplication() {
 		return (TalentRadarApplication) getApplication();
 	}
 
