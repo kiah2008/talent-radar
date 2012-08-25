@@ -65,4 +65,12 @@
         android:layout_centerHorizontal="true"
         android:text="@string/ping_alert_button_decline" />
 
+    <ProgressBar
+        android:id="@+id/ping_alert_loading_profile_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ping_alert_profile_pic"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="39dp" />
+
 </RelativeLayout>

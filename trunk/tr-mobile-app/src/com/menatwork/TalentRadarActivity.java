@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.menatwork.model.User;
@@ -90,6 +91,10 @@ public abstract class TalentRadarActivity extends Activity {
 
 	public ImageButton findImageButtonById(final int id) {
 		return findViewById(id, ImageButton.class);
+	}
+
+	public ImageView findImageViewById(final int id) {
+		return findViewById(id, ImageView.class);
 	}
 
 	public TextView findTextViewById(final int id) {
