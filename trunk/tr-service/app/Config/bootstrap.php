@@ -130,7 +130,12 @@ Cache::config('default', array('engine' => 'File'));
  *
  */
 
+//Configurations
 Configure::write('LinkedinApiKey', 'hsarodnkza71');
 Configure::write('LinkedinApiSecret', '4DuQF5fpLCXZvnl1');
 
 Configure::write('GCMApiKey', 'AIzaSyBd0K-XNCdkNHsJ2ra0wjNCAe_s2ojfZWM');
+
+
+//Constants
+DEFINE('NOTIFICATION_PING_ADDED', 1);
