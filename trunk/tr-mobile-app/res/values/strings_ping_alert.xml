@@ -8,5 +8,6 @@
     <string name="ping_alert_confirm_ban_ok">Sí!</string>
     <string name="ping_alert_confirm_ban_no">No, sólo ignorar.</string>
     <string name="ping_alert_confirm_ban_cancel">Cancelar</string>
+    <string name="ping_alert_confirm_wait">Espere…</string>
 
 </resources>

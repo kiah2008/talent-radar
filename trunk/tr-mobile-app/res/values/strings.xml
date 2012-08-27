@@ -4,13 +4,13 @@
     <string name="app_name">Talent Radar</string>
 
     <!-- Login screen -->
-    <string name="login_fancy_message">... las oportunidades están cerca...</string>
+    <string name="login_fancy_message">… las oportunidades están cerca…</string>
     <string name="login_new_user">Soy nuevo aquí</string>
     <string name="login_login">Ingresar!</string>
     <string name="login_label_password">Contraseña</string>
     <string name="login_label_email">Email</string>
     <string name="login_label_login_with_linkedin">Ingresar con LinkedIn</string>
-    <string name="login_authenticating">Autenticando...</string>
+    <string name="login_authenticating">Autenticando…</string>
     <string name="login_dialog_incorrectLogin_title">Ups!</string>
     <string name="login_dialog_incorrectLogin_message">Usuario o contrasena incorrectos</string>
     <string name="login_dialog_error_title">Ups!</string>
@@ -72,5 +72,6 @@
     <string name="post_uri_save_device_id">http://www.talent-radar.com/talent-radar/users/app_android_saveDeviceId</string>
     <string name="post_key_save_device_id_user_id">data[User][id]</string>
     <string name="post_key_save_device_id_device_id">data[User][android_device_id]</string>
+    <string name="generic_error">Ocurrió un error</string>
 
 </resources>

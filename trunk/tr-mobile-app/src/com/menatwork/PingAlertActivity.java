@@ -1,14 +1,27 @@
 package com.menatwork;
 
+import java.io.IOException;
+
+import org.json.JSONException;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.menatwork.service.ReplyPing;
+import com.menatwork.service.ReplyPing.Answer;
+import com.menatwork.service.response.ErroneousResponse;
+import com.menatwork.service.response.Response;
 
 public class PingAlertActivity extends TalentRadarActivity {
 
@@ -19,6 +32,8 @@ public class PingAlertActivity extends TalentRadarActivity {
 	private Button acceptButton;
 	private Button declineButton;
 	private ProgressBar loadingProfilePic;
+
+	private String pingId = "64";
 	private String senderName = "Pepe Monje";
 
 	@Override
@@ -59,6 +74,10 @@ public class PingAlertActivity extends TalentRadarActivity {
 		return builder.create();
 	}
 
+	void replyPing(Answer answer) {
+		new ReplyPingTask().execute(pingId, answer);
+	}
+
 	private class DeclineButtonListener implements OnClickListener {
 
 		@Override
@@ -78,12 +97,56 @@ public class PingAlertActivity extends TalentRadarActivity {
 				dialog.dismiss();
 				break;
 			case DialogInterface.BUTTON_NEGATIVE:
-				finish();
+				replyPing(ReplyPing.Answer.IGNORE);
 				break;
 			case DialogInterface.BUTTON_POSITIVE:
-				// TODO - ban sender :)
-				// alme - 25-08
+				replyPing(ReplyPing.Answer.BAN);
+				break;
 			}
+		}
+	}
+
+	private class ReplyPingTask extends AsyncTask<Object, Void, Response> {
+
+		private ProgressDialog progressDialog;
+		private Answer answer;
+
+		@Override
+		protected void onPreExecute() {
+			progressDialog = ProgressDialog.show(PingAlertActivity.this, "",
+					getString(R.string.ping_alert_confirm_wait));
+		}
+
+		@Override
+		protected Response doInBackground(Object... params) {
+			try {
+				answer = (Answer) params[1];
+				ReplyPing replyPing = ReplyPing.newInstance(
+						PingAlertActivity.this, (String) params[0], answer);
+				return replyPing.execute();
+			} catch (JSONException e) {
+				Log.e("ReplyPingTask", "Error receiving response");
+				e.printStackTrace();
+			} catch (IOException e) {
+				Log.e("ReplyPingTask", "Error receiving response");
+				e.printStackTrace();
+			}
+			return ErroneousResponse.INSTANCE;
+		}
+
+		@Override
+		protected void onPostExecute(Response result) {
+			progressDialog.dismiss();
+			if (!result.isSuccessful()) {
+				Toast.makeText(PingAlertActivity.this,
+						getString(R.string.generic_error), Toast.LENGTH_SHORT)
+						.show();
+			}
+			if (Answer.ACCEPT.equals(answer))
+				// launch chat interface
+				;
+			else
+				finish();
 		}
 
 	}
