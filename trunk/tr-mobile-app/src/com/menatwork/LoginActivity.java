@@ -62,7 +62,8 @@ public class LoginActivity extends TalentRadarActivity {
 
 	@Override
 	protected void setupButtons() {
-		registerButton.setOnClickListener(new StartActivityListener(this, ChooseTypeActivity.class));
+		registerButton.setOnClickListener(new StartActivityListener(this,
+				ChooseTypeActivity.class));
 		linkedInButton.setOnClickListener(new LoginWithLinkedinListener());
 		loginButton.setOnClickListener(new LoginButtonListener());
 	}
@@ -72,13 +73,16 @@ public class LoginActivity extends TalentRadarActivity {
 		final Builder builder = new AlertDialog.Builder(this);
 		switch (id) {
 		case DIALOG_INCORRECT_LOGIN:
-			builder.setTitle(this.getString(R.string.login_dialog_incorrectLogin_title));
-			builder.setMessage(this.getString(R.string.login_dialog_incorrectLogin_message));
+			builder.setTitle(this
+					.getString(R.string.login_dialog_incorrectLogin_title));
+			builder.setMessage(this
+					.getString(R.string.login_dialog_incorrectLogin_message));
 			builder.setPositiveButton("OK", new NaiveDialogClickListener());
 			return builder.create();
 		case DIALOG_ERROR:
 			builder.setTitle(this.getString(R.string.login_dialog_error_title));
-			builder.setMessage(this.getString(R.string.login_dialog_error_message));
+			builder.setMessage(this
+					.getString(R.string.login_dialog_error_message));
 			builder.setPositiveButton("OK", new NaiveDialogClickListener());
 			return builder.create();
 		}
@@ -99,7 +103,8 @@ public class LoginActivity extends TalentRadarActivity {
 	}
 
 	private void handleTestNotification() {
-		Toast.makeText(this, "Te abri— la app VITEH\'", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Te abri— la app VITEH\'", Toast.LENGTH_LONG)
+				.show();
 	}
 
 	private void handleLoginWithLinkedin(final Intent intent) {
@@ -118,18 +123,27 @@ public class LoginActivity extends TalentRadarActivity {
 		this.finishSuccessfulLogin(user, progressDialog);
 	}
 
-	private void finishSuccessfulLogin(final User user, final ProgressDialog progressDialog) {
-		new SaveDeviceIdTask() {
+	private void finishSuccessfulLogin(final User user,
+			final ProgressDialog progressDialog) {
+		if (isRunningOnEmulator()) {
+			getTalentRadarApplication().loadLocalUser(user);
+			progressDialog.dismiss();
+			final Intent intent = new Intent(LoginActivity.this,
+					MainActivity.class);
+			startActivity(intent);
+		} else
+			new SaveDeviceIdTask() {
 
-			@Override
-			protected void onPostExecute(final SaveDeviceIdResponse result) {
-				getTalentRadarApplication().loadLocalUser(user);
-				progressDialog.dismiss();
-				final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-				startActivity(intent);
-			}
+				@Override
+				protected void onPostExecute(final SaveDeviceIdResponse result) {
+					getTalentRadarApplication().loadLocalUser(user);
+					progressDialog.dismiss();
+					final Intent intent = new Intent(LoginActivity.this,
+							MainActivity.class);
+					startActivity(intent);
+				}
 
-		}.execute(user.getId());
+			}.execute(user.getId());
 	}
 
 	// ******** login innards *********
@@ -141,7 +155,8 @@ public class LoginActivity extends TalentRadarActivity {
 			final LoginTask task = new LoginTask();
 			// FIXME - Wooow! app shouldn't explodeee if no inet - boris -
 			// 22/08/2012
-			task.execute(email.getText().toString(), password.getText().toString());
+			task.execute(email.getText().toString(), password.getText()
+					.toString());
 		}
 	}
 
@@ -169,7 +184,8 @@ public class LoginActivity extends TalentRadarActivity {
 		@Override
 		protected LoginResponse doInBackground(final String... arg0) {
 			try {
-				final Login login = Login.newInstance(LoginActivity.this, arg0[0], arg0[1]);
+				final Login login = Login.newInstance(LoginActivity.this,
+						arg0[0], arg0[1]);
 				final LoginResponse loginResponse = login.execute();
 				LogUtils.d(LoginActivity.this, "Login response", loginResponse);
 				return loginResponse;
@@ -194,7 +210,8 @@ public class LoginActivity extends TalentRadarActivity {
 
 	}
 
-	private class SaveDeviceIdTask extends AsyncTask<String, Void, SaveDeviceIdResponse> {
+	private class SaveDeviceIdTask extends
+			AsyncTask<String, Void, SaveDeviceIdResponse> {
 
 		@Override
 		protected SaveDeviceIdResponse doInBackground(final String... params) {
@@ -205,18 +222,21 @@ public class LoginActivity extends TalentRadarActivity {
 				if (!talentRadarApplication.isDeviceRegistered()) {
 					talentRadarApplication.registerDevice();
 				}
-				final String deviceId = talentRadarApplication.getDeviceRegistrationId();
-				final SaveDeviceId saveDeviceId = SaveDeviceId.newInstance(LoginActivity.this, userId,
-						deviceId);
+				final String deviceId = talentRadarApplication
+						.getDeviceRegistrationId();
+				final SaveDeviceId saveDeviceId = SaveDeviceId.newInstance(
+						LoginActivity.this, userId, deviceId);
 				SaveDeviceIdResponse saveDeviceIdResponse;
 				saveDeviceIdResponse = saveDeviceId.execute();
-				LogUtils.d(LoginActivity.this, "GCM Registration response", saveDeviceIdResponse);
+				LogUtils.d(LoginActivity.this, "GCM Registration response",
+						saveDeviceIdResponse);
 				return saveDeviceIdResponse;
 			} catch (final JSONException e) {
 				Log.e("SaveDeviceIdTask", "Error parsing JSON response", e);
 				throw new RuntimeException(e);
 			} catch (final IOException e) {
-				Log.e("SaveDeviceIdTask", "IO error trying to register device", e);
+				Log.e("SaveDeviceIdTask", "IO error trying to register device",
+						e);
 				throw new RuntimeException(e);
 			}
 		}

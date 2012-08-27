@@ -46,6 +46,7 @@
 
         <ListView
             android:id="@+id/radar_mini_profiles_list_view"
+            android:background="@android:color/darker_gray"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
     </SlidingDrawer>

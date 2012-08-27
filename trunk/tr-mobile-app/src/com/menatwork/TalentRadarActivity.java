@@ -2,6 +2,7 @@ package com.menatwork;
 
 import android.app.Activity;
 import android.app.Application;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,13 @@ import com.menatwork.service.response.GetUserSkillsResponse;
 
 /**
  * Common Activity superclass for all our activities.
- * 
+ *
  * @author miguel
- * 
+ *
  */
 public abstract class TalentRadarActivity extends Activity {
+
+	private static final String EMULATOR_BUILD_PRODUCT = "sdk";
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public abstract class TalentRadarActivity extends Activity {
 	/**
 	 * This method is called once the activity is created, its view content is
 	 * initialized as well as its view elements found and buttons configured.
-	 * 
+	 *
 	 * @param savedInstanceState
 	 */
 	protected void postCreate(final Bundle savedInstanceState) {
@@ -47,7 +50,7 @@ public abstract class TalentRadarActivity extends Activity {
 	/**
 	 * Retrieves the {@link Application} object casted to a
 	 * {@link TalentRadarApplication}
-	 * 
+	 *
 	 * @return {@link TalentRadarApplication} for the app
 	 */
 	public TalentRadarApplication getTalentRadarApplication() {
@@ -68,7 +71,7 @@ public abstract class TalentRadarActivity extends Activity {
 	/**
 	 * Returns a view layout ID. Tipically would be something like
 	 * R.layout.myLayout
-	 * 
+	 *
 	 * @return Layout ID
 	 */
 	protected abstract int getViewLayoutId();
@@ -110,7 +113,7 @@ public abstract class TalentRadarActivity extends Activity {
 	/* ****************************************** */
 
 	protected User getLocalUser() {
-		return ((TalentRadarApplication) getApplication()).getLocalUser();
+		return getTalentRadarApplication().getLocalUser();
 	}
 
 	protected User getUserById(final String userid) {
@@ -131,4 +134,16 @@ public abstract class TalentRadarActivity extends Activity {
 		return null;
 	}
 
+	/**
+	 * Tells whether the application is running on an emulator rather than a
+	 * real phone.
+	 *
+	 * @return <code>true</code> - if running on emulator
+	 */
+	public boolean isRunningOnEmulator() {
+		// XXX - should work for version 2.3.3 and above and the generic
+		// google's emulator (beware of intel's and other implementations) -
+		// miguel - 27/08/2012
+		return EMULATOR_BUILD_PRODUCT.equals(Build.PRODUCT);
+	}
 }

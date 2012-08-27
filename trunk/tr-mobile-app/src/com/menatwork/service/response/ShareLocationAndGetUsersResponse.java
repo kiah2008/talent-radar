@@ -3,7 +3,6 @@ package com.menatwork.service.response;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,16 +21,18 @@ public class ShareLocationAndGetUsersResponse extends BaseResponse {
 	public List<? extends User> parseSurroundingUsers() {
 		Log.i("users obtained from sharing location", getResponse().toString());
 		try {
+			final JSONObject usersArray = getResponse().getJSONObject("result")
+					.getJSONObject("users");
+
+
 			final LinkedList<User> surroundingUsers = new LinkedList<User>();
-
-			final JSONArray usersArray = getResponse().getJSONObject("result")
-					.getJSONArray("users");
-
 			final int usersArrayLength = usersArray.length();
+
 			JSONObject userDuple;
 			for (int i = 0; i < usersArrayLength; i++) {
-				userDuple = usersArray.getJSONObject(i);
+				final String userIndex = String.valueOf(i);
 
+				userDuple = usersArray.getJSONObject(userIndex);
 				final User user = parseUserDuple(userDuple);
 				surroundingUsers.add(user);
 			}
@@ -56,8 +57,8 @@ public class ShareLocationAndGetUsersResponse extends BaseResponse {
 		userBuilder.setId(userJson.getString("id"));
 		// FIXME - Woooow, wait a minute here... User name ain't username! -
 		// miguel - 03/08/2012
-			// XXX - username is nickname (not yet implemented)
-			// alme - 07/06/2012
+		// XXX - username is nickname (not yet implemented)
+		// alme - 07/06/2012
 		// userBuilder.setUsername(userJson.getString("username"));
 		userBuilder.setUserName(userJson.getString("name"));
 		userBuilder.setUserSurname(userJson.getString("surname"));

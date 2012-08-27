@@ -64,7 +64,13 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 			@Override
 			public void onClick(final View v) {
 				final ShareLocationAndGetUsersTask task = new ShareLocationAndGetUsersTask();
-				task.execute();
+
+				// mock location for thy button
+				final Location mockLocation = new Location("mockis");
+				mockLocation.setLatitude(0);
+				mockLocation.setLongitude(0);
+
+				task.execute(mockLocation);
 			}
 		});
 		slidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() {
