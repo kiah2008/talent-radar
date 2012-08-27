@@ -20,7 +20,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gcm.GCMBaseIntentService;
@@ -58,12 +58,16 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onMessage(Context context, Intent intent) {
-		Log.i(TAG, "Received message");
-		// lets start by assuming we have been pinged
-		LogUtils.d(this, "New message:", intent.getExtras());
-		Intent newIntent = new Intent(this, PingAlertActivity.class);
-		newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(newIntent);
+		Bundle extras = intent.getExtras();
+		String notificationType = extras.getString("type");
+		// TODO - implement true notification routing service
+		if ("1".equals(notificationType)) {
+			LogUtils.d(this, "Received ping", intent.getExtras());
+			Intent newIntent = new Intent(this, PingAlertActivity.class);
+			newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			newIntent.putExtra("pingId", extras.getString("id"));
+			generateNotification(this, extras.getString("message"), newIntent);
+		}
 	}
 
 	@Override
@@ -86,24 +90,14 @@ public class GCMIntentService extends GCMBaseIntentService {
 	/**
 	 * Issues a notification to inform the user that server has sent a message.
 	 */
-	private static void generateNotification(Context context, String message) {
+	private static void generateNotification(Context context, String message,
+			Intent notificationIntent) {
 		int icon = R.drawable.ic_launcher;
 		long when = System.currentTimeMillis();
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		Notification notification = new Notification(icon, message, when);
 		String title = context.getString(R.string.app_name);
-		Uri.Builder builder = new Uri.Builder();
-		builder.scheme("talent");
-		builder.encodedOpaquePart("notification");
-		builder.fragment("foo");
-		Uri uri = builder.build();
-		Intent notificationIntent = new Intent("android.intent.action.VIEW",
-				uri, context, LoginActivity.class);
-		// set intent so it does not start a new activity
-		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-				| Intent.FLAG_ACTIVITY_SINGLE_TOP
-				| Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent intent = PendingIntent.getActivity(context, 0,
 				notificationIntent, 0);
 		notification.setLatestEventInfo(context, title, message, intent);
