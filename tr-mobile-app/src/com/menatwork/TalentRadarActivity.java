@@ -2,7 +2,6 @@ package com.menatwork;
 
 import android.app.Activity;
 import android.app.Application;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +24,6 @@ import com.menatwork.service.response.GetUserSkillsResponse;
  *
  */
 public abstract class TalentRadarActivity extends Activity {
-
-	private static final String EMULATOR_BUILD_PRODUCT = "sdk";
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -135,15 +132,9 @@ public abstract class TalentRadarActivity extends Activity {
 	}
 
 	/**
-	 * Tells whether the application is running on an emulator rather than a
-	 * real phone.
-	 *
-	 * @return <code>true</code> - if running on emulator
+	 * {@link TalentRadarApplication#isRunningOnEmulator()}
 	 */
 	public boolean isRunningOnEmulator() {
-		// XXX - should work for version 2.3.3 and above and the generic
-		// google's emulator (beware of intel's and other implementations) -
-		// miguel - 27/08/2012
-		return EMULATOR_BUILD_PRODUCT.equals(Build.PRODUCT);
+		return getTalentRadarApplication().isRunningOnEmulator();
 	}
 }

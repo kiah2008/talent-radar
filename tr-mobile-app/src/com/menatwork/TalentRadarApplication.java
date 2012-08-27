@@ -2,6 +2,7 @@ package com.menatwork;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 
 import com.google.android.gcm.GCMRegistrar;
@@ -11,8 +12,10 @@ import com.menatwork.skills.SkillButtonFactory;
 
 public class TalentRadarApplication extends Application {
 
+	private static final String EMULATOR_BUILD_PRODUCT = "sdk";
+
 	private User localUser;
-	private SkillButtonFactory skillButtonFactory;
+	private final SkillButtonFactory skillButtonFactory;
 	private final Object deviceRegistrationLock = new Object();
 	private String deviceRegistrationId;
 	private static Context context;
@@ -27,7 +30,7 @@ public class TalentRadarApplication extends Application {
 		return context;
 	}
 
-	public void loadLocalUser(User user) {
+	public void loadLocalUser(final User user) {
 		Log.d("TalentRadarApplication", "loadLocalUser() " + user);
 		this.localUser = user;
 	}
@@ -75,14 +78,27 @@ public class TalentRadarApplication extends Application {
 					Log.d("TalentRadarApp", "Registered device");
 				}
 			}
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 		}
 	}
 
-	public void onDeviceRegistered(String registrationId) {
+	public void onDeviceRegistered(final String registrationId) {
 		this.deviceRegistrationId = registrationId;
 		synchronized (deviceRegistrationLock) {
 			deviceRegistrationLock.notify();
 		}
+	}
+
+	/**
+	 * Tells whether the application is running on an emulator rather than a
+	 * real phone.
+	 *
+	 * @return <code>true</code> - if running on emulator
+	 */
+	public boolean isRunningOnEmulator() {
+		// XXX - should work for version 2.3.3 and above and the generic
+		// google's emulator (beware of intel's and other implementations) -
+		// miguel - 27/08/2012
+		return EMULATOR_BUILD_PRODUCT.equals(Build.PRODUCT);
 	}
 }
