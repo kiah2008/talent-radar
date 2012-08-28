@@ -10,7 +10,7 @@ class UsersPingsController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		
-		$this->Auth->allow('app_addPing', 'app_replyPing');
+		$this->Auth->allow('app_addPing', 'app_replyPing', 'app_getPing');
 	}
 	
 	public function app_addPing()
@@ -48,17 +48,40 @@ class UsersPingsController extends AppController {
 		{
 			$response['status'] = 'ok';
 			$response['result']['status'] = 'error';
-			
-			if($this->UsersPing->save($this->data))
+			if($usersPing = $this->UsersPing->find('first', array('recursive' => -1, 'conditions' => array('UsersPing.id' => $this->data['UsersPing']['id'], 'UsersPing.user_to_id' => $this->data['UsersPing']['user_to_id']))))
 			{
-				$usersPing = $this->UsersPing->read(null, $this->data['UsersPing']['id']);
- 				if($this->data['UsersPing']['response'] == 3) {
-					$this->loadModel('UsersBanned');
-					$data['UsersBanned']['user_from_id'] = $usersPing['UsersPing']['user_to_id'];
-					$data['UsersBanned']['user_to_id'] = $usersPing['UsersPing']['user_from_id'];
-					$this->UsersBanned->save($data);
+				if($this->UsersPing->save($this->data))
+				{
+					if($this->data['UsersPing']['response'] == 3) {
+						$this->loadModel('UsersBanned');
+						$data['UsersBanned']['user_from_id'] = $usersPing['UsersPing']['user_to_id'];
+						$data['UsersBanned']['user_to_id'] = $usersPing['UsersPing']['user_from_id'];
+						$this->UsersBanned->save($data);
+					}
+					
+					$response['result']['status'] = 'ok';
 				}
-				
+			}
+			
+			$this->set('response', $response);
+		}
+		else
+		{
+			$this->set('ids', $this->UsersPing->find('list', array('fields' => array('id', 'id'))));
+			$this->loadModel('User');
+			$this->set('users', $this->User->find('list', array('fields' => array('id', 'id'))));
+			$this->set('responses', array(1 => 'Accept', 2 => 'Reject', 3 => 'Ban'));
+		}
+	}
+	
+	public function app_getPing() {
+		if(!empty($this->data)) {
+			$response['status'] = 'ok';
+			$response['result']['status'] = 'error';
+			
+			if($usersPing = $this->UsersPing->find('first', array('fields' => array('UsersPing.*', 'UserFrom.id', 'UserFrom.username', 'UserFrom.name', 'UserFrom.surname'), 'conditions' => array('UsersPing.id' => $this->data['UsersPing']['id'], 'UsersPing.user_to_id' => $this->data['UsersPing']['user_to_id']))))
+			{
+				$response['result'] = $usersPing;
 				$response['result']['status'] = 'ok';
 			}
 			
@@ -67,7 +90,8 @@ class UsersPingsController extends AppController {
 		else
 		{
 			$this->set('ids', $this->UsersPing->find('list', array('fields' => array('id', 'id'))));
-			$this->set('responses', array(1 => 'Accept', 2 => 'Reject', 3 => 'Ban'));
+			$this->loadModel('User');
+			$this->set('users', $this->User->find('list', array('fields' => array('id', 'id'))));
 		}
 	}
 }
