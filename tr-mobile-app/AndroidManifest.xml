@@ -80,6 +80,9 @@
             android:theme="@android:style/Theme.Light" >
         </activity>
         <activity
+            android:name="com.menatwork.GettingPingActivity"
+            android:noHistory="true" />
+        <activity
             android:name="com.menatwork.PingAlertActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Light" >
