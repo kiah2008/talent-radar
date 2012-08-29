@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.menatwork.GuiTalentRadarActivity;
 import com.menatwork.R;
+import com.menatwork.location.GpsLocationSource;
 import com.menatwork.location.LocationBuilder;
 import com.menatwork.location.LocationSource;
 import com.menatwork.location.LocationSourceManager;
@@ -110,10 +111,11 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 	protected void postCreate(final Bundle savedInstanceState) {
 		super.postCreate(savedInstanceState);
 
-		// TODO 30 seconds hardcoded - boris - 29/08/2012
-		final LocationSource locationSource = new NetworkLocationSource(this, 30000);
+		// TODO 20 seconds hardcoded - boris - 29/08/2012
 		locationSourceManager = new LocationSourceManager(20000);
-		locationSourceManager.addLocationSource(locationSource);
+		// TODO 30 seconds hardcoded - boris - 29/08/2012
+		locationSourceManager.addLocationSource(new NetworkLocationSource(this, 30000));
+		locationSourceManager.addLocationSource(new GpsLocationSource(this, 30000));
 		locationSourceManager.addListener(this);
 
 		locationSourceManager.activate();
