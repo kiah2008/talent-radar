@@ -52,8 +52,11 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 
 	private SlidingDrawer slidingDrawer;
 
+	// TODO - should be some kind of concurrent collection, maybe - boris -
+	// 29/08/2012
 	private final Object miniProfileItemsLock = new Object();
 	private List<MiniProfileItemRow> miniProfileItems = new LinkedList<MiniProfileItemRow>();
+
 	private LocationSourceManager locationSourceManager;
 
 	@Override
@@ -82,8 +85,7 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 					mockLocation.setLongitude(0);
 				} else {
 					mockLocation = new NetworkLocationSource(RadarActivity.this, 30000)
-							.getLastKnownLocation(); // TODO 30 seconds
-														// hardcoded
+							.getLastKnownLocation();
 
 					if (mockLocation == null) {
 						Toast.makeText(RadarActivity.this, "No hay location, enviando (0,0)",
@@ -111,11 +113,15 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 	protected void postCreate(final Bundle savedInstanceState) {
 		super.postCreate(savedInstanceState);
 
-		// TODO 20 seconds hardcoded - boris - 29/08/2012
+		// TODO - 20 seconds hardcoded - boris - 29/08/2012
 		locationSourceManager = new LocationSourceManager(20000);
-		// TODO 30 seconds hardcoded - boris - 29/08/2012
+
+		// add some location sources (both network and gps)
+		// TODO - location sources should be configurable - boris - 29/08/2012
+		// TODO - 30 seconds hardcoded - boris - 29/08/2012
 		locationSourceManager.addLocationSource(new NetworkLocationSource(this, 30000));
 		locationSourceManager.addLocationSource(new GpsLocationSource(this, 30000));
+
 		locationSourceManager.addListener(this);
 
 		locationSourceManager.activate();
