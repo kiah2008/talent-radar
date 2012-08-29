@@ -45,6 +45,8 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 	private Button shareButton;
 
 	private SlidingDrawer slidingDrawer;
+
+	private final Object miniProfileItemsLock = new Object();
 	private List<MiniProfileItemRow> miniProfileItems;
 
 	@Override
@@ -65,10 +67,24 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 			public void onClick(final View v) {
 				final ShareLocationAndGetUsersTask task = new ShareLocationAndGetUsersTask();
 
-				// mock location for thy button
-				final Location mockLocation = new Location("mockis");
-				mockLocation.setLatitude(0);
-				mockLocation.setLongitude(0);
+				Location mockLocation;
+				if (isRunningOnEmulator()) {
+					// mock location for thy button
+					mockLocation = new Location("mockis");
+					mockLocation.setLatitude(0);
+					mockLocation.setLongitude(0);
+				} else {
+					mockLocation = new NetworkLocationSource(RadarActivity.this).getLastKnownLocation();
+
+					if (mockLocation == null) {
+						Toast.makeText(RadarActivity.this, "No hay location, enviando (0,0)",
+								Toast.LENGTH_SHORT).show();
+
+						mockLocation = new Location("mockis");
+						mockLocation.setLatitude(0);
+						mockLocation.setLongitude(0);
+					}
+				}
 
 				task.execute(mockLocation);
 			}
@@ -229,12 +245,20 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 		for (final User user : parseSurroundingUsers)
 			newMiniProfileItems.add(new MiniProfileItemRow(user));
 
-		miniProfileItems = newMiniProfileItems;
+		synchronized (miniProfileItemsLock) {
+			miniProfileItems = newMiniProfileItems;
+		}
 	}
 
 	protected void showMiniProfileList() {
+		LinkedList<MiniProfileItemRow> copy;
+		
+		synchronized (miniProfileItemsLock) {
+			copy = new LinkedList<MiniProfileItemRow>(miniProfileItems);
+		}
+
 		final MiniProfileListController listController = new MiniProfileListController(RadarActivity.this,
-				R.id.radar_mini_profiles_list_view, miniProfileItems);
+				R.id.radar_mini_profiles_list_view, copy);
 		listController.showList();
 
 		// XXX - stub list for testing purposes, comment if needed - boris -
