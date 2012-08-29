@@ -63,9 +63,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 		// TODO - implement true notification routing service
 		if ("1".equals(notificationType)) {
 			LogUtils.d(this, "Received ping", intent.getExtras());
-			Intent newIntent = new Intent(this, PingAlertActivity.class);
-			newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			newIntent.putExtra("pingId", extras.getString("id"));
+			Intent newIntent = new Intent(this, GettingPingActivity.class);
+			newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setFlags(
+					Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			newIntent.putExtra(GettingPingActivity.EXTRAS_PING_ID,
+					extras.getString("id"));
 			generateNotification(this, extras.getString("message"), newIntent);
 		}
 	}

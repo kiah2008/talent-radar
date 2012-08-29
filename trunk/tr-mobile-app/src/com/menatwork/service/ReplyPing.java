@@ -17,15 +17,17 @@ public class ReplyPing extends StandardServiceCall<BaseResponse> {
 
 	}
 
-	public static ReplyPing newInstance(Context context, String pingId, Answer answer) {
-		return new ReplyPing(context, pingId, answer);
+	public static ReplyPing newInstance(Context context, String localUserId,
+			String pingId, Answer answer) {
+		return new ReplyPing(context, localUserId, pingId, answer);
 	}
 
-	private ReplyPing(Context context, String pingId, Answer answer) {
+	private ReplyPing(Context context, String localUserId, String pingId,
+			Answer answer) {
 		super(context, BaseResponse.class);
-		this.setParameter(getString(R.string.post_key_reply_ping_id), pingId);
-		this.setParameter(getString(R.string.post_key_reply_ping_response),
-				answer.code);
+		this.setParameter(R.string.post_key_reply_ping_id, pingId);
+		this.setParameter(R.string.post_key_reply_ping_to_id, localUserId);
+		this.setParameter(R.string.post_key_reply_ping_response, answer.code);
 	}
 
 	@Override

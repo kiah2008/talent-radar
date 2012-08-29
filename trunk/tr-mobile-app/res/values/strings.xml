@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">Talent Radar</string>
+    <string name="generic_error">Ocurrió un error</string>
+    <string name="generic_wait">Espere…</string>
 
     <!-- Login screen -->
     <string name="login_fancy_message">… las oportunidades están cerca…</string>
@@ -66,12 +68,17 @@
     <!-- Reply ping -->
     <string name="post_uri_reply_ping">http://www.talent-radar.com/usersPings/app_replyPing</string>
     <string name="post_key_reply_ping_id">data[UsersPing][id]</string>
+    <string name="post_key_reply_ping_to_id">data[UsersPing][user_to_id]</string>
     <string name="post_key_reply_ping_response">data[UsersPing][response]</string>
+
+    <!-- Get ping -->
+    <string name="post_uri_get_ping">http://www.talent-radar.com/usersPings/app_getPing</string>
+    <string name="post_key_get_ping_id">data[UsersPing][id]</string>
+    <string name="post_key_get_ping_to_id">data[UsersPing][user_to_id]</string>
 
     <!-- Save device id -->
     <string name="post_uri_save_device_id">http://www.talent-radar.com/talent-radar/users/app_android_saveDeviceId</string>
     <string name="post_key_save_device_id_user_id">data[User][id]</string>
     <string name="post_key_save_device_id_device_id">data[User][android_device_id]</string>
-    <string name="generic_error">Ocurrió un error</string>
 
 </resources>

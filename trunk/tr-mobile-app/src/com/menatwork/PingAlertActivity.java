@@ -8,7 +8,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +28,9 @@ import com.menatwork.service.response.Response;
 public class PingAlertActivity extends TalentRadarActivity {
 
 	private static final int DIALOG_IGNORE_OR_BAN = 0;
+	public static final String EXTRA_USER_ID = "userid";
+	public static final String EXTRA_MESSAGE = "message";
+	public static final String EXTRA_USER_FULLNAME = "fullname";
 	private TextView username;
 	private TextView message;
 	private ImageView profilePicture;
@@ -33,8 +38,30 @@ public class PingAlertActivity extends TalentRadarActivity {
 	private Button declineButton;
 	private ProgressBar loadingProfilePic;
 
-	private String pingId = "64";
-	private String senderName = "Pepe Monje";
+	private String pingId;
+	private String dataUserName;
+	private String dataMessage;
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		this.setIntent(intent);
+		this.loadDataFromExtras();
+	}
+
+	private void loadDataFromExtras() {
+		Bundle extras = getIntent().getExtras();
+		pingId = extras.getString(EXTRA_USER_ID);
+		dataUserName = extras.getString(EXTRA_USER_FULLNAME);
+		dataMessage = extras.getString(EXTRA_MESSAGE);
+		username.setText(dataUserName);
+		message.setText(dataMessage);
+		// TODO - load profile pic
+	}
+
+	@Override
+	protected void postCreate(Bundle savedInstanceState) {
+		this.loadDataFromExtras();
+	}
 
 	@Override
 	protected int getViewLayoutId() {
@@ -63,7 +90,7 @@ public class PingAlertActivity extends TalentRadarActivity {
 		case DIALOG_IGNORE_OR_BAN:
 			builder.setMessage(String.format(
 					getString(R.string.ping_alert_confirm_ban_message),
-					senderName));
+					dataUserName));
 			builder.setNegativeButton(R.string.ping_alert_confirm_ban_no,
 					new BanDialogListener());
 			builder.setPositiveButton(R.string.ping_alert_confirm_ban_ok,
@@ -75,7 +102,8 @@ public class PingAlertActivity extends TalentRadarActivity {
 	}
 
 	void replyPing(Answer answer) {
-		new ReplyPingTask().execute(pingId, answer);
+		new ReplyPingTask().execute(getTalentRadarApplication().getLocalUser()
+				.getId(), pingId, answer);
 	}
 
 	private class DeclineButtonListener implements OnClickListener {
@@ -120,9 +148,11 @@ public class PingAlertActivity extends TalentRadarActivity {
 		@Override
 		protected Response doInBackground(Object... params) {
 			try {
-				answer = (Answer) params[1];
+				answer = (Answer) params[2];
+				String localUserId = (String) params[0];
+				String pingId = (String) params[1];
 				ReplyPing replyPing = ReplyPing.newInstance(
-						PingAlertActivity.this, (String) params[0], answer);
+						PingAlertActivity.this, localUserId, pingId, answer);
 				return replyPing.execute();
 			} catch (JSONException e) {
 				Log.e("ReplyPingTask", "Error receiving response");

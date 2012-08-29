@@ -25,7 +25,7 @@ public abstract class StandardServiceCall<T extends Response> extends
 	 * wrap the JSONObject response after the POST method) and no parameters (to
 	 * be added later by the
 	 * {@link StandardServiceCall#setParameter(String, Object)} interface.
-	 *
+	 * 
 	 * @param context
 	 *            Some context
 	 * @param responseClass
@@ -41,7 +41,7 @@ public abstract class StandardServiceCall<T extends Response> extends
 	/**
 	 * Sets a parameter with a key and value corresponding to the key an value
 	 * for the POST method.
-	 *
+	 * 
 	 * @param key
 	 * @param value
 	 */
@@ -50,8 +50,19 @@ public abstract class StandardServiceCall<T extends Response> extends
 	}
 
 	/**
+	 * Sets a parameter with a key and value corresponding to the key an value
+	 * for the POST method.
+	 * 
+	 * @param key
+	 * @param value
+	 */
+	public void setParameter(final int keyResourceId, final Object value) {
+		parameters.put(getString(keyResourceId), value);
+	}
+
+	/**
 	 * Gets a parameter value mapped to a certain key.
-	 *
+	 * 
 	 * @param key
 	 *            Key of the parameter
 	 * @return Value of the parameter
