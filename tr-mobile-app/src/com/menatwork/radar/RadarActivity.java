@@ -12,7 +12,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.location.Location;
-import android.location.LocationListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -24,8 +23,13 @@ import android.widget.SlidingDrawer;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 import android.widget.Toast;
 
+import com.menatwork.GuiTalentRadarActivity;
 import com.menatwork.R;
-import com.menatwork.TalentRadarActivity;
+import com.menatwork.location.LocationBuilder;
+import com.menatwork.location.LocationSource;
+import com.menatwork.location.LocationSourceManager;
+import com.menatwork.location.LocationSourceManagerListener;
+import com.menatwork.location.NetworkLocationSource;
 import com.menatwork.miniprofile.MiniProfileItemRow;
 import com.menatwork.miniprofile.MiniProfileListController;
 import com.menatwork.model.User;
@@ -33,7 +37,8 @@ import com.menatwork.radar.RadarService.RadarBinder;
 import com.menatwork.service.ShareLocationAndGetUsers;
 import com.menatwork.service.response.ShareLocationAndGetUsersResponse;
 
-public class RadarActivity extends TalentRadarActivity implements RadarServiceListener, LocationListener {
+public class RadarActivity extends GuiTalentRadarActivity implements RadarServiceListener,
+		LocationSourceManagerListener {
 
 	// TODO - used for the RadarService implementation -> Not used right now! -
 	// boris - 17/08/2012
@@ -47,7 +52,8 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 	private SlidingDrawer slidingDrawer;
 
 	private final Object miniProfileItemsLock = new Object();
-	private List<MiniProfileItemRow> miniProfileItems;
+	private List<MiniProfileItemRow> miniProfileItems = new LinkedList<MiniProfileItemRow>();
+	private LocationSourceManager locationSourceManager;
 
 	@Override
 	protected int getViewLayoutId() {
@@ -74,7 +80,9 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 					mockLocation.setLatitude(0);
 					mockLocation.setLongitude(0);
 				} else {
-					mockLocation = new NetworkLocationSource(RadarActivity.this).getLastKnownLocation();
+					mockLocation = new NetworkLocationSource(RadarActivity.this, 30000)
+							.getLastKnownLocation(); // TODO 30 seconds
+														// hardcoded
 
 					if (mockLocation == null) {
 						Toast.makeText(RadarActivity.this, "No hay location, enviando (0,0)",
@@ -102,11 +110,13 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 	protected void postCreate(final Bundle savedInstanceState) {
 		super.postCreate(savedInstanceState);
 
-		// initialize location source
-		final LocationSource locationSource = new NetworkLocationSource(this);
+		// TODO 30 seconds hardcoded - boris - 29/08/2012
+		final LocationSource locationSource = new NetworkLocationSource(this, 30000);
+		locationSourceManager = new LocationSourceManager(20000);
+		locationSourceManager.addLocationSource(locationSource);
+		locationSourceManager.addListener(this);
 
-		locationSource.addLocationListener(this);
-		locationSource.registerForLocationUpdates(10000);
+		locationSourceManager.activate();
 	}
 
 	// ************************************************ //
@@ -134,6 +144,14 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 	}
 
 	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		locationSourceManager.deactivate();
+		locationSourceManager = null;
+	}
+
+	@Override
 	public void usersFound(final Collection<? extends User> users) {
 		// TODO - Jao, como has estao! Basically, we should (1) replace the last
 		// users found list with the new one and (2) replace the dots in the
@@ -142,28 +160,13 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 	}
 
 	/* ********************************************* */
-	/* ********* LocationListener ****************** */
+	/* ********* LocationSourceManagerListener ***** */
 	/* ********************************************* */
 
 	@Override
-	public void onLocationChanged(final Location location) {
+	public void onLocationUpdate(final Location location, final LocationSource locationSource) {
+		Log.d("RadarActivity", "new location = " + location);
 		new ShareLocationAndGetUsersTask().execute(location);
-	}
-
-	@Override
-	public void onProviderDisabled(final String provider) {
-		Log.d("RadarActivity", "LocationListener.onProviderDisabled [provider = " + provider + "]");
-	}
-
-	@Override
-	public void onProviderEnabled(final String provider) {
-		Log.d("RadarActivity", "LocationListener.onProviderEnabled [provider = " + provider + "]");
-	}
-
-	@Override
-	public void onStatusChanged(final String provider, final int status, final Bundle extras) {
-		Log.d("RadarActivity", "LocationListener.onStatusChanged [provider = " + provider + ", status = "
-				+ status + "]");
 	}
 
 	// ************************************************ //
@@ -174,25 +177,26 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 			AsyncTask<Location, Void, ShareLocationAndGetUsersResponse> {
 
 		@Override
-		protected ShareLocationAndGetUsersResponse doInBackground(final Location... location) {
+		protected ShareLocationAndGetUsersResponse doInBackground(final Location... locations) {
 			try {
+				final Location location = initializeLocation(locations);
+				if (location != null) {
+					final User localUser = getTalentRadarApplication().getLocalUser();
 
-				final User localUser = getTalentRadarApplication().getLocalUser();
+					final double latitude = location.getLatitude();
+					final double longitude = location.getLongitude();
 
-				final double latitude = location[0].getLatitude();
-				final double longitude = location[0].getLongitude();
+					// TODO - should be gotten from configuration - miguel -
+					// 02/08/2012
+					final int durationSeconds = 30;
 
-				// TODO - should be gotten from configuration - miguel -
-				// 02/08/2012
-				final int durationSeconds = 30;
+					final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers.newInstance(
+							RadarActivity.this, localUser.getId(), latitude, longitude, durationSeconds);
 
-				final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers.newInstance(
-						RadarActivity.this, localUser.getId(), latitude, longitude, durationSeconds);
+					final ShareLocationAndGetUsersResponse response = handleResponse(serviceCall.execute());
 
-				final ShareLocationAndGetUsersResponse response = handleResponse(serviceCall.execute());
-
-				refreshSurroundingContacts(response.parseSurroundingUsers());
-
+					refreshSurroundingContacts(response.parseSurroundingUsers());
+				}
 			} catch (final JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -206,6 +210,11 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 			return null;
 		}
 
+		private Location initializeLocation(final Location... locations) {
+			return isRunningOnEmulator() ? LocationBuilder.newInstance().setCoordinates(0, 0).build()
+					: locations[0];
+		}
+
 		private ShareLocationAndGetUsersResponse handleResponse(
 				final ShareLocationAndGetUsersResponse response) {
 			Log.d("RadarServiceRunnable", "JSON Response");
@@ -213,6 +222,30 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 			return response;
 		}
 
+	}
+
+	public synchronized void refreshSurroundingContacts(final List<? extends User> parseSurroundingUsers) {
+		final List<MiniProfileItemRow> newMiniProfileItems = new LinkedList<MiniProfileItemRow>();
+		for (final User user : parseSurroundingUsers)
+			newMiniProfileItems.add(new MiniProfileItemRow(user));
+
+		// beware of concurrent use of this collection
+		synchronized (miniProfileItemsLock) {
+			miniProfileItems = newMiniProfileItems;
+		}
+	}
+
+	protected void showMiniProfileList() {
+		LinkedList<MiniProfileItemRow> copy;
+
+		// beware of concurrent use of this collection
+		synchronized (miniProfileItemsLock) {
+			copy = new LinkedList<MiniProfileItemRow>(miniProfileItems);
+		}
+
+		final MiniProfileListController listController = new MiniProfileListController(RadarActivity.this,
+				R.id.radar_mini_profiles_list_view, copy);
+		listController.showList();
 	}
 
 	/* *************************************************** */
@@ -238,55 +271,5 @@ public class RadarActivity extends TalentRadarActivity implements RadarServiceLi
 			Log.e("radar activity", "radar service disconnected");
 			boundToRadarService = false;
 		}
-	}
-
-	public void refreshSurroundingContacts(final List<? extends User> parseSurroundingUsers) {
-		final List<MiniProfileItemRow> newMiniProfileItems = new LinkedList<MiniProfileItemRow>();
-		for (final User user : parseSurroundingUsers)
-			newMiniProfileItems.add(new MiniProfileItemRow(user));
-
-		synchronized (miniProfileItemsLock) {
-			miniProfileItems = newMiniProfileItems;
-		}
-	}
-
-	protected void showMiniProfileList() {
-		LinkedList<MiniProfileItemRow> copy;
-		
-		synchronized (miniProfileItemsLock) {
-			copy = new LinkedList<MiniProfileItemRow>(miniProfileItems);
-		}
-
-		final MiniProfileListController listController = new MiniProfileListController(RadarActivity.this,
-				R.id.radar_mini_profiles_list_view, copy);
-		listController.showList();
-
-		// XXX - stub list for testing purposes, comment if needed - boris -
-		// 22/08/2012
-		// final List<MiniProfileItemRow> itemRows = Arrays
-		// .asList( //
-		// new MiniProfileItemRow( //
-		// UserBuilder.newInstance().setHeadline("Java Dev").setUserName("Graciela").setId("1")
-		// .build()), //
-		// new MiniProfileItemRow( //
-		// UserBuilder.newInstance().setHeadline("Le Putite").setUserName("Rita")
-		// .setId("2").build()), //
-		// // FIXME - what to do when headline exceeds the maximum
-		// // space for text - boris - 17/08/2012
-		// new MiniProfileItemRow( //
-		// UserBuilder
-		// .newInstance()
-		// .setHeadline(
-		// "Pero me puedes decir: el hombre mas grande de la fuckin historia del universo. FUCK YEAH!")
-		// .setUserName("Chuck Norris").setId("3").build()), //
-		// new MiniProfileItemRow( //
-		// UserBuilder.newInstance().setHeadline("PHP EA PP WOW Web")
-		// .setUserName("Gonzalox").setId("4").build()) //
-		// );
-
-		// final MiniProfileListController listController = new
-		// MiniProfileListController(RadarActivity.this,
-		// R.id.radar_mini_profiles_list_view, itemRows);
-		// listController.showList();
 	}
 }

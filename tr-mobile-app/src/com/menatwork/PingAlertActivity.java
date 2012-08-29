@@ -25,7 +25,7 @@ import com.menatwork.service.ReplyPing.Answer;
 import com.menatwork.service.response.ErroneousResponse;
 import com.menatwork.service.response.Response;
 
-public class PingAlertActivity extends TalentRadarActivity {
+public class PingAlertActivity extends GuiTalentRadarActivity {
 
 	private static final int DIALOG_IGNORE_OR_BAN = 0;
 	public static final String EXTRA_USER_ID = "userid";

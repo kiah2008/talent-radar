@@ -27,7 +27,7 @@ import com.menatwork.skills.SkillButtonFactory;
  * @author aabdala
  * 
  */
-public class ProfileActivity extends TalentRadarActivity {
+public class ProfileActivity extends GuiTalentRadarActivity {
 
 	/**
 	 * Param for extras bundle to pass along what user to show in this view

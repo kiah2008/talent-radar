@@ -30,7 +30,7 @@ import com.menatwork.utils.LogUtils;
 import com.menatwork.utils.NaiveDialogClickListener;
 import com.menatwork.utils.StartActivityListener;
 
-public class LoginActivity extends TalentRadarActivity {
+public class LoginActivity extends GuiTalentRadarActivity {
 	public static final int DIALOG_INCORRECT_LOGIN = 1;
 	public static final int DIALOG_ERROR = 2;
 
