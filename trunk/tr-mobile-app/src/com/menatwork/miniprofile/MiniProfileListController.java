@@ -5,20 +5,20 @@ import java.util.List;
 import android.widget.ListView;
 
 import com.menatwork.R;
-import com.menatwork.TalentRadarActivity;
+import com.menatwork.GuiTalentRadarActivity;
 
 public class MiniProfileListController {
 
-	private final TalentRadarActivity activy;
+	private final GuiTalentRadarActivity activy;
 	private final int listViewId;
 	private final MiniProfileItemRow[] itemRowsArray;
 
-	public MiniProfileListController(final TalentRadarActivity activy, final int listViewId,
+	public MiniProfileListController(final GuiTalentRadarActivity activy, final int listViewId,
 			final List<MiniProfileItemRow> itemRows) {
 		this(activy, listViewId, itemRows.toArray(new MiniProfileItemRow[0]));
 	}
 
-	public MiniProfileListController(final TalentRadarActivity activy, final int listViewId,
+	public MiniProfileListController(final GuiTalentRadarActivity activy, final int listViewId,
 			final MiniProfileItemRow... itemRowsArrays) {
 		this.activy = activy;
 		this.listViewId = listViewId;
