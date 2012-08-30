@@ -9,27 +9,27 @@ import com.menatwork.GuiTalentRadarActivity;
 
 public class MiniProfileListController {
 
-	private final GuiTalentRadarActivity activy;
+	private final GuiTalentRadarActivity activity;
 	private final int listViewId;
 	private final MiniProfileItemRow[] itemRowsArray;
 
-	public MiniProfileListController(final GuiTalentRadarActivity activy, final int listViewId,
+	public MiniProfileListController(final GuiTalentRadarActivity activity, final int listViewId,
 			final List<MiniProfileItemRow> itemRows) {
-		this(activy, listViewId, itemRows.toArray(new MiniProfileItemRow[0]));
+		this(activity, listViewId, itemRows.toArray(new MiniProfileItemRow[0]));
 	}
 
-	public MiniProfileListController(final GuiTalentRadarActivity activy, final int listViewId,
+	public MiniProfileListController(final GuiTalentRadarActivity activity, final int listViewId,
 			final MiniProfileItemRow... itemRowsArrays) {
-		this.activy = activy;
+		this.activity = activity;
 		this.listViewId = listViewId;
 		this.itemRowsArray = itemRowsArrays;
 	}
 
 	public void showList() {
-		final MiniProfileAdapter adapter = new MiniProfileAdapter(activy, R.layout.mini_profile_item_row,
+		final MiniProfileAdapter adapter = new MiniProfileAdapter(activity, R.layout.mini_profile_item_row,
 				itemRowsArray);
 
-		final ListView listView = activy.findViewById(listViewId, ListView.class);
+		final ListView listView = activity.findViewById(listViewId, ListView.class);
 		listView.setAdapter(adapter);
 	}
 }
