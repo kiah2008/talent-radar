@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.menatwork.GuiTalentRadarActivity;
 import com.menatwork.R;
-import com.menatwork.location.GpsLocationSource;
 import com.menatwork.location.LocationBuilder;
 import com.menatwork.location.LocationSource;
 import com.menatwork.location.LocationSourceManager;
@@ -56,8 +55,6 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 	// 29/08/2012
 	private final Object miniProfileItemsLock = new Object();
 	private List<MiniProfileItemRow> miniProfileItems = new LinkedList<MiniProfileItemRow>();
-
-	private LocationSourceManager locationSourceManager;
 
 	@Override
 	protected int getViewLayoutId() {
@@ -113,18 +110,8 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 	protected void postCreate(final Bundle savedInstanceState) {
 		super.postCreate(savedInstanceState);
 
-		// TODO - 20 seconds hardcoded - boris - 29/08/2012
-		locationSourceManager = new LocationSourceManager(20000);
-
-		// add some location sources (both network and gps)
-		// TODO - location sources should be configurable - boris - 29/08/2012
-		// TODO - 30 seconds hardcoded - boris - 29/08/2012
-		locationSourceManager.addLocationSource(new NetworkLocationSource(this, 30000));
-		locationSourceManager.addLocationSource(new GpsLocationSource(this, 30000));
-
+		final LocationSourceManager locationSourceManager = getTalentRadarApplication().getLocationSourceManager() ;
 		locationSourceManager.addListener(this);
-
-		locationSourceManager.activate();
 	}
 
 	// ************************************************ //
@@ -152,19 +139,35 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 	}
 
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-		locationSourceManager.deactivate();
-		locationSourceManager = null;
-	}
-
-	@Override
 	public void usersFound(final Collection<? extends User> users) {
 		// TODO - Jao, como has estao! Basically, we should (1) replace the last
 		// users found list with the new one and (2) replace the dots in the
 		// radar with new random ones - miguel - 26/07/2012
 		Toast.makeText(this, "llegaron nuevos usuarios", Toast.LENGTH_SHORT).show();
+	}
+
+	public synchronized void refreshSurroundingContacts(final List<? extends User> parseSurroundingUsers) {
+		final List<MiniProfileItemRow> newMiniProfileItems = new LinkedList<MiniProfileItemRow>();
+		for (final User user : parseSurroundingUsers)
+			newMiniProfileItems.add(new MiniProfileItemRow(user));
+
+		// beware of concurrent use of this collection
+		synchronized (miniProfileItemsLock) {
+			miniProfileItems = newMiniProfileItems;
+		}
+	}
+
+	protected void showMiniProfileList() {
+		LinkedList<MiniProfileItemRow> copy;
+
+		// beware of concurrent use of this collection
+		synchronized (miniProfileItemsLock) {
+			copy = new LinkedList<MiniProfileItemRow>(miniProfileItems);
+		}
+
+		final MiniProfileListController listController = new MiniProfileListController(RadarActivity.this,
+				R.id.radar_mini_profiles_list_view, copy);
+		listController.showList();
 	}
 
 	/* ********************************************* */
@@ -230,30 +233,6 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 			return response;
 		}
 
-	}
-
-	public synchronized void refreshSurroundingContacts(final List<? extends User> parseSurroundingUsers) {
-		final List<MiniProfileItemRow> newMiniProfileItems = new LinkedList<MiniProfileItemRow>();
-		for (final User user : parseSurroundingUsers)
-			newMiniProfileItems.add(new MiniProfileItemRow(user));
-
-		// beware of concurrent use of this collection
-		synchronized (miniProfileItemsLock) {
-			miniProfileItems = newMiniProfileItems;
-		}
-	}
-
-	protected void showMiniProfileList() {
-		LinkedList<MiniProfileItemRow> copy;
-
-		// beware of concurrent use of this collection
-		synchronized (miniProfileItemsLock) {
-			copy = new LinkedList<MiniProfileItemRow>(miniProfileItems);
-		}
-
-		final MiniProfileListController listController = new MiniProfileListController(RadarActivity.this,
-				R.id.radar_mini_profiles_list_view, copy);
-		listController.showList();
 	}
 
 	/* *************************************************** */

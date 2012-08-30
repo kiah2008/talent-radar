@@ -6,6 +6,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.google.android.gcm.GCMRegistrar;
+import com.menatwork.location.LocationSourceManager;
 import com.menatwork.model.User;
 import com.menatwork.skills.DefaultSkillButtonFactory;
 import com.menatwork.skills.SkillButtonFactory;
@@ -18,6 +19,9 @@ public class TalentRadarApplication extends Application {
 	private final SkillButtonFactory skillButtonFactory;
 	private final Object deviceRegistrationLock = new Object();
 	private String deviceRegistrationId;
+
+	private LocationSourceManager locationSourceManager;
+
 	private static Context context;
 
 	public TalentRadarApplication() {
@@ -46,8 +50,7 @@ public class TalentRadarApplication extends Application {
 	public String getDeviceRegistrationId() {
 		if (deviceRegistrationId == null) {
 			if (!this.isDeviceRegistered())
-				throw new RuntimeException(
-						"Device not registered, deviceRegistrationId == null");
+				throw new RuntimeException("Device not registered, deviceRegistrationId == null");
 			else {
 				deviceRegistrationId = GCMRegistrar.getRegistrationId(this);
 			}
@@ -72,8 +75,7 @@ public class TalentRadarApplication extends Application {
 				GCMRegistrar.register(this, GCMIntentService.SENDER_ID);
 				deviceRegistrationLock.wait();
 				if (deviceRegistrationId == null) {
-					Log.w("TalentRadarApp",
-							"Timeout registering device, continuing excecution...");
+					Log.w("TalentRadarApp", "Timeout registering device, continuing excecution...");
 				} else {
 					Log.d("TalentRadarApp", "Registered device");
 				}
@@ -92,7 +94,7 @@ public class TalentRadarApplication extends Application {
 	/**
 	 * Tells whether the application is running on an emulator rather than a
 	 * real phone.
-	 *
+	 * 
 	 * @return <code>true</code> - if running on emulator
 	 */
 	public boolean isRunningOnEmulator() {
@@ -100,5 +102,13 @@ public class TalentRadarApplication extends Application {
 		// google's emulator (beware of intel's and other implementations) -
 		// miguel - 27/08/2012
 		return EMULATOR_BUILD_PRODUCT.equals(Build.PRODUCT);
+	}
+
+	public LocationSourceManager getLocationSourceManager() {
+		return locationSourceManager;
+	}
+
+	public void setLocationSourceManager(final LocationSourceManager locationSourceManager) {
+		this.locationSourceManager = locationSourceManager;
 	}
 }
