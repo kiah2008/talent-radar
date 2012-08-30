@@ -113,7 +113,7 @@
         <service android:name=".GCMIntentService" />
 
         <activity
-            android:name="SettingsActivity"
+            android:name=".PreferencesActivity"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Light" >
