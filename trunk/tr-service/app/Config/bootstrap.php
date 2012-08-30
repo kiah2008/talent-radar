@@ -136,6 +136,8 @@ Configure::write('LinkedinApiSecret', '4DuQF5fpLCXZvnl1');
 
 Configure::write('GCMApiKey', 'AIzaSyBd0K-XNCdkNHsJ2ra0wjNCAe_s2ojfZWM');
 
+Configure::write('DistanceToGetUsers', '10000');
+
 
 //Constants
 DEFINE('NOTIFICATION_PING_ADDED', 1);
