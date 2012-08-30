@@ -9,6 +9,12 @@ import com.menatwork.service.GetUserSkills;
 import com.menatwork.service.response.GetUserResponse;
 import com.menatwork.service.response.GetUserSkillsResponse;
 
+/**
+ * Common Activity superclass for all our activities.
+ *
+ * @author miguel
+ *
+ */
 public class TalentRadarActivity extends Activity {
 
 	/**
@@ -21,7 +27,7 @@ public class TalentRadarActivity extends Activity {
 	/**
 	 * Retrieves the {@link Application} object casted to a
 	 * {@link TalentRadarApplication}
-	 * 
+	 *
 	 * @return {@link TalentRadarApplication} for the app
 	 */
 	public TalentRadarApplication getTalentRadarApplication() {
@@ -40,9 +46,11 @@ public class TalentRadarActivity extends Activity {
 		try {
 			final GetUser getUser = GetUser.newInstance(this, userid);
 			final GetUserResponse response = getUser.execute();
-			final GetUserSkills getUserSkills = GetUserSkills.newInstance(this, userid);
+			final GetUserSkills getUserSkills = GetUserSkills.newInstance(this,
+					userid);
 			final User user = response.getUser();
-			final GetUserSkillsResponse userSkillsResponse = getUserSkills.execute();
+			final GetUserSkillsResponse userSkillsResponse = getUserSkills
+					.execute();
 			user.setSkills(userSkillsResponse.getSkills());
 			return user;
 		} catch (final Exception e) {

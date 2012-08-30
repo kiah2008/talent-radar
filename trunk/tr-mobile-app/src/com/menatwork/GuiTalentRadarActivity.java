@@ -8,9 +8,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 /**
- * Common Activity superclass for all our activities.
+ * Common Activity superclass for all our GUI activities.
  *
  * @author miguel
  *
@@ -61,6 +62,10 @@ public abstract class GuiTalentRadarActivity extends TalentRadarActivity {
 
 	public <T extends View> T findViewById(final int id, final Class<T> viewType) {
 		return viewType.cast(findViewById(id));
+	}
+
+	public ToggleButton findToggleButtonById(final int id) {
+		return findViewById(id, ToggleButton.class);
 	}
 
 	public Button findButtonById(final int id) {
