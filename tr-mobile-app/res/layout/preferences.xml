@@ -1,98 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/settings_layout"
+    android:id="@+id/preferences_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_background"
     android:orientation="vertical"
-    android:paddingTop="20" >
+    android:paddingTop="20dp" >
 
     <TextView
-        android:id="@+id/settings_network_activation_label"
+        android:id="@+id/preferences_network_activation_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/settings_network_activation_toggle_button"
+        android:layout_toLeftOf="@+id/preferences_network_activation_toggle_button"
         android:text="Activar Network"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
     <ToggleButton
-        android:id="@+id/settings_network_activation_toggle_button"
+        android:id="@+id/preferences_network_activation_toggle_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:text="Activar Network" />
-
+
     <TextView
-        android:id="@+id/settings_gps_activation_label"
+        android:id="@+id/preferences_gps_activation_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/settings_gps_activation_toggle_button"
-        android:layout_toLeftOf="@+id/settings_gps_activation_toggle_button"
+        android:layout_alignTop="@+id/preferences_gps_activation_toggle_button"
+        android:layout_toLeftOf="@+id/preferences_gps_activation_toggle_button"
         android:text="Activar GPS"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
     <ToggleButton
-        android:id="@+id/settings_gps_activation_toggle_button"
+        android:id="@+id/preferences_gps_activation_toggle_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/settings_network_activation_toggle_button"
+        android:layout_below="@+id/preferences_network_activation_toggle_button"
         android:text="Activar GPS" />
-
+
     <TextView
-        android:id="@+id/settings_actualization_frequency_label"
+        android:id="@+id/preferences_actualization_frequency_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignTop="@id/settings_actualization_frequency_text_edit"
-        android:layout_toLeftOf="@+id/settings_actualization_frequency_text_edit"
+        android:layout_alignTop="@+id/preferences_actualization_frequency_text_edit"
+        android:layout_toLeftOf="@+id/preferences_actualization_frequency_text_edit"
         android:text="Frecuencia de actualización"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
     <EditText
-        android:id="@+id/settings_actualization_frequency_text_edit"
+        android:id="@+id/preferences_actualization_frequency_text_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/settings_gps_activation_toggle_button"
+        android:layout_below="@+id/preferences_gps_activation_toggle_button"
         android:ems="4"
         android:inputType="number" />
-
+
     <TextView
-        android:id="@+id/settings_actualization_duration_label"
+        android:id="@+id/preferences_actualization_duration_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/settings_actualization_duration_text_edit"
-        android:layout_toLeftOf="@+id/settings_actualization_duration_text_edit"
+        android:layout_alignTop="@+id/preferences_actualization_duration_text_edit"
+        android:layout_toLeftOf="@+id/preferences_actualization_duration_text_edit"
         android:text="Duración de actualización"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
     <EditText
-        android:id="@+id/settings_actualization_duration_text_edit"
+        android:id="@+id/preferences_actualization_duration_text_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/settings_actualization_frequency_text_edit"
+        android:layout_below="@+id/preferences_actualization_frequency_text_edit"
         android:layout_marginTop="16dp"
         android:ems="4"
         android:inputType="number" >
-
     </EditText>
 
     <Button
-        android:id="@+id/settings_reset_changes_button"
+        android:id="@+id/preferences_reset_changes_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/settings_actualization_duration_text_edit"
+        android:layout_below="@+id/preferences_actualization_duration_text_edit"
         android:text="Reset" />
 
     <Button
-        android:id="@+id/settings_save_changes_button"
+        android:id="@+id/preferences_save_changes_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/settings_reset_changes_button"
-        android:layout_toLeftOf="@+id/settings_reset_changes_button"
+        android:layout_alignTop="@+id/preferences_reset_changes_button"
+        android:layout_toLeftOf="@+id/preferences_reset_changes_button"
         android:text="Guardar cambios" />
 
 </RelativeLayout>

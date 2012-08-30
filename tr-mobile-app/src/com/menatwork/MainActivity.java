@@ -52,7 +52,7 @@ public class MainActivity extends TabActivity {
 	}
 
 	private void showSettings() {
-		final Intent settingsIntent = new Intent(this, SettingsActivity.class);
+		final Intent settingsIntent = new Intent(this, PreferencesActivity.class);
 		startActivity(settingsIntent);
 	}
 

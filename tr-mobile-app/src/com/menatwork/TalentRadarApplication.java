@@ -8,6 +8,8 @@ import android.util.Log;
 import com.google.android.gcm.GCMRegistrar;
 import com.menatwork.location.LocationSourceManager;
 import com.menatwork.model.User;
+import com.menatwork.preferences.SharedTalenRadarPreferences;
+import com.menatwork.preferences.TalentRadarPreferences;
 import com.menatwork.skills.DefaultSkillButtonFactory;
 import com.menatwork.skills.SkillButtonFactory;
 
@@ -45,6 +47,19 @@ public class TalentRadarApplication extends Application {
 
 	public SkillButtonFactory getSkillButtonFactory() {
 		return skillButtonFactory;
+	}
+
+	// ************************************************ //
+	// ====== Preferences ======
+	// ************************************************ //
+
+	public String getPreferencesFilename() {
+		return "TalenrRadarApp." + getLocalUser().getUsername();
+	}
+
+	public TalentRadarPreferences getPreferences() {
+		return new SharedTalenRadarPreferences(getSharedPreferences(
+				getPreferencesFilename(), MODE_PRIVATE));
 	}
 
 	// ************************************************ //
