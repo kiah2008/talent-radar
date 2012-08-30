@@ -47,10 +47,28 @@ public class TalentRadarApplication extends Application {
 		return skillButtonFactory;
 	}
 
+	// ************************************************ //
+	// ====== LocationSourceManager ======
+	// ************************************************ //
+
+	public LocationSourceManager getLocationSourceManager() {
+		return locationSourceManager;
+	}
+
+	public void setLocationSourceManager(
+			final LocationSourceManager locationSourceManager) {
+		this.locationSourceManager = locationSourceManager;
+	}
+
+	// ************************************************ //
+	// ====== GCM Stuff ======
+	// ************************************************ //
+
 	public String getDeviceRegistrationId() {
 		if (deviceRegistrationId == null) {
 			if (!this.isDeviceRegistered())
-				throw new RuntimeException("Device not registered, deviceRegistrationId == null");
+				throw new RuntimeException(
+						"Device not registered, deviceRegistrationId == null");
 			else {
 				deviceRegistrationId = GCMRegistrar.getRegistrationId(this);
 			}
@@ -75,7 +93,8 @@ public class TalentRadarApplication extends Application {
 				GCMRegistrar.register(this, GCMIntentService.SENDER_ID);
 				deviceRegistrationLock.wait();
 				if (deviceRegistrationId == null) {
-					Log.w("TalentRadarApp", "Timeout registering device, continuing excecution...");
+					Log.w("TalentRadarApp",
+							"Timeout registering device, continuing excecution...");
 				} else {
 					Log.d("TalentRadarApp", "Registered device");
 				}
@@ -91,24 +110,22 @@ public class TalentRadarApplication extends Application {
 		}
 	}
 
+	// ************************************************ //
+	// ====== Other utils ======
+	// ************************************************ //
+
 	/**
 	 * Tells whether the application is running on an emulator rather than a
 	 * real phone.
-	 * 
+	 *
 	 * @return <code>true</code> - if running on emulator
 	 */
 	public boolean isRunningOnEmulator() {
 		// XXX - should work for version 2.3.3 and above and the generic
 		// google's emulator (beware of intel's and other implementations) -
 		// miguel - 27/08/2012
+		// maybe this method would be more suitable in a GeneralUtils class
 		return EMULATOR_BUILD_PRODUCT.equals(Build.PRODUCT);
 	}
 
-	public LocationSourceManager getLocationSourceManager() {
-		return locationSourceManager;
-	}
-
-	public void setLocationSourceManager(final LocationSourceManager locationSourceManager) {
-		this.locationSourceManager = locationSourceManager;
-	}
 }
