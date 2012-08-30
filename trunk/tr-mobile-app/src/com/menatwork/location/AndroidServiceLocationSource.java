@@ -1,13 +1,12 @@
 package com.menatwork.location;
 
+import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-
-import com.menatwork.GuiTalentRadarActivity;
 
 /**
  * Main entrance for Android implemented locatino sources. To instantiate each
@@ -21,7 +20,7 @@ public class AndroidServiceLocationSource implements LocationSource {
 
 	private Location lastKnownLocation;
 
-	public AndroidServiceLocationSource(final String providerName, final GuiTalentRadarActivity activity,
+	public AndroidServiceLocationSource(final String providerName, final Activity activity,
 			final long millisecondsBetweenUpdates) {
 		registerForLocationUpdates(millisecondsBetweenUpdates, activity, providerName);
 	}

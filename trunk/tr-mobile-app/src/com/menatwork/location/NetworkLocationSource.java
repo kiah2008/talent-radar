@@ -1,8 +1,7 @@
 package com.menatwork.location;
 
+import android.app.Activity;
 import android.location.LocationManager;
-
-import com.menatwork.GuiTalentRadarActivity;
 
 /**
  * Implemented over Android's native Network location service. Uses wifi and
@@ -13,7 +12,7 @@ import com.menatwork.GuiTalentRadarActivity;
  */
 public class NetworkLocationSource extends AndroidServiceLocationSource {
 
-	public NetworkLocationSource(final GuiTalentRadarActivity activity, final long millisecondsBetweenUpdates) {
+	public NetworkLocationSource(final Activity activity, final long millisecondsBetweenUpdates) {
 		super(LocationManager.NETWORK_PROVIDER, activity, millisecondsBetweenUpdates);
 	}
 

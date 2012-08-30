@@ -80,5 +80,6 @@
     <string name="post_uri_save_device_id">http://www.talent-radar.com/talent-radar/users/app_android_saveDeviceId</string>
     <string name="post_key_save_device_id_user_id">data[User][id]</string>
     <string name="post_key_save_device_id_device_id">data[User][android_device_id]</string>
+    <string name="menu_settings_title">Configuración</string>
 
 </resources>
