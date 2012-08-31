@@ -2,26 +2,6 @@ package com.menatwork.preferences;
 
 public interface TalentRadarPreferences {
 
-	boolean getNetworkLocationActivation();
-
-	boolean getGpsLocationActivation();
-
-	long getActualizationDurationMilliseconds();
-
-	long getActualizationFrequencyMilliseconds();
-
-	long getActualizationDurationSeconds();
-
-	long getActualizationFrequencySeconds();
-
-	void setNetworkLocationActivation(boolean checked);
-
-	void setGpsLocationActivation(boolean checked);
-
-	void setActualizationDurationSeconds(long seconds);
-
-	void setActualizationFrequencySeconds(long seconds);
-
 	/**
 	 * This method should be called before trying to change any preference. It
 	 * starts a new session for edition. Kind of a transaction.
@@ -45,5 +25,29 @@ public interface TalentRadarPreferences {
 	 * edition session calling setNewEdtion.
 	 */
 	void discardChanges();
+
+	boolean isNetworkLocationActivation();
+
+	boolean isGpsLocationActivation();
+
+	long getActualizationDurationMilliseconds();
+
+	long getActualizationFrequencyMilliseconds();
+
+	long getActualizationDurationSeconds();
+
+	long getActualizationFrequencySeconds();
+
+	String getPingMessage();
+
+	void setNetworkLocationActivation(boolean checked);
+
+	void setGpsLocationActivation(boolean checked);
+
+	void setActualizationDurationSeconds(long seconds);
+
+	void setActualizationFrequencySeconds(long seconds);
+
+	void setPingMessage(String string);
 
 }

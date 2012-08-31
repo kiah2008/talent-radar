@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/preferences_network_activation_toggle_button"
-        android:text="Activar Network"
+        android:text="@string/preferences_network_activation_label"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ToggleButton
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="Activar Network" />
+        android:text="@string/preferences_network_activation_label" />
 
     <TextView
         android:id="@+id/preferences_gps_activation_label"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/preferences_gps_activation_toggle_button"
         android:layout_toLeftOf="@+id/preferences_gps_activation_toggle_button"
-        android:text="Activar GPS"
+        android:text="@string/preferences_gps_activation_label"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ToggleButton
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/preferences_network_activation_toggle_button"
-        android:text="Activar GPS" />
+        android:text="@string/preferences_gps_activation_label" />
 
     <TextView
         android:id="@+id/preferences_actualization_frequency_label"
@@ -46,7 +46,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/preferences_actualization_frequency_text_edit"
         android:layout_toLeftOf="@+id/preferences_actualization_frequency_text_edit"
-        android:text="Frecuencia de actualización"
+        android:text="@string/preferences_actualization_frequency_label"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/preferences_actualization_duration_text_edit"
         android:layout_toLeftOf="@+id/preferences_actualization_duration_text_edit"
-        android:text="Duración de actualización"
+        android:text="@string/preferences_actualization_duration_label"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
@@ -83,8 +83,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/preferences_actualization_duration_text_edit"
-        android:text="Reset" />
+        android:layout_below="@+id/preferences_ping_message_text_edit"
+        android:text="@string/preferences_reset_changes_button" />
 
     <Button
         android:id="@+id/preferences_save_changes_button"
@@ -92,6 +92,26 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/preferences_reset_changes_button"
         android:layout_toLeftOf="@+id/preferences_reset_changes_button"
-        android:text="Guardar cambios" />
+        android:text="@string/preferences_save_changes_button" />
+
+    <EditText
+        android:id="@+id/preferences_ping_message_text_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/preferences_actualization_duration_text_edit"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:lines="4" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/preferences_ping_message_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/preferences_ping_message_text_edit"
+        android:layout_toLeftOf="@+id/preferences_ping_message_text_edit"
+        android:text="@string/preferences_ping_message"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

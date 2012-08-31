@@ -119,11 +119,11 @@ public class TalentRadarApplication extends Application implements
 		// change location sources
 		locationSourceManager.removeAllLocationSources();
 
-		if (preferences.getNetworkLocationActivation())
+		if (preferences.isNetworkLocationActivation())
 			locationSourceManager.addLocationSource( //
 					new NetworkLocationSource(this, millisecondsBetweenUpdates));
 
-		if (preferences.getGpsLocationActivation())
+		if (preferences.isGpsLocationActivation())
 			locationSourceManager.addLocationSource( //
 					new GpsLocationSource(this, millisecondsBetweenUpdates));
 	}
