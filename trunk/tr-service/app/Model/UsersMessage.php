@@ -4,7 +4,5 @@ App::uses('Model', 'Model');
 class UsersMessage extends AppModel {
 	public $name = 'UsersMessage';
 	
-	/*public $belongsTo = array(
-    							'User'
-							  );*/
+	public $order = array('UsersMessage.created' => 'ASC');
 }
