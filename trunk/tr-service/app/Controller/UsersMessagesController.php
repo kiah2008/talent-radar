@@ -37,7 +37,7 @@ class UsersMessagesController extends AppController {
 			$response['result']['status'] = 'error';
 			
 			if($usersMessage = $this->UsersMessage->save($this->data)) {
-				$response['result']['usersMessage'] = $usersMessage['usersMessage'];
+				$response['result']['UsersMessage'] = $usersMessage['UsersMessage'];
 				$response['result']['status'] = 'ok';
 			}
 			
