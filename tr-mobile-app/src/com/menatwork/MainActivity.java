@@ -40,7 +40,7 @@ public class MainActivity extends TabActivity {
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.settings:
+		case R.id.preferences:
 			showPreferences();
 			return true;
 		default:
@@ -49,8 +49,7 @@ public class MainActivity extends TabActivity {
 	}
 
 	private void showPreferences() {
-		final Intent settingsIntent = new Intent(this,
-				PreferencesActivity.class);
+		final Intent settingsIntent = new Intent(this, PreferencesActivity.class);
 		startActivity(settingsIntent);
 	}
 
@@ -97,8 +96,8 @@ public class MainActivity extends TabActivity {
 				R.drawable.icon_profile_tab);
 	}
 
-	private void addTab(final Class<? extends Activity> tabClass,
-			final String tabTag, final String tabLabel, final int tabIconId) {
+	private void addTab(final Class<? extends Activity> tabClass, final String tabTag, final String tabLabel,
+			final int tabIconId) {
 
 		// get tab host
 		final TabHost tabHost = getTabHost();

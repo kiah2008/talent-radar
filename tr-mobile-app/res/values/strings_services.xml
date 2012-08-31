@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Registration -->
+    <string name="post_uri_registration">http://talent-radar.com/users/app_register</string>
+    <string name="post_key_register_email">data[User][email]</string>
+    <string name="post_key_register_username">data[User][username]</string>
+    <string name="post_key_register_password">data[User][password]</string>
+    <string name="post_key_register_name">data[User][name]</string>
+    <string name="post_key_register_surname">data[User][surname]</string>
+    <string name="post_key_register_headline">data[User][headline]</string>
+
+    <!-- Login -->
+    <string name="post_uri_login">http://talent-radar.com/users/app_login</string>
+    <string name="post_key_login_email">data[User][email]</string>
+    <string name="post_key_login_password">data[User][password]</string>
+
+    <!-- Share Location and Get Users -->
+    <string name="post_uri_share_location_and_get_users">http://www.talent-radar.com/usersOnline/app_shareLocationAndGetUsers</string>
+    <string name="post_key_share_location_and_get_users_user_id">data[UsersOnline][user_id]</string>
+    <string name="post_key_share_location_and_get_users_latitude">data[UsersOnline][latitude]</string>
+    <string name="post_key_share_location_and_get_users_longitude">data[UsersOnline][longitude]</string>
+    <string name="post_key_share_location_and_get_users_duration">data[UsersOnline][duration]</string>
+
+    <!-- Login with Linkedin -->
+    <string name="uri_login_with_linkedin">http://www.talent-radar.com/users/app_loginLinkedin</string>
+
+    <!-- Get user -->
+    <string name="post_uri_getUser">http://www.talent-radar.com/users/app_getUser</string>
+    <string name="post_key_userId">data[User][id]</string>
+
+    <!-- Get User skills -->
+    <string name="post_uri_get_user_skills">http://www.talent-radar.com/usersSkills/app_getFromLinkedin</string>
+    <string name="post_key_get_user_skills_user_id">data[UsersSkill][user_id]</string>
+
+    <!-- Ping -->
+    <string name="post_uri_ping">http://www.talent-radar.com/usersPings/app_addPing</string>
+    <string name="post_key_ping_from_id">data[UsersPing][user_from_id]</string>
+    <string name="post_key_ping_to_id">data[UsersPing][user_to_id]</string>
+    <string name="post_key_ping_content">data[UsersPing][content]</string>
+
+    <!-- Reply ping -->
+    <string name="post_uri_reply_ping">http://www.talent-radar.com/usersPings/app_replyPing</string>
+    <string name="post_key_reply_ping_id">data[UsersPing][id]</string>
+    <string name="post_key_reply_ping_to_id">data[UsersPing][user_to_id]</string>
+    <string name="post_key_reply_ping_response">data[UsersPing][response]</string>
+
+    <!-- Get ping -->
+    <string name="post_uri_get_ping">http://www.talent-radar.com/usersPings/app_getPing</string>
+    <string name="post_key_get_ping_id">data[UsersPing][id]</string>
+    <string name="post_key_get_ping_to_id">data[UsersPing][user_to_id]</string>
+
+    <!-- Save device id -->
+    <string name="post_uri_save_device_id">http://www.talent-radar.com/talent-radar/users/app_android_saveDeviceId</string>
+    <string name="post_key_save_device_id_user_id">data[User][id]</string>
+    <string name="post_key_save_device_id_device_id">data[User][android_device_id]</string>
+
+</resources>

@@ -20,6 +20,9 @@ public class PreferencesActivity extends GuiTalentRadarActivity {
 
 	private EditText actualizationDurationTextEdit;
 	private EditText actualizationFrequencyTextEdit;
+
+	private EditText pingMessageTextEdit;
+
 	private TalentRadarPreferences preferences;
 
 	@Override
@@ -32,6 +35,8 @@ public class PreferencesActivity extends GuiTalentRadarActivity {
 
 		actualizationDurationTextEdit = findEditTextById(R.id.preferences_actualization_duration_text_edit);
 		actualizationFrequencyTextEdit = findEditTextById(R.id.preferences_actualization_frequency_text_edit);
+
+		pingMessageTextEdit = findEditTextById(R.id.preferences_ping_message_text_edit);
 	}
 
 	@Override
@@ -67,15 +72,15 @@ public class PreferencesActivity extends GuiTalentRadarActivity {
 	protected void saveChanges() {
 		preferences.setNewEdition();
 
-		preferences.setNetworkLocationActivation(networkActivationToggleButton
-				.isChecked());
-		preferences.setGpsLocationActivation(gpsActivationToggleButton
-				.isChecked());
+		preferences.setNetworkLocationActivation(networkActivationToggleButton.isChecked());
+		preferences.setGpsLocationActivation(gpsActivationToggleButton.isChecked());
 
-		preferences.setActualizationDurationSeconds(Long
-				.valueOf(actualizationDurationTextEdit.getText().toString()));
-		preferences.setActualizationFrequencySeconds(Long
-				.valueOf(actualizationFrequencyTextEdit.getText().toString()));
+		preferences.setActualizationDurationSeconds(Long.valueOf(actualizationDurationTextEdit.getText()
+				.toString()));
+		preferences.setActualizationFrequencySeconds(Long.valueOf(actualizationFrequencyTextEdit.getText()
+				.toString()));
+
+		preferences.setPingMessage(pingMessageTextEdit.getText().toString());
 
 		preferences.commitChanges();
 	}
@@ -86,14 +91,13 @@ public class PreferencesActivity extends GuiTalentRadarActivity {
 	}
 
 	private void initializeValues() {
-		networkActivationToggleButton.setChecked(preferences
-				.getNetworkLocationActivation());
-		gpsActivationToggleButton.setChecked(preferences
-				.getGpsLocationActivation());
+		networkActivationToggleButton.setChecked(preferences.isNetworkLocationActivation());
+		gpsActivationToggleButton.setChecked(preferences.isGpsLocationActivation());
 
-		actualizationDurationTextEdit.setText(String.valueOf(preferences
-				.getActualizationDurationSeconds()));
-		actualizationFrequencyTextEdit.setText(String.valueOf(preferences
-				.getActualizationFrequencySeconds()));
+		actualizationDurationTextEdit.setText(String.valueOf(preferences.getActualizationDurationSeconds()));
+		actualizationFrequencyTextEdit
+				.setText(String.valueOf(preferences.getActualizationFrequencySeconds()));
+
+		pingMessageTextEdit.setText(preferences.getPingMessage());
 	}
 }
