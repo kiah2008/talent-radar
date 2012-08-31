@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.menatwork.model.User;
+import com.menatwork.preferences.TalentRadarPreferences;
 import com.menatwork.service.GetUser;
 import com.menatwork.service.GetUserSkills;
 import com.menatwork.service.response.GetUserResponse;
@@ -32,6 +33,10 @@ public class TalentRadarActivity extends Activity {
 	 */
 	public TalentRadarApplication getTalentRadarApplication() {
 		return (TalentRadarApplication) getApplication();
+	}
+
+	public TalentRadarPreferences getPreferences() {
+		return getTalentRadarApplication().getPreferences();
 	}
 
 	/* ****************************************** */

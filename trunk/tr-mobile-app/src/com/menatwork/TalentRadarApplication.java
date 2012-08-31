@@ -6,14 +6,18 @@ import android.os.Build;
 import android.util.Log;
 
 import com.google.android.gcm.GCMRegistrar;
+import com.menatwork.location.GpsLocationSource;
 import com.menatwork.location.LocationSourceManager;
+import com.menatwork.location.NetworkLocationSource;
 import com.menatwork.model.User;
 import com.menatwork.preferences.SharedTalenRadarPreferences;
 import com.menatwork.preferences.TalentRadarPreferences;
+import com.menatwork.preferences.TalentRadarPreferencesListener;
 import com.menatwork.skills.DefaultSkillButtonFactory;
 import com.menatwork.skills.SkillButtonFactory;
 
-public class TalentRadarApplication extends Application {
+public class TalentRadarApplication extends Application implements
+		TalentRadarPreferencesListener {
 
 	private static final String EMULATOR_BUILD_PRODUCT = "sdk";
 
@@ -23,6 +27,7 @@ public class TalentRadarApplication extends Application {
 	private String deviceRegistrationId;
 
 	private LocationSourceManager locationSourceManager;
+	private TalentRadarPreferences preferences;
 
 	private static Context context;
 
@@ -58,8 +63,20 @@ public class TalentRadarApplication extends Application {
 	}
 
 	public TalentRadarPreferences getPreferences() {
-		return new SharedTalenRadarPreferences(getSharedPreferences(
-				getPreferencesFilename(), MODE_PRIVATE));
+		if (preferences == null)
+			preferences = new SharedTalenRadarPreferences(getSharedPreferences(
+					getPreferencesFilename(), MODE_PRIVATE), this);
+
+		return preferences;
+	}
+
+	@Override
+	public void onPreferencesChanged(final TalentRadarPreferences preferences) {
+		Log.d("TalentRadarApplication", "onPreferencesChanged");
+
+		locationSourceManager.deactivate();
+		updateLocationSourceManagerConfiguration(preferences);
+		locationSourceManager.activate();
 	}
 
 	// ************************************************ //
@@ -73,6 +90,42 @@ public class TalentRadarApplication extends Application {
 	public void setLocationSourceManager(
 			final LocationSourceManager locationSourceManager) {
 		this.locationSourceManager = locationSourceManager;
+	}
+
+	public void startLocationSourceManager() {
+		final LocationSourceManager locationSourceManager = new LocationSourceManager();
+
+		setLocationSourceManager(locationSourceManager);
+		updateLocationSourceManagerConfiguration(getPreferences());
+		locationSourceManager.activate();
+	}
+
+	public void stopLocationSourceManager() {
+		getLocationSourceManager().deactivate();
+		setLocationSourceManager(null);
+	}
+
+	private void updateLocationSourceManagerConfiguration(
+			final TalentRadarPreferences preferences) {
+
+		final long actualizationFrequencyMilliseconds = preferences
+				.getActualizationFrequencyMilliseconds();
+		final long millisecondsBetweenUpdates = actualizationFrequencyMilliseconds / 2;
+
+		// change actualization frequency
+		locationSourceManager
+				.setMillisecondsBetweenUpdates(actualizationFrequencyMilliseconds);
+
+		// change location sources
+		locationSourceManager.removeAllLocationSources();
+
+		if (preferences.getNetworkLocationActivation())
+			locationSourceManager.addLocationSource( //
+					new NetworkLocationSource(this, millisecondsBetweenUpdates));
+
+		if (preferences.getGpsLocationActivation())
+			locationSourceManager.addLocationSource( //
+					new GpsLocationSource(this, millisecondsBetweenUpdates));
 	}
 
 	// ************************************************ //

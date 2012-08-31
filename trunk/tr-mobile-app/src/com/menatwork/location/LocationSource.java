@@ -6,4 +6,8 @@ public interface LocationSource {
 
 	Location getLastKnownLocation();
 
+	void register();
+
+	void unregister();
+
 }

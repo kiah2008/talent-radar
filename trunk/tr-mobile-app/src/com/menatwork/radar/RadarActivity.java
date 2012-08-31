@@ -1,7 +1,6 @@
 package com.menatwork.radar;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,12 +15,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.SlidingDrawer;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
-import android.widget.Toast;
 
 import com.menatwork.GuiTalentRadarActivity;
 import com.menatwork.R;
@@ -29,25 +24,19 @@ import com.menatwork.location.LocationBuilder;
 import com.menatwork.location.LocationSource;
 import com.menatwork.location.LocationSourceManager;
 import com.menatwork.location.LocationSourceManagerListener;
-import com.menatwork.location.NetworkLocationSource;
 import com.menatwork.miniprofile.MiniProfileItemRow;
 import com.menatwork.miniprofile.MiniProfileListController;
 import com.menatwork.model.User;
-import com.menatwork.radar.RadarService.RadarBinder;
 import com.menatwork.service.ShareLocationAndGetUsers;
 import com.menatwork.service.response.ShareLocationAndGetUsersResponse;
 
-public class RadarActivity extends GuiTalentRadarActivity implements RadarServiceListener,
+public class RadarActivity extends GuiTalentRadarActivity implements
 		LocationSourceManagerListener {
 
 	// TODO - used for the RadarService implementation -> Not used right now! -
 	// boris - 17/08/2012
 	private final ServiceConnection serviceConnection = new RadarServiceConnection();
 	private boolean boundToRadarService = false;
-
-	// TODO - Stub implementation so that we can test this service and
-	// notificaciones - miguel - 02/08/2012
-	private Button shareButton;
 
 	private SlidingDrawer slidingDrawer;
 
@@ -63,40 +52,12 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 
 	@Override
 	protected void findViewElements() {
-		shareButton = findButtonById(R.id.sharelocation);
-		slidingDrawer = findViewById(R.id.radar_sliding_drawer, SlidingDrawer.class);
+		slidingDrawer = findViewById(R.id.radar_sliding_drawer,
+				SlidingDrawer.class);
 	}
 
 	@Override
 	protected void setupButtons() {
-		shareButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				final ShareLocationAndGetUsersTask task = new ShareLocationAndGetUsersTask();
-
-				Location mockLocation;
-				if (isRunningOnEmulator()) {
-					// mock location for thy button
-					mockLocation = new Location("mockis");
-					mockLocation.setLatitude(0);
-					mockLocation.setLongitude(0);
-				} else {
-					mockLocation = new NetworkLocationSource(RadarActivity.this, 30000)
-							.getLastKnownLocation();
-
-					if (mockLocation == null) {
-						Toast.makeText(RadarActivity.this, "No hay location, enviando (0,0)",
-								Toast.LENGTH_SHORT).show();
-
-						mockLocation = new Location("mockis");
-						mockLocation.setLatitude(0);
-						mockLocation.setLongitude(0);
-					}
-				}
-
-				task.execute(mockLocation);
-			}
-		});
 		slidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() {
 			@Override
 			public void onDrawerOpened() {
@@ -110,7 +71,8 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 	protected void postCreate(final Bundle savedInstanceState) {
 		super.postCreate(savedInstanceState);
 
-		final LocationSourceManager locationSourceManager = getTalentRadarApplication().getLocationSourceManager() ;
+		final LocationSourceManager locationSourceManager = getTalentRadarApplication()
+				.getLocationSourceManager();
 		locationSourceManager.addListener(this);
 	}
 
@@ -138,15 +100,8 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 		}
 	}
 
-	@Override
-	public void usersFound(final Collection<? extends User> users) {
-		// TODO - Jao, como has estao! Basically, we should (1) replace the last
-		// users found list with the new one and (2) replace the dots in the
-		// radar with new random ones - miguel - 26/07/2012
-		Toast.makeText(this, "llegaron nuevos usuarios", Toast.LENGTH_SHORT).show();
-	}
-
-	public synchronized void refreshSurroundingContacts(final List<? extends User> parseSurroundingUsers) {
+	public synchronized void refreshSurroundingContacts(
+			final List<? extends User> parseSurroundingUsers) {
 		final List<MiniProfileItemRow> newMiniProfileItems = new LinkedList<MiniProfileItemRow>();
 		for (final User user : parseSurroundingUsers)
 			newMiniProfileItems.add(new MiniProfileItemRow(user));
@@ -165,8 +120,8 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 			copy = new LinkedList<MiniProfileItemRow>(miniProfileItems);
 		}
 
-		final MiniProfileListController listController = new MiniProfileListController(RadarActivity.this,
-				R.id.radar_mini_profiles_list_view, copy);
+		final MiniProfileListController listController = new MiniProfileListController(
+				RadarActivity.this, R.id.radar_mini_profiles_list_view, copy);
 		listController.showList();
 	}
 
@@ -175,7 +130,8 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 	/* ********************************************* */
 
 	@Override
-	public void onLocationUpdate(final Location location, final LocationSource locationSource) {
+	public void onLocationUpdate(final Location location,
+			final LocationSource locationSource) {
 		Log.d("RadarActivity", "new location = " + location);
 		new ShareLocationAndGetUsersTask().execute(location);
 	}
@@ -188,23 +144,26 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 			AsyncTask<Location, Void, ShareLocationAndGetUsersResponse> {
 
 		@Override
-		protected ShareLocationAndGetUsersResponse doInBackground(final Location... locations) {
+		protected ShareLocationAndGetUsersResponse doInBackground(
+				final Location... locations) {
 			try {
 				final Location location = initializeLocation(locations);
 				if (location != null) {
-					final User localUser = getTalentRadarApplication().getLocalUser();
+					final User localUser = getTalentRadarApplication()
+							.getLocalUser();
 
 					final double latitude = location.getLatitude();
 					final double longitude = location.getLongitude();
 
-					// TODO - should be gotten from configuration - miguel -
-					// 02/08/2012
-					final int durationSeconds = 30;
+					final long durationSeconds = getPreferences()
+							.getActualizationDurationSeconds();
 
-					final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers.newInstance(
-							RadarActivity.this, localUser.getId(), latitude, longitude, durationSeconds);
+					final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers
+							.newInstance(RadarActivity.this, localUser.getId(),
+									latitude, longitude, durationSeconds);
 
-					final ShareLocationAndGetUsersResponse response = handleResponse(serviceCall.execute());
+					final ShareLocationAndGetUsersResponse response = handleResponse(serviceCall
+							.execute());
 
 					refreshSurroundingContacts(response.parseSurroundingUsers());
 				}
@@ -216,14 +175,12 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 				e.printStackTrace();
 			}
 
-			// TODO - should return null, throw an exception or nothing at all?
-			// - boris - 22/08/2012
 			return null;
 		}
 
 		private Location initializeLocation(final Location... locations) {
-			return isRunningOnEmulator() ? LocationBuilder.newInstance().setCoordinates(0, 0).build()
-					: locations[0];
+			return isRunningOnEmulator() ? LocationBuilder.newInstance()
+					.setCoordinates(0, 0).build() : locations[0];
 		}
 
 		private ShareLocationAndGetUsersResponse handleResponse(
@@ -241,13 +198,14 @@ public class RadarActivity extends GuiTalentRadarActivity implements RadarServic
 
 	private final class RadarServiceConnection implements ServiceConnection {
 		@Override
-		public void onServiceConnected(final ComponentName className, final IBinder service) {
+		public void onServiceConnected(final ComponentName className,
+				final IBinder service) {
 			// We've bound to RadarService, cast the IBinder and get
 			// RadarService instance
-			final RadarBinder binder = (RadarBinder) service;
-			final RadarService radarService = binder.getService();
+			// final RadarBinder binder = (RadarBinder) service;
+			// final RadarService radarService = binder.getService();
 
-			radarService.addRadarServiceListener(RadarActivity.this);
+			// radarService.addRadarServiceListener(RadarActivity.this);
 
 			boundToRadarService = true;
 			Log.i("radar activity", "radar service connected");

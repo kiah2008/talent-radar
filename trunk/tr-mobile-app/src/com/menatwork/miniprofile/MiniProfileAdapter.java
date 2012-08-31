@@ -29,7 +29,7 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 	private final int layoutResourceId;
 	private final MiniProfileItemRow items[];
 
-	public MiniProfileAdapter(final android.app.Activity activity,
+	public MiniProfileAdapter(final Activity activity,
 			final int layoutResourceId, final MiniProfileItemRow[] items) {
 		super(activity, layoutResourceId, items);
 		this.layoutResourceId = layoutResourceId;
@@ -110,11 +110,10 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 		pingButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				String localUserId = getTalentRadarApplication().getLocalUser()
-						.getId();
+				final String localUserId = getTalentRadarApplication()
+						.getLocalUser().getId();
 				new PingTask().execute(localUserId, miniProfileItem.getUserId());
 			}
-
 		});
 		saveContactButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -130,16 +129,17 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 	}
 
 	TalentRadarApplication getTalentRadarApplication() {
-		// FIXME - ugly fugly, me knows... - MIGUEL FULGENCIO OLIVA
+		// FIXME - ugly fugly, me knows... - MIGUEL FULGENCIO OLIVA - jajaja,
+		// ahora entiendo todo (soy alejo y me calienta pia)
 		return (TalentRadarApplication) TalentRadarApplication.getContext();
 	}
 
 	/**
 	 * Class created for the sake of performance (as donde in the 'tutorial'),
 	 * please forgive me Abraxas...
-	 * 
+	 *
 	 * @author boris
-	 * 
+	 *
 	 */
 	static class MiniProfileItemRowHolder {
 		ImageView imgPicture;
@@ -150,22 +150,22 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 	private class PingTask extends AsyncTask<String, Void, Response> {
 
 		@Override
-		protected Response doInBackground(String... params) {
+		protected Response doInBackground(final String... params) {
 			try {
-				String localUserId = params[0];
-				String toId = params[1];
+				final String localUserId = params[0];
+				final String toId = params[1];
 
-				Ping ping = Ping
+				final Ping ping = Ping
 						.newInstance(
 								getContext(),
 								localUserId,
 								toId,
 								"Hello extraterrestrian, you are about to be hired through the best hiring application in the WORLD! Get hired!");
 				return ping.execute();
-			} catch (JSONException e) {
+			} catch (final JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
