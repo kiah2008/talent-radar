@@ -14,4 +14,14 @@ public class ConstantLocationSource implements LocationSource {
 	public Location getLastKnownLocation() {
 		return location;
 	}
+
+	@Override
+	public void register() {
+		// nothing to do here!
+	}
+
+	@Override
+	public void unregister() {
+		// nothing to do here!
+	}
 }

@@ -19,7 +19,7 @@ public class ShareLocationAndGetUsers extends
 
 	private ShareLocationAndGetUsers(final Context context,
 			final String userId, final double latitude, final double longitude,
-			final int durationSeconds) {
+			final long durationSeconds) {
 		super(context, ShareLocationAndGetUsersResponse.class);
 		setParameter( //
 				getString(R.string.post_key_share_location_and_get_users_user_id), //
@@ -37,7 +37,7 @@ public class ShareLocationAndGetUsers extends
 
 	public static ShareLocationAndGetUsers newInstance(final Context context,
 			final String userId, final double latitude, final double longitude,
-			final int durationSeconds) {
+			final long durationSeconds) {
 
 		return new ShareLocationAndGetUsers(context, userId, latitude,
 				longitude, durationSeconds);
