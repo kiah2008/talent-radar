@@ -81,6 +81,7 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	@Override
 	protected void setupButtons() {
 		declineButton.setOnClickListener(new DeclineButtonListener());
+		acceptButton.setOnClickListener(new AcceptButtonListener());
 	}
 
 	@Override
@@ -104,6 +105,15 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	void replyPing(Answer answer) {
 		new ReplyPingTask().execute(getTalentRadarApplication().getLocalUser()
 				.getId(), pingId, answer);
+	}
+
+	private class AcceptButtonListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			replyPing(Answer.ACCEPT);
+		}
+
 	}
 
 	private class DeclineButtonListener implements OnClickListener {
@@ -142,7 +152,7 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 		@Override
 		protected void onPreExecute() {
 			progressDialog = ProgressDialog.show(PingAlertActivity.this, "",
-					getString(R.string.ping_alert_confirm_wait));
+					getString(R.string.generic_wait));
 		}
 
 		@Override
@@ -174,7 +184,9 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 			}
 			if (Answer.ACCEPT.equals(answer))
 				// launch chat interface
-				;
+				// TODO - prototype implementation - alme
+				startActivity(new Intent(PingAlertActivity.this,
+						ChatActivity.class));
 			else
 				finish();
 		}
