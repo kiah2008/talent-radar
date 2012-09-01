@@ -6,13 +6,13 @@ class GCMNotificationComponent extends Component {
 		$this->key = Configure::read('GCMApiKey');
 	}
 	
-	public function send($devices, $type = null, $message = null, $id = null) {
+	public function send($devices, $type = null, $message = null, $userId = null, $data = null) {
 		
 		if(!is_array($devices)) {
 			$devices = array($devices);
 		}
 		
-		$notification = json_encode(array('registration_ids' => $devices, 'data' => array('message' => $message, 'type' => $type, 'id' => $id)));
+		$notification = json_encode(array('registration_ids' => $devices, 'data' => array('message' => $message, 'type' => $type, 'userId' => $userId, 'data' => $data)));
 		 
 		$url = "https://android.googleapis.com/gcm/send";
 		 
