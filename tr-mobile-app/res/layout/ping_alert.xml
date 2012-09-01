@@ -1,76 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ping_alert_scroll_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/login_background" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/ping_alert_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="@string/ping_alert_title"
-        android:textSize="48dp"
-        android:textStyle="bold" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/login_background" >
 
-    <TextView
-        android:id="@+id/ping_alert_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ping_alert_title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="Juan Carlos Perez Companc"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <TextView
+            android:id="@+id/ping_alert_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/ping_alert_title"
+            android:textSize="48dp"
+            android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/ping_alert_profile_pic"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:layout_below="@+id/ping_alert_username"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/default_profile_pic" />
+        <TextView
+            android:id="@+id/ping_alert_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ping_alert_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="Juan Carlos Perez Companc"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/ping_alert_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/ping_alert_profile_pic"
-        android:layout_marginTop="16dp"
-        android:gravity="center_vertical|center_horizontal"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:text="Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit definiebas an eos."
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        <ImageView
+            android:id="@+id/ping_alert_profile_pic"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_below="@+id/ping_alert_username"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/default_profile_pic" />
 
-    <Button
-        android:id="@+id/ping_alert_button_accept"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ping_alert_message"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="@string/ping_alert_button_accept" />
+        <TextView
+            android:id="@+id/ping_alert_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ping_alert_profile_pic"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit definiebas an eos."
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <Button
-        android:id="@+id/ping_alert_button_decline"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ping_alert_button_accept"
-        android:layout_centerHorizontal="true"
-        android:text="@string/ping_alert_button_decline" />
+        <LinearLayout
+            android:id="@+id/ping_alert_layout_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" 
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/ping_alert_message"
+            android:gravity="center_vertical|center_horizontal">
 
-    <ProgressBar
-        android:id="@+id/ping_alert_loading_profile_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ping_alert_profile_pic"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="39dp" />
+            <Button
+                android:id="@+id/ping_alert_button_accept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ping_alert_message"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:text="@string/ping_alert_button_accept" />
 
-</RelativeLayout>
+            <Button
+                android:id="@+id/ping_alert_button_decline"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ping_alert_button_accept"
+                android:layout_centerHorizontal="true"
+                android:text="@string/ping_alert_button_decline" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/ping_alert_loading_profile_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/ping_alert_profile_pic"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="39dp" />
+    </RelativeLayout>
+
+</ScrollView>

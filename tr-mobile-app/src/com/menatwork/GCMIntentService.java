@@ -66,9 +66,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 			Intent newIntent = new Intent(this, GettingPingActivity.class);
 			newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setFlags(
 					Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			newIntent.putExtra(GettingPingActivity.EXTRAS_PING_ID,
-					extras.getString("id"));
-			generateNotification(this, extras.getString("message"), newIntent);
+			String pingId = extras.getString("id");
+			newIntent.putExtra(GettingPingActivity.EXTRAS_PING_ID, pingId);
+			generateNotification(this, Integer.valueOf(pingId),
+					extras.getString("message"), newIntent);
 		}
 	}
 
@@ -92,8 +93,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 	/**
 	 * Issues a notification to inform the user that server has sent a message.
 	 */
-	private static void generateNotification(Context context, String message,
-			Intent notificationIntent) {
+	private static void generateNotification(Context context, int id,
+			String message, Intent notificationIntent) {
 		int icon = R.drawable.ic_launcher;
 		long when = System.currentTimeMillis();
 		NotificationManager notificationManager = (NotificationManager) context
@@ -104,7 +105,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 				notificationIntent, 0);
 		notification.setLatestEventInfo(context, title, message, intent);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		notificationManager.notify(0, notification);
+		notificationManager.notify(id, notification);
 	}
 
 }
