@@ -26,12 +26,11 @@ class UsersPingsController extends AppController {
 				$response['result']['UsersPing'] = $usersPing['UsersPing'];
 				
 				$this->loadModel('User');
-				$userTo = $this->User->find('first', array('fields' => array('User.id', 'User.name', 'User.surname', 'User.username', 'User.android_device_id'), 'conditions' => array('User.id' => $this->data['UsersPing']['user_to_id'])));
+				$userTo = $this->User->find('first', array('fields' => array('User.android_device_id'), 'conditions' => array('User.id' => $this->data['UsersPing']['user_to_id'])));
 				if(!empty($userTo['User']['android_device_id'])) {
-					$userFrom = $this->User->read(null, $this->data['UsersPing']['user_from_id']);
+					$userFrom = $this->User->find('first', array('fields' => array('User.id', 'User.name', 'User.surname', 'User.username'), 'conditions' => array('User.id' => $this->data['UsersPing']['user_from_id'])));
 					$messageNotification = str_replace('@@@USER@@@', $userFrom['User']['name'].' '.$userFrom['User']['surname'], __('@@@USER@@@ quiere contactarse con usted', true));
-					$usersPing['UserTo'] = $userTo['User'];
-					unset($usersPing['UserTo']['android_device_id']);
+					$usersPing['UserFrom'] = $userFrom['User'];
 					$response['result']['notification'] = $this->GCMNotification->send($userTo['User']['android_device_id'], NOTIFICATION_PING_ADDED, $messageNotification, $this->data['UsersPing']['user_to_id'], $usersPing);
 				}
 			}
