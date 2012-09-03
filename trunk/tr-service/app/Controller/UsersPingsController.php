@@ -53,11 +53,21 @@ class UsersPingsController extends AppController {
 			{
 				if($this->UsersPing->save($this->data))
 				{
-					if($this->data['UsersPing']['response'] == 3) {
+					$usersPing['UsersPing']['response'] = $this->data['UsersPing']['response'];
+					if($this->data['UsersPing']['response'] == PING_REJECTED_AND_BANNED) {
 						$this->loadModel('UsersBanned');
 						$data['UsersBanned']['user_from_id'] = $usersPing['UsersPing']['user_to_id'];
 						$data['UsersBanned']['user_to_id'] = $usersPing['UsersPing']['user_from_id'];
 						$this->UsersBanned->save($data);
+					}
+					else if ($this->data['UsersPing']['response'] == PING_ACCEPTED) {
+						$this->loadModel('User');
+						if($userFrom = $this->User->find('first', array('fields' => array('User.android_device_id'), 'conditions' => array('User.id' => $usersPing['UsersPing']['user_from_id'])))) {
+							$userTo = $this->User->find('first', array('fields' => array('User.id', 'User.name', 'User.surname', 'User.username'), 'conditions' => array('User.id' => $usersPing['UsersPing']['user_to_id'])));
+							$messageNotification = str_replace('@@@USER@@@', $userTo['User']['name'].' '.$userTo['User']['surname'], __('@@@USER@@@ acepto contactarse con usted', true));
+							$usersPing['UserTo'] = $userTo['User'];
+							$response['result']['notification'] = $this->GCMNotification->send($userFrom['User']['android_device_id'], NOTIFICATION_PING_ACCEPTED, $messageNotification, $usersPing['UsersPing']['user_from_id'], $usersPing);
+						}
 					}
 					
 					$response['result']['status'] = 'ok';
@@ -71,7 +81,7 @@ class UsersPingsController extends AppController {
 			$this->set('ids', $this->UsersPing->find('list', array('fields' => array('id', 'id'))));
 			$this->loadModel('User');
 			$this->set('users', $this->User->find('list', array('fields' => array('id', 'id'))));
-			$this->set('responses', array(1 => 'Accept', 2 => 'Reject', 3 => 'Ban'));
+			$this->set('responses', array(PING_ACCEPTED => 'Accept', PING_REJECTED => 'Reject', PING_REJECTED_AND_BANNED => 'Ban'));
 		}
 	}
 	
