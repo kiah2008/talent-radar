@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <CheckBoxPreference android:defaultValue="true" android:key="@string/preferences_network_activation_label" android:title="@string/preferences_network_activation_label"/>
+    <CheckBoxPreference android:defaultValue="true" android:summary="Es el yipies, master" android:key="@string/preferences_gps_activation_label" android:title="@string/preferences_gps_activation_label"/>
+    <EditTextPreference android:title="@string/preferences_ping_message" android:defaultValue="¡Hola!" android:key="@string/preferences_ping_message"/>
+    
+
+</PreferenceScreen>
