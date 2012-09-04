@@ -1,12 +1,14 @@
 package com.menatwork.preferences;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 
 import com.menatwork.R;
-import com.menatwork.TalentRadarApplication;
 
-public class SharedTalenRadarPreferences implements TalentRadarPreferences {
+public class SharedTalenRadarPreferences implements TalentRadarPreferences,
+		OnSharedPreferenceChangeListener {
 
 	private static final String PING_MESSAGE = "ping_message";
 	private static final String ACTUALIZATION_FREQUENCY_MILLISECONDS = "actualization_frequency_milliseconds";
@@ -18,11 +20,17 @@ public class SharedTalenRadarPreferences implements TalentRadarPreferences {
 	private final TalentRadarPreferencesListener[] listeners;
 
 	private Editor editor;
+	private final Context context;
 
-	public SharedTalenRadarPreferences(final SharedPreferences sharedPreferences,
+	public SharedTalenRadarPreferences(
+			final SharedPreferences sharedPreferences, //
+			final Context context, //
 			final TalentRadarPreferencesListener... listeners) {
 		this.sharedPreferences = sharedPreferences;
+		this.context = context;
 		this.listeners = listeners;
+
+		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 	}
 
 	// ************************************************ //
@@ -41,10 +49,13 @@ public class SharedTalenRadarPreferences implements TalentRadarPreferences {
 		if (!commitSuccessfull)
 			throw new RuntimeException("could not save changes to preferences");
 
+		notifyChanges();
+		discardChanges();
+	}
+
+	private void notifyChanges() {
 		for (final TalentRadarPreferencesListener listener : listeners)
 			listener.onPreferencesChanged(this);
-
-		discardChanges();
 	}
 
 	@Override
@@ -58,73 +69,100 @@ public class SharedTalenRadarPreferences implements TalentRadarPreferences {
 
 	@Override
 	public boolean isNetworkLocationActivation() {
-		return sharedPreferences.getBoolean(NETWORK_LOCATION_ACTIVATION, true);
+		return sharedPreferences.getBoolean(
+				context.getString(R.string.preferences_network_activation_key),
+				true);
 	}
 
 	@Override
 	public boolean isGpsLocationActivation() {
-		return sharedPreferences.getBoolean(GPS_LOCATION_ACTIVATION, true);
+		return sharedPreferences.getBoolean(
+				context.getString(R.string.preferences_gps_activation_key),
+				true);
 	}
 
 	@Override
 	public long getActualizationDurationMilliseconds() {
-		return sharedPreferences.getLong(ACTUALIZATION_DURATION_MILLISECONDS, 120000);
+		return getActualizationDurationSeconds() * 1000;
 	}
 
 	@Override
 	public long getActualizationFrequencyMilliseconds() {
-		return sharedPreferences.getLong(ACTUALIZATION_FREQUENCY_MILLISECONDS, 30000);
+		return getActualizationFrequencySeconds() * 1000;
 	}
 
 	@Override
 	public long getActualizationDurationSeconds() {
-		return getActualizationDurationMilliseconds() / 1000;
+		return Long.valueOf(sharedPreferences.getString(context
+				.getString(R.string.preferences_actualization_duration_key),
+				"120"));
 	}
 
 	@Override
 	public long getActualizationFrequencySeconds() {
-		return getActualizationFrequencyMilliseconds() / 1000;
+		return Long.valueOf(sharedPreferences.getString(context
+				.getString(R.string.preferences_actualization_frequency_key),
+				"30"));
 	}
 
 	@Override
 	public void setNetworkLocationActivation(final boolean checked) {
-		editor.putBoolean(NETWORK_LOCATION_ACTIVATION, checked);
+		editor.putBoolean(
+				context.getString(R.string.preferences_network_activation_key),
+				checked);
 	}
 
 	@Override
 	public void setGpsLocationActivation(final boolean checked) {
-		editor.putBoolean(GPS_LOCATION_ACTIVATION, checked);
+		editor.putBoolean(
+				context.getString(R.string.preferences_gps_activation_key),
+				checked);
 	}
 
 	public void setActualizationFrequencyMilliseconds(final long milliseconds) {
-		editor.putLong(ACTUALIZATION_FREQUENCY_MILLISECONDS, milliseconds);
+		setActualizationFrequencyMilliseconds(milliseconds / 1000);
 	}
 
 	public void setActualizationDurationMilliseconds(final long milliseconds) {
-		editor.putLong(ACTUALIZATION_DURATION_MILLISECONDS, milliseconds);
+		setActualizationDurationSeconds(milliseconds / 1000);
 	}
 
 	@Override
 	public void setActualizationFrequencySeconds(final long seconds) {
-		setActualizationFrequencyMilliseconds(seconds * 1000);
+		editor.putString(context
+				.getString(R.string.preferences_actualization_frequency_key),
+				String.valueOf(seconds));
 	}
 
 	@Override
 	public void setActualizationDurationSeconds(final long seconds) {
-		setActualizationDurationMilliseconds(seconds * 1000);
+		editor.putString(context
+				.getString(R.string.preferences_actualization_duration_key),
+				String.valueOf(seconds));
 	}
 
-	// TODO - Not sure if this is the best option, but it was the easiest one (:
-	// - boris - 31/08/2012
 	@Override
 	public String getPingMessage() {
-		return sharedPreferences.getString(PING_MESSAGE,
-				TalentRadarApplication.getContext().getString(R.string.default_ping_message));
+		return sharedPreferences.getString(
+				context.getString(R.string.preferences_ping_message_key), //
+				context.getString(R.string.default_ping_message));
 	}
 
 	@Override
 	public void setPingMessage(final String pingMessage) {
-		editor.putString(PING_MESSAGE, pingMessage);
+		editor.putString(
+				context.getString(R.string.preferences_ping_message_key),
+				pingMessage);
+	}
+
+	// ************************************************ //
+	// ====== OnSharedPreferenceChangeListener ======
+	// ************************************************ //
+
+	@Override
+	public void onSharedPreferenceChanged(
+			final SharedPreferences sharedPreferences, final String key) {
+		notifyChanges();
 	}
 
 }
