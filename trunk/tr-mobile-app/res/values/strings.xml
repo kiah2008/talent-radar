@@ -26,15 +26,6 @@
     <string name="profile_skills">Skills</string>
     <string name="profile_label_email">Email</string>
 
-    <!-- Preferences view -->
-    <string name="preferences_network_activation_label">Activar Network</string>
-    <string name="preferences_gps_activation_label">Activar GPS</string>
-    <string name="preferences_actualization_frequency_label">Frecuencia de actualización</string>
-    <string name="preferences_actualization_duration_label">Duración de actualización</string>
-    <string name="preferences_reset_changes_button">Reset</string>
-    <string name="preferences_save_changes_button">Guardar cambios</string>
-    <string name="preferences_ping_message">Mensaje de Ping</string>
-
     <!-- Other strings -->
 
 </resources>

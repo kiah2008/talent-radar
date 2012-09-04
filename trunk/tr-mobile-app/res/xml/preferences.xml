@@ -1,8 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <CheckBoxPreference android:defaultValue="true" android:key="@string/preferences_network_activation_label" android:title="@string/preferences_network_activation_label"/>
-    <CheckBoxPreference android:defaultValue="true" android:summary="Es el yipies, master" android:key="@string/preferences_gps_activation_label" android:title="@string/preferences_gps_activation_label"/>
-    <EditTextPreference android:title="@string/preferences_ping_message" android:defaultValue="¡Hola!" android:key="@string/preferences_ping_message"/>
-    
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/preferences_network_activation_key"
+        android:summary="@string/preferences_network_activation_summary"
+        android:title="@string/preferences_network_activation_label" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/preferences_gps_activation_key"
+        android:summary="@string/preferences_gps_activation_summary"
+        android:title="@string/preferences_gps_activation_label" />
+
+    <EditTextPreference
+        android:defaultValue="120"
+        android:key="@string/preferences_actualization_duration_key"
+        android:maxLength="3"
+        android:numeric="integer"
+        android:summary="@string/preferences_actualization_duration_summary"
+        android:title="@string/preferences_actualization_duration_label" />
+    <EditTextPreference
+        android:defaultValue="30"
+        android:key="@string/preferences_actualization_frequency_key"
+        android:maxLength="3"
+        android:numeric="integer"
+        android:summary="@string/preferences_actualization_frequency_summary"
+        android:title="@string/preferences_actualization_frequency_label" />
+    <EditTextPreference
+        android:defaultValue="@string/preferences_ping_message_default_value"
+        android:key="@string/preferences_ping_message_key"
+        android:summary="@string/preferences_ping_message_summary"
+        android:title="@string/preferences_ping_message_label" />
 
 </PreferenceScreen>
