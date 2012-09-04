@@ -10,12 +10,6 @@ import com.menatwork.R;
 public class SharedTalenRadarPreferences implements TalentRadarPreferences,
 		OnSharedPreferenceChangeListener {
 
-	private static final String PING_MESSAGE = "ping_message";
-	private static final String ACTUALIZATION_FREQUENCY_MILLISECONDS = "actualization_frequency_milliseconds";
-	private static final String ACTUALIZATION_DURATION_MILLISECONDS = "actualization_duration_milliseconds";
-	private static final String GPS_LOCATION_ACTIVATION = "gps_location_activation";
-	private static final String NETWORK_LOCATION_ACTIVATION = "network_location_activation";
-
 	private final SharedPreferences sharedPreferences;
 	private final TalentRadarPreferencesListener[] listeners;
 
@@ -69,16 +63,20 @@ public class SharedTalenRadarPreferences implements TalentRadarPreferences,
 
 	@Override
 	public boolean isNetworkLocationActivation() {
-		return sharedPreferences.getBoolean(
-				context.getString(R.string.preferences_network_activation_key),
-				true);
+		return sharedPreferences
+				.getBoolean(
+						context.getString(R.string.preferences_network_activation_key), //
+						Boolean.parseBoolean(context
+								.getString(R.string.preferences_network_activation_default_value)));
 	}
 
 	@Override
 	public boolean isGpsLocationActivation() {
-		return sharedPreferences.getBoolean(
-				context.getString(R.string.preferences_gps_activation_key),
-				true);
+		return sharedPreferences
+				.getBoolean(
+						context.getString(R.string.preferences_gps_activation_key),
+						Boolean.parseBoolean(context
+								.getString(R.string.preferences_gps_activation_default_value)));
 	}
 
 	@Override
@@ -93,16 +91,20 @@ public class SharedTalenRadarPreferences implements TalentRadarPreferences,
 
 	@Override
 	public long getActualizationDurationSeconds() {
-		return Long.valueOf(sharedPreferences.getString(context
-				.getString(R.string.preferences_actualization_duration_key),
-				"120"));
+		return sharedPreferences
+				.getLong(
+						context.getString(R.string.preferences_actualization_duration_key),
+						Long.valueOf(context
+								.getString(R.string.preferences_actualization_duration_default_value)));
 	}
 
 	@Override
 	public long getActualizationFrequencySeconds() {
-		return Long.valueOf(sharedPreferences.getString(context
-				.getString(R.string.preferences_actualization_frequency_key),
-				"30"));
+		return sharedPreferences
+				.getLong(
+						context.getString(R.string.preferences_actualization_frequency_key),
+						Long.valueOf(context
+								.getString(R.string.preferences_actualization_frequency_default_value)));
 	}
 
 	@Override
@@ -120,7 +122,7 @@ public class SharedTalenRadarPreferences implements TalentRadarPreferences,
 	}
 
 	public void setActualizationFrequencyMilliseconds(final long milliseconds) {
-		setActualizationFrequencyMilliseconds(milliseconds / 1000);
+		setActualizationFrequencySeconds(milliseconds / 1000);
 	}
 
 	public void setActualizationDurationMilliseconds(final long milliseconds) {
@@ -129,29 +131,29 @@ public class SharedTalenRadarPreferences implements TalentRadarPreferences,
 
 	@Override
 	public void setActualizationFrequencySeconds(final long seconds) {
-		editor.putString(context
-				.getString(R.string.preferences_actualization_frequency_key),
-				String.valueOf(seconds));
+		editor.putLong( //
+				context.getString(R.string.preferences_actualization_frequency_key), //
+				seconds);
 	}
 
 	@Override
 	public void setActualizationDurationSeconds(final long seconds) {
-		editor.putString(context
-				.getString(R.string.preferences_actualization_duration_key),
-				String.valueOf(seconds));
+		editor.putLong( //
+				context.getString(R.string.preferences_actualization_duration_key), //
+				seconds);
 	}
 
 	@Override
 	public String getPingMessage() {
-		return sharedPreferences.getString(
+		return sharedPreferences.getString( //
 				context.getString(R.string.preferences_ping_message_key), //
 				context.getString(R.string.default_ping_message));
 	}
 
 	@Override
 	public void setPingMessage(final String pingMessage) {
-		editor.putString(
-				context.getString(R.string.preferences_ping_message_key),
+		editor.putString( //
+				context.getString(R.string.preferences_ping_message_key), //
 				pingMessage);
 	}
 
