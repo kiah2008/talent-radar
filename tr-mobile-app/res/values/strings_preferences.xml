@@ -25,6 +25,6 @@
     <string name="preferences_ping_message_default_value">¡Kawaaabonga!</string>
     <string name="preferences_ping_message_key">ping_message</string>
     <string name="preferences_ping_message_summary">Mensaje de Ping! para enviar a otros usuarios</string>
-    <string name="preferences_ping_message_label">Mensaje Ping</string>
+    <string name="preferences_ping_message_label">Mensaje Ping!</string>
 
 </resources>

@@ -73,6 +73,7 @@ public class LocationSourceManager {
 		Log.d("LocationSourceManager", "deactivate()");
 
 		active = false;
+		updatingThread.interrupt();
 		updatingThread = null;
 	}
 
@@ -100,8 +101,8 @@ public class LocationSourceManager {
 
 		@Override
 		public void run() {
-			while (active) {
-				try {
+			try {
+				while (active) {
 					Location bestLocation = null;
 					LocationSource bestLocationSource = null;
 
@@ -123,10 +124,10 @@ public class LocationSourceManager {
 								bestLocationSource);
 
 					Thread.sleep(millisecondsBetweenUpdates);
-				} catch (final InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
+				} // while active
+			} catch (final InterruptedException e) {
+				Log.v("LocationSourceManager", "UpdatingThread interrupted");
+			} // catch interrupted exception
 		}
 	}
 

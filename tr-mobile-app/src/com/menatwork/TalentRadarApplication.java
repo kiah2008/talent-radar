@@ -2,7 +2,7 @@ package com.menatwork;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.android.gcm.GCMRegistrar;
@@ -15,11 +15,10 @@ import com.menatwork.preferences.TalentRadarPreferences;
 import com.menatwork.preferences.TalentRadarPreferencesListener;
 import com.menatwork.skills.DefaultSkillButtonFactory;
 import com.menatwork.skills.SkillButtonFactory;
+import com.menatwork.utils.AndroidUtils;
 
 public class TalentRadarApplication extends Application implements
 		TalentRadarPreferencesListener {
-
-	private static final String EMULATOR_BUILD_PRODUCT = "sdk";
 
 	private User localUser;
 	private final SkillButtonFactory skillButtonFactory;
@@ -58,20 +57,18 @@ public class TalentRadarApplication extends Application implements
 	// ====== Preferences ======
 	// ************************************************ //
 
-	public String getPreferencesFilename() {
-		return "TalenrRadarApp." + getLocalUser().getUsername();
-	}
-
 	public TalentRadarPreferences getPreferences() {
 		if (preferences == null)
-			preferences = new SharedTalenRadarPreferences(getSharedPreferences(
-					getPreferencesFilename(), MODE_PRIVATE), this);
+			preferences = new SharedTalenRadarPreferences(
+					PreferenceManager.getDefaultSharedPreferences(this), this,
+					this);
 
 		return preferences;
 	}
 
 	@Override
-	public void onPreferencesChanged(final TalentRadarPreferences preferences) {
+	public synchronized void onPreferencesChanged(
+			final TalentRadarPreferences preferences) {
 		Log.d("TalentRadarApplication", "onPreferencesChanged");
 
 		locationSourceManager.deactivate();
@@ -183,17 +180,10 @@ public class TalentRadarApplication extends Application implements
 	// ************************************************ //
 
 	/**
-	 * Tells whether the application is running on an emulator rather than a
-	 * real phone.
-	 *
-	 * @return <code>true</code> - if running on emulator
+	 * @see AndroidUtils#isRunningOnEmulator()
 	 */
 	public boolean isRunningOnEmulator() {
-		// XXX - should work for version 2.3.3 and above and the generic
-		// google's emulator (beware of intel's and other implementations) -
-		// miguel - 27/08/2012
-		// maybe this method would be more suitable in a GeneralUtils class
-		return EMULATOR_BUILD_PRODUCT.equals(Build.PRODUCT);
+		return AndroidUtils.isRunningOnEmulator();
 	}
 
 }

@@ -185,8 +185,8 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 
 		private ShareLocationAndGetUsersResponse handleResponse(
 				final ShareLocationAndGetUsersResponse response) {
-			Log.d("RadarServiceRunnable", "JSON Response");
-			Log.d("RadarServiceRunnable", response.toString());
+			Log.d("ShareLocationAndGetUsersTask", "JSON Response");
+			Log.d("ShareLocationAndGetUsersTask", response.toString());
 			return response;
 		}
 
