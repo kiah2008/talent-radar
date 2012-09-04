@@ -1,4 +1,4 @@
-package com.menatwork.utils;
+package com.menatwork.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;

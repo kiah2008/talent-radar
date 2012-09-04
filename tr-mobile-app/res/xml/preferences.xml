@@ -12,20 +12,21 @@
         android:summary="@string/preferences_gps_activation_summary"
         android:title="@string/preferences_gps_activation_label" />
 
-    <EditTextPreference
+    <com.menatwork.view.LongEditTextPreference
         android:defaultValue="120"
         android:key="@string/preferences_actualization_duration_key"
         android:maxLength="3"
         android:numeric="integer"
         android:summary="@string/preferences_actualization_duration_summary"
         android:title="@string/preferences_actualization_duration_label" />
-    <EditTextPreference
+    <com.menatwork.view.LongEditTextPreference
         android:defaultValue="30"
         android:key="@string/preferences_actualization_frequency_key"
         android:maxLength="3"
         android:numeric="integer"
         android:summary="@string/preferences_actualization_frequency_summary"
         android:title="@string/preferences_actualization_frequency_label" />
+
     <EditTextPreference
         android:defaultValue="@string/preferences_ping_message_default_value"
         android:key="@string/preferences_ping_message_key"
