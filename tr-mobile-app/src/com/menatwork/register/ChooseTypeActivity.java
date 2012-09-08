@@ -1,9 +1,11 @@
 package com.menatwork.register;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.menatwork.LoginActivity;
 import com.menatwork.R;
 import com.menatwork.utils.StartActivityListener;
 
