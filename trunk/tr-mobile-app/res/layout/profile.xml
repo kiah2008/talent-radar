@@ -87,7 +87,7 @@
                 android:text="@string/profile_skills"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <com.menatwork.utils.FlowLayout
+            <com.menatwork.view.FlowLayout
                 android:id="@+id/profile_layout_skills"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
                 android:padding="4dp"
                 app:horizontalSpacing="4dp"
                 app:verticalSpacing="4dp" >
-            </com.menatwork.utils.FlowLayout>
+            </com.menatwork.view.FlowLayout>
 
             <TextView
                 android:id="@+id/profile_label_email"

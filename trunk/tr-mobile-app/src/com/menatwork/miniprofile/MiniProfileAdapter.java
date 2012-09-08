@@ -131,8 +131,6 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 	}
 
 	TalentRadarApplication getTalentRadarApplication() {
-		// FIXME - ugly fugly, me knows... - MIGUEL FULGENCIO OLIVA - jajaja,
-		// ahora entiendo todo (soy alejo y me calienta pia, OM NOM NOM)
 		return (TalentRadarApplication) activity.getApplication();
 	}
 

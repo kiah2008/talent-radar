@@ -55,4 +55,15 @@
     <string name="post_key_save_device_id_user_id">data[User][id]</string>
     <string name="post_key_save_device_id_device_id">data[User][android_device_id]</string>
 
+    <!-- Add message to chat -->
+    <string name="post_uri_add_chat">http://talent-radar.com/usersMessages/app_addMessage</string>
+    <string name="post_key_add_chat_from_id">data[UsersMessage][user_from_id]</string>
+    <string name="post_key_add_chat_to_id">data[UsersMessage][user_to_id]</string>
+    <string name="post_key_add_chat_content">data[UsersMessage][content]</string>
+
+    <!-- Get Messages from chat -->
+    <string name="post_uri_get_chat_messages">http://talent-radar.com/talent-radar/usersMessages/app_getMessages</string>
+    <string name="post_key_get_chat_messages_id_1">data[UsersMessage][user1_id]</string>
+    <string name="post_key_get_chat_messages_id_2">data[UsersMessage][user2_id]</string>
+
 </resources>

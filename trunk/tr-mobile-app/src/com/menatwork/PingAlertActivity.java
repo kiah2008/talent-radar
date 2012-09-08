@@ -31,6 +31,7 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	public static final String EXTRA_USER_ID = "userid";
 	public static final String EXTRA_MESSAGE = "message";
 	public static final String EXTRA_USER_FULLNAME = "fullname";
+	public static final String EXTRA_PING_ID = "pingid";
 	private TextView username;
 	private TextView message;
 	private ImageView profilePicture;
@@ -46,11 +47,12 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	protected void onNewIntent(Intent intent) {
 		this.setIntent(intent);
 		this.loadDataFromExtras();
+		super.onNewIntent(intent);
 	}
 
 	private void loadDataFromExtras() {
 		Bundle extras = getIntent().getExtras();
-		pingId = extras.getString(EXTRA_USER_ID);
+		pingId = extras.getString(EXTRA_PING_ID);
 		dataUserName = extras.getString(EXTRA_USER_FULLNAME);
 		dataMessage = extras.getString(EXTRA_MESSAGE);
 		username.setText(dataUserName);
@@ -60,6 +62,7 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 
 	@Override
 	protected void postCreate(Bundle savedInstanceState) {
+		super.postCreate(savedInstanceState);
 		this.loadDataFromExtras();
 	}
 

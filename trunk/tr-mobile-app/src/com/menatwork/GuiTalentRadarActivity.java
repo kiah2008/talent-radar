@@ -20,11 +20,11 @@ public abstract class GuiTalentRadarActivity extends TalentRadarActivity {
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		setContentView(getViewLayoutId());
 		findViewElements();
 		setupButtons();
 		postCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 	}
 
 	/**
