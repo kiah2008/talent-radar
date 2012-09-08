@@ -44,10 +44,9 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	private String dataMessage;
 
 	@Override
-	protected void onNewIntent(Intent intent) {
-		this.setIntent(intent);
+	protected void onResume() {
 		this.loadDataFromExtras();
-		super.onNewIntent(intent);
+		super.onResume();
 	}
 
 	private void loadDataFromExtras() {
@@ -58,12 +57,6 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 		username.setText(dataUserName);
 		message.setText(dataMessage);
 		// TODO - load profile pic
-	}
-
-	@Override
-	protected void postCreate(Bundle savedInstanceState) {
-		super.postCreate(savedInstanceState);
-		this.loadDataFromExtras();
 	}
 
 	@Override

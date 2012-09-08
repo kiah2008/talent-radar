@@ -104,7 +104,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		Notification notification = new Notification(icon, message, when);
 		String title = context.getString(R.string.app_name);
 		PendingIntent intent = PendingIntent.getActivity(context, 0,
-				notificationIntent, 0);
+				notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		notification.setLatestEventInfo(context, title, message, intent);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		notificationManager.notify(id, notification);
