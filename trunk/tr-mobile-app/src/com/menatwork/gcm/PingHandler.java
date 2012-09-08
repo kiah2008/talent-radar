@@ -21,7 +21,6 @@ public class PingHandler implements GcmMessageHandler {
 			LogUtils.d(this, "Received ping", extras);
 
 			Intent newIntent = new Intent(context, PingAlertActivity.class);
-			newIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 			String data = extras.getString("data");
 			JSONObject jsonData = new JSONObject(data);
