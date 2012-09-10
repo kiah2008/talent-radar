@@ -10,8 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TabHost;
 
-import com.menatwork.radar.RadarActivity;
-
 public class MainActivity extends TabActivity {
 
 	@Override
@@ -49,7 +47,8 @@ public class MainActivity extends TabActivity {
 	}
 
 	private void showPreferences() {
-		final Intent settingsIntent = new Intent(this, TalentRadarPreferenceActivity.class);
+		final Intent settingsIntent = new Intent(this,
+				TalentRadarPreferenceActivity.class);
 		startActivity(settingsIntent);
 	}
 
@@ -96,8 +95,8 @@ public class MainActivity extends TabActivity {
 				R.drawable.icon_profile_tab);
 	}
 
-	private void addTab(final Class<? extends Activity> tabClass, final String tabTag, final String tabLabel,
-			final int tabIconId) {
+	private void addTab(final Class<? extends Activity> tabClass,
+			final String tabTag, final String tabLabel, final int tabIconId) {
 
 		// get tab host
 		final TabHost tabHost = getTabHost();
