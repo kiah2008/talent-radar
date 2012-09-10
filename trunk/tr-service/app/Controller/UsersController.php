@@ -99,19 +99,23 @@ class UsersController extends AppController {
 		if(!empty($linkedinToken)) {
 			if(!$user = $this->User->find('first', array('conditions' => array('User.linkedin_key' => $linkedinToken['linkedin_key'], 'User.linkedin_secret' => $linkedinToken['linkedin_secret']))))
 			{
-				$data = $this->Linkedin->call('people/~',
-														   array(
-														        'first-name', 'last-name', 'headline',
-														   ));
 				$user['User'] = $linkedinToken;
-				if(isset($data['person']))
-				{
-					$user['User']['name'] = isset($data['person']['first-name']) ? $data['person']['first-name'] : '';
-					$user['User']['surname'] = isset($data['person']['last-name']) ? $data['person']['last-name'] : '';
-					$user['User']['headline'] = isset($data['person']['headline']) ? $data['person']['headline'] : '';
-				}
-				$user = $this->User->save($user, false);
 			}
+			
+			$data = $this->Linkedin->call('people/~',
+													   array(
+													        'first-name', 'last-name', 'headline', 'picture-url'
+													   ));
+			if(isset($data['person']))
+			{
+				$user['User']['name'] = isset($data['person']['first-name']) ? $data['person']['first-name'] : '';
+				$user['User']['surname'] = isset($data['person']['last-name']) ? $data['person']['last-name'] : '';
+				$user['User']['headline'] = isset($data['person']['headline']) ? $data['person']['headline'] : '';
+				$user['User']['picture'] = isset($data['person']['picture-url']) ? $data['person']['picture-url'] : '';
+			}
+			
+			$user = $this->User->save($user, false);
+			
 			$this->redirect('talent.call.linkedin.back://https:/'.$user['User']['id']);
 		}
 		exit;
