@@ -42,7 +42,7 @@ class UsersMessagesController extends AppController {
 				$this->loadModel('User');
 				$userTo = $this->User->find('first', array('fields' => array('User.android_device_id'), 'conditions' => array('User.id' => $this->data['UsersMessage']['user_to_id'])));
 				if(!empty($userTo['User']['android_device_id'])) {
-					$userFrom = $this->User->find('first', array('fields' => array('User.id', 'User.name', 'User.surname', 'User.username'), 'conditions' => array('User.id' => $this->data['UsersMessage']['user_from_id'])));
+					$userFrom = $this->User->find('first', array('fields' => array('User.id', 'User.name', 'User.surname', 'User.username', 'User.picture'), 'conditions' => array('User.id' => $this->data['UsersMessage']['user_from_id'])));
 					$messageNotification = str_replace('@@@USER@@@', $userFrom['User']['name'].' '.$userFrom['User']['surname'], __('@@@USER@@@ le ha enviado un mensaje', true));
 					$usersMessage['UserFrom'] = $userFrom['User'];
 					$response['result']['notification'] = $this->GCMNotification->send($userTo['User']['android_device_id'], NOTIFICATION_MSG_SENT, $messageNotification, $this->data['UsersMessage']['user_to_id'], $usersMessage);
