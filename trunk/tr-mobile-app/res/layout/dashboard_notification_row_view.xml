@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#33b5e5"
+    android:orientation="vertical"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/dashboard_notification_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/default_profile_pic" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/dashboard_notification_timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12/08/2012 12:30am"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/tertiary_text_dark" />
+
+            <TextView
+                android:id="@+id/dashboard_notification_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notification header"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/primary_text_dark_nodisable" />
+
+            <TextView
+                android:id="@+id/dashboard_notification_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notification description"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

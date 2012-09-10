@@ -1,4 +1,4 @@
-package com.menatwork.radar;
+package com.menatwork;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -18,7 +18,6 @@ import android.util.Log;
 import android.widget.SlidingDrawer;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
-import com.menatwork.GuiTalentRadarActivity;
 import com.menatwork.R;
 import com.menatwork.location.LocationBuilder;
 import com.menatwork.location.LocationSource;
@@ -27,6 +26,7 @@ import com.menatwork.location.LocationSourceManagerListener;
 import com.menatwork.miniprofile.MiniProfileItemRow;
 import com.menatwork.miniprofile.MiniProfileListController;
 import com.menatwork.model.User;
+import com.menatwork.radar.RadarService;
 import com.menatwork.service.ShareLocationAndGetUsers;
 import com.menatwork.service.response.ShareLocationAndGetUsersResponse;
 
