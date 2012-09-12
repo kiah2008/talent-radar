@@ -5,6 +5,7 @@
     <string name="generic_error">Ocurrió un error</string>
     <string name="generic_wait">Espere…</string>
     <string name="menu_preferences_title">Preferencias</string>
+    <string name="menu_log_out_title">Log out</string>
     <string name="default_ping_message">Hello extraterrestrian, you are about to be hired through the best hiring application in the WORLD! Get hired!</string>
 
     <!-- Login screen -->

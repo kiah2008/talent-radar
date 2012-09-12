@@ -22,7 +22,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_border"
         android:orientation="vertical"
-        android:padding="@dimen/default_padding" >
+        android:padding="@dimen/extra_padding" >
     </LinearLayout>
 
     <LinearLayout
@@ -35,7 +35,7 @@
         android:gravity="center_horizontal|center_vertical" >
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/chat_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -45,7 +45,7 @@
         </EditText>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/chat_button_send"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

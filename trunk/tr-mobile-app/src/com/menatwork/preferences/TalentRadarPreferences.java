@@ -40,6 +40,8 @@ public interface TalentRadarPreferences {
 
 	String getPingMessage();
 
+	String getLocalUserId();
+
 	void setNetworkLocationActivation(boolean checked);
 
 	void setGpsLocationActivation(boolean checked);
@@ -49,5 +51,7 @@ public interface TalentRadarPreferences {
 	void setActualizationFrequencySeconds(long seconds);
 
 	void setPingMessage(String string);
+
+	void setLocalUserId(String id);
 
 }

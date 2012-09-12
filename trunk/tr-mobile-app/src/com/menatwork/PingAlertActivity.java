@@ -24,6 +24,7 @@ import com.menatwork.service.ReplyPing;
 import com.menatwork.service.ReplyPing.Answer;
 import com.menatwork.service.response.ErroneousResponse;
 import com.menatwork.service.response.Response;
+import com.menatwork.view.LoadProfilePictureTask;
 
 public class PingAlertActivity extends GuiTalentRadarActivity {
 
@@ -42,11 +43,19 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	private String pingId;
 	private String dataUserName;
 	private String dataMessage;
+	private String userId;
 
 	@Override
 	protected void onResume() {
 		this.loadDataFromExtras();
+		this.loadProfilePic();
 		super.onResume();
+	}
+
+	private void loadProfilePic() {
+		new LoadProfilePictureTask(profilePicture, loadingProfilePic,
+				"http://www.krizna.net/wp-content/uploads/2012/03/yao-ming-meme_facebook_1.jpg")
+				.execute();
 	}
 
 	private void loadDataFromExtras() {
@@ -54,6 +63,7 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 		pingId = extras.getString(EXTRA_PING_ID);
 		dataUserName = extras.getString(EXTRA_USER_FULLNAME);
 		dataMessage = extras.getString(EXTRA_MESSAGE);
+		userId = extras.getString(EXTRA_USER_ID);
 		username.setText(dataUserName);
 		message.setText(dataMessage);
 		// TODO - load profile pic
@@ -101,6 +111,16 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	void replyPing(Answer answer) {
 		new ReplyPingTask().execute(getTalentRadarApplication().getLocalUser()
 				.getId(), pingId, answer);
+	}
+
+	private void proceedToChatInterface() {
+		Intent intent = new Intent(PingAlertActivity.this, ChatActivity.class);
+		// TODO - get the real headline (along with the profile pic)
+		intent.putExtra(ChatActivity.EXTRAS_HEADLINE,
+				"this would be a headline (cuac)");
+		intent.putExtra(ChatActivity.EXTRAS_USER_ID, userId);
+		intent.putExtra(ChatActivity.EXTRAS_USERNAME, dataUserName);
+		startActivity(intent);
 	}
 
 	private class AcceptButtonListener implements OnClickListener {
@@ -181,8 +201,7 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 			if (Answer.ACCEPT.equals(answer))
 				// launch chat interface
 				// TODO - prototype implementation - alme
-				startActivity(new Intent(PingAlertActivity.this,
-						ChatActivity.class));
+				proceedToChatInterface();
 			else
 				finish();
 		}
