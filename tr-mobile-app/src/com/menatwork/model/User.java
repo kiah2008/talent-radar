@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface User {
 
+	String EMPTY_USER_ID = "this-is-a-non-existing-user-id";
+
 	String getId();
 
 	String getFullName();

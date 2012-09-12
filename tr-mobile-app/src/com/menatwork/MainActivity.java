@@ -30,6 +30,7 @@ public class MainActivity extends TabActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
+		super.onCreateOptionsMenu(menu);
 		final MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
 		return true;
@@ -40,6 +41,11 @@ public class MainActivity extends TabActivity {
 		switch (item.getItemId()) {
 		case R.id.preferences:
 			showPreferences();
+			return true;
+		case R.id.log_out:
+			getTalentRadarApplication().logOut();
+			Intent intent = new Intent(this, LoginActivity.class);
+			startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

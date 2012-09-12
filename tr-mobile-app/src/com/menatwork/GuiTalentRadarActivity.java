@@ -1,6 +1,8 @@
 package com.menatwork;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,6 +27,18 @@ public abstract class GuiTalentRadarActivity extends TalentRadarActivity {
 		findViewElements();
 		setupButtons();
 		postCreate(savedInstanceState);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.log_out:
+			getTalentRadarApplication().logOut();
+			startActivity(new Intent(this, LoginActivity.class));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	/**

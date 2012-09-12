@@ -6,8 +6,9 @@ import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 
 import com.menatwork.R;
+import com.menatwork.model.User;
 
-public class SharedTalenRadarPreferences implements TalentRadarPreferences,
+public class SharedTalentRadarPreferences implements TalentRadarPreferences,
 		OnSharedPreferenceChangeListener {
 
 	private final SharedPreferences sharedPreferences;
@@ -16,7 +17,7 @@ public class SharedTalenRadarPreferences implements TalentRadarPreferences,
 	private Editor editor;
 	private final Context context;
 
-	public SharedTalenRadarPreferences(
+	public SharedTalentRadarPreferences(
 			final SharedPreferences sharedPreferences, //
 			final Context context, //
 			final TalentRadarPreferencesListener... listeners) {
@@ -165,6 +166,22 @@ public class SharedTalenRadarPreferences implements TalentRadarPreferences,
 	public void onSharedPreferenceChanged(
 			final SharedPreferences sharedPreferences, final String key) {
 		notifyChanges();
+	}
+
+	// ************************************************ //
+	// ========= Local user persistent data =========
+	// ************************************************ //
+
+	@Override
+	public String getLocalUserId() {
+		return sharedPreferences.getString(
+				context.getString(R.string.preferences_user_id),
+				User.EMPTY_USER_ID);
+	}
+
+	@Override
+	public void setLocalUserId(String id) {
+		editor.putString(context.getString(R.string.preferences_user_id), id);
 	}
 
 }

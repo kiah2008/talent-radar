@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -144,6 +145,7 @@ public class LoginActivity extends GuiTalentRadarActivity {
 					progressDialog.dismiss();
 					final Intent intent = new Intent(LoginActivity.this,
 							MainActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					startActivity(intent);
 				}
 

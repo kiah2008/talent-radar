@@ -10,7 +10,7 @@ import com.menatwork.location.GpsLocationSource;
 import com.menatwork.location.LocationSourceManager;
 import com.menatwork.location.NetworkLocationSource;
 import com.menatwork.model.User;
-import com.menatwork.preferences.SharedTalenRadarPreferences;
+import com.menatwork.preferences.SharedTalentRadarPreferences;
 import com.menatwork.preferences.TalentRadarPreferences;
 import com.menatwork.preferences.TalentRadarPreferencesListener;
 import com.menatwork.skills.DefaultSkillButtonFactory;
@@ -43,10 +43,30 @@ public class TalentRadarApplication extends Application implements
 	public void loadLocalUser(final User user) {
 		Log.d("TalentRadarApplication", "loadLocalUser() " + user);
 		this.localUser = user;
+		this.persistLocalUserId(user.getId());
+	}
+
+	private void persistLocalUserId(String id) {
+		if (id.equals(getPreferences().getLocalUserId())) {
+			// do nothing!
+		} else {
+			getPreferences().setNewEdition();
+			getPreferences().setLocalUserId(id);
+			getPreferences().commitChanges();
+			getPreferences().discardChanges();
+		}
+	}
+
+	public void logOut() {
+		this.persistLocalUserId(User.EMPTY_USER_ID);
 	}
 
 	public User getLocalUser() {
 		return localUser;
+	}
+
+	public String getLocalUserId() {
+		return localUser.getId();
 	}
 
 	public SkillButtonFactory getSkillButtonFactory() {
@@ -59,7 +79,7 @@ public class TalentRadarApplication extends Application implements
 
 	public TalentRadarPreferences getPreferences() {
 		if (preferences == null)
-			preferences = new SharedTalenRadarPreferences(
+			preferences = new SharedTalentRadarPreferences(
 					PreferenceManager.getDefaultSharedPreferences(this), this,
 					this);
 
@@ -71,9 +91,11 @@ public class TalentRadarApplication extends Application implements
 			final TalentRadarPreferences preferences) {
 		Log.d("TalentRadarApplication", "onPreferencesChanged");
 
-		locationSourceManager.deactivate();
-		updateLocationSourceManagerConfiguration(preferences);
-		locationSourceManager.activate();
+		if (locationSourceManager != null) {
+			locationSourceManager.deactivate();
+			updateLocationSourceManagerConfiguration(preferences);
+			locationSourceManager.activate();
+		}
 	}
 
 	// ************************************************ //

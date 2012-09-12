@@ -31,6 +31,17 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
+            android:name="com.menatwork.DispatcherActivity"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="com.menatwork.LoginActivity"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Light" >
@@ -42,12 +53,34 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+        <activity
+            android:name="com.menatwork.MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Light" >
+        </activity>
+        <activity android:name="com.menatwork.DashboardActivity" >
+        </activity>
+        <activity
+            android:name="com.menatwork.ProfileActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light" >
+        </activity>
+        <activity
+            android:name="com.menatwork.PingAlertActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/app_name"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.Light" >
+        </activity>
+        <activity
+            android:name="com.menatwork.ChatActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light" >
+        </activity>
+
+        <!-- Registration flow activities -->
         <activity
             android:name="com.menatwork.register.ChooseTypeActivity"
             android:label="@string/app_name"
@@ -65,31 +98,6 @@
         </activity>
         <activity
             android:name="com.menatwork.register.SkillsActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light" >
-        </activity>
-        <activity
-            android:name="com.menatwork.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light" >
-        </activity>
-        <activity android:name="com.menatwork.DashboardActivity" >
-        </activity>
-        <activity
-            android:name="com.menatwork.ProfileActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light" >
-        </activity>
-        <activity
-            android:name="com.menatwork.GettingPingActivity"
-            android:noHistory="true" />
-        <activity
-            android:name="com.menatwork.PingAlertActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light" >
-        </activity>
-        <activity
-            android:name="com.menatwork.ChatActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Light" >
         </activity>

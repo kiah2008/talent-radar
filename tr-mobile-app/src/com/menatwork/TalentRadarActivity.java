@@ -12,9 +12,9 @@ import com.menatwork.service.response.GetUserSkillsResponse;
 
 /**
  * Common Activity superclass for all our activities.
- *
+ * 
  * @author miguel
- *
+ * 
  */
 public class TalentRadarActivity extends Activity {
 
@@ -28,7 +28,7 @@ public class TalentRadarActivity extends Activity {
 	/**
 	 * Retrieves the {@link Application} object casted to a
 	 * {@link TalentRadarApplication}
-	 *
+	 * 
 	 * @return {@link TalentRadarApplication} for the app
 	 */
 	public TalentRadarApplication getTalentRadarApplication() {
@@ -43,11 +43,11 @@ public class TalentRadarActivity extends Activity {
 	/* ********* Business' commons ************** */
 	/* ****************************************** */
 
-	protected User getLocalUser() {
+	User getLocalUser() {
 		return getTalentRadarApplication().getLocalUser();
 	}
 
-	protected User getUserById(final String userid) {
+	User getUserById(final String userid) {
 		try {
 			final GetUser getUser = GetUser.newInstance(this, userid);
 			final GetUserResponse response = getUser.execute();
