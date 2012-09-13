@@ -53,9 +53,9 @@ public class MainActivity extends TabActivity {
 	}
 
 	private void showPreferences() {
-		final Intent settingsIntent = new Intent(this,
+		final Intent preferencesIntent = new Intent(this,
 				TrPreferenceActivity.class);
-		startActivity(settingsIntent);
+		startActivity(preferencesIntent);
 	}
 
 	// ************************************************ //
