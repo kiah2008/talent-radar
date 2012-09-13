@@ -16,13 +16,13 @@ import android.widget.Toast;
 
 public class DashboardActivity extends ListActivity {
 
-	private static final String[] dataKeys = new String[] { //
+	private static final String[] DATA_KEYS = new String[] { //
 	/*    */"timestamp", //
 			"icon", //
 			"header", //
 			"description" };
 
-	private static final int[] dataViewIds = new int[] { //
+	private static final int[] DATA_VIEW_IDS = new int[] { //
 	/*    */R.id.dashboard_notification_timestamp, //
 			R.id.dashboard_notification_icon, //
 			R.id.dashboard_notification_header, //
@@ -38,8 +38,8 @@ public class DashboardActivity extends ListActivity {
 		final SimpleAdapter adapter = new SimpleAdapter(this, //
 				list, //
 				R.layout.dashboard_notification_row_view, //
-				dataKeys, //
-				dataViewIds);
+				DATA_KEYS, //
+				DATA_VIEW_IDS);
 
 		meteleUnaNotification();
 

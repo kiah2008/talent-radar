@@ -1,7 +1,5 @@
 package com.menatwork.test.service;
 
-import android.test.AndroidTestCase;
-
 import com.menatwork.service.ShareLocationAndGetUsers;
 import com.menatwork.service.response.ShareLocationAndGetUsersResponse;
 
