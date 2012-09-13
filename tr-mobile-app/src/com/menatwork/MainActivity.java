@@ -54,7 +54,7 @@ public class MainActivity extends TabActivity {
 
 	private void showPreferences() {
 		final Intent settingsIntent = new Intent(this,
-				TalentRadarPreferenceActivity.class);
+				TrPreferenceActivity.class);
 		startActivity(settingsIntent);
 	}
 
