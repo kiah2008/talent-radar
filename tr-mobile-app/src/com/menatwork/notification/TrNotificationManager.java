@@ -27,4 +27,12 @@ public class TrNotificationManager {
 		listeners.add(listener);
 	}
 
+	public void removeNotificationListener(final TrNotificationListener listener) {
+		listeners.remove(listener);
+	}
+
+	public List<TrNotification> getNotifications() {
+		return notifications;
+	}
+
 }

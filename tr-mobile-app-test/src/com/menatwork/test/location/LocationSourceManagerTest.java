@@ -8,18 +8,17 @@ import com.menatwork.location.LocationSource;
 import com.menatwork.location.LocationSourceManager;
 import com.menatwork.location.LocationSourceManagerListener;
 
-//TODO - this component should: 
-//	1- manage sweep frequency, 
-//	2- announce new actualizations, 
-//	3- accuracy criteria, 
-//	4- add/remove location sources, 
+//TODO - this component should:
+//	1- manage sweep frequency,
+//	2- announce new actualizations,
+//	3- accuracy criteria,
+//	4- add/remove location sources,
 //	5- activate/deactivate announcements - boris - 29/08/2012
 public class LocationSourceManagerTest extends TestCase {
 
 	public void testLocationIsTheOnlyOne() throws Exception {
 		final LocationSourceManager locationSourceManager = new LocationSourceManager();
 
-		// TODO - LocationBuilder, maybe - boris - 29/08/2012
 		final Location newLocation = new Location("stub");
 		newLocation.setLatitude(0);
 		newLocation.setLongitude(0);

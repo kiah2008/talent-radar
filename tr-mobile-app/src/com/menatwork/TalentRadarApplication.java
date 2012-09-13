@@ -11,6 +11,7 @@ import com.menatwork.location.LocationSourceManager;
 import com.menatwork.location.NetworkLocationSource;
 import com.menatwork.model.User;
 import com.menatwork.notification.TrNotificationManager;
+import com.menatwork.preferences.PreferencesChanges;
 import com.menatwork.preferences.SharedTalentRadarPreferences;
 import com.menatwork.preferences.TalentRadarPreferences;
 import com.menatwork.preferences.TalentRadarPreferencesListener;
@@ -18,7 +19,8 @@ import com.menatwork.skills.DefaultSkillButtonFactory;
 import com.menatwork.skills.SkillButtonFactory;
 import com.menatwork.utils.AndroidUtils;
 
-public class TalentRadarApplication extends Application implements TalentRadarPreferencesListener {
+public class TalentRadarApplication extends Application implements
+		TalentRadarPreferencesListener {
 
 	private User localUser;
 	private final SkillButtonFactory skillButtonFactory;
@@ -41,8 +43,8 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		preferences = new SharedTalentRadarPreferences(PreferenceManager.getDefaultSharedPreferences(this),
-				this, this);
+		preferences = new SharedTalentRadarPreferences(
+				PreferenceManager.getDefaultSharedPreferences(this), this, this);
 		notificationManager = new TrNotificationManager();
 		// TODO - this shouldnt be done, remind myself to fix it - boris -
 		// 13/09/2012
@@ -109,12 +111,16 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 	}
 
 	@Override
-	public synchronized void onPreferencesChanged(final TalentRadarPreferences preferences) {
+	public synchronized void onPreferencesChanged(
+			final PreferencesChanges changes,
+			final TalentRadarPreferences preferences) {
 		Log.d("TalentRadarApplication", "onPreferencesChanged");
 
-		locationSourceManager.deactivate();
-		updateLocationSourceManagerConfiguration(preferences);
-		locationSourceManager.activate();
+		if (changes.hasLocationSourceManagerPreferencesChanged()) {
+			locationSourceManager.deactivate();
+			updateLocationSourceManagerConfiguration(preferences);
+			locationSourceManager.activate();
+		}
 	}
 
 	// ************************************************ //
@@ -125,7 +131,8 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 		return locationSourceManager;
 	}
 
-	public void setLocationSourceManager(final LocationSourceManager locationSourceManager) {
+	public void setLocationSourceManager(
+			final LocationSourceManager locationSourceManager) {
 		this.locationSourceManager = locationSourceManager;
 	}
 
@@ -142,13 +149,16 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 		setLocationSourceManager(null);
 	}
 
-	private void updateLocationSourceManagerConfiguration(final TalentRadarPreferences preferences) {
+	private void updateLocationSourceManagerConfiguration(
+			final TalentRadarPreferences preferences) {
 
-		final long actualizationFrequencyMilliseconds = preferences.getActualizationFrequencyMilliseconds();
+		final long actualizationFrequencyMilliseconds = preferences
+				.getActualizationFrequencyMilliseconds();
 		final long millisecondsBetweenUpdates = actualizationFrequencyMilliseconds / 2;
 
 		// change actualization frequency
-		locationSourceManager.setMillisecondsBetweenUpdates(actualizationFrequencyMilliseconds);
+		locationSourceManager
+				.setMillisecondsBetweenUpdates(actualizationFrequencyMilliseconds);
 
 		// change location sources
 		locationSourceManager.removeAllLocationSources();
@@ -169,7 +179,8 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 	public String getDeviceRegistrationId() {
 		if (deviceRegistrationId == null) {
 			if (!this.isDeviceRegistered())
-				throw new RuntimeException("Device not registered, deviceRegistrationId == null");
+				throw new RuntimeException(
+						"Device not registered, deviceRegistrationId == null");
 			else {
 				deviceRegistrationId = GCMRegistrar.getRegistrationId(this);
 			}
@@ -194,7 +205,8 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 				GCMRegistrar.register(this, GCMIntentService.SENDER_ID);
 				deviceRegistrationLock.wait();
 				if (deviceRegistrationId == null) {
-					Log.w("TalentRadarApp", "Timeout registering device, continuing excecution...");
+					Log.w("TalentRadarApp",
+							"Timeout registering device, continuing excecution...");
 				} else {
 					Log.d("TalentRadarApp", "Registered device");
 				}

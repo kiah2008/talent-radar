@@ -8,7 +8,8 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import com.menatwork.R;
 import com.menatwork.model.User;
 
-public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnSharedPreferenceChangeListener {
+public class SharedTalentRadarPreferences implements TalentRadarPreferences,
+		OnSharedPreferenceChangeListener {
 
 	private final SharedPreferences sharedPreferences;
 	private final TalentRadarPreferencesListener[] listeners;
@@ -16,7 +17,8 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnS
 	private Editor editor;
 	private final Context context;
 
-	public SharedTalentRadarPreferences(final SharedPreferences sharedPreferences, //
+	public SharedTalentRadarPreferences(
+			final SharedPreferences sharedPreferences, //
 			final Context context, //
 			final TalentRadarPreferencesListener... listeners) {
 		this.sharedPreferences = sharedPreferences;
@@ -42,15 +44,18 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnS
 		if (!commitSuccessfull)
 			throw new RuntimeException("could not save changes to preferences");
 
+		// TODO - should add keys that were modified; i could initialize them
+		// after beginNewEdition and use them here - miguel - 13/09/2012
 		notifyChanges();
 		discardChanges();
 	}
 
 	// TODO - add which fields have been changed so that the listeners can act
 	// upon this - boris - 13/09/2012
-	private void notifyChanges() {
+	private void notifyChanges(final String... keys) {
 		for (final TalentRadarPreferencesListener listener : listeners)
-			listener.onPreferencesChanged(this);
+			listener.onPreferencesChanged(new SharedPreferencesChanges(keys),
+					this);
 	}
 
 	@Override
@@ -73,8 +78,11 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnS
 
 	@Override
 	public boolean isGpsLocationActivation() {
-		return sharedPreferences.getBoolean(context.getString(R.string.preferences_gps_activation_key),
-				Boolean.parseBoolean(context.getString(R.string.preferences_gps_activation_default_value)));
+		return sharedPreferences
+				.getBoolean(
+						context.getString(R.string.preferences_gps_activation_key),
+						Boolean.parseBoolean(context
+								.getString(R.string.preferences_gps_activation_default_value)));
 	}
 
 	@Override
@@ -89,24 +97,34 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnS
 
 	@Override
 	public long getActualizationDurationSeconds() {
-		return sharedPreferences.getLong(context.getString(R.string.preferences_actualization_duration_key),
-				Long.valueOf(context.getString(R.string.preferences_actualization_duration_default_value)));
+		return sharedPreferences
+				.getLong(
+						context.getString(R.string.preferences_actualization_duration_key),
+						Long.valueOf(context
+								.getString(R.string.preferences_actualization_duration_default_value)));
 	}
 
 	@Override
 	public long getActualizationFrequencySeconds() {
-		return sharedPreferences.getLong(context.getString(R.string.preferences_actualization_frequency_key),
-				Long.valueOf(context.getString(R.string.preferences_actualization_frequency_default_value)));
+		return sharedPreferences
+				.getLong(
+						context.getString(R.string.preferences_actualization_frequency_key),
+						Long.valueOf(context
+								.getString(R.string.preferences_actualization_frequency_default_value)));
 	}
 
 	@Override
 	public void setNetworkLocationActivation(final boolean checked) {
-		editor.putBoolean(context.getString(R.string.preferences_network_activation_key), checked);
+		editor.putBoolean(
+				context.getString(R.string.preferences_network_activation_key),
+				checked);
 	}
 
 	@Override
 	public void setGpsLocationActivation(final boolean checked) {
-		editor.putBoolean(context.getString(R.string.preferences_gps_activation_key), checked);
+		editor.putBoolean(
+				context.getString(R.string.preferences_gps_activation_key),
+				checked);
 	}
 
 	public void setActualizationFrequencyMilliseconds(final long milliseconds) {
@@ -150,8 +168,9 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnS
 	// ************************************************ //
 
 	@Override
-	public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
-		notifyChanges();
+	public void onSharedPreferenceChanged(
+			final SharedPreferences sharedPreferences, final String key) {
+		notifyChanges(key);
 	}
 
 	// ************************************************ //
@@ -160,7 +179,8 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnS
 
 	@Override
 	public String getLocalUserId() {
-		return sharedPreferences.getString(context.getString(R.string.preferences_user_id),
+		return sharedPreferences.getString(
+				context.getString(R.string.preferences_user_id),
 				User.EMPTY_USER_ID);
 	}
 
