@@ -2,11 +2,11 @@ package com.menatwork.location;
 
 import android.location.Location;
 
-public class ConstantLocationSource implements LocationSource {
+public class FixedLocationSource implements LocationSource {
 
 	private final Location location;
 
-	public ConstantLocationSource(final Location location) {
+	public FixedLocationSource(final Location location) {
 		this.location = location;
 	}
 

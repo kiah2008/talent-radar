@@ -18,6 +18,14 @@ public class TrNotificationManager {
 		notifyAdded(notification);
 	}
 
+	public List<TrNotification> getNotifications() {
+		return notifications;
+	}
+
+	// ************************************************ //
+	// ====== Listeners ======
+	// ************************************************ //
+
 	private void notifyAdded(final TrNotification notification) {
 		for (final TrNotificationListener listener : listeners)
 			listener.onNewNotification(this, notification);
@@ -29,10 +37,6 @@ public class TrNotificationManager {
 
 	public void removeNotificationListener(final TrNotificationListener listener) {
 		listeners.remove(listener);
-	}
-
-	public List<TrNotification> getNotifications() {
-		return notifications;
 	}
 
 }

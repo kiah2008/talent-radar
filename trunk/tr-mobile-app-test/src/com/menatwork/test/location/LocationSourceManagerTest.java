@@ -3,7 +3,7 @@ package com.menatwork.test.location;
 import junit.framework.TestCase;
 import android.location.Location;
 
-import com.menatwork.location.ConstantLocationSource;
+import com.menatwork.location.FixedLocationSource;
 import com.menatwork.location.LocationSource;
 import com.menatwork.location.LocationSourceManager;
 import com.menatwork.location.LocationSourceManagerListener;
@@ -23,7 +23,7 @@ public class LocationSourceManagerTest extends TestCase {
 		newLocation.setLatitude(0);
 		newLocation.setLongitude(0);
 
-		locationSourceManager.addLocationSource(new ConstantLocationSource(newLocation));
+		locationSourceManager.addLocationSource(new FixedLocationSource(newLocation));
 		locationSourceManager.setMillisecondsBetweenUpdates(100);
 
 		final MockLocationSourceManagerListener mockListener = new MockLocationSourceManagerListener();
