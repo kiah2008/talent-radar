@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -67,8 +66,7 @@ public class LoginActivity extends GuiTalentRadarActivity {
 
 	@Override
 	protected void setupButtons() {
-		registerButton.setOnClickListener(new StartActivityListener(this,
-				ChooseTypeActivity.class));
+		registerButton.setOnClickListener(new StartActivityListener(this, ChooseTypeActivity.class));
 		linkedInButton.setOnClickListener(new LoginWithLinkedinListener());
 		loginButton.setOnClickListener(new LoginButtonListener());
 	}
@@ -78,16 +76,13 @@ public class LoginActivity extends GuiTalentRadarActivity {
 		final Builder builder = new AlertDialog.Builder(this);
 		switch (id) {
 		case DIALOG_INCORRECT_LOGIN:
-			builder.setTitle(this
-					.getString(R.string.login_dialog_incorrectLogin_title));
-			builder.setMessage(this
-					.getString(R.string.login_dialog_incorrectLogin_message));
+			builder.setTitle(this.getString(R.string.login_dialog_incorrectLogin_title));
+			builder.setMessage(this.getString(R.string.login_dialog_incorrectLogin_message));
 			builder.setPositiveButton("OK", new NaiveDialogClickListener());
 			return builder.create();
 		case DIALOG_ERROR:
 			builder.setTitle(this.getString(R.string.login_dialog_error_title));
-			builder.setMessage(this
-					.getString(R.string.login_dialog_error_message));
+			builder.setMessage(this.getString(R.string.login_dialog_error_message));
 			builder.setPositiveButton("OK", new NaiveDialogClickListener());
 			return builder.create();
 		}
@@ -108,8 +103,7 @@ public class LoginActivity extends GuiTalentRadarActivity {
 	}
 
 	private void handleTestNotification() {
-		Toast.makeText(this, "Te abri— la app VITEH\'", Toast.LENGTH_LONG)
-				.show();
+		Toast.makeText(this, "Te abri— la app VITEH\'", Toast.LENGTH_LONG).show();
 	}
 
 	private void handleLoginWithLinkedin(final Intent intent) {
@@ -128,13 +122,11 @@ public class LoginActivity extends GuiTalentRadarActivity {
 		this.finishSuccessfulLogin(user, progressDialog);
 	}
 
-	private void finishSuccessfulLogin(final User user,
-			final ProgressDialog progressDialog) {
+	private void finishSuccessfulLogin(final User user, final ProgressDialog progressDialog) {
 		if (isRunningOnEmulator()) {
 			getTalentRadarApplication().loadLocalUser(user);
 			progressDialog.dismiss();
-			final Intent intent = new Intent(LoginActivity.this,
-					MainActivity.class);
+			final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 			startActivity(intent);
 		} else
 			new SaveDeviceIdTask() {
@@ -143,8 +135,7 @@ public class LoginActivity extends GuiTalentRadarActivity {
 				protected void onPostExecute(final SaveDeviceIdResponse result) {
 					getTalentRadarApplication().loadLocalUser(user);
 					progressDialog.dismiss();
-					final Intent intent = new Intent(LoginActivity.this,
-							MainActivity.class);
+					final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					startActivity(intent);
 				}
@@ -161,8 +152,7 @@ public class LoginActivity extends GuiTalentRadarActivity {
 			final LoginTask task = new LoginTask();
 			// FIXME - Wooow! app shouldn't explodeee if no inet - boris -
 			// 22/08/2012
-			task.execute(email.getText().toString(), password.getText()
-					.toString());
+			task.execute(email.getText().toString(), password.getText().toString());
 		}
 	}
 
@@ -190,8 +180,7 @@ public class LoginActivity extends GuiTalentRadarActivity {
 		@Override
 		protected LoginResponse doInBackground(final String... arg0) {
 			try {
-				final Login login = Login.newInstance(LoginActivity.this,
-						arg0[0], arg0[1]);
+				final Login login = Login.newInstance(LoginActivity.this, arg0[0], arg0[1]);
 				final LoginResponse loginResponse = login.execute();
 				LogUtils.d(LoginActivity.this, "Login response", loginResponse);
 				return loginResponse;
@@ -212,12 +201,23 @@ public class LoginActivity extends GuiTalentRadarActivity {
 				showDialog(DIALOG_INCORRECT_LOGIN);
 			else
 				showDialog(DIALOG_ERROR);
+
+			// TODO - what happens when no inet is given? check this out NOOOW -
+			// boris - 13/09/2012
+			// final UserBuilder userBuilder = UserBuilder.newInstance();
+			// userBuilder.setId("asdfsdf");
+			// userBuilder.setUserName("Mikeys");
+			// userBuilder.setUserSurname("O");
+			// userBuilder.setEmail("omikeys@ohoh.com");
+			// userBuilder.setHeadline("Groso de la vida");
+			// final User user = userBuilder.build();
+			//
+			// finishSuccessfulLogin(user, progressDialog);
 		}
 
 	}
 
-	private class SaveDeviceIdTask extends
-			AsyncTask<String, Void, SaveDeviceIdResponse> {
+	private class SaveDeviceIdTask extends AsyncTask<String, Void, SaveDeviceIdResponse> {
 
 		@Override
 		protected SaveDeviceIdResponse doInBackground(final String... params) {
@@ -228,21 +228,18 @@ public class LoginActivity extends GuiTalentRadarActivity {
 				if (!talentRadarApplication.isDeviceRegistered()) {
 					talentRadarApplication.registerDevice();
 				}
-				final String deviceId = talentRadarApplication
-						.getDeviceRegistrationId();
-				final SaveDeviceId saveDeviceId = SaveDeviceId.newInstance(
-						LoginActivity.this, userId, deviceId);
+				final String deviceId = talentRadarApplication.getDeviceRegistrationId();
+				final SaveDeviceId saveDeviceId = SaveDeviceId.newInstance(LoginActivity.this, userId,
+						deviceId);
 				SaveDeviceIdResponse saveDeviceIdResponse;
 				saveDeviceIdResponse = saveDeviceId.execute();
-				LogUtils.d(LoginActivity.this, "GCM Registration response",
-						saveDeviceIdResponse);
+				LogUtils.d(LoginActivity.this, "GCM Registration response", saveDeviceIdResponse);
 				return saveDeviceIdResponse;
 			} catch (final JSONException e) {
 				Log.e("SaveDeviceIdTask", "Error parsing JSON response", e);
 				throw new RuntimeException(e);
 			} catch (final IOException e) {
-				Log.e("SaveDeviceIdTask", "IO error trying to register device",
-						e);
+				Log.e("SaveDeviceIdTask", "IO error trying to register device", e);
 				throw new RuntimeException(e);
 			}
 		}
