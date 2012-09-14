@@ -7,9 +7,23 @@ import com.menatwork.service.Defect;
 public class TrNotificationBuilder {
 
 	private TrNotificationType type;
-	private String header = "";
-	private String description = "";
-	private Date date = new Date();
+	private String header;
+	private String description;
+	private Date date;
+
+	public static TrNotificationBuilder newInstance() {
+		return new TrNotificationBuilder();
+	}
+
+	protected TrNotificationBuilder() {
+		this.header = "";
+		this.description = "";
+		this.date = new Date();
+	}
+
+	// ************************************************ //
+	// ====== Build ======
+	// ************************************************ //
 
 	public TrNotification build() {
 		if (type == null)

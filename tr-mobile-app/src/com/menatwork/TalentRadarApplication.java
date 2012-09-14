@@ -19,7 +19,8 @@ import com.menatwork.skills.DefaultSkillButtonFactory;
 import com.menatwork.skills.SkillButtonFactory;
 import com.menatwork.utils.AndroidUtils;
 
-public class TalentRadarApplication extends Application implements TalentRadarPreferencesListener {
+public class TalentRadarApplication extends Application implements
+		TalentRadarPreferencesListener {
 
 	private static Context context;
 
@@ -27,7 +28,7 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 	private String deviceRegistrationId;
 
 	private User localUser;
-	
+
 	private SkillButtonFactory skillButtonFactory;
 	private LocationSourceManager locationSourceManager;
 	private TalentRadarPreferences preferences;
@@ -39,9 +40,9 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 		context = this;
 
 		skillButtonFactory = DefaultSkillButtonFactory.newInstance();
-		preferences = new SharedTalentRadarPreferences(PreferenceManager.getDefaultSharedPreferences(this),
-				this, this);
-		notificationManager = new TrNotificationManager();
+		preferences = new SharedTalentRadarPreferences(
+				PreferenceManager.getDefaultSharedPreferences(this), this, this);
+		notificationManager = TrNotificationManager.newInstance();
 		locationSourceManager = new NaiveLocationSourceManager();
 	}
 
@@ -97,7 +98,8 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 	}
 
 	@Override
-	public synchronized void onPreferencesChanged(final PreferencesChanges changes,
+	public synchronized void onPreferencesChanged(
+			final PreferencesChanges changes,
 			final TalentRadarPreferences preferences) {
 		Log.d("TalentRadarApplication", "onPreferencesChanged");
 
@@ -116,7 +118,8 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 		return locationSourceManager;
 	}
 
-	public void setLocationSourceManager(final LocationSourceManager locationSourceManager) {
+	public void setLocationSourceManager(
+			final LocationSourceManager locationSourceManager) {
 		this.locationSourceManager = locationSourceManager;
 	}
 
@@ -133,13 +136,16 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 		setLocationSourceManager(null);
 	}
 
-	private void updateLocationSourceManagerConfiguration(final TalentRadarPreferences preferences) {
+	private void updateLocationSourceManagerConfiguration(
+			final TalentRadarPreferences preferences) {
 
-		final long actualizationFrequencyMilliseconds = preferences.getActualizationFrequencyMilliseconds();
+		final long actualizationFrequencyMilliseconds = preferences
+				.getActualizationFrequencyMilliseconds();
 		final long millisecondsBetweenUpdates = actualizationFrequencyMilliseconds / 2;
 
 		// change actualization frequency
-		locationSourceManager.setMillisecondsBetweenUpdates(actualizationFrequencyMilliseconds);
+		locationSourceManager
+				.setMillisecondsBetweenUpdates(actualizationFrequencyMilliseconds);
 
 		// change location sources
 		locationSourceManager.removeAllLocationSources();
@@ -160,7 +166,8 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 	public String getDeviceRegistrationId() {
 		if (deviceRegistrationId == null) {
 			if (!this.isDeviceRegistered())
-				throw new RuntimeException("Device not registered, deviceRegistrationId == null");
+				throw new RuntimeException(
+						"Device not registered, deviceRegistrationId == null");
 			else {
 				deviceRegistrationId = GCMRegistrar.getRegistrationId(this);
 			}
@@ -185,7 +192,8 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 				GCMRegistrar.register(this, GCMIntentService.SENDER_ID);
 				deviceRegistrationLock.wait();
 				if (deviceRegistrationId == null) {
-					Log.w("TalentRadarApp", "Timeout registering device, continuing excecution...");
+					Log.w("TalentRadarApp",
+							"Timeout registering device, continuing excecution...");
 				} else {
 					Log.d("TalentRadarApp", "Registered device");
 				}
@@ -216,7 +224,8 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 	// ====== NaiveLocationSourceManager ======
 	// ************************************************ //
 
-	private final class NaiveLocationSourceManager extends LocationSourceManager {
+	private final class NaiveLocationSourceManager extends
+			LocationSourceManager {
 		@Override
 		public void activate() {
 			// nothing to do here!

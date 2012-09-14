@@ -1,9 +1,9 @@
 package com.menatwork.test.notification;
 
+import junit.framework.TestCase;
+
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-
-import android.test.AndroidTestCase;
 
 import com.menatwork.notification.TrNotification;
 import com.menatwork.notification.TrNotificationBuilder;
@@ -11,30 +11,52 @@ import com.menatwork.notification.TrNotificationListener;
 import com.menatwork.notification.TrNotificationManager;
 import com.menatwork.notification.TrNotificationType;
 
-// TODO - test not working, find out why - miguel - 13/09/2012
-public class NotificationManagerTest extends AndroidTestCase {
+public class NotificationManagerTest extends TestCase {
 
-	private final TrNotificationManager notificationManager = new TrNotificationManager();
+	private final TrNotificationManager notificationManager = TrNotificationManager
+			.newInstance();
 	private final Mockery context = new Mockery();
+
+	private final TrNotification newNotification = TrNotificationBuilder
+			.newInstance().setType(TrNotificationType.PING).build();
 
 	public void testReceivesNotificationAndNotifiesListeners() throws Exception {
 		final TrNotificationListener listener = context
 				.mock(TrNotificationListener.class);
 
-		final TrNotification newNotification = new TrNotificationBuilder()
-				.setType(TrNotificationType.PING).build();
-
 		context.checking(new Expectations() {
 			{
 				oneOf(listener).onNewNotification( //
-						with(notificationManager), //
-						with(any(TrNotification.class)));
+						notificationManager, //
+						newNotification);
 			}
 		});
 
 		notificationManager.addNotificationListener(listener);
 
-		notificationManager.newNotification( //
-				newNotification);
+		notificationManager.newNotification(newNotification);
+
+		context.assertIsSatisfied();
+	}
+
+	public void testReceivesNotificationAndDoesntNotifyRemovedListeners()
+			throws Exception {
+		final TrNotificationListener listener = context
+				.mock(TrNotificationListener.class);
+
+		context.checking(new Expectations() {
+			{
+				never(listener).onNewNotification( //
+						notificationManager, //
+						newNotification);
+			}
+		});
+
+		notificationManager.addNotificationListener(listener);
+		notificationManager.removeNotificationListener(listener);
+
+		notificationManager.newNotification(newNotification);
+
+		context.assertIsSatisfied();
 	}
 }

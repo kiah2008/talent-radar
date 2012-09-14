@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import android.location.Location;
 
 import com.menatwork.location.FixedLocationSource;
+import com.menatwork.location.LocationBuilder;
 import com.menatwork.location.LocationSource;
 import com.menatwork.location.LocationSourceManager;
 import com.menatwork.location.LocationSourceManagerListener;
@@ -19,11 +20,11 @@ public class LocationSourceManagerTest extends TestCase {
 	public void testLocationIsTheOnlyOne() throws Exception {
 		final LocationSourceManager locationSourceManager = new LocationSourceManager();
 
-		final Location newLocation = new Location("stub");
-		newLocation.setLatitude(0);
-		newLocation.setLongitude(0);
+		final Location newLocation = LocationBuilder.newInstance()
+				.setCoordinates(0, 0).build();
 
-		locationSourceManager.addLocationSource(new FixedLocationSource(newLocation));
+		locationSourceManager.addLocationSource(new FixedLocationSource(
+				newLocation));
 		locationSourceManager.setMillisecondsBetweenUpdates(100);
 
 		final MockLocationSourceManagerListener mockListener = new MockLocationSourceManagerListener();
@@ -38,25 +39,29 @@ public class LocationSourceManagerTest extends TestCase {
 		mockListener.assertLocationReceived(newLocation);
 	}
 
-	private class MockLocationSourceManagerListener implements LocationSourceManagerListener {
+	private class MockLocationSourceManagerListener implements
+			LocationSourceManagerListener {
 
 		private Location locationReceived;
 
 		private LocationSource locationSourceReceived;
 
 		@Override
-		public void onLocationUpdate(final Location location, final LocationSource locationSource) {
+		public void onLocationUpdate(final Location location,
+				final LocationSource locationSource) {
 			this.locationReceived = location;
 			this.locationSourceReceived = locationSource;
 		}
 
 		public void assertLocationReceived(final Location expectedLocation) {
-			assertEquals("expectedLocation is locationReceived", expectedLocation, locationReceived);
+			assertEquals("expectedLocation is locationReceived",
+					expectedLocation, locationReceived);
 		}
 
-		public void assertLocationSourceReceived(final LocationSource expectedLocationSource) {
-			assertEquals("expectedLocationSource is locationSourceReceived", expectedLocationSource,
-					locationSourceReceived);
+		public void assertLocationSourceReceived(
+				final LocationSource expectedLocationSource) {
+			assertEquals("expectedLocationSource is locationSourceReceived",
+					expectedLocationSource, locationSourceReceived);
 		}
 	}
 }
