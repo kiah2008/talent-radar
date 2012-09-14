@@ -43,9 +43,9 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnS
 
 	@Override
 	public void commitChanges() {
-		final boolean commitSuccessfull = editor.commit();
+		final boolean commitSuccessful = editor.commit();
 
-		if (!commitSuccessfull)
+		if (!commitSuccessful)
 			throw new RuntimeException("could not save changes to preferences");
 
 		notifyChanges(keysChanged.toArray(new String[0]));
