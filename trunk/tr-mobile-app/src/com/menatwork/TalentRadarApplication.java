@@ -33,6 +33,10 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 	private TalentRadarPreferences preferences;
 	private TrNotificationManager notificationManager;
 
+	public static Context getContext() {
+		return context;
+	}
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -56,9 +60,17 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 		});
 	}
 
-	public static Context getContext() {
-		return context;
+	public SkillButtonFactory getSkillButtonFactory() {
+		return skillButtonFactory;
 	}
+
+	public TrNotificationManager getNotificationManager() {
+		return notificationManager;
+	}
+
+	// ************************************************ //
+	// ====== Local User ======
+	// ************************************************ //
 
 	public void loadLocalUser(final User user) {
 		Log.d("TalentRadarApplication", "loadLocalUser() " + user);
@@ -72,10 +84,7 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 		} else {
 			preferences.beginNewEdition();
 			preferences.setLocalUserId(id);
-			// FIXME - beware to use BOTH methods, choose one to finish edition
-			// - boris - 13/09/2012
 			preferences.commitChanges();
-//			preferences.discardChanges();
 		}
 	}
 
@@ -89,14 +98,6 @@ public class TalentRadarApplication extends Application implements TalentRadarPr
 
 	public String getLocalUserId() {
 		return localUser.getId();
-	}
-
-	public SkillButtonFactory getSkillButtonFactory() {
-		return skillButtonFactory;
-	}
-
-	public TrNotificationManager getNotificationManager() {
-		return notificationManager;
 	}
 
 	// ************************************************ //
