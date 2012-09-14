@@ -1,0 +1,6 @@
+LoginActivity and stack
+- login con user tr, atrás (se tiene que ir de la app)
+- login con user tr, log out, login de vuelta, atrás (se tiene que ir de la app)
+- login con user li, atrás (se tiene que ir de la app)
+- login con user li, log out, login de vuelta, atrás (se tiene que ir de la app)
+- login con cualquiera (tr | li), log out, login con el opuesto (li | tr), atrás, se tiene que ir d ela app
