@@ -31,7 +31,7 @@ public class DispatcherActivity extends TalentRadarActivity {
 			progress.dismiss();
 		}
 	}
-
+	
 	private boolean notValidUserId(final String localUserId) {
 		return User.EMPTY_USER_ID.equals(localUserId);
 	}

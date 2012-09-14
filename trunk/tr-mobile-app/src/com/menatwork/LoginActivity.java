@@ -34,6 +34,8 @@ public class LoginActivity extends GuiTalentRadarActivity {
 	public static final int DIALOG_INCORRECT_LOGIN = 1;
 	public static final int DIALOG_ERROR = 2;
 
+	private static final int LINKED_IN_REQUEST_CODE = 0303456;
+
 	private Button registerButton;
 	private ImageButton linkedInButton;
 	private Button loginButton;
@@ -126,22 +128,29 @@ public class LoginActivity extends GuiTalentRadarActivity {
 
 	private void finishSuccessfulLogin(final User user, final ProgressDialog progressDialog) {
 		if (isRunningOnEmulator()) {
-			getTalentRadarApplication().loadLocalUser(user);
-			progressDialog.dismiss();
-			final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-			startActivity(intent);
+			doFinishSuccesfulLogin(user, progressDialog);
 		} else
 			new SaveDeviceIdTask() {
 				@Override
 				protected void onPostExecute(final SaveDeviceIdResponse result) {
-					getTalentRadarApplication().loadLocalUser(user);
-					progressDialog.dismiss();
-					final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					startActivity(intent);
+					doFinishSuccesfulLogin(user, progressDialog);
 				}
 
 			}.execute(user.getId());
+	}
+
+	private void doFinishSuccesfulLogin(final User user, final ProgressDialog progressDialog) {
+		getTalentRadarApplication().loadLocalUser(user);
+		progressDialog.dismiss();
+		final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+		startActivity(intent);
+
+		// finiquitate some activities so that they are not hanging around
+		// NOTE: Android seems to have some mechanisms to avoid doing this
+		// manually, but they're REALLY buggy at the time, so let's be honest to
+		// ourselves
+		finishActivity(LINKED_IN_REQUEST_CODE);
+		finish();
 	}
 
 	private void showIOExceptionMessage() {
@@ -167,7 +176,8 @@ public class LoginActivity extends GuiTalentRadarActivity {
 		public void onClick(final View v) {
 			final Intent browserIntent = new Intent(Intent.ACTION_VIEW,
 					Uri.parse(getString(R.string.uri_login_with_linkedin)));
-			startActivity(browserIntent);
+			browserIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			startActivityForResult(browserIntent, LINKED_IN_REQUEST_CODE);
 		}
 
 	}
