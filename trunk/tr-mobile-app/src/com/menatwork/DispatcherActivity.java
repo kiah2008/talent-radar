@@ -1,36 +1,38 @@
 package com.menatwork;
 
-import com.menatwork.model.User;
-import com.menatwork.preferences.TalentRadarPreferences;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.menatwork.model.User;
+import com.menatwork.preferences.TalentRadarPreferences;
+
 public class DispatcherActivity extends TalentRadarActivity {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-//		TODO - leaving this part with no effect since it is still unstable.
-		
-		//		ProgressDialog progress = ProgressDialog.show(this,
-//				getString(R.string.generic_wait), "");
-		
-//		try {
-//			TalentRadarPreferences preferences = getTalentRadarApplication()
-//					.getPreferences();
-//			String localUserId = preferences.getLocalUserId();
-//			if (User.EMPTY_USER_ID.equals(localUserId)) {
+		final ProgressDialog progress = ProgressDialog.show(this, getString(R.string.generic_wait), "");
+
+		try {
+			final TalentRadarPreferences preferences = getTalentRadarApplication().getPreferences();
+
+			final String localUserId = preferences.getLocalUserId();
+			User localUser = null;
+ 
+			if (notValidUserId(localUserId) || (localUser = getUserById(localUserId)) == null) {
 				startActivity(new Intent(this, LoginActivity.class));
-//			} else {
-//				User localUser = getUserById(localUserId);
-//				getTalentRadarApplication().loadLocalUser(localUser);
-//				startActivity(new Intent(this, MainActivity.class));
-//			}
-//		} finally {
-//			progress.dismiss();
-//		}
+			} else {
+				getTalentRadarApplication().loadLocalUser(localUser);
+				startActivity(new Intent(this, MainActivity.class));
+			}
+		} finally {
+			progress.dismiss();
+		}
+	}
+
+	private boolean notValidUserId(final String localUserId) {
+		return User.EMPTY_USER_ID.equals(localUserId);
 	}
 }

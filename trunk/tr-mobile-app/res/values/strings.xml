@@ -20,6 +20,7 @@
     <string name="login_dialog_incorrectLogin_message">Usuario o contrasena incorrectos</string>
     <string name="login_dialog_error_title">Ups!</string>
     <string name="login_dialog_error_message">Problema al contactar con el servidor</string>
+    <string name="login_unknown_host_exception">Problema al contactar con el servidor. Revise la conexión a Internet.</string>
 
     <!-- Profile view -->
     <string name="profile_no_skills_button">No skills</string>

@@ -43,18 +43,22 @@ public class MainActivity extends TabActivity {
 			showPreferences();
 			return true;
 		case R.id.log_out:
-			getTalentRadarApplication().logOut();
-			Intent intent = new Intent(this, LoginActivity.class);
-			startActivity(intent);
+			logOut();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
 
+	private void logOut() {
+		getTalentRadarApplication().logOut();
+		final Intent intent = new Intent(this, LoginActivity.class);
+		startActivity(intent);
+		finish();
+	}
+
 	private void showPreferences() {
-		final Intent preferencesIntent = new Intent(this,
-				TrPreferenceActivity.class);
+		final Intent preferencesIntent = new Intent(this, TrPreferenceActivity.class);
 		startActivity(preferencesIntent);
 	}
 
@@ -101,8 +105,8 @@ public class MainActivity extends TabActivity {
 				R.drawable.icon_profile_tab);
 	}
 
-	private void addTab(final Class<? extends Activity> tabClass,
-			final String tabTag, final String tabLabel, final int tabIconId) {
+	private void addTab(final Class<? extends Activity> tabClass, final String tabTag, final String tabLabel,
+			final int tabIconId) {
 
 		// get tab host
 		final TabHost tabHost = getTabHost();

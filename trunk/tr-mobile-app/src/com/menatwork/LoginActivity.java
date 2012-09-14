@@ -94,7 +94,9 @@ public class LoginActivity extends GuiTalentRadarActivity {
 		// handle logging in with linked in
 		Log.d("LoginActivity", "New intent: " + intent.getDataString());
 		final Uri dataUri = intent.getData();
-		if ("talent".equals(dataUri.getScheme())) {
+		if (dataUri == null) {
+			// nothing?
+		} else if ("talent".equals(dataUri.getScheme())) {
 			if ("notification".equals(dataUri.getSchemeSpecificPart()))
 				handleTestNotification();
 		} else if ("talent.call.linkedin.back".equals(dataUri.getScheme())) {
@@ -130,7 +132,6 @@ public class LoginActivity extends GuiTalentRadarActivity {
 			startActivity(intent);
 		} else
 			new SaveDeviceIdTask() {
-
 				@Override
 				protected void onPostExecute(final SaveDeviceIdResponse result) {
 					getTalentRadarApplication().loadLocalUser(user);
@@ -143,15 +144,19 @@ public class LoginActivity extends GuiTalentRadarActivity {
 			}.execute(user.getId());
 	}
 
-	// ******** login innards *********
+	private void showIOExceptionMessage() {
+		Toast.makeText(LoginActivity.this, R.string.login_unknown_host_exception, Toast.LENGTH_LONG).show();
+	}
+
+	// ************************************************ //
+	// ====== login innards ======
+	// ************************************************ //
 
 	private class LoginButtonListener implements OnClickListener {
 
 		@Override
 		public void onClick(final View v) {
 			final LoginTask task = new LoginTask();
-			// FIXME - Wooow! app shouldn't explodeee if no inet - boris -
-			// 22/08/2012
 			task.execute(email.getText().toString(), password.getText().toString());
 		}
 	}
@@ -195,15 +200,20 @@ public class LoginActivity extends GuiTalentRadarActivity {
 
 		@Override
 		protected void onPostExecute(final LoginResponse result) {
-			if (result.isValid() && result.isSuccessful()) {
-				finishSuccessfulLogin(result.getUser(), progressDialog);
-			} else if (result.isValid())
-				showDialog(DIALOG_INCORRECT_LOGIN);
-			else
-				showDialog(DIALOG_ERROR);
+			if (result != null) {
+				if (result.isValid() && result.isSuccessful()) {
+					finishSuccessfulLogin(result.getUser(), progressDialog);
+				} else if (result.isValid())
+					showDialog(DIALOG_INCORRECT_LOGIN);
+				else
+					showDialog(DIALOG_ERROR);
+			} else {
+				progressDialog.dismiss();
+				showIOExceptionMessage();
+			}
+			// this code is just here for testing purpose only when inet
+			// connection is not available
 
-			// TODO - what happens when no inet is given? check this out NOOOW -
-			// boris - 13/09/2012
 			// final UserBuilder userBuilder = UserBuilder.newInstance();
 			// userBuilder.setId("asdfsdf");
 			// userBuilder.setUserName("Mikeys");
@@ -211,7 +221,6 @@ public class LoginActivity extends GuiTalentRadarActivity {
 			// userBuilder.setEmail("omikeys@ohoh.com");
 			// userBuilder.setHeadline("Groso de la vida");
 			// final User user = userBuilder.build();
-			//
 			// finishSuccessfulLogin(user, progressDialog);
 		}
 

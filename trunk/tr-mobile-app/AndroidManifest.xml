@@ -44,6 +44,7 @@
         <activity
             android:name="com.menatwork.LoginActivity"
             android:launchMode="singleInstance"
+            android:noHistory="true"
             android:theme="@android:style/Theme.Light" >
             <intent-filter>
                 <data android:scheme="talent.call.linkedin.back" />
