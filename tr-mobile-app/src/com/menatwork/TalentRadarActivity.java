@@ -7,6 +7,7 @@ import com.menatwork.model.User;
 import com.menatwork.preferences.TalentRadarPreferences;
 import com.menatwork.service.GetUser;
 import com.menatwork.service.GetUserSkills;
+import com.menatwork.service.ResponseException;
 import com.menatwork.service.response.GetUserResponse;
 import com.menatwork.service.response.GetUserSkillsResponse;
 
@@ -51,17 +52,24 @@ public class TalentRadarActivity extends Activity {
 		try {
 			final GetUser getUser = GetUser.newInstance(this, userid);
 			final GetUserResponse response = getUser.execute();
-			final GetUserSkills getUserSkills = GetUserSkills.newInstance(this,
-					userid);
 			final User user = response.getUser();
-			final GetUserSkillsResponse userSkillsResponse = getUserSkills
-					.execute();
-			user.setSkills(userSkillsResponse.getSkills());
+
+			try {
+				final GetUserSkills getUserSkills = GetUserSkills.newInstance(this, userid);
+				final GetUserSkillsResponse userSkillsResponse = getUserSkills.execute();
+				user.setSkills(userSkillsResponse.getSkills());
+			} catch (final ResponseException e) {
+				// TODO Auto-generated catch block
+				// won't set skills, but will return user, is it a lot of
+				// damage?
+				e.printStackTrace();
+			}
+
 			return user;
 		} catch (final Exception e) {
 			// TODO get this right please
 			e.printStackTrace();
+			return null;
 		}
-		return null;
 	}
 }

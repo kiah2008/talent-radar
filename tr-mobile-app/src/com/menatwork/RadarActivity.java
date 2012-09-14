@@ -29,8 +29,7 @@ import com.menatwork.radar.RadarService;
 import com.menatwork.service.ShareLocationAndGetUsers;
 import com.menatwork.service.response.ShareLocationAndGetUsersResponse;
 
-public class RadarActivity extends GuiTalentRadarActivity implements
-		LocationSourceManagerListener {
+public class RadarActivity extends GuiTalentRadarActivity implements LocationSourceManagerListener {
 
 	// TODO - used for the RadarService implementation -> Not used right now! -
 	// boris - 17/08/2012
@@ -49,8 +48,7 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 
 	@Override
 	protected void findViewElements() {
-		slidingDrawer = findViewById(R.id.radar_sliding_drawer,
-				SlidingDrawer.class);
+		slidingDrawer = findViewById(R.id.radar_sliding_drawer, SlidingDrawer.class);
 	}
 
 	@Override
@@ -97,8 +95,7 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 		}
 	}
 
-	public synchronized void refreshSurroundingContacts(
-			final List<? extends User> parseSurroundingUsers) {
+	public synchronized void refreshSurroundingContacts(final List<? extends User> parseSurroundingUsers) {
 		final List<MiniProfileItemRow> newMiniProfileItems = new LinkedList<MiniProfileItemRow>();
 		for (final User user : parseSurroundingUsers)
 			newMiniProfileItems.add(new MiniProfileItemRow(user));
@@ -117,8 +114,8 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 			copy = new LinkedList<MiniProfileItemRow>(miniProfileItems);
 		}
 
-		final MiniProfileListController listController = new MiniProfileListController(
-				RadarActivity.this, R.id.radar_mini_profiles_list_view, copy);
+		final MiniProfileListController listController = new MiniProfileListController(RadarActivity.this,
+				R.id.radar_mini_profiles_list_view, copy);
 		listController.showList();
 	}
 
@@ -127,10 +124,14 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 	/* ********************************************* */
 
 	@Override
-	public void onLocationUpdate(final Location location,
-			final LocationSource locationSource) {
+	public void onLocationUpdate(final Location location, final LocationSource locationSource) {
 		Log.d("RadarActivity", "new location = " + location);
-		new ShareLocationAndGetUsersTask().execute(location);
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				new ShareLocationAndGetUsersTask().execute(location);
+			}
+		});
 	}
 
 	// ************************************************ //
@@ -141,26 +142,21 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 			AsyncTask<Location, Void, ShareLocationAndGetUsersResponse> {
 
 		@Override
-		protected ShareLocationAndGetUsersResponse doInBackground(
-				final Location... locations) {
+		protected ShareLocationAndGetUsersResponse doInBackground(final Location... locations) {
 			try {
 				final Location location = initializeLocation(locations);
 				if (location != null) {
-					final User localUser = getTalentRadarApplication()
-							.getLocalUser();
+					final User localUser = getTalentRadarApplication().getLocalUser();
 
 					final double latitude = location.getLatitude();
 					final double longitude = location.getLongitude();
 
-					final long durationSeconds = getPreferences()
-							.getActualizationDurationSeconds();
+					final long durationSeconds = getPreferences().getActualizationDurationSeconds();
 
-					final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers
-							.newInstance(RadarActivity.this, localUser.getId(),
-									latitude, longitude, durationSeconds);
+					final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers.newInstance(
+							RadarActivity.this, localUser.getId(), latitude, longitude, durationSeconds);
 
-					final ShareLocationAndGetUsersResponse response = handleResponse(serviceCall
-							.execute());
+					final ShareLocationAndGetUsersResponse response = handleResponse(serviceCall.execute());
 
 					refreshSurroundingContacts(response.parseSurroundingUsers());
 				}
@@ -176,8 +172,8 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 		}
 
 		private Location initializeLocation(final Location... locations) {
-			return isRunningOnEmulator() ? LocationBuilder.newInstance()
-					.setCoordinates(0, 0).build() : locations[0];
+			return isRunningOnEmulator() ? LocationBuilder.newInstance().setCoordinates(0, 0).build()
+					: locations[0];
 		}
 
 		private ShareLocationAndGetUsersResponse handleResponse(
@@ -195,8 +191,7 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 
 	private final class RadarServiceConnection implements ServiceConnection {
 		@Override
-		public void onServiceConnected(final ComponentName className,
-				final IBinder service) {
+		public void onServiceConnected(final ComponentName className, final IBinder service) {
 			// We've bound to RadarService, cast the IBinder and get
 			// RadarService instance
 			// final RadarBinder binder = (RadarBinder) service;
