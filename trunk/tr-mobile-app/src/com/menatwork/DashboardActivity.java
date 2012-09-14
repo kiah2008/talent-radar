@@ -76,7 +76,7 @@ public class DashboardActivity extends ListActivity implements
 
 		// TODO - for the sake of testing; stub notification; erase whenever
 		// possible - miguel - 13/09/2012
-		addNofiticationAndNotify(new TrNotificationBuilder() //
+		addNofiticationAndNotify(TrNotificationBuilder.newInstance() //
 				.setType(TrNotificationType.PING) //
 				.setDate(new Date()) //
 				.setDescription("le descriptionçç") //

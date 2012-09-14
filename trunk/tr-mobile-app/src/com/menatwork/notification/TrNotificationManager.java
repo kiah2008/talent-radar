@@ -8,7 +8,11 @@ public class TrNotificationManager {
 	private final List<TrNotification> notifications;
 	private final List<TrNotificationListener> listeners;
 
-	public TrNotificationManager() {
+	public static TrNotificationManager newInstance() {
+		return new TrNotificationManager();
+	}
+
+	protected TrNotificationManager() {
 		this.notifications = new LinkedList<TrNotification>();
 		this.listeners = new LinkedList<TrNotificationListener>();
 	}
