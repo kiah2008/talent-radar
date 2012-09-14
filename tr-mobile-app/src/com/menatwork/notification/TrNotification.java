@@ -10,8 +10,8 @@ public class TrNotification {
 	private final String description;
 	private final Date date;
 
-	public TrNotification(final TrNotificationType type, final String header,
-			final String description, final Date date) {
+	public TrNotification(final TrNotificationType type, final String header, final String description,
+			final Date date) {
 		this.type = type;
 		this.header = header;
 		this.description = description;
@@ -22,11 +22,8 @@ public class TrNotification {
 		return type;
 	}
 
-	public Void getIcon() {
-		// FIXME - right, ehhrr, fix this, should return an icon, not null -
-		// miguel - 13/09/2012
-		// return type.getIcon();
-		return null;
+	public int getIcon() {
+		return type.getIcon();
 	}
 
 	public String getHeader() {

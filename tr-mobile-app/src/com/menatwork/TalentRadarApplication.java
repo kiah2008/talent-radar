@@ -19,44 +19,30 @@ import com.menatwork.skills.DefaultSkillButtonFactory;
 import com.menatwork.skills.SkillButtonFactory;
 import com.menatwork.utils.AndroidUtils;
 
-public class TalentRadarApplication extends Application implements
-		TalentRadarPreferencesListener {
+public class TalentRadarApplication extends Application implements TalentRadarPreferencesListener {
 
-	private User localUser;
-	private final SkillButtonFactory skillButtonFactory;
+	private static Context context;
+
 	private final Object deviceRegistrationLock = new Object();
 	private String deviceRegistrationId;
 
+	private User localUser;
+	
+	private SkillButtonFactory skillButtonFactory;
 	private LocationSourceManager locationSourceManager;
 	private TalentRadarPreferences preferences;
 	private TrNotificationManager notificationManager;
 
-	private static Context context;
-
-	public TalentRadarApplication() {
-		super();
-		// TODO - should i move these to onCreate()? - boris - 13/09/2012
-		context = this;
-		this.skillButtonFactory = DefaultSkillButtonFactory.newInstance();
-	}
-
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		preferences = new SharedTalentRadarPreferences(
-				PreferenceManager.getDefaultSharedPreferences(this), this, this);
-		notificationManager = new TrNotificationManager();
-		// TODO - this shouldnt be done, remind myself to fix it - boris -
-		// 13/09/2012
-		locationSourceManager = new LocationSourceManager() {
-			@Override
-			public void activate() {
-			}
+		context = this;
 
-			@Override
-			public void deactivate() {
-			}
-		};
+		skillButtonFactory = DefaultSkillButtonFactory.newInstance();
+		preferences = new SharedTalentRadarPreferences(PreferenceManager.getDefaultSharedPreferences(this),
+				this, this);
+		notificationManager = new TrNotificationManager();
+		locationSourceManager = new NaiveLocationSourceManager();
 	}
 
 	public static Context getContext() {
@@ -111,8 +97,7 @@ public class TalentRadarApplication extends Application implements
 	}
 
 	@Override
-	public synchronized void onPreferencesChanged(
-			final PreferencesChanges changes,
+	public synchronized void onPreferencesChanged(final PreferencesChanges changes,
 			final TalentRadarPreferences preferences) {
 		Log.d("TalentRadarApplication", "onPreferencesChanged");
 
@@ -131,8 +116,7 @@ public class TalentRadarApplication extends Application implements
 		return locationSourceManager;
 	}
 
-	public void setLocationSourceManager(
-			final LocationSourceManager locationSourceManager) {
+	public void setLocationSourceManager(final LocationSourceManager locationSourceManager) {
 		this.locationSourceManager = locationSourceManager;
 	}
 
@@ -149,16 +133,13 @@ public class TalentRadarApplication extends Application implements
 		setLocationSourceManager(null);
 	}
 
-	private void updateLocationSourceManagerConfiguration(
-			final TalentRadarPreferences preferences) {
+	private void updateLocationSourceManagerConfiguration(final TalentRadarPreferences preferences) {
 
-		final long actualizationFrequencyMilliseconds = preferences
-				.getActualizationFrequencyMilliseconds();
+		final long actualizationFrequencyMilliseconds = preferences.getActualizationFrequencyMilliseconds();
 		final long millisecondsBetweenUpdates = actualizationFrequencyMilliseconds / 2;
 
 		// change actualization frequency
-		locationSourceManager
-				.setMillisecondsBetweenUpdates(actualizationFrequencyMilliseconds);
+		locationSourceManager.setMillisecondsBetweenUpdates(actualizationFrequencyMilliseconds);
 
 		// change location sources
 		locationSourceManager.removeAllLocationSources();
@@ -179,8 +160,7 @@ public class TalentRadarApplication extends Application implements
 	public String getDeviceRegistrationId() {
 		if (deviceRegistrationId == null) {
 			if (!this.isDeviceRegistered())
-				throw new RuntimeException(
-						"Device not registered, deviceRegistrationId == null");
+				throw new RuntimeException("Device not registered, deviceRegistrationId == null");
 			else {
 				deviceRegistrationId = GCMRegistrar.getRegistrationId(this);
 			}
@@ -205,8 +185,7 @@ public class TalentRadarApplication extends Application implements
 				GCMRegistrar.register(this, GCMIntentService.SENDER_ID);
 				deviceRegistrationLock.wait();
 				if (deviceRegistrationId == null) {
-					Log.w("TalentRadarApp",
-							"Timeout registering device, continuing excecution...");
+					Log.w("TalentRadarApp", "Timeout registering device, continuing excecution...");
 				} else {
 					Log.d("TalentRadarApp", "Registered device");
 				}
@@ -231,6 +210,22 @@ public class TalentRadarApplication extends Application implements
 	 */
 	public boolean isRunningOnEmulator() {
 		return AndroidUtils.isRunningOnEmulator();
+	}
+
+	// ************************************************ //
+	// ====== NaiveLocationSourceManager ======
+	// ************************************************ //
+
+	private final class NaiveLocationSourceManager extends LocationSourceManager {
+		@Override
+		public void activate() {
+			// nothing to do here!
+		}
+
+		@Override
+		public void deactivate() {
+			// nothing to do here!
+		}
 	}
 
 }

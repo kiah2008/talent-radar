@@ -18,7 +18,6 @@ import android.util.Log;
 import android.widget.SlidingDrawer;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
-import com.menatwork.R;
 import com.menatwork.location.LocationBuilder;
 import com.menatwork.location.LocationSource;
 import com.menatwork.location.LocationSourceManager;
@@ -40,8 +39,6 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 
 	private SlidingDrawer slidingDrawer;
 
-	// TODO - should be some kind of concurrent collection, maybe - boris -
-	// 29/08/2012
 	private final Object miniProfileItemsLock = new Object();
 	private List<MiniProfileItemRow> miniProfileItems = new LinkedList<MiniProfileItemRow>();
 
