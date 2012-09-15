@@ -33,6 +33,7 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	public static final String EXTRA_MESSAGE = "message";
 	public static final String EXTRA_USER_FULLNAME = "fullname";
 	public static final String EXTRA_PING_ID = "pingid";
+	public static final String EXTRAS_PROFILE_PIC_URL = "profilePicUrl";
 	private TextView username;
 	private TextView message;
 	private ImageView profilePicture;
@@ -44,18 +45,17 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	private String dataUserName;
 	private String dataMessage;
 	private String userId;
+	private String profilePicUrl;
 
 	@Override
 	protected void onResume() {
 		this.loadDataFromExtras();
-		this.loadProfilePic();
 		super.onResume();
 	}
 
-	private void loadProfilePic() {
-		new LoadProfilePictureTask(profilePicture, loadingProfilePic,
-				"http://www.krizna.net/wp-content/uploads/2012/03/yao-ming-meme_facebook_1.jpg")
-				.execute();
+	private void loadProfilePic(String profilePicUrl) {
+		new LoadProfilePictureTask(this, profilePicture, loadingProfilePic,
+				profilePicUrl).execute();
 	}
 
 	private void loadDataFromExtras() {
@@ -64,9 +64,18 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 		dataUserName = extras.getString(EXTRA_USER_FULLNAME);
 		dataMessage = extras.getString(EXTRA_MESSAGE);
 		userId = extras.getString(EXTRA_USER_ID);
+		profilePicUrl = extras.getString(EXTRAS_PROFILE_PIC_URL);
+		if (pingId == null || //
+				dataUserName == null || //
+				dataMessage == null || //
+				userId == null || //
+				profilePicUrl == null)
+			throw new RuntimeException(
+					"This activity must be called with extras");
 		username.setText(dataUserName);
 		message.setText(dataMessage);
-		// TODO - load profile pic
+		this.loadProfilePic(profilePicUrl);
+
 	}
 
 	@Override
@@ -120,6 +129,7 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 				"this would be a headline (cuac)");
 		intent.putExtra(ChatActivity.EXTRAS_USER_ID, userId);
 		intent.putExtra(ChatActivity.EXTRAS_USERNAME, dataUserName);
+		intent.putExtra(ChatActivity.EXTRAS_PROFILE_PIC_URL, profilePicUrl);
 		startActivity(intent);
 	}
 

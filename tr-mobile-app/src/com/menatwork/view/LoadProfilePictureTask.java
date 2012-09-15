@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.menatwork.R;
+
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -15,17 +18,20 @@ public class LoadProfilePictureTask extends AsyncTask<Void, Void, Bitmap> {
 	private ImageView targetView;
 	private ProgressBar progressIndicator;
 	private String urlString;
+	private Context context;
 
-	public LoadProfilePictureTask(ImageView targetView,
+	public LoadProfilePictureTask(Context context, ImageView targetView,
 			ProgressBar progressIndicator, String url) {
 		super();
+		this.context = context;
 		this.targetView = targetView;
 		this.progressIndicator = progressIndicator;
 		this.urlString = url;
 	}
 
-	public LoadProfilePictureTask(ImageView targetView, String url) {
-		this(targetView, null, url);
+	public LoadProfilePictureTask(Context context, ImageView targetView,
+			String url) {
+		this(context, targetView, null, url);
 	}
 
 	@Override
@@ -36,7 +42,10 @@ public class LoadProfilePictureTask extends AsyncTask<Void, Void, Bitmap> {
 			return BitmapFactory.decodeStream(url.openConnection()
 					.getInputStream());
 		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
+			// if url is empty or malformed, just leave the default profile
+			// picture
+			return BitmapFactory.decodeResource(context.getResources(),
+					R.drawable.default_profile_pic);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -6,6 +6,6 @@ import com.menatwork.GCMIntentService;
 
 public interface GcmMessageHandler {
 
-	public void handle(GCMIntentService context, Intent extras);
+	public void handle(GCMIntentService context, Intent intent);
 
 }

@@ -27,6 +27,7 @@ import android.util.Log;
 
 import com.google.android.gcm.GCMBaseIntentService;
 import com.menatwork.gcm.GcmMessageHandler;
+import com.menatwork.gcm.IncomingChatMessageHandler;
 import com.menatwork.gcm.PingHandler;
 
 /**
@@ -35,8 +36,10 @@ import com.menatwork.gcm.PingHandler;
 public class GCMIntentService extends GCMBaseIntentService {
 
 	private static final String TYPE_PING = "1";
+	private static final String TYPE_NEW_CHAT_MESSAGE = "3";
 
 	private static final String TAG = "GCMIntentService";
+
 	private HashMap<String, GcmMessageHandler> handlers;
 
 	public static String SENDER_ID;
@@ -50,6 +53,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 		super(SENDER_ID);
 		handlers = new HashMap<String, GcmMessageHandler>();
 		handlers.put(TYPE_PING, PingHandler.instance());
+		handlers.put(TYPE_NEW_CHAT_MESSAGE,
+				IncomingChatMessageHandler.instance());
 	}
 
 	@Override
