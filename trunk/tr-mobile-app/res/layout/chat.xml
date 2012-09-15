@@ -71,4 +71,11 @@
         android:text="Un empresario re copado con muchas causas abiertas"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
+    <ProgressBar
+        android:id="@+id/chat_loading_profile_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/chat_profile_pic"
+        android:layout_alignTop="@+id/chat_profile_pic" />
+
 </RelativeLayout>

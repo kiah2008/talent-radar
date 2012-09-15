@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 
+import com.menatwork.ChatActivity;
 import com.menatwork.GCMIntentService;
 import com.menatwork.PingAlertActivity;
 import com.menatwork.utils.LogUtils;
@@ -26,13 +27,12 @@ public class PingHandler implements GcmMessageHandler {
 			JSONObject jsonData = new JSONObject(data);
 			JSONObject jsonUser = jsonData.getJSONObject("UserFrom");
 
-			String pingId = setPingId(newIntent, jsonData);
+			String pingId = this.setPingId(newIntent, jsonData);
 
-			setUserId(newIntent, jsonUser);
-
-			setFullName(newIntent, jsonUser);
-
-			setMessage(newIntent, jsonData);
+			this.setUserId(newIntent, jsonUser);
+			this.setFullName(newIntent, jsonUser);
+			this.setMessage(newIntent, jsonData);
+			this.setPicture(newIntent, jsonUser);
 
 			GCMIntentService.generateNotification(context,
 					Integer.valueOf(pingId), extras.getString("message"),
@@ -70,6 +70,13 @@ public class PingHandler implements GcmMessageHandler {
 		String pingId = jsonData.getJSONObject("UsersPing").getString("id");
 		newIntent.putExtra(PingAlertActivity.EXTRA_PING_ID, pingId);
 		return pingId;
+	}
+
+	private void setPicture(Intent notificationIntent, JSONObject jsonUser)
+			throws JSONException {
+		String profilePicUrl = jsonUser.getString("picture");
+		notificationIntent.putExtra(ChatActivity.EXTRAS_PROFILE_PIC_URL,
+				profilePicUrl);
 	}
 
 	public static GcmMessageHandler instance() {
