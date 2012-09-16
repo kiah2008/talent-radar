@@ -90,7 +90,14 @@ class UsersController extends AppController {
 	}
 	
 	public function app_loginLinkedinCallback() {
-		$this->Linkedin->authorize(array('action' => 'app_loginLinkedinAuthorizeCallback'));
+		if(isset($_GET['oauth_token']))
+		{
+			$this->Linkedin->authorize(array('action' => 'app_loginLinkedinAuthorizeCallback'));
+		}
+		elseif(isset($_GET['oauth_problem']))
+		{
+			$this->redirect('talent.call.linkedin.back://https:/error='.$_GET['oauth_problem']);
+		}
 	}
 
 
