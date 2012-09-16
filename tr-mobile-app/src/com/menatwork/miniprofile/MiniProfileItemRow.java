@@ -15,7 +15,7 @@ public class MiniProfileItemRow {
 	}
 
 	public String getUsername() {
-		return user.getUsername() + " (" + 23 /* TODO user.getAge() */+ ")";
+		return user.getUsername();
 	}
 
 	// TODO - Some kind of image format - boris - 16/08/2012
