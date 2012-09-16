@@ -20,29 +20,11 @@
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_width="256dp"
+                android:layout_height="128dp"
                 android:contentDescription="Logo"
-                android:src="@drawable/login_icon_radar" />
-
-            <TextView
-                android:id="@+id/login_label_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/imageView1"
-                android:layout_centerHorizontal="true"
-                android:text="@string/app_name"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <TextView
-                android:id="@+id/login_label_fancy_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/login_label_title"
-                android:layout_centerHorizontal="true"
-                android:text="@string/login_fancy_message"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/login_application_logo" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -59,7 +41,6 @@
                 android:layout_below="@+id/login_layout_title"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="4dp"
-                android:layout_marginTop="32dp"
                 android:text="@string/login_label_login_with_linkedin"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
