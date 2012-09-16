@@ -10,8 +10,8 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.menatwork.miniprofile.PingTask;
 import com.menatwork.model.User;
 import com.menatwork.skills.SkillButtonFactory;
 
@@ -60,13 +60,13 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 	}
 
 	private void loadEmail() {
-		String email = this.user.getEmail();
-		this.email.setText(email.equals("null") ? user.getName().toLowerCase()
-				+ "." + user.getSurname().toLowerCase() + "@gmail.com" : email);
+		final String email = this.user.getEmail();
+		this.email.setText(email.equals("null") ? user.getName().toLowerCase() + "."
+				+ user.getSurname().toLowerCase() + "@gmail.com" : email);
 	}
 
 	private void initializeUser() {
-		Bundle extras = getIntent().getExtras();
+		final Bundle extras = getIntent().getExtras();
 		if (extras != null && extras.containsKey(EXTRAS_USERID))
 			user = this.getUserById(extras.getString(EXTRAS_USERID));
 		else {
@@ -80,9 +80,9 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 		captureButton.setVisibility(View.INVISIBLE);
 	}
 
-	private String getHeadlineTextFromUser(User user) {
-		return "null".equals(user.getHeadline()) ? getString(R.string.profile_no_headline)
-				: user.getHeadline();
+	private String getHeadlineTextFromUser(final User user) {
+		return "null".equals(user.getHeadline()) ? getString(R.string.profile_no_headline) : user
+				.getHeadline();
 	}
 
 	private void makeTitleLabelsTransparent() {
@@ -97,15 +97,14 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 
 	@Override
 	protected void setupButtons() {
-		// TODO Enable-disable-setup the ping and capture contact buttons
+		// TODO Enable-disable-setup the capture contact button - 16/09/2012
 
 		pingButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
-				Toast.makeText(ProfileActivity.this,
-						"Pinging user... (NA MENTIRA!)", Toast.LENGTH_SHORT)
-						.show();
+			public void onClick(final View v) {
+				final String localUserId = getTalentRadarApplication().getLocalUser().getId();
+				new PingTask(ProfileActivity.this).execute(localUserId, getUser().getId());
 			}
 		});
 
@@ -127,18 +126,19 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 	}
 
 	private void loadSkills() {
-		List<String> userSkills = user.getSkills();
-		SkillButtonFactory skillButtonFactory = getTalentRadarApplication()
-				.getSkillButtonFactory();
+		final List<String> userSkills = user.getSkills();
+		final SkillButtonFactory skillButtonFactory = getTalentRadarApplication().getSkillButtonFactory();
 		if (userSkills.isEmpty()) {
 			skillsLayout.addView(skillButtonFactory.getEmptySkillsButton(this));
 		} else
 			for (final String skill : userSkills) {
-				final Button skillButton = skillButtonFactory.getSkillButton(
-						this, skill);
+				final Button skillButton = skillButtonFactory.getSkillButton(this, skill);
 
 				skillsLayout.addView(skillButton);
 			}
 	}
 
+	public User getUser() {
+		return user;
+	}
 }

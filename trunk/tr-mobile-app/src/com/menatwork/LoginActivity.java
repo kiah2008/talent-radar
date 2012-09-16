@@ -118,6 +118,13 @@ public class LoginActivity extends GuiTalentRadarActivity {
 			showDialog(DIALOG_ERROR);
 			return;
 		}
+		if ("error=user_refused".equals(userid)) {
+			return;
+		}
+		if (userid.startsWith("error=")) {
+			showDialog(DIALOG_ERROR);
+			return;
+		}
 		final ProgressDialog progressDialog = ProgressDialog.show(this, "",
 				getString(R.string.login_authenticating), true);
 		Log.d("LoginActivity", "Returning id from Login with Linkedin service");
@@ -266,4 +273,4 @@ public class LoginActivity extends GuiTalentRadarActivity {
 
 	}
 
-}
+}	
