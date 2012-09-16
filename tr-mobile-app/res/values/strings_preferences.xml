@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Network -->
-    <string name="preferences_network_activation_default_value">false</string>
+    <string name="preferences_network_activation_default_value">true</string>
     <string name="preferences_network_activation_key">network_activation</string>
     <string name="preferences_network_activation_summary">Permitir a la aplicación obtener localización de la red wifi.</string>
     <string name="preferences_network_activation_label">Localización por Red</string>
@@ -14,19 +14,19 @@
     <string name="preferences_gps_activation_label">Localización por GPS</string>
 
     <!-- Actualization duration -->
-    <string name="preferences_actualization_duration_default_value">60</string>
+    <string name="preferences_actualization_duration_default_value">240</string>
     <string name="preferences_actualization_duration_key">actualization_duration</string>
     <string name="preferences_actualization_duration_summary">Duración en segundos del último estado de localización enviado.</string>
     <string name="preferences_actualization_duration_label">Validez de actualización</string>
 
     <!-- Actualization frequency -->
-    <string name="preferences_actualization_frequency_default_value">30</string>
+    <string name="preferences_actualization_frequency_default_value">10</string>
     <string name="preferences_actualization_frequency_key">actualization_frequency</string>
     <string name="preferences_actualization_frequency_summary">Frecuencia en segundos de escaneo de personas cercanas.</string>
     <string name="preferences_actualization_frequency_label">Frecuencia de escaneo</string>
 
     <!-- Ping message -->
-    <string name="preferences_ping_message_default_value">¡Kawaaabonga!</string>
+    <string name="preferences_ping_message_default_value">¡Hola! Me gustaría chatear contigo.</string>
     <string name="preferences_ping_message_key">ping_message</string>
     <string name="preferences_ping_message_summary">Mensaje de Ping! para enviar a otros usuarios</string>
     <string name="preferences_ping_message_label">Mensaje Ping!</string>
