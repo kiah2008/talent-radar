@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <!-- TODO - disabled for comercial presentation -->
+
     <CheckBoxPreference
         android:defaultValue="true"
+        android:enabled="false"
         android:key="@string/preferences_network_activation_key"
         android:summary="@string/preferences_network_activation_summary"
         android:title="@string/preferences_network_activation_label" />
@@ -13,14 +16,14 @@
         android:title="@string/preferences_gps_activation_label" />
 
     <com.menatwork.view.LongEditTextPreference
-        android:defaultValue="120"
+        android:defaultValue="240"
         android:key="@string/preferences_actualization_duration_key"
         android:maxLength="3"
         android:numeric="integer"
         android:summary="@string/preferences_actualization_duration_summary"
         android:title="@string/preferences_actualization_duration_label" />
     <com.menatwork.view.LongEditTextPreference
-        android:defaultValue="30"
+        android:defaultValue="10"
         android:key="@string/preferences_actualization_frequency_key"
         android:maxLength="3"
         android:numeric="integer"
