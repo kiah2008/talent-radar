@@ -41,7 +41,7 @@ class PagesController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		
-		$this->Auth->allow('display');
+		$this->Auth->allow('index', 'display');
 	}
 	
 /**
@@ -58,6 +58,12 @@ class PagesController extends AppController {
  */
 	public $uses = array();
 
+	
+	public function index() {
+		
+	}
+	
+	
 /**
  * Displays a view
  *
