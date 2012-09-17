@@ -7,6 +7,7 @@ public class UserBuilder {
 	private String surname;
 	private String email;
 	private String headline;
+	private String profilePictureUrl;
 
 	public User build() {
 		final BaseUser user = new BaseUser();
@@ -15,6 +16,7 @@ public class UserBuilder {
 		user.setSurname(surname);
 		user.setEmail(email);
 		user.setHeadline(headline);
+		user.setProfilePictureUrl(profilePictureUrl);
 		return user;
 	}
 
@@ -45,6 +47,14 @@ public class UserBuilder {
 	public UserBuilder setHeadline(final String headline) {
 		this.headline = headline;
 		return this;
+	}
+
+	public void setProfilePictureUrl(final String url) {
+		this.profilePictureUrl = url;
+	}
+
+	public String getProfilePictureUrl() {
+		return profilePictureUrl;
 	}
 
 	/* ************************************************ */

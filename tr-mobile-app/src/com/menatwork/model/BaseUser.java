@@ -11,6 +11,12 @@ public class BaseUser implements User {
 	private String email;
 	private String headline;
 	private List<String> skills = new LinkedList<String>();
+	private String profilePictureUrl;
+
+	@Override
+	public String getProfilePictureUrl() {
+		return profilePictureUrl;
+	}
 
 	@Override
 	public String getId() {
@@ -44,8 +50,8 @@ public class BaseUser implements User {
 
 	@Override
 	public String toString() {
-		return "BaseUser [id=" + id + ", name=" + name + ", surname=" + surname + ", email=" + email
-				+ ", headline=" + headline + "]";
+		return "BaseUser [id=" + id + ", name=" + name + ", surname=" + surname
+				+ ", email=" + email + ", headline=" + headline + "]";
 	}
 
 	@Override
@@ -83,6 +89,10 @@ public class BaseUser implements User {
 		// TODO - this must return the username rather than the name - boris -
 		// 16/08/2012
 		return name;
+	}
+
+	public void setProfilePictureUrl(final String profilePictureUrl) {
+		this.profilePictureUrl = profilePictureUrl;
 	}
 
 }
