@@ -18,9 +18,8 @@ public class MiniProfileItemRow {
 		return user.getUsername();
 	}
 
-	// TODO - Some kind of image format - boris - 16/08/2012
-	public Void getPicture() {
-		return null;
+	public String getPicture() {
+		return user.getProfilePictureUrl();
 	}
 
 	public String getUserId() {

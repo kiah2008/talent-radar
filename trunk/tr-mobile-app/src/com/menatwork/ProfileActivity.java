@@ -9,11 +9,14 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.menatwork.miniprofile.PingTask;
 import com.menatwork.model.User;
 import com.menatwork.skills.SkillButtonFactory;
+import com.menatwork.view.LoadProfilePictureTask;
 
 /**
  * In order to make this view reusable for viewing any user profile, you need to
@@ -40,8 +43,9 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 	private ImageButton pingButton;
 	private ImageButton captureButton;
 	private User user;
-
 	private TextView email;
+	private ProgressBar loadingProfilePic;
+	private ImageView profilePic;
 
 	@Override
 	protected void postCreate(final Bundle savedInstanceState) {
@@ -50,6 +54,13 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 		this.makeTitleLabelsTransparent();
 		this.initializeUser();
 		this.loadUserData();
+		loadProfilePicture();
+	}
+
+	private void loadProfilePicture() {
+		final String profilePicUrl = this.user.getProfilePictureUrl();
+		new LoadProfilePictureTask(this, profilePic, loadingProfilePic,
+				profilePicUrl).execute();
 	}
 
 	private void loadUserData() {
@@ -118,6 +129,8 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 		pingButton = findImageButtonById(R.id.profile_button_ping);
 		captureButton = findImageButtonById(R.id.profile_button_capture);
 		email = findTextViewById(R.id.profile_email);
+		loadingProfilePic = (ProgressBar) findViewById(R.id.profile_loading_profile_pic);
+		profilePic = findImageViewById(R.id.profile_profile_pic);
 	}
 
 	@Override
@@ -127,10 +140,11 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 
 	private void loadSkills() {
 		final List<String> userSkills = user.getSkills();
-		final SkillButtonFactory skillButtonFactory = getTalentRadarApplication().getSkillButtonFactory();
-		if (userSkills.isEmpty()) {
+		final SkillButtonFactory skillButtonFactory = getTalentRadarApplication()
+				.getSkillButtonFactory();
+		if (userSkills.isEmpty())
 			skillsLayout.addView(skillButtonFactory.getEmptySkillsButton(this));
-		} else
+		else
 			for (final String skill : userSkills) {
 				final Button skillButton = skillButtonFactory.getSkillButton(this, skill);
 

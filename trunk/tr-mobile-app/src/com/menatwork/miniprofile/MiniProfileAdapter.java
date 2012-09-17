@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.menatwork.ProfileActivity;
 import com.menatwork.R;
 import com.menatwork.TalentRadarApplication;
+import com.menatwork.view.LoadProfilePictureTask;
 
 public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 
@@ -74,10 +75,8 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 		if (miniProfileItem.getPicture() == null)
 			holder.imgPicture.setImageResource(R.drawable.default_profile_pic);
 		else
-			// in case it indeed have a user picture (not yet implemented!)
-			throw new UnsupportedOperationException(
-					"don't know how to present a non predetermined user picture");
-
+			new LoadProfilePictureTask(activity, holder.imgPicture,
+					miniProfileItem.getPicture()).execute();
 		// find thy buttons
 		final Button seeProfileButton = (Button) row.findViewById(R.id.mini_profile_see_profile_button);
 		final Button pingButton = (Button) row.findViewById(R.id.mini_profile_ping_button);
@@ -111,7 +110,7 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 		});
 	}
 
-	TalentRadarApplication getTalentRadarApplication() {
+	private TalentRadarApplication getTalentRadarApplication() {
 		return (TalentRadarApplication) activity.getApplication();
 	}
 
@@ -127,4 +126,5 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 		TextView txtHeadline;
 		TextView txtUsername;
 	}
+
 }

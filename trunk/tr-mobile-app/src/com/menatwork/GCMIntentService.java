@@ -40,7 +40,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	private static final String TAG = "GCMIntentService";
 
-	private HashMap<String, GcmMessageHandler> handlers;
+	private final HashMap<String, GcmMessageHandler> handlers;
 
 	public static String SENDER_ID;
 	static {
@@ -58,57 +58,72 @@ public class GCMIntentService extends GCMBaseIntentService {
 	}
 
 	@Override
-	protected void onRegistered(Context context, String registrationId) {
+	protected void onRegistered(final Context context,
+			final String registrationId) {
 		Log.i(TAG, "Device registered: regId = " + registrationId);
 		((TalentRadarApplication) getApplication())
 				.onDeviceRegistered(registrationId);
 	}
 
 	@Override
-	protected void onUnregistered(Context context, String registrationId) {
+	protected void onUnregistered(final Context context,
+			final String registrationId) {
 		Log.i(TAG, "Device unregistered");
 	}
 
 	@Override
-	protected void onMessage(Context context, Intent intent) {
-		Bundle extras = intent.getExtras();
-		String messageType = extras.getString("type");
+	protected void onMessage(final Context context, final Intent intent) {
+		final Bundle extras = intent.getExtras();
+		final String targetUserid = extras.getString("userId");
+		final String messageType = extras.getString("type");
 
-		// dispatch the message to the right handler
-		GcmMessageHandler messageHandler = this.handlers.get(messageType);
-		if (messageHandler == null) {
-			Log.w(TAG, "There is no handler registered for message type: "
-					+ messageType);
-		} else
-			messageHandler.handle(this, intent);
+		if (this.nullSafeCheckTargetUserId(targetUserid)) {
+			// dispatch the message to the right handler
+			final GcmMessageHandler messageHandler = this.handlers
+					.get(messageType);
+			if (messageHandler == null)
+				Log.w(TAG, "There is no handler registered for message type: "
+						+ messageType);
+			else
+				messageHandler.handle(this, intent);
+		}
+	}
+
+	private boolean nullSafeCheckTargetUserId(final String targetUserid) {
+		final TalentRadarApplication talentRadarApp = TalentRadarApplication
+				.getContext();
+		if (targetUserid == null)
+			return false;
+		return talentRadarApp.isUserLoggedIn(targetUserid);
 	}
 
 	@Override
-	protected void onDeletedMessages(Context context, int total) {
+	protected void onDeletedMessages(final Context context, final int total) {
 		Log.i(TAG, "Received deleted messages notification");
 	}
 
 	@Override
-	public void onError(Context context, String errorId) {
+	public void onError(final Context context, final String errorId) {
 		Log.i(TAG, "Received error: " + errorId);
 	}
 
 	@Override
-	protected boolean onRecoverableError(Context context, String errorId) {
+	protected boolean onRecoverableError(final Context context,
+			final String errorId) {
 		// log message
 		Log.i(TAG, "Received recoverable error: " + errorId);
 		return super.onRecoverableError(context, errorId);
 	}
 
-	public static void generateNotification(Context context, int id,
-			String message, Intent notificationIntent) {
-		int icon = R.drawable.ic_launcher;
-		long when = System.currentTimeMillis();
-		NotificationManager notificationManager = (NotificationManager) context
+	public static void generateNotification(final Context context,
+			final int id, final String message, final Intent notificationIntent) {
+		final int icon = R.drawable.ic_launcher;
+		final long when = System.currentTimeMillis();
+		final NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification = new Notification(icon, message, when);
-		String title = context.getString(R.string.app_name);
-		PendingIntent intent = PendingIntent.getActivity(context, 0,
+		final Notification notification = new Notification(icon, message, when);
+		final String title = context.getString(R.string.app_name);
+		final PendingIntent intent = PendingIntent.getActivity(context, 0,
 				notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		notification.setLatestEventInfo(context, title, message, intent);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;

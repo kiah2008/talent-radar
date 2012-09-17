@@ -9,46 +9,46 @@
     android:orientation="vertical"
     tools:context=".RadarActivity" >
 
-    <com.menatwork.view.GifLocalView
-        android:id="@+id/radar_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:contentDescription="@string/radar_image_content_description"
-        app:gifAnimatedPath="@string/radar_image_path" />
+    <!-- <com.menatwork.view.GifLocalView -->
+    <!-- android:id="@+id/radar_image" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_alignParentTop="true" -->
+    <!-- android:layout_centerHorizontal="true" -->
+    <!-- android:layout_marginTop="10dp" -->
+    <!-- android:contentDescription="@string/radar_image_content_description" -->
+    <!-- app:gifAnimatedPath="@string/radar_image_path" /> -->
 
     <TextView
         android:id="@+id/radar_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/radar_image"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:text="@string/radar_searching_state"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
     <SlidingDrawer
         android:id="@+id/radar_sliding_drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="14dp"
         android:content="@+id/radar_mini_profiles_list_view"
         android:handle="@+id/radar_surrounders_list_button" >
 
         <Button
             android:id="@id/radar_surrounders_list_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
+            android:background="@drawable/tab_icon"
             android:text="@string/radar_handle_button_text" />
 
         <ListView
             android:id="@+id/radar_mini_profiles_list_view"
-            android:background="@android:color/darker_gray"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"
+            android:background="@android:color/darker_gray" />
     </SlidingDrawer>
 
 </RelativeLayout>

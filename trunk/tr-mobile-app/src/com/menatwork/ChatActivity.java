@@ -49,19 +49,19 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 	private Handler handler;
 
 	@Override
-	protected void postCreate(Bundle savedInstanceState) {
+	protected void postCreate(final Bundle savedInstanceState) {
 		initializeActivity();
 	}
 
 	private void initializeActivity() {
 		this.initializeHandler();
-		String userid = this.loadDataFromExtras();
+		final String userid = this.loadDataFromExtras();
 		this.ensureConsistencyOfChatSession(userid);
 		this.loadExistingMessagesIntoView();
 	}
 
 	@Override
-	protected void onNewIntent(Intent intent) {
+	protected void onNewIntent(final Intent intent) {
 		this.setIntent(intent);
 		// call postCreate so as to have the same behavior with new/reused
 		// instances of this activity
@@ -73,13 +73,14 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 	}
 
 	private void loadExistingMessagesIntoView() {
-		List<ChatMessage> messages = this.chatSession.getMessages();
-		for (ChatMessage chatMessage : messages) {
+		this.chatLayout.removeAllViews();
+		final List<ChatMessage> messages = this.chatSession.getMessages();
+		for (final ChatMessage chatMessage : messages)
 			this.appendMessageToView(chatMessage);
-		}
+		// TODO - when this is inside a scroll view, do a fullScroll down
 	}
 
-	private void ensureConsistencyOfChatSession(String userid) {
+	private void ensureConsistencyOfChatSession(final String userid) {
 		if (chatSession == null)
 			loadChatSessionForUserId(userid);
 		// or...
@@ -90,17 +91,17 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 		this.chatSession.addSessionListener(this);
 	}
 
-	private void loadChatSessionForUserId(String userid) {
+	private void loadChatSessionForUserId(final String userid) {
 		chatSession = getTalentRadarApplication().getChatSessionManager()
 				.getChatSessionByUserId(userid);
 	}
 
 	private String loadDataFromExtras() {
-		Bundle extras = getIntent().getExtras();
-		String dataUsername = extras.getString(EXTRAS_USERNAME);
-		String dataHeadline = extras.getString(EXTRAS_HEADLINE);
-		String userid = extras.getString(EXTRAS_USER_ID);
-		String profilePicUrl = extras.getString(EXTRAS_PROFILE_PIC_URL);
+		final Bundle extras = getIntent().getExtras();
+		final String dataUsername = extras.getString(EXTRAS_USERNAME);
+		final String dataHeadline = extras.getString(EXTRAS_HEADLINE);
+		final String userid = extras.getString(EXTRAS_USER_ID);
+		final String profilePicUrl = extras.getString(EXTRAS_PROFILE_PIC_URL);
 		if (dataUsername == null || //
 				dataHeadline == null || //
 				userid == null || //
@@ -134,30 +135,30 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 		return R.layout.chat;
 	}
 
-	private void appendMessageToView(ChatMessage message) {
-		TextView newMessageView = new TextView(this);
-		String displayableMessage = getDisplayableForm(message);
+	private void appendMessageToView(final ChatMessage message) {
+		final TextView newMessageView = new TextView(this);
+		final String displayableMessage = getDisplayableForm(message);
 		newMessageView.setText(displayableMessage);
 		chatLayout.addView(newMessageView);
 	}
 
-	private String getDisplayableForm(ChatMessage message) {
+	private String getDisplayableForm(final ChatMessage message) {
 		String from;
 		if (getTalentRadarApplication().getLocalUserId().equals(
 				message.getFromId()))
 			from = getString(R.string.chat_message_label_self);
 		else
 			from = username.getText().toString().split(" ")[0];
-		StringBuilder stringBuilder = new StringBuilder(from);
+		final StringBuilder stringBuilder = new StringBuilder(from);
 		stringBuilder.append('\n');
 		stringBuilder.append(message.getMessage());
-		String displayableMessage = stringBuilder.toString();
+		final String displayableMessage = stringBuilder.toString();
 		return displayableMessage;
 	}
 
 	private void resetInputTextboxAndCloseKeyboard() {
 		input.setText("");
-		InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		final InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputManager.hideSoftInputFromWindow(
 				getCurrentFocus().getWindowToken(),
 				InputMethodManager.HIDE_NOT_ALWAYS);
@@ -166,14 +167,15 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 	private class SendButtonListener implements OnClickListener {
 
 		@Override
-		public void onClick(View v) {
-			String message = input.getText().toString();
-			String fromId = getTalentRadarApplication().getLocalUser().getId();
+		public void onClick(final View v) {
+			final String message = input.getText().toString();
+			final String fromId = getTalentRadarApplication().getLocalUser()
+					.getId();
 			// TODO - pass the message to the task and, when the response comes,
 			// stamp the message id into the chatMessage
-			String toId = chatSession.getToId();
-			ChatMessage chatMessage = ChatMessage.newInstance("dunno!", fromId,
-					toId, message);
+			final String toId = chatSession.getToId();
+			final ChatMessage chatMessage = ChatMessage.newInstance("dunno!",
+					fromId, toId, message);
 			chatSession.addMessage(chatMessage);
 			resetInputTextboxAndCloseKeyboard();
 			new SendMessageTask().execute(fromId, toId, message);
@@ -184,18 +186,18 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 	private class SendMessageTask extends AsyncTask<String, Void, Response> {
 
 		@Override
-		protected Response doInBackground(String... args) {
+		protected Response doInBackground(final String... args) {
 			try {
-				String fromId = args[0];
-				String toId = args[1];
-				String content = args[2];
-				AddChatMessage addChat = AddChatMessage.newInstance(
+				final String fromId = args[0];
+				final String toId = args[1];
+				final String content = args[2];
+				final AddChatMessage addChat = AddChatMessage.newInstance(
 						ChatActivity.this, fromId, toId, content);
 				return addChat.execute();
-			} catch (JSONException e) {
+			} catch (final JSONException e) {
 				Log.e("SendMessageTask", "Error receiving response");
 				e.printStackTrace();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				Log.e("SendMessageTask", "Error receiving response");
 				e.printStackTrace();
 			}
@@ -205,9 +207,10 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 	}
 
 	@Override
-	public void onNewMessage(ChatSession chatSession, final ChatMessage message) {
+	public void onNewMessage(final ChatSession chatSession,
+			final ChatMessage message) {
 		if (chatSession.equals(this.chatSession)) {
-			Runnable updateViewWithMessageRunnable = new UpdateViewWithMessageRunnable(
+			final Runnable updateViewWithMessageRunnable = new UpdateViewWithMessageRunnable(
 					message);
 			handler.post(updateViewWithMessageRunnable);
 		} else
@@ -218,7 +221,7 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 	private final class UpdateViewWithMessageRunnable implements Runnable {
 		private final ChatMessage message;
 
-		private UpdateViewWithMessageRunnable(ChatMessage message) {
+		private UpdateViewWithMessageRunnable(final ChatMessage message) {
 			this.message = message;
 		}
 
@@ -228,7 +231,7 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 		}
 	}
 
-	private void loadProfilePic(String profilePicUrl) {
+	private void loadProfilePic(final String profilePicUrl) {
 		new LoadProfilePictureTask(this, profilePicture, loadingProfilePic,
 				profilePicUrl).execute();
 	}

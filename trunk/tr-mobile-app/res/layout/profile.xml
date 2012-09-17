@@ -61,6 +61,15 @@
                     android:layout_toRightOf="@+id/profile_button_ping"
                     android:background="@null"
                     android:src="@drawable/capture" />
+
+                <ProgressBar
+                    android:id="@+id/profile_loading_profile_pic"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+
             </RelativeLayout>
 
             <TextView

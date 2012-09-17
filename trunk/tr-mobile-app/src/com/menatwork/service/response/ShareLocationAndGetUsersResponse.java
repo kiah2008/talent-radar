@@ -24,7 +24,6 @@ public class ShareLocationAndGetUsersResponse extends BaseResponse {
 			final JSONObject usersArray = getResponse().getJSONObject("result")
 					.getJSONObject("users");
 
-
 			final LinkedList<User> surroundingUsers = new LinkedList<User>();
 			final int usersArrayLength = usersArray.length();
 
@@ -64,6 +63,7 @@ public class ShareLocationAndGetUsersResponse extends BaseResponse {
 		userBuilder.setUserSurname(userJson.getString("surname"));
 		userBuilder.setEmail(userJson.getString("email"));
 		userBuilder.setHeadline(userJson.getString("headline"));
+		userBuilder.setProfilePictureUrl(userJson.getString("picture"));
 		// userBuilder.setExtract(userJsonObject.getString("extract"));
 
 		return userBuilder.build();
@@ -77,9 +77,9 @@ public class ShareLocationAndGetUsersResponse extends BaseResponse {
 	 * "longitude":"1", <br />
 	 * "created":"2012-07-05 09:37:56", <br />
 	 * "modified":"2012-07-27 16:16:47"
-	 *
+	 * 
 	 * @param onlineJson
-	 *
+	 * 
 	 * @throws JSONException
 	 */
 	private void parseOnlineStatus(final JSONObject onlineJson)
