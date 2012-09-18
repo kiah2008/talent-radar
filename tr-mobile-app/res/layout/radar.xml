@@ -34,14 +34,18 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/default_padding"
+        android:layout_marginRight="@dimen/default_padding"
+        android:layout_marginTop="@dimen/default_padding"
         android:content="@+id/radar_mini_profiles_list_view"
         android:handle="@+id/radar_surrounders_list_button" >
-
+
         <Button
             android:id="@id/radar_surrounders_list_button"
-            android:layout_width="128dp"
-            android:layout_height="32dp"
-            android:background="@drawable/radar_list_background"
+            android:layout_width="192dp"
+            android:layout_height="48dp"
+            android:textColor="@android:color/primary_text_dark"
+            android:background="@drawable/radar_list_handle" 
             android:text="@string/radar_handle_button_text" />
 
         <ListView
