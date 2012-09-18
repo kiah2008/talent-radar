@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.json.JSONException;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,10 +14,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.menatwork.chat.ChatSession;
@@ -47,6 +46,7 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 
 	private ChatSession chatSession;
 	private Handler handler;
+	private ScrollView scrollView;
 
 	@Override
 	protected void postCreate(final Bundle savedInstanceState) {
@@ -128,6 +128,7 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 		sendButton = findButtonById(R.id.chat_button_send);
 		profilePicture = findImageViewById(R.id.chat_profile_pic);
 		loadingProfilePic = (ProgressBar) findViewById(R.id.chat_loading_profile_pic);
+		scrollView = (ScrollView) findViewById(R.id.chat_scroll_view);
 	}
 
 	@Override
@@ -156,12 +157,9 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 		return displayableMessage;
 	}
 
-	private void resetInputTextboxAndCloseKeyboard() {
+	private void afterButtonSendPressed() {
 		input.setText("");
-		final InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		inputManager.hideSoftInputFromWindow(
-				getCurrentFocus().getWindowToken(),
-				InputMethodManager.HIDE_NOT_ALWAYS);
+		scrollView.fullScroll(ScrollView.FOCUS_DOWN);
 	}
 
 	private class SendButtonListener implements OnClickListener {
@@ -177,8 +175,8 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 			final ChatMessage chatMessage = ChatMessage.newInstance("dunno!",
 					fromId, toId, message);
 			chatSession.addMessage(chatMessage);
-			resetInputTextboxAndCloseKeyboard();
 			new SendMessageTask().execute(fromId, toId, message);
+			afterButtonSendPressed();
 		}
 
 	}
