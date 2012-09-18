@@ -9,6 +9,8 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -121,9 +123,8 @@ public class LoginActivity extends GuiTalentRadarActivity {
 			showDialog(DIALOG_ERROR);
 			return;
 		}
-		if ("error=user_refused".equals(userid)) {
+		if ("error=user_refused".equals(userid))
 			return;
-		}
 		if (userid.startsWith("error=")) {
 			showDialog(DIALOG_ERROR);
 			return;
@@ -285,4 +286,11 @@ public class LoginActivity extends GuiTalentRadarActivity {
 
 	}
 
+	@Override
+	public void onConfigurationChanged(final Configuration newConfig) {
+		// newConfig.orientation = Configuration.ORIENTATION_PORTRAIT;
+		super.onConfigurationChanged(newConfig);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+	}
 }

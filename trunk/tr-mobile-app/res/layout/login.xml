@@ -51,6 +51,8 @@
                 android:layout_below="@+id/login_label_login_with_linkedin"
                 android:layout_centerHorizontal="true"
                 android:background="@null"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:src="@drawable/login_linked_in" />
         </RelativeLayout>
 
