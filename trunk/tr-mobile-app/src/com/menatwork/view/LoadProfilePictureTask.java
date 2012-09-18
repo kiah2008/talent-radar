@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import com.menatwork.R;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,14 +12,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-public class LoadProfilePictureTask extends AsyncTask<Void, Void, Bitmap> {
-	private ImageView targetView;
-	private ProgressBar progressIndicator;
-	private String urlString;
-	private Context context;
+import com.menatwork.R;
+import com.menatwork.utils.MapProfilePicCache;
 
-	public LoadProfilePictureTask(Context context, ImageView targetView,
-			ProgressBar progressIndicator, String url) {
+public class LoadProfilePictureTask extends AsyncTask<Void, Void, Bitmap> {
+	private final ImageView targetView;
+	private final ProgressBar progressIndicator;
+	private final String urlString;
+	private final Context context;
+
+	public LoadProfilePictureTask(final Context context,
+			final ImageView targetView, final ProgressBar progressIndicator,
+			final String url) {
 		super();
 		this.context = context;
 		this.targetView = targetView;
@@ -29,31 +31,35 @@ public class LoadProfilePictureTask extends AsyncTask<Void, Void, Bitmap> {
 		this.urlString = url;
 	}
 
-	public LoadProfilePictureTask(Context context, ImageView targetView,
-			String url) {
+	public LoadProfilePictureTask(final Context context,
+			final ImageView targetView, final String url) {
 		this(context, targetView, null, url);
 	}
 
 	@Override
-	protected Bitmap doInBackground(Void... args) {
+	protected Bitmap doInBackground(final Void... args) {
 		try {
 			// TODO ProfilePicCache or sth like that
-			URL url = new URL(urlString);
-			return BitmapFactory.decodeStream(url.openConnection()
-					.getInputStream());
-		} catch (MalformedURLException e) {
+			if (!MapProfilePicCache.INSTANCE.hasKey(urlString)) {
+				final URL url = new URL(urlString);
+				final Bitmap bitmap = BitmapFactory.decodeStream(url
+						.openConnection().getInputStream());
+				MapProfilePicCache.INSTANCE.put(urlString, bitmap);
+			}
+			return MapProfilePicCache.INSTANCE.get(urlString);
+		} catch (final MalformedURLException e) {
 			// if url is empty or malformed, just leave the default profile
 			// picture
 			return BitmapFactory.decodeResource(context.getResources(),
 					R.drawable.default_profile_pic);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
 	@Override
-	protected void onPostExecute(Bitmap bmp) {
+	protected void onPostExecute(final Bitmap bmp) {
 		if (bmp != null) {
 			if (progressIndicator != null)
 				progressIndicator.setVisibility(View.GONE);
