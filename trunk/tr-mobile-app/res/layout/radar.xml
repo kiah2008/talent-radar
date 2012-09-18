@@ -36,19 +36,19 @@
         android:layout_centerHorizontal="true"
         android:content="@+id/radar_mini_profiles_list_view"
         android:handle="@+id/radar_surrounders_list_button" >
-
+
         <Button
             android:id="@id/radar_surrounders_list_button"
-            android:layout_width="wrap_content"
-            android:layout_height="64dp"
-            android:background="@drawable/tab_icon"
+            android:layout_width="128dp"
+            android:layout_height="32dp"
+            android:background="@drawable/radar_list_background"
             android:text="@string/radar_handle_button_text" />
 
         <ListView
             android:id="@+id/radar_mini_profiles_list_view"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@android:color/darker_gray" />
+            android:background="@drawable/radar_list_background" />
     </SlidingDrawer>
 
 </RelativeLayout>
