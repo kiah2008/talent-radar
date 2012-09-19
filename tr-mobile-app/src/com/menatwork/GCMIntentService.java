@@ -29,6 +29,7 @@ import com.google.android.gcm.GCMBaseIntentService;
 import com.menatwork.gcm.GcmMessageHandler;
 import com.menatwork.gcm.IncomingChatMessageHandler;
 import com.menatwork.gcm.PingHandler;
+import com.menatwork.notification.TrNotification;
 
 /**
  * IntentService responsible for handling GCM messages.
@@ -128,6 +129,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 		notification.setLatestEventInfo(context, title, message, intent);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		notificationManager.notify(id, notification);
+	}
+
+	public void generateTrNotification(final TrNotification notification) {
+		((TalentRadarApplication) this.getApplication())
+				.getNotificationManager().newNotification(notification);
 	}
 
 }
