@@ -19,6 +19,18 @@
     <!-- android:contentDescription="@string/radar_image_content_description" -->
     <!-- app:gifAnimatedPath="@string/radar_image_path" /> -->
 
+    <TextView
+        android:id="@+id/radar_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/radar_image"
+        android:gravity="center"
+        android:text="@string/radar_searching_state"
+        android:textAppearance="?android:attr/textAppearanceMedium" 
+        android:layout_centerInParent="true"
+        android:paddingBottom="32dp">
+    </TextView>
+
     <SlidingDrawer
         android:id="@+id/radar_sliding_drawer"
         android:layout_width="match_parent"
@@ -44,23 +56,5 @@
             android:background="@drawable/radar_list_background" >
         </ListView>
     </SlidingDrawer>
-
-    <TextView
-        android:id="@+id/radar_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/radar_radar_image"
-        android:layout_centerHorizontal="true"
-        android:paddingBottom="8dp"
-        android:text="@string/radar_searching_state"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <ImageView
-        android:id="@+id/radar_radar_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:paddingBottom="32dp"
-        android:src="@drawable/radar_image" />
 
 </RelativeLayout>

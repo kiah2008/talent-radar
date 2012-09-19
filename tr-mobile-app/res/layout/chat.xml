@@ -2,35 +2,67 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_background"
-    android:padding="@dimen/default_padding" >
+    android:background="@drawable/login_background" >
 
-    <ImageView
-        android:id="@+id/chat_profile_pic"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/default_profile_pic" />
-
-    <ScrollView
-        android:id="@+id/chat_scroll_view"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/chat_layout_buttons"
-        android:layout_below="@+id/chat_profile_pic"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_border"
-        android:padding="@dimen/extra_padding" >
+        android:padding="@dimen/default_padding" >
 
-        <LinearLayout
-            android:id="@+id/chat_layout_chat"
+        <ImageView
+            android:id="@+id/chat_profile_pic"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/default_profile_pic" />
+
+        <ScrollView
+            android:id="@+id/chat_scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="match_parent"
+            android:layout_above="@+id/chat_layout_buttons"
+            android:layout_below="@+id/chat_profile_pic"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_border"
+            android:padding="@dimen/extra_padding" >
 
-        </LinearLayout>
-    </ScrollView>
+            <LinearLayout
+                android:id="@+id/chat_layout_chat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+            </LinearLayout>
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/chat_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/chat_profile_pic"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/chat_profile_pic"
+            android:text="Juan Carlos Perez Companc"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/chat_headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/chat_username"
+            android:layout_below="@+id/chat_username"
+            android:text="Un empresario re copado con muchas causas abiertas"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ProgressBar
+            android:id="@+id/chat_loading_profile_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/chat_profile_pic"
+            android:layout_alignTop="@+id/chat_profile_pic" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/chat_layout_buttons"
@@ -38,8 +70,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
-        android:gravity="center_horizontal|center_vertical" >
+        android:background="@android:color/darker_gray"
+        android:gravity="center_horizontal|center_vertical"
+        android:padding="4dp" >
 
         <EditText
             android:id="@+id/chat_input"
@@ -58,31 +91,5 @@
             android:layout_height="match_parent"
             android:text="@string/chat_button_send" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/chat_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/chat_profile_pic"
-        android:layout_marginLeft="16dp"
-        android:layout_toRightOf="@+id/chat_profile_pic"
-        android:text="Juan Carlos Perez Companc"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/chat_headline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chat_username"
-        android:layout_below="@+id/chat_username"
-        android:text="Un empresario re copado con muchas causas abiertas"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <ProgressBar
-        android:id="@+id/chat_loading_profile_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chat_profile_pic"
-        android:layout_alignTop="@+id/chat_profile_pic" />
 
 </RelativeLayout>

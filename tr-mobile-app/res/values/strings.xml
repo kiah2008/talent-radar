@@ -28,6 +28,9 @@
     <string name="profile_skills">Skills</string>
     <string name="profile_label_email">Email</string>
 
-    <!-- Other strings -->
+    <!-- Main Activity tab labels -->
+    <string name="tab_label_profile">Perfil</string>
+    <string name="tab_label_radar">Radar</string>
+    <string name="tab_label_dashboard">Dashboard</string>
 
 </resources>

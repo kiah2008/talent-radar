@@ -57,28 +57,31 @@
             android:id="@+id/ping_alert_layout_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" 
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/ping_alert_message"
-            android:gravity="center_vertical|center_horizontal">
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical" >
 
             <Button
                 android:id="@+id/ping_alert_button_accept"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ping_alert_message"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="16dp"
+                android:layout_width="128dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp" 
+                android:textColor="@android:color/primary_text_dark"
+                android:background="@drawable/background_gradient_green"
                 android:text="@string/ping_alert_button_accept" />
-
+  
             <Button
                 android:id="@+id/ping_alert_button_decline"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ping_alert_button_accept"
-                android:layout_centerHorizontal="true"
-                android:text="@string/ping_alert_button_decline" />
+                android:layout_marginTop="4dp"
+                android:background="@drawable/background_gradient_red"
+                android:padding="8dp"
+                android:text="@string/ping_alert_button_decline"
+                android:textColor="@android:color/primary_text_dark" />
+
         </LinearLayout>
 
         <ProgressBar
