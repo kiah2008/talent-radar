@@ -16,13 +16,16 @@ public class GetUserResponse extends BaseResponse {
 	public User getUser() {
 		final UserBuilder userBuilder = UserBuilder.newInstance();
 		try {
-			final JSONObject userJsonObject = getResponse().getJSONObject("result")
-					.getJSONObject("user").getJSONObject("User");
+			final JSONObject userJsonObject = getResponse()
+					.getJSONObject("result").getJSONObject("user")
+					.getJSONObject("User");
 			userBuilder.setId(userJsonObject.getString("id"));
 			userBuilder.setUserName(userJsonObject.getString("name"));
 			userBuilder.setUserSurname(userJsonObject.getString("surname"));
 			userBuilder.setEmail(userJsonObject.getString("email"));
 			userBuilder.setHeadline(userJsonObject.getString("headline"));
+			// TODO - throws an error for non LI users (picture is not included
+			// in the JSON) - miguel - 19/09/2012
 			userBuilder.setProfilePictureUrl(userJsonObject
 					.getString("picture"));
 			// userBuilder.setExtract(userJsonObject.getString("extract"));

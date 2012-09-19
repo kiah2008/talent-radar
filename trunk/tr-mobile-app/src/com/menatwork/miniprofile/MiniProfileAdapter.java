@@ -92,10 +92,9 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 		seeProfileButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				final Intent intent = new Intent(activity,
-						ProfileActivity.class);
-				intent.putExtra(ProfileActivity.EXTRAS_USERID,
-						miniProfileItem.getUserId());
+//				new SeeProfileTask(activity).execute(miniProfileItem.getUserId());
+				final Intent intent = new Intent(activity, ProfileActivity.class);
+				intent.putExtra(ProfileActivity.EXTRAS_USERID, miniProfileItem.getUserId());
 				activity.startActivity(intent);
 			}
 		});
@@ -128,9 +127,9 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 	/**
 	 * Class created for the sake of performance (as donde in the 'tutorial'),
 	 * please forgive me Abraxas...
-	 * 
+	 *
 	 * @author boris
-	 * 
+	 *
 	 */
 	static class MiniProfileItemRowHolder {
 		ImageView imgPicture;

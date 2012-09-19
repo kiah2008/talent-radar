@@ -1,7 +1,6 @@
 package com.menatwork;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,10 +14,8 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.menatwork.notification.TrNotification;
-import com.menatwork.notification.TrNotificationBuilder;
 import com.menatwork.notification.TrNotificationListener;
 import com.menatwork.notification.TrNotificationManager;
-import com.menatwork.notification.TrNotificationType;
 
 public class DashboardActivity extends ListActivity implements
 		TrNotificationListener {
@@ -74,13 +71,11 @@ public class DashboardActivity extends ListActivity implements
 
 		setListAdapter(adapter);
 
-		// TODO - for the sake of testing; stub notification; erase whenever
-		// possible - miguel - 13/09/2012
-		addNofiticationAndNotify(TrNotificationBuilder.newInstance() //
-				.setType(TrNotificationType.PING) //
-				.setDate(new Date()) //
-				.setDescription("le descriptionçç") //
-				.setHeader("Pinged! by Pomodoro").build());
+//		addNofiticationAndNotify(TrNotificationBuilder.newInstance() //
+//				.setType(TrNotificationType.PING) //
+//				.setDate(new Date()) //
+//				.setDescription("le descriptionçç") //
+//				.setHeader("Pinged! by Pomodoro").build());
 	}
 
 	@Override

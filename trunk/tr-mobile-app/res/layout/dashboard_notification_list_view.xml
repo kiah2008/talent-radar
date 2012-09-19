@@ -14,11 +14,19 @@
         android:drawSelectorOnTop="false" >
     </ListView>
 
-    <TextView
+    <RelativeLayout
         android:id="@id/android:empty"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@android:color/transparent"
-        android:text="No hay notificaciones a mostrar" />
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:id="@+id/no_notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:text="@string/dashboard_no_notifications_label" />
+    </RelativeLayout>
 
 </LinearLayout>

@@ -11,7 +11,7 @@
         android:id="@+id/mini_profile_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username (23)"
+        android:text="Username"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/primary_text_dark" />
 
@@ -34,7 +34,7 @@
                 android:id="@+id/mini_profile_headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Headline, headline, headline"
+                android:text="Headline"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@android:color/white" />
 
@@ -51,21 +51,22 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="See profile" />
+            android:text="@string/mini_profile_see_profile" />
 
         <Button
             android:id="@+id/mini_profile_ping_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ping!" />
+            android:text="@string/mini_profile_ping" />
 
         <Button
             android:id="@+id/mini_profile_save_contact_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save contact" />
+            android:text="@string/mini_profile_save_contact"
+            android:visibility="gone" />
 
     </LinearLayout>
 

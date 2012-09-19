@@ -19,8 +19,8 @@ public class MainActivity extends TabActivity {
 		setContentView(R.layout.main);
 		initializeTabs();
 		startRadarService();
-		
-		setDefaultTab("radar");
+
+		getTabHost().setCurrentTabByTag("radar");
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class MainActivity extends TabActivity {
 		getTalentRadarApplication().logOut();
 		final Intent intent = new Intent(this, LoginActivity.class);
 		startActivity(intent);
-		
+
 		finish();
 	}
 
