@@ -32,6 +32,6 @@
     <string name="preferences_ping_message_label">Mensaje Ping!</string>
 
     <!-- Local user persistent data -->
-    <string name="preferences_user_id">user_id</string>
+    <string name="preferences_user_id_key">user_id</string>
 
 </resources>

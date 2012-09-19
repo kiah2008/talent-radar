@@ -69,7 +69,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true" />
-
             </RelativeLayout>
 
             <TextView
@@ -115,7 +114,8 @@
                 android:layout_marginTop="8dp"
                 android:background="@android:color/background_light"
                 android:text="@string/profile_label_email"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/profile_email"
@@ -125,7 +125,8 @@
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="4dp"
                 android:text="duke_nukem@3drealms.com"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:visibility="gone" />
         </RelativeLayout>
     </RelativeLayout>
 

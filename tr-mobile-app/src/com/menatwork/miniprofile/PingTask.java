@@ -33,9 +33,10 @@ public class PingTask extends AsyncTask<String, Void, Response> {
 	@Override
 	protected void onPostExecute(final Response result) {
 		progressDialog.dismiss();
-		if (!result.isSuccessful()) {
+		if (result.isSuccessful())
+			Toast.makeText(activity, activity.getString(R.string.pinged_successfully), Toast.LENGTH_SHORT).show();
+		else
 			Toast.makeText(activity, activity.getString(R.string.generic_error), Toast.LENGTH_SHORT).show();
-		}
 	}
 
 	@Override
@@ -47,6 +48,7 @@ public class PingTask extends AsyncTask<String, Void, Response> {
 			final Ping ping = Ping.newInstance(activity, localUserId, toId, TalentRadarApplication
 					.getContext().getPreferences().getPingMessage());
 			return ping.execute();
+
 		} catch (final JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

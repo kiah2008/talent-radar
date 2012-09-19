@@ -34,6 +34,7 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	public static final String EXTRA_USER_FULLNAME = "fullname";
 	public static final String EXTRA_PING_ID = "pingid";
 	public static final String EXTRAS_PROFILE_PIC_URL = "profilePicUrl";
+	
 	private TextView username;
 	private TextView message;
 	private ImageView profilePicture;

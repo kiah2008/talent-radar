@@ -11,7 +11,8 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import com.menatwork.R;
 import com.menatwork.model.User;
 
-public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnSharedPreferenceChangeListener {
+public class SharedTalentRadarPreferences implements TalentRadarPreferences,
+		OnSharedPreferenceChangeListener {
 
 	private final SharedPreferences sharedPreferences;
 	private final TalentRadarPreferencesListener[] listeners;
@@ -21,7 +22,8 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnS
 
 	private final Context context;
 
-	public SharedTalentRadarPreferences(final SharedPreferences sharedPreferences, //
+	public SharedTalentRadarPreferences(
+			final SharedPreferences sharedPreferences, //
 			final Context context, //
 			final TalentRadarPreferencesListener... listeners) {
 		this.sharedPreferences = sharedPreferences;
@@ -54,7 +56,8 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnS
 
 	private void notifyChanges(final String... keys) {
 		for (final TalentRadarPreferencesListener listener : listeners)
-			listener.onPreferencesChanged(new SharedPreferencesChanges(keys), this);
+			listener.onPreferencesChanged(new SharedPreferencesChanges(keys),
+					this);
 	}
 
 	@Override
@@ -78,8 +81,11 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnS
 
 	@Override
 	public boolean isGpsLocationActivation() {
-		return sharedPreferences.getBoolean(context.getString(R.string.preferences_gps_activation_key),
-				Boolean.parseBoolean(context.getString(R.string.preferences_gps_activation_default_value)));
+		return sharedPreferences
+				.getBoolean(
+						context.getString(R.string.preferences_gps_activation_key),
+						Boolean.parseBoolean(context
+								.getString(R.string.preferences_gps_activation_default_value)));
 	}
 
 	@Override
@@ -94,26 +100,34 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnS
 
 	@Override
 	public long getActualizationDurationSeconds() {
-		return sharedPreferences.getLong(context.getString(R.string.preferences_actualization_duration_key),
-				Long.valueOf(context.getString(R.string.preferences_actualization_duration_default_value)));
+		return sharedPreferences
+				.getLong(
+						context.getString(R.string.preferences_actualization_duration_key),
+						Long.valueOf(context
+								.getString(R.string.preferences_actualization_duration_default_value)));
 	}
 
 	@Override
 	public long getActualizationFrequencySeconds() {
-		return sharedPreferences.getLong(context.getString(R.string.preferences_actualization_frequency_key),
-				Long.valueOf(context.getString(R.string.preferences_actualization_frequency_default_value)));
+		return sharedPreferences
+				.getLong(
+						context.getString(R.string.preferences_actualization_frequency_key),
+						Long.valueOf(context
+								.getString(R.string.preferences_actualization_frequency_default_value)));
 	}
 
 	@Override
 	public void setNetworkLocationActivation(final boolean checked) {
-		final String key = context.getString(R.string.preferences_network_activation_key);
+		final String key = context
+				.getString(R.string.preferences_network_activation_key);
 		keysChanged.add(key);
 		editor.putBoolean(key, checked);
 	}
 
 	@Override
 	public void setGpsLocationActivation(final boolean checked) {
-		final String key = context.getString(R.string.preferences_gps_activation_key);
+		final String key = context
+				.getString(R.string.preferences_gps_activation_key);
 		keysChanged.add(key);
 		editor.putBoolean(key, checked);
 	}
@@ -128,27 +142,27 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnS
 
 	@Override
 	public void setActualizationFrequencySeconds(final long seconds) {
-		final String key = context.getString(R.string.preferences_actualization_frequency_key);
+		final String key = context
+				.getString(R.string.preferences_actualization_frequency_key);
 		keysChanged.add(key);
-		editor.putLong( //
-				key, //
-				seconds);
+		editor.putLong(key, seconds);
 	}
 
 	@Override
 	public void setActualizationDurationSeconds(final long seconds) {
-		final String key = context.getString(R.string.preferences_actualization_duration_key);
+		final String key = context
+				.getString(R.string.preferences_actualization_duration_key);
 		keysChanged.add(key);
-		editor.putLong( //
-				key, //
-				seconds);
+		editor.putLong(key, seconds);
 	}
 
 	@Override
 	public String getPingMessage() {
-		return sharedPreferences.getString( //
-				context.getString(R.string.preferences_ping_message_key), //
-				context.getString(R.string.default_ping_message));
+		return sharedPreferences
+				.getString(
+						//
+						context.getString(R.string.preferences_ping_message_key), //
+						context.getString(R.string.preferences_ping_message_default_value));
 	}
 
 	@Override
@@ -163,7 +177,8 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnS
 	// ************************************************ //
 
 	@Override
-	public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
+	public void onSharedPreferenceChanged(
+			final SharedPreferences sharedPreferences, final String key) {
 		notifyChanges(key);
 	}
 
@@ -173,13 +188,14 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences, OnS
 
 	@Override
 	public String getLocalUserId() {
-		return sharedPreferences.getString(context.getString(R.string.preferences_user_id),
+		return sharedPreferences.getString(
+				context.getString(R.string.preferences_user_id_key),
 				User.EMPTY_USER_ID);
 	}
 
 	@Override
 	public void setLocalUserId(final String id) {
-		final String key = context.getString(R.string.preferences_user_id);
+		final String key = context.getString(R.string.preferences_user_id_key);
 		keysChanged.add(key);
 		editor.putString(key, id);
 	}

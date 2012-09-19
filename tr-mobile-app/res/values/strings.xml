@@ -6,8 +6,8 @@
     <string name="generic_wait">Espere…</string>
     <string name="menu_preferences_title">Preferencias</string>
     <string name="menu_log_out_title">Log out</string>
-    <string name="default_ping_message">Hello extraterrestrian, you are about to be hired through the best hiring application in the WORLD! Get hired!</string>
-
+	<string name="pinged_successfully">Ping! exitoso</string>
+    
     <!-- Login screen -->
     <string name="login_fancy_message">… las oportunidades están cerca…</string>
     <string name="login_new_user">Soy nuevo aquí</string>
@@ -32,5 +32,9 @@
     <string name="tab_label_profile">Perfil</string>
     <string name="tab_label_radar">Radar</string>
     <string name="tab_label_dashboard">Dashboard</string>
+    <string name="dashboard_no_notifications_label">No hay notificaciones a mostrar</string>
+    <string name="mini_profile_see_profile">Ver Perfil</string>
+    <string name="mini_profile_ping">Ping!</string>
+    <string name="mini_profile_save_contact">Guardar contacto</string>
 
 </resources>

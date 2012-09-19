@@ -3,6 +3,7 @@ package com.menatwork;
 import android.app.Application;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gcm.GCMRegistrar;
 import com.menatwork.chat.ChatSessionManager;
@@ -43,8 +44,7 @@ public class TalentRadarApplication extends Application implements
 	public void onCreate() {
 		super.onCreate();
 		applicationContext = this;
-		// TODO - may be useful for presentation - boris - 14/09/2012
-		// setDefaultUncaughtExceptionHandler();
+		setDefaultUncaughtExceptionHandler();
 
 		skillButtonFactory = DefaultSkillButtonFactory.newInstance();
 		preferences = new SharedTalentRadarPreferences(
@@ -60,6 +60,7 @@ public class TalentRadarApplication extends Application implements
 			public void uncaughtException(final Thread paramThread,
 					final Throwable paramThrowable) {
 				Log.e(paramThread.toString(), paramThrowable.toString());
+				Toast.makeText(TalentRadarApplication.this, R.string.generic_error, Toast.LENGTH_LONG).show();
 			}
 		});
 	}
