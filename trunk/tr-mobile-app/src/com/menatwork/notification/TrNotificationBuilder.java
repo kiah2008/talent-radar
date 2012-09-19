@@ -2,6 +2,8 @@ package com.menatwork.notification;
 
 import java.util.Date;
 
+import android.content.Intent;
+
 import com.menatwork.service.Defect;
 
 public class TrNotificationBuilder {
@@ -10,6 +12,8 @@ public class TrNotificationBuilder {
 	private String header;
 	private String description;
 	private Date date;
+	private Intent intent;
+	private String notificationId;
 
 	public static TrNotificationBuilder newInstance() {
 		return new TrNotificationBuilder();
@@ -19,6 +23,7 @@ public class TrNotificationBuilder {
 		this.header = "";
 		this.description = "";
 		this.date = new Date();
+		this.notificationId = TrNotification.ID_NOT_SET;
 	}
 
 	// ************************************************ //
@@ -29,7 +34,8 @@ public class TrNotificationBuilder {
 		if (type == null)
 			throw new Defect("type == null");
 
-		return new TrNotification(type, header, description, date);
+		return new TrNotification(type, header, description, date, intent,
+				notificationId);
 	}
 
 	// ************************************************ //
@@ -55,4 +61,15 @@ public class TrNotificationBuilder {
 		this.date = date;
 		return this;
 	}
+
+	public TrNotificationBuilder setIntent(final Intent intent) {
+		this.intent = intent;
+		return this;
+	}
+
+	public TrNotificationBuilder setNotificationId(final String id) {
+		this.notificationId = id;
+		return this;
+	}
+
 }

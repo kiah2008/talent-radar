@@ -1,12 +1,14 @@
 package com.menatwork;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -42,13 +44,14 @@ public class DashboardActivity extends ListActivity implements
 	// ************************************************ //
 
 	private final List<Map<String, ?>> list = new ArrayList<Map<String, ?>>();
+	private Handler mainLooperHandler;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard_notification_list_view);
 		initializeListAdapter();
-		initializeAlreayExistentNotifications();
+		initializeAlreadyExistentNotifications();
 		suscribeToNewNotications();
 	}
 
@@ -71,11 +74,11 @@ public class DashboardActivity extends ListActivity implements
 
 		setListAdapter(adapter);
 
-//		addNofiticationAndNotify(TrNotificationBuilder.newInstance() //
-//				.setType(TrNotificationType.PING) //
-//				.setDate(new Date()) //
-//				.setDescription("le descriptionçç") //
-//				.setHeader("Pinged! by Pomodoro").build());
+		// addNofiticationAndNotify(TrNotificationBuilder.newInstance() //
+		// .setType(TrNotificationType.PING) //
+		// .setDate(new Date()) //
+		// .setDescription("le descriptionçç") //
+		// .setHeader("Pinged! by Pomodoro").build());
 	}
 
 	@Override
@@ -107,8 +110,8 @@ public class DashboardActivity extends ListActivity implements
 	 * Adds every notification that has been already registered by the
 	 * notification manager and shows it in the list.
 	 */
-	private void initializeAlreayExistentNotifications() {
-		final List<TrNotification> notifications = getTalentRadarApplication()
+	private void initializeAlreadyExistentNotifications() {
+		final Collection<TrNotification> notifications = getTalentRadarApplication()
 				.getNotificationManager().getNotifications();
 
 		for (final TrNotification notification : notifications)
@@ -143,13 +146,13 @@ public class DashboardActivity extends ListActivity implements
 	/**
 	 * Adds a TrNotification to the list of notifications shown in the
 	 * Dashboard, mapping it to the correct representation.
-	 *
+	 * 
 	 * <b>NOTE:</b> This method DOESN'T notify the ListAdapter that it has to
 	 * refresh its view. You should call
 	 * {@link DashboardActivity#notifyDataSetChanged()} afterwards or use
 	 * {@link DashboardActivity#addNofiticationAndNotify(TrNotification)}
 	 * instead.
-	 *
+	 * 
 	 * @param notification
 	 */
 	protected void addNofitication(final TrNotification notification) {
@@ -160,21 +163,27 @@ public class DashboardActivity extends ListActivity implements
 	/**
 	 * Adds a TrNotification to the list of notifications shown in the
 	 * Dashboard, mapping it to the correct representation.
-	 *
+	 * 
 	 * This method ALSO notifies the ListAdapter for the list shown to be
 	 * refreshed in screen.
-	 *
+	 * 
 	 * @param notification
 	 */
 	protected void addNofiticationAndNotify(final TrNotification notification) {
-		addNofitication(notification);
-		notifyDataSetChanged();
+		mainLooperHandler = new Handler(this.getMainLooper());
+		mainLooperHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				addNofitication(notification);
+				notifyDataSetChanged();
+			}
+		});
 	}
 
 	/**
 	 * Maps a {@link TrNotification} to a map containing every value that will
 	 * be showed in the Dashboard.
-	 *
+	 * 
 	 * @param notification
 	 * @return
 	 */

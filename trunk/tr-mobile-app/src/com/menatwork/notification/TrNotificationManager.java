@@ -1,11 +1,14 @@
 package com.menatwork.notification;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class TrNotificationManager {
 
-	private final List<TrNotification> notifications;
+	private final Map<String, TrNotification> notifications;
 	private final List<TrNotificationListener> listeners;
 
 	public static TrNotificationManager newInstance() {
@@ -13,17 +16,17 @@ public class TrNotificationManager {
 	}
 
 	protected TrNotificationManager() {
-		this.notifications = new LinkedList<TrNotification>();
+		this.notifications = new HashMap<String, TrNotification>();
 		this.listeners = new LinkedList<TrNotificationListener>();
 	}
 
 	public void newNotification(final TrNotification notification) {
-		notifications.add(notification);
+		notifications.put(notification.getNotificationId(), notification);
 		notifyAdded(notification);
 	}
 
-	public List<TrNotification> getNotifications() {
-		return notifications;
+	public Collection<TrNotification> getNotifications() {
+		return notifications.values();
 	}
 
 	// ************************************************ //
