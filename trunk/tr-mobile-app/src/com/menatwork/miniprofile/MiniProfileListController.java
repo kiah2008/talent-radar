@@ -4,32 +4,39 @@ import java.util.List;
 
 import android.widget.ListView;
 
-import com.menatwork.R;
 import com.menatwork.GuiTalentRadarActivity;
+import com.menatwork.R;
 
 public class MiniProfileListController {
 
+	private MiniProfileAdapter adapter;
+	private ListView listView;
 	private final GuiTalentRadarActivity activity;
-	private final int listViewId;
-	private final MiniProfileItemRow[] itemRowsArray;
 
-	public MiniProfileListController(final GuiTalentRadarActivity activity, final int listViewId,
-			final List<MiniProfileItemRow> itemRows) {
+	public MiniProfileListController(final GuiTalentRadarActivity activity,
+			final int listViewId, final List<MiniProfileItemRow> itemRows) {
 		this(activity, listViewId, itemRows.toArray(new MiniProfileItemRow[0]));
 	}
 
-	public MiniProfileListController(final GuiTalentRadarActivity activity, final int listViewId,
-			final MiniProfileItemRow... itemRowsArrays) {
+	public MiniProfileListController(final GuiTalentRadarActivity activity,
+			final int listViewId, final MiniProfileItemRow... itemRowsArray) {
 		this.activity = activity;
-		this.listViewId = listViewId;
-		this.itemRowsArray = itemRowsArrays;
+		this.adapter = new MiniProfileAdapter(activity,
+				R.layout.mini_profile_item_row, itemRowsArray);
+
+		initializeList(activity, listViewId);
 	}
 
-	public void showList() {
-		final MiniProfileAdapter adapter = new MiniProfileAdapter(activity, R.layout.mini_profile_item_row,
-				itemRowsArray);
+	private void initializeList(final GuiTalentRadarActivity activity,
+			final int listViewId) {
+		listView = activity.findViewById(listViewId, ListView.class);
+		listView.setAdapter(adapter);
+	}
 
-		final ListView listView = activity.findViewById(listViewId, ListView.class);
+	public void updateList(final List<MiniProfileItemRow> itemsRowArray) {
+		adapter = new MiniProfileAdapter(activity,
+				R.layout.mini_profile_item_row, itemsRowArray.toArray(new MiniProfileItemRow[0]));
+
 		listView.setAdapter(adapter);
 	}
 }

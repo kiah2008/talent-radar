@@ -92,7 +92,6 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 		seeProfileButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-//				new SeeProfileTask(activity).execute(miniProfileItem.getUserId());
 				final Intent intent = new Intent(activity, ProfileActivity.class);
 				intent.putExtra(ProfileActivity.EXTRAS_USERID, miniProfileItem.getUserId());
 				activity.startActivity(intent);
