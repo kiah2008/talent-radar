@@ -42,6 +42,8 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 	private final Object miniProfileItemsLock = new Object();
 	private List<MiniProfileItemRow> miniProfileItems = new LinkedList<MiniProfileItemRow>();
 
+	private MiniProfileListController listController;
+
 	@Override
 	protected int getViewLayoutId() {
 		return R.layout.radar;
@@ -71,6 +73,10 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 		final LocationSourceManager locationSourceManager = getTalentRadarApplication()
 				.getLocationSourceManager();
 		locationSourceManager.addListener(this);
+
+		listController = new MiniProfileListController(RadarActivity.this,
+				R.id.radar_mini_profiles_list_view,
+				new LinkedList<MiniProfileItemRow>());
 	}
 
 	// ************************************************ //
@@ -97,7 +103,7 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 		}
 	}
 
-	public synchronized void refreshSurroundingContacts(
+	public synchronized void updateSurroundingContacts(
 			final List<? extends User> parseSurroundingUsers) {
 		final List<MiniProfileItemRow> newMiniProfileItems = new LinkedList<MiniProfileItemRow>();
 		for (final User user : parseSurroundingUsers)
@@ -107,6 +113,13 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 		synchronized (miniProfileItemsLock) {
 			miniProfileItems = newMiniProfileItems;
 		}
+
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				listController.updateList(newMiniProfileItems);
+			}
+		});
 	}
 
 	protected void showMiniProfileList() {
@@ -117,9 +130,7 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 			copy = new LinkedList<MiniProfileItemRow>(miniProfileItems);
 		}
 
-		final MiniProfileListController listController = new MiniProfileListController(
-				RadarActivity.this, R.id.radar_mini_profiles_list_view, copy);
-		listController.showList();
+		listController.updateList(copy);
 	}
 
 	/* ********************************************* */
@@ -167,7 +178,7 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 					final ShareLocationAndGetUsersResponse response = handleResponse(serviceCall
 							.execute());
 
-					refreshSurroundingContacts(response.parseSurroundingUsers());
+					updateSurroundingContacts(response.parseSurroundingUsers());
 				}
 			} catch (final JSONException e) {
 				// TODO Auto-generated catch block

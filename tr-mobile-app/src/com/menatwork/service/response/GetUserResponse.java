@@ -24,10 +24,16 @@ public class GetUserResponse extends BaseResponse {
 			userBuilder.setUserSurname(userJsonObject.getString("surname"));
 			userBuilder.setEmail(userJsonObject.getString("email"));
 			userBuilder.setHeadline(userJsonObject.getString("headline"));
+
+			try{
 			// TODO - throws an error for non LI users (picture is not included
 			// in the JSON) - miguel - 19/09/2012
 			userBuilder.setProfilePictureUrl(userJsonObject
 					.getString("picture"));
+			} catch (final JSONException e) {
+				// as of today (19/09/2012) this doesn't concern us
+			}
+
 			// userBuilder.setExtract(userJsonObject.getString("extract"));
 			return userBuilder.build();
 		} catch (final JSONException e) {
