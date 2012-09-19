@@ -1,0 +1,60 @@
+<mockup version="1.0" skin="sketch" measuredW="295" measuredH="532" mockupW="273" mockupH="508">
+  <controls>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Image" x="104" y="222" w="110" h="99" measuredW="128" measuredH="128" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>../mockups/images/linked_in_down.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Label" x="96" y="128" w="127" h="94" measuredW="240" measuredH="50" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <italic>false</italic>
+        <size>40</size>
+        <text>Talent%20Radar</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="60" y="313" w="-1" h="-1" measuredW="36" measuredH="21" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Email</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::TextInput" x="60" y="334" w="198" h="-1" measuredW="79" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::TextInput" x="60" y="382" w="198" h="-1" measuredW="79" measuredH="27" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Label" x="60" y="361" w="-1" h="-1" measuredW="72" measuredH="21" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Contrase%F1a</text>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::Component" x="179" y="409" w="73" h="27" measuredW="73" measuredH="27" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0" x="0" y="0" w="-1" h="-1">
+          <text>Ingresar%21</text>
+        </override>
+        <override controlID="-1"/>
+        <src>../mockups/assets/Android%20Controls.bmml#Button</src>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Component" x="66" y="409" w="107" h="27" measuredW="107" measuredH="27" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0" x="0" y="0" w="-1" h="-1">
+          <text>Soy%20nuevo%20aqui</text>
+        </override>
+        <override controlID="-1"/>
+        <src>../mockups/assets/Android%20Controls.bmml#Button</src>
+      </controlProperties>
+    </control>
+    <control controlID="20" controlTypeID="com.balsamiq.mockups::Component" x="22" y="24" w="273" h="508" measuredW="273" measuredH="508" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>../mockups/assets/Samsung%20Galaxy%20S.bmml#Samsung%20Galaxy%20S</src>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

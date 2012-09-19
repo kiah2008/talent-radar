@@ -1,0 +1,46 @@
+<mockup version="1.0" skin="sketch" measuredW="304" measuredH="518" mockupW="273" mockupH="508">
+  <controls>
+    <control controlID="29" controlTypeID="com.balsamiq.mockups::Component" x="31" y="10" w="273" h="508" measuredW="273" measuredH="508" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>../mockups/assets/Samsung%20Galaxy%20S.bmml#Samsung%20Galaxy%20S</src>
+      </controlProperties>
+    </control>
+    <control controlID="31" controlTypeID="com.balsamiq.mockups::Label" x="84" y="100" w="-1" h="-1" measuredW="167" measuredH="37" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>28</size>
+        <text>Talent%20Radar</text>
+      </controlProperties>
+    </control>
+    <control controlID="32" controlTypeID="com.balsamiq.mockups::Image" x="122" y="163" w="90" h="124" measuredW="327" measuredH="362" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <src>../mockups/images/peluchin-meme-224989.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="33" controlTypeID="com.balsamiq.mockups::Paragraph" x="67" y="287" w="-1" h="-1" measuredW="200" measuredH="80" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>center</align>
+        <text>Hola%20Mariano%2C%20te%20contactamos%20de%20MenAtWork%20para%20ofrecerte%20un%20puesto%20como%20@busqueda.%20Si%20est%E1s%20interesado%2C%20responde%20mi%20ping%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="35" controlTypeID="com.balsamiq.mockups::Label" x="86" y="137" w="163" h="28" measuredW="163" measuredH="26" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Lic.%20Alfredo%20Romero</text>
+      </controlProperties>
+    </control>
+    <control controlID="36" controlTypeID="com.balsamiq.mockups::Button" x="100" y="356" w="135" h="45" measuredW="98" measuredH="27" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>40463</color>
+        <text>Aceptar%20Ping</text>
+      </controlProperties>
+    </control>
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::Button" x="132" y="408" w="70" h="30" measuredW="65" measuredH="27" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13576743</color>
+        <text>Ignorar</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
