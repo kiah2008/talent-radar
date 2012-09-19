@@ -2,9 +2,9 @@
 <resources>
 
     <string name="radar_image_content_description">Radar</string>
-    <string name="radar_handle_button_text">¡Quién está cerca!</string>
-    <string name="radar_searching_state">Searching</string>
-    <string name="radar_image_path">android_asset/radar_animation.gif</string>
+    <string name="radar_handle_button_text">Quién está cerca?</string>
+    <string name="radar_searching_state">Buscando…</string>
+    <!-- <string name="radar_image_path">android_asset/radar_animation.gif</string> -->
     <string name="radar_service_name">Servicio Radar</string>
-    
+
 </resources>

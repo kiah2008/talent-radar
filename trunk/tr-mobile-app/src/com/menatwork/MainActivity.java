@@ -58,7 +58,8 @@ public class MainActivity extends TabActivity {
 	}
 
 	private void showPreferences() {
-		final Intent preferencesIntent = new Intent(this, TrPreferenceActivity.class);
+		final Intent preferencesIntent = new Intent(this,
+				TrPreferenceActivity.class);
 		startActivity(preferencesIntent);
 	}
 
@@ -91,22 +92,22 @@ public class MainActivity extends TabActivity {
 	private void initializeTabs() {
 		addTab(DashboardActivity.class, //
 				"dashboard", //
-				"Dashboard", //
+				getString(R.string.tab_label_dashboard), //
 				R.drawable.icon_dashboard_tab);
 
 		addTab(RadarActivity.class, //
 				"radar", //
-				"Radar", //
+				getString(R.string.tab_label_radar), //
 				R.drawable.icon_radar_tab);
 
 		addTab(ProfileActivity.class, //
 				"profile", //
-				"Profile", //
+				getString(R.string.tab_label_profile), //
 				R.drawable.icon_profile_tab);
 	}
 
-	private void addTab(final Class<? extends Activity> tabClass, final String tabTag, final String tabLabel,
-			final int tabIconId) {
+	private void addTab(final Class<? extends Activity> tabClass,
+			final String tabTag, final String tabLabel, final int tabIconId) {
 
 		// get tab host
 		final TabHost tabHost = getTabHost();
