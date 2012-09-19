@@ -14,7 +14,7 @@ class UsersOnlineController extends AppController {
 	public function _app_getUsers($data) {
 		$conditions['sqrt(pow(69.1 * (UsersOnline.latitude - '.$data['UsersOnline']['latitude'].'), 2) + pow(53.0 * (UsersOnline.longitude - '.$data['UsersOnline']['latitude'].'), 2)) <'] = (Configure::read('DistanceToGetUsers')/1.609344); //Calculate if distance is lower than input. (Convertion miles to kilometres)
 		$conditions['UsersOnline.user_id <>'] = $data['UsersOnline']['user_id'];
-		$conditions['TIMEDIFF(ADDTIME(UsersOnline.modified, UsersOnline.duration), NOW()) >'] = 0;
+		$conditions['TIMEDIFF(ADDTIME(UsersOnline.modified, SEC_TO_TIME(UsersOnline.duration)), NOW()) >'] = 0;
 					
 		return $this->UsersOnline->find('all', array('conditions' => $conditions));
 	}
