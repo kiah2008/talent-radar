@@ -167,6 +167,8 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 		@Override
 		public void onClick(final View v) {
 			final String message = input.getText().toString();
+			final String messageAsciiStandard = message.replaceAll(
+					"[^\\x00-\\x7F]", "");
 			final String fromId = getTalentRadarApplication().getLocalUser()
 					.getId();
 			// TODO - pass the message to the task and, when the response comes,
@@ -175,7 +177,7 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 			final ChatMessage chatMessage = ChatMessage.newInstance("dunno!",
 					fromId, toId, message);
 			chatSession.addMessage(chatMessage);
-			new SendMessageTask().execute(fromId, toId, message);
+			new SendMessageTask().execute(fromId, toId, messageAsciiStandard);
 			afterButtonSendPressed();
 		}
 
