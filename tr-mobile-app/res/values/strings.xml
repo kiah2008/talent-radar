@@ -6,8 +6,8 @@
     <string name="generic_wait">Espere…</string>
     <string name="menu_preferences_title">Preferencias</string>
     <string name="menu_log_out_title">Log out</string>
-	<string name="pinged_successfully">Ping! exitoso</string>
-    
+    <string name="pinged_successfully">¡Ping! a %s enviado exitosamente!</string>
+
     <!-- Login screen -->
     <string name="login_fancy_message">… las oportunidades están cerca…</string>
     <string name="login_new_user">Soy nuevo aquí</string>
@@ -32,9 +32,19 @@
     <string name="tab_label_profile">Perfil</string>
     <string name="tab_label_radar">Radar</string>
     <string name="tab_label_dashboard">Dashboard</string>
-    <string name="dashboard_no_notifications_label">No hay notificaciones a mostrar</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_no_notifications_label">¡Aún no has interactuado con otros usuarios!</string>
+
+    <!-- Mini profile -->
     <string name="mini_profile_see_profile">Ver Perfil</string>
     <string name="mini_profile_ping">Ping!</string>
     <string name="mini_profile_save_contact">Guardar contacto</string>
+
+    <!-- Expired -->
+    <string name="expired_message">Pronto una nueva versión estará disponible en nuestro sitio para que siga los últimos pasos del mercado laboral atentamente. Síganos en nuestro sitio web:</string>
+    <string name="expired_title">¡Oh, lo sentimos!</string>    <string name="expired_subtitle">¡Su licencia de prueba de Talent Radar ya ha expirado!</string>    <string name="expired_logo_content_description">Logo</string>
+    <string name="talent_radar_site_url_to_be_shown">talent-radar.com</string>
+    <string name="talent_radar_site_url">http://www.talent-radar.com</string>
 
 </resources>

@@ -22,13 +22,13 @@ import com.menatwork.view.LoadProfilePictureTask;
  * In order to make this view reusable for viewing any user profile, you need to
  * pass along in a bundle the user id that you are trying to visualize (or
  * nothing for the local user, that means, don't put anything in the extras!)
- * 
+ *
  * key: userid / value: a string with the user id (eg. "25")
- * 
+ *
  * @see {@link ProfileActivity#EXTRAS_USERID}
- * 
+ *
  * @author aabdala
- * 
+ *
  */
 public class ProfileActivity extends GuiTalentRadarActivity {
 
@@ -115,7 +115,7 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 			@Override
 			public void onClick(final View v) {
 				final String localUserId = getTalentRadarApplication().getLocalUser().getId();
-				new PingTask(ProfileActivity.this).execute(localUserId, getUser().getId());
+				new PingTask(ProfileActivity.this).execute(localUserId, getUser().getId(), getUser().getUsername());
 			}
 		});
 

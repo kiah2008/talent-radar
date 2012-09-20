@@ -1,5 +1,7 @@
 package com.menatwork.miniprofile;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -21,14 +23,14 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 
 	private final Activity activity;
 	private final int layoutResourceId;
-	private final MiniProfileItemRow items[];
+	private final List<MiniProfileItemRow> items;
 
 	public MiniProfileAdapter(final Activity activity,
-			final int layoutResourceId, final MiniProfileItemRow[] items) {
-		super(activity, layoutResourceId, items);
+			final int layoutResourceId, final List<MiniProfileItemRow> itemRows) {
+		super(activity, layoutResourceId, itemRows);
 		this.layoutResourceId = layoutResourceId;
 		this.activity = activity;
-		this.items = items;
+		this.items = itemRows;
 	}
 
 	/**
@@ -60,7 +62,7 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 			holder = (MiniProfileItemRowHolder) row.getTag();
 
 		// gets the item to be modified (i suppose)
-		final MiniProfileItemRow miniProfileItem = items[position];
+		final MiniProfileItemRow miniProfileItem = items.get(position);
 
 		initializeRow(row, holder, miniProfileItem);
 
@@ -92,8 +94,10 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 		seeProfileButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				final Intent intent = new Intent(activity, ProfileActivity.class);
-				intent.putExtra(ProfileActivity.EXTRAS_USERID, miniProfileItem.getUserId());
+				final Intent intent = new Intent(activity,
+						ProfileActivity.class);
+				intent.putExtra(ProfileActivity.EXTRAS_USERID,
+						miniProfileItem.getUserId());
 				activity.startActivity(intent);
 			}
 		});
@@ -103,7 +107,7 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 				final String localUserId = getTalentRadarApplication()
 						.getLocalUser().getId();
 				new PingTask(activity).execute(localUserId,
-						miniProfileItem.getUserId());
+						miniProfileItem.getUserId(), miniProfileItem.getUsername());
 			}
 		});
 		saveContactButton.setOnClickListener(new OnClickListener() {
