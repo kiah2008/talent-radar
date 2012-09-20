@@ -6,7 +6,6 @@ import org.json.JSONException;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -34,7 +33,7 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	public static final String EXTRA_USER_FULLNAME = "fullname";
 	public static final String EXTRA_PING_ID = "pingid";
 	public static final String EXTRAS_PROFILE_PIC_URL = "profilePicUrl";
-	
+
 	private TextView username;
 	private TextView message;
 	private ImageView profilePicture;
@@ -54,13 +53,13 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 		super.onResume();
 	}
 
-	private void loadProfilePic(String profilePicUrl) {
+	private void loadProfilePic(final String profilePicUrl) {
 		new LoadProfilePictureTask(this, profilePicture, loadingProfilePic,
 				profilePicUrl).execute();
 	}
 
 	private void loadDataFromExtras() {
-		Bundle extras = getIntent().getExtras();
+		final Bundle extras = getIntent().getExtras();
 		pingId = extras.getString(EXTRA_PING_ID);
 		dataUserName = extras.getString(EXTRA_USER_FULLNAME);
 		dataMessage = extras.getString(EXTRA_MESSAGE);
@@ -101,8 +100,8 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	}
 
 	@Override
-	protected Dialog onCreateDialog(int id) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	protected Dialog onCreateDialog(final int id) {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		switch (id) {
 		case DIALOG_IGNORE_OR_BAN:
 			builder.setMessage(String.format(
@@ -118,16 +117,16 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 		return builder.create();
 	}
 
-	void replyPing(Answer answer) {
+	void replyPing(final Answer answer) {
 		new ReplyPingTask().execute(getTalentRadarApplication().getLocalUser()
 				.getId(), pingId, answer);
 	}
 
 	private void proceedToChatInterface() {
-		Intent intent = new Intent(PingAlertActivity.this, ChatActivity.class);
+		final Intent intent = new Intent(PingAlertActivity.this,
+				ChatActivity.class);
 		// TODO - get the real headline (along with the profile pic)
-		intent.putExtra(ChatActivity.EXTRAS_HEADLINE,
-				"this would be a headline (cuac)");
+		intent.putExtra(ChatActivity.EXTRAS_HEADLINE, "");
 		intent.putExtra(ChatActivity.EXTRAS_USER_ID, userId);
 		intent.putExtra(ChatActivity.EXTRAS_USERNAME, dataUserName);
 		intent.putExtra(ChatActivity.EXTRAS_PROFILE_PIC_URL, profilePicUrl);
@@ -137,8 +136,9 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	private class AcceptButtonListener implements OnClickListener {
 
 		@Override
-		public void onClick(View v) {
+		public void onClick(final View v) {
 			replyPing(Answer.ACCEPT);
+			proceedToChatInterface();
 		}
 
 	}
@@ -146,7 +146,7 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	private class DeclineButtonListener implements OnClickListener {
 
 		@Override
-		public void onClick(View v) {
+		public void onClick(final View v) {
 			showDialog(DIALOG_IGNORE_OR_BAN);
 		}
 
@@ -156,16 +156,18 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 			android.content.DialogInterface.OnClickListener {
 
 		@Override
-		public void onClick(DialogInterface dialog, int which) {
+		public void onClick(final DialogInterface dialog, final int which) {
 			switch (which) {
 			case DialogInterface.BUTTON_NEUTRAL:
 				dialog.dismiss();
 				break;
 			case DialogInterface.BUTTON_NEGATIVE:
 				replyPing(ReplyPing.Answer.IGNORE);
+				finish();
 				break;
 			case DialogInterface.BUTTON_POSITIVE:
 				replyPing(ReplyPing.Answer.BAN);
+				finish();
 				break;
 			}
 		}
@@ -173,28 +175,28 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 
 	private class ReplyPingTask extends AsyncTask<Object, Void, Response> {
 
-		private ProgressDialog progressDialog;
+		// private ProgressDialog progressDialog;
 		private Answer answer;
 
 		@Override
 		protected void onPreExecute() {
-			progressDialog = ProgressDialog.show(PingAlertActivity.this, "",
-					getString(R.string.generic_wait));
+			// progressDialog = ProgressDialog.show(PingAlertActivity.this, "",
+			// getString(R.string.generic_wait));
 		}
 
 		@Override
-		protected Response doInBackground(Object... params) {
+		protected Response doInBackground(final Object... params) {
 			try {
 				answer = (Answer) params[2];
-				String localUserId = (String) params[0];
-				String pingId = (String) params[1];
-				ReplyPing replyPing = ReplyPing.newInstance(
+				final String localUserId = (String) params[0];
+				final String pingId = (String) params[1];
+				final ReplyPing replyPing = ReplyPing.newInstance(
 						PingAlertActivity.this, localUserId, pingId, answer);
 				return replyPing.execute();
-			} catch (JSONException e) {
+			} catch (final JSONException e) {
 				Log.e("ReplyPingTask", "Error receiving response");
 				e.printStackTrace();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				Log.e("ReplyPingTask", "Error receiving response");
 				e.printStackTrace();
 			}
@@ -202,20 +204,19 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 		}
 
 		@Override
-		protected void onPostExecute(Response result) {
-			progressDialog.dismiss();
-			if (!result.isSuccessful()) {
+		protected void onPostExecute(final Response result) {
+			// progressDialog.dismiss();
+			if (!result.isSuccessful())
 				Toast.makeText(PingAlertActivity.this,
 						getString(R.string.generic_error), Toast.LENGTH_SHORT)
 						.show();
-			}
 			if (Answer.ACCEPT.equals(answer))
 				// launch chat interface
-				// TODO - prototype implementation - alme
-				proceedToChatInterface();
+				// proceedToChatInterface();
+				;
 			else
-				finish();
+				// finish();
+				;
 		}
-
 	}
 }

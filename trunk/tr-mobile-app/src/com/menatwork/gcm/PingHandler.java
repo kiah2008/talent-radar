@@ -1,33 +1,36 @@
 package com.menatwork.gcm;
 
-import android.os.Bundle;
+import java.util.Date;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.menatwork.ChatActivity;
 import com.menatwork.GCMIntentService;
 import com.menatwork.PingAlertActivity;
+import com.menatwork.notification.TrNotificationBuilder;
+import com.menatwork.notification.TrNotificationType;
 import com.menatwork.utils.LogUtils;
 
 public class PingHandler implements GcmMessageHandler {
 
 	@Override
-	public void handle(GCMIntentService context, Intent intent) {
+	public void handle(final GCMIntentService context, final Intent intent) {
 		try {
 			// TODO - validate that this notif is for myself (user id)
-			Bundle extras = intent.getExtras();
+			final Bundle extras = intent.getExtras();
 			LogUtils.d(this, "Received ping", extras);
 
-			Intent newIntent = new Intent(context, PingAlertActivity.class);
+			final Intent newIntent = new Intent(context, PingAlertActivity.class);
 
-			String data = extras.getString("data");
-			JSONObject jsonData = new JSONObject(data);
-			JSONObject jsonUser = jsonData.getJSONObject("UserFrom");
+			final String data = extras.getString("data");
+			final JSONObject jsonData = new JSONObject(data);
+			final JSONObject jsonUser = jsonData.getJSONObject("UserFrom");
 
-			String pingId = this.setPingId(newIntent, jsonData);
+			final String pingId = this.setPingId(newIntent, jsonData);
 
 			this.setUserId(newIntent, jsonUser);
 			this.setFullName(newIntent, jsonUser);
@@ -37,44 +40,53 @@ public class PingHandler implements GcmMessageHandler {
 			GCMIntentService.generateNotification(context,
 					Integer.valueOf(pingId), extras.getString("message"),
 					newIntent);
-		} catch (JSONException e) {
+
+			final TrNotificationBuilder builder = TrNotificationBuilder
+					.newInstance();
+			builder.setType(TrNotificationType.PING);
+			builder.setDate(new Date());
+			builder.setHeader("Ping!");
+			builder.setDescription(extras.getString("message"));
+			builder.setIntent(newIntent);
+			context.generateTrNotification(builder.build());
+		} catch (final JSONException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private void setMessage(Intent newIntent, JSONObject jsonData)
+	private void setMessage(final Intent newIntent, final JSONObject jsonData)
 			throws JSONException {
-		String message = jsonData.getJSONObject("UsersPing").getString(
+		final String message = jsonData.getJSONObject("UsersPing").getString(
 				"content");
 		newIntent.putExtra(PingAlertActivity.EXTRA_MESSAGE, message);
 	}
 
-	private void setFullName(Intent newIntent, JSONObject jsonUser)
+	private void setFullName(final Intent newIntent, final JSONObject jsonUser)
 			throws JSONException {
-		StringBuilder fullnameBuilder = new StringBuilder(
+		final StringBuilder fullnameBuilder = new StringBuilder(
 				jsonUser.getString("name"));
 		fullnameBuilder.append(" ");
 		fullnameBuilder.append(jsonUser.getString("surname"));
-		String fullName = fullnameBuilder.toString();
+		final String fullName = fullnameBuilder.toString();
 		newIntent.putExtra(PingAlertActivity.EXTRA_USER_FULLNAME, fullName);
 	}
 
-	private void setUserId(Intent newIntent, JSONObject jsonUser)
+	private void setUserId(final Intent newIntent, final JSONObject jsonUser)
 			throws JSONException {
-		String userId = jsonUser.getString("id");
+		final String userId = jsonUser.getString("id");
 		newIntent.putExtra(PingAlertActivity.EXTRA_USER_ID, userId);
 	}
 
-	private String setPingId(Intent newIntent, JSONObject jsonData)
+	private String setPingId(final Intent newIntent, final JSONObject jsonData)
 			throws JSONException {
-		String pingId = jsonData.getJSONObject("UsersPing").getString("id");
+		final String pingId = jsonData.getJSONObject("UsersPing").getString("id");
 		newIntent.putExtra(PingAlertActivity.EXTRA_PING_ID, pingId);
 		return pingId;
 	}
 
-	private void setPicture(Intent notificationIntent, JSONObject jsonUser)
+	private void setPicture(final Intent notificationIntent, final JSONObject jsonUser)
 			throws JSONException {
-		String profilePicUrl = jsonUser.getString("picture");
+		final String profilePicUrl = jsonUser.getString("picture");
 		notificationIntent.putExtra(ChatActivity.EXTRAS_PROFILE_PIC_URL,
 				profilePicUrl);
 	}

@@ -15,6 +15,7 @@ public class GetUserTask extends AsyncTask<String, Void, User> {
 
 	private ProgressDialog progressDialog;
 	private final Activity activity;
+	private boolean finished;
 
 	public GetUserTask(final Activity activity) {
 		this.activity = activity;
@@ -29,6 +30,7 @@ public class GetUserTask extends AsyncTask<String, Void, User> {
 	@Override
 	protected void onPostExecute(final User result) {
 		progressDialog.dismiss();
+		finished = true;
 	}
 
 	@Override
@@ -61,6 +63,10 @@ public class GetUserTask extends AsyncTask<String, Void, User> {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public boolean finished() {
+		return finished;
 	}
 
 }

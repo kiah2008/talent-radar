@@ -60,9 +60,8 @@ public class GonzaUtils {
 					new InputStreamReader(content), 8);
 			final StringBuilder stringBuilder = new StringBuilder();
 			String line = null;
-			while ((line = reader.readLine()) != null) {
+			while ((line = reader.readLine()) != null)
 				stringBuilder.append(line + "\n");
-			}
 			return stringBuilder.toString();
 		} finally {
 			try {

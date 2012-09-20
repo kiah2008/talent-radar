@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import android.app.ProgressDialog;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,16 +13,19 @@ import com.menatwork.preferences.TalentRadarPreferences;
 
 public class DispatcherActivity extends TalentRadarActivity {
 
+	private String localUserId;
+	private User localUser;
+
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.dispatcher);
 
 		if (hasExpired()) {
 			setExpired();
 			startActivity(new Intent(this, ExpiredActivity.class));
-		} else {
+		} else
 			startApplication();
-		} // if hasExpired
 	}
 
 	private void setExpired() {
@@ -33,25 +36,28 @@ public class DispatcherActivity extends TalentRadarActivity {
 	}
 
 	private void startApplication() {
-		final ProgressDialog progress = ProgressDialog.show(this,
-				getString(R.string.generic_wait), "");
+		// final ProgressDialog progress = ProgressDialog.show(this,
+		// getString(R.string.generic_wait), "");
 
-		try {
-			final TalentRadarPreferences preferences = getTalentRadarApplication()
-					.getPreferences();
+		final TalentRadarPreferences preferences = getTalentRadarApplication()
+				.getPreferences();
 
-			final String localUserId = preferences.getLocalUserId();
-			User localUser = null;
+		final String localUserId = preferences.getLocalUserId();
+		if (notValidUserId(localUserId))
+			startActivity(new Intent(this, LoginActivity.class));
+		else {
+			final DispatcherGetUserTask getUserTask = new DispatcherGetUserTask(
+					this);
+			getUserTask.execute(localUserId);
+		}
+	}
 
-			if (notValidUserId(localUserId)
-					|| (localUser = getUserById(localUserId)) == null) {
-				startActivity(new Intent(this, LoginActivity.class));
-			} else {
-				getTalentRadarApplication().loadLocalUser(localUser);
-				startActivity(new Intent(this, MainActivity.class));
-			}
-		} finally {
-			progress.dismiss();
+	private void onTaskExecuted() {
+		if (localUser == null)
+			startActivity(new Intent(this, LoginActivity.class));
+		else {
+			getTalentRadarApplication().loadLocalUser(localUser);
+			startActivity(new Intent(this, MainActivity.class));
 		}
 	}
 
@@ -84,5 +90,21 @@ public class DispatcherActivity extends TalentRadarActivity {
 		} catch (final ParseException e) {
 			throw new RuntimeException("invalid date format");
 		}
+	}
+
+	// *********
+	private class DispatcherGetUserTask extends GetUserTask {
+
+		public DispatcherGetUserTask(final Activity activity) {
+			super(activity);
+		}
+
+		@Override
+		protected void onPostExecute(final User result) {
+			super.onPostExecute(result);
+			localUser = result;
+			onTaskExecuted();
+		}
+
 	}
 }
