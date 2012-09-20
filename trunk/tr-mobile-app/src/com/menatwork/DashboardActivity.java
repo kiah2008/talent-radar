@@ -1,5 +1,6 @@
 package com.menatwork;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,7 +20,8 @@ import com.menatwork.notification.TrNotification;
 import com.menatwork.notification.TrNotificationListener;
 import com.menatwork.notification.TrNotificationManager;
 
-public class DashboardActivity extends ListActivity implements TrNotificationListener {
+public class DashboardActivity extends ListActivity implements
+		TrNotificationListener {
 
 	private static final String KEY_TIMESTAMP = "timestamp";
 	private static final String KEY_ICON = "icon";
@@ -83,11 +85,13 @@ public class DashboardActivity extends ListActivity implements TrNotificationLis
 
 	@Override
 	@SuppressWarnings("unchecked")
-	protected void onListItemClick(final ListView l, final View v, final int position, final long id) {
+	protected void onListItemClick(final ListView l, final View v,
+			final int position, final long id) {
 		super.onListItemClick(l, v, position, id);
-		final Map<String, Object> notification = (Map<String, Object>) getListAdapter().getItem(position);
+		final Map<String, Object> notification = (Map<String, Object>) getListAdapter()
+				.getItem(position);
 		final Intent intent = (Intent) notification.get(KEY_INTENT);
-		
+
 		if (intent != null)
 			startActivity(intent);
 	}
@@ -110,8 +114,8 @@ public class DashboardActivity extends ListActivity implements TrNotificationLis
 	 * notification manager and shows it in the list.
 	 */
 	private void initializeAlreadyExistentNotifications() {
-		final Collection<TrNotification> notifications = getTalentRadarApplication().getNotificationManager()
-				.getNotifications();
+		final Collection<TrNotification> notifications = getTalentRadarApplication()
+				.getNotificationManager().getNotifications();
 
 		addNofiticationsAndNotify(notifications);
 
@@ -122,18 +126,21 @@ public class DashboardActivity extends ListActivity implements TrNotificationLis
 	 * Suscribes to new notifications from the notification manager.
 	 */
 	private void suscribeToNewNotications() {
-		getTalentRadarApplication().getNotificationManager().addNotificationListener(this);
+		getTalentRadarApplication().getNotificationManager()
+				.addNotificationListener(this);
 	}
 
 	/**
 	 * Unsuscribes from new notifications from the notification manager.
 	 */
 	private void unsuscribeFromNofitications() {
-		getTalentRadarApplication().getNotificationManager().removeNotificationListener(this);
+		getTalentRadarApplication().getNotificationManager()
+				.removeNotificationListener(this);
 	}
 
 	@Override
-	public void onNewNotification(final TrNotificationManager notificationManager,
+	public void onNewNotification(
+			final TrNotificationManager notificationManager,
 			final TrNotification notification) {
 		addNofiticationsAndNotify(notificationManager.getNotifications());
 	}
@@ -155,7 +162,8 @@ public class DashboardActivity extends ListActivity implements TrNotificationLis
 		list.add(notificationMap);
 	}
 
-	protected void addNotifications(final Collection<TrNotification> notifications) {
+	protected void addNotifications(
+			final Collection<TrNotification> notifications) {
 		list.clear();
 		for (final TrNotification trNotification : notifications)
 			list.add(trNotification2NotificationMap(trNotification));
@@ -170,7 +178,8 @@ public class DashboardActivity extends ListActivity implements TrNotificationLis
 	 * 
 	 * @param notification
 	 */
-	protected void addNofiticationsAndNotify(final Collection<TrNotification> notifications) {
+	protected void addNofiticationsAndNotify(
+			final Collection<TrNotification> notifications) {
 		mainLooperHandler = new Handler(this.getMainLooper());
 		mainLooperHandler.post(new Runnable() {
 			@Override
@@ -188,9 +197,11 @@ public class DashboardActivity extends ListActivity implements TrNotificationLis
 	 * @param notification
 	 * @return
 	 */
-	protected Map<String, Object> trNotification2NotificationMap(final TrNotification notification) {
+	protected Map<String, Object> trNotification2NotificationMap(
+			final TrNotification notification) {
 		final Map<String, Object> notificationMap = new HashMap<String, Object>();
-		notificationMap.put(KEY_TIMESTAMP, notification.getDate());
+		notificationMap.put(KEY_TIMESTAMP,
+				new SimpleDateFormat().format(notification.getDate()));
 		notificationMap.put(KEY_HEADER, notification.getHeader());
 		notificationMap.put(KEY_DESCRIPTION, notification.getDescription());
 		notificationMap.put(KEY_ICON, notification.getIcon());
