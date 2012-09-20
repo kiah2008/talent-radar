@@ -1,0 +1,42 @@
+<mockup version="1.0" skin="sketch" measuredW="304" measuredH="518" mockupW="273" mockupH="508">
+  <controls>
+    <control controlID="29" controlTypeID="com.balsamiq.mockups::Component" x="31" y="10" w="273" h="508" measuredW="273" measuredH="508" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>../mockups/assets/Samsung%20Galaxy%20S.bmml#Samsung%20Galaxy%20S</src>
+      </controlProperties>
+    </control>
+    <control controlID="35" controlTypeID="com.balsamiq.mockups::Label" x="108" y="99" w="140" h="28" measuredW="137" measuredH="26" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Mariano%20Guzm%E1n</text>
+      </controlProperties>
+    </control>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::TextInput" x="61" y="410" w="152" h="-1" measuredW="140" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Bien%2C%20me%20interes%F3%20tu...</text>
+      </controlProperties>
+    </control>
+    <control controlID="39" controlTypeID="com.balsamiq.mockups::Button" x="219" y="412" w="-1" h="-1" measuredW="59" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>10066329</color>
+        <text>Enviar</text>
+      </controlProperties>
+    </control>
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::Image" x="54" y="92" w="54" h="64" measuredW="110" measuredH="130" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>../mockups/images/jao-ming.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::Label" x="108" y="127" w="140" h="28" measuredW="78" measuredH="22" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>14</size>
+        <text>Analista%20QA</text>
+      </controlProperties>
+    </control>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::TextArea" x="63" y="167" w="200" h="221" measuredW="200" measuredH="140" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Mariano%0A%A1Hola%21%0AYo%0A%BFC%F3mo%20est%E1s%3F</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
