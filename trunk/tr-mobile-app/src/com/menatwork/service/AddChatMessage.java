@@ -7,8 +7,8 @@ import com.menatwork.service.response.BaseResponse;
 
 public class AddChatMessage extends StandardServiceCall<BaseResponse> {
 
-	public static AddChatMessage newInstance(Context context, String fromId,
-			String toId, String content) {
+	public static AddChatMessage newInstance(final Context context, final String fromId,
+			final String toId, final String content) {
 		return new AddChatMessage(context, fromId, toId, content);
 	}
 
@@ -24,9 +24,11 @@ public class AddChatMessage extends StandardServiceCall<BaseResponse> {
 	 * data[UsersMessage][content]
 	 */
 
-	private AddChatMessage(Context context, String fromId, String toId,
-			String content) {
+	private AddChatMessage(final Context context, final String fromId, final String toId,
+			final String content) {
 		super(context, BaseResponse.class);
+		// TODO - see what wave codification - boris - 20/09/2012
+		// content = Base64.encodeToString(content.getBytes(), Base64.DEFAULT);
 		this.setParameter(R.string.post_key_add_chat_from_id, fromId);
 		this.setParameter(R.string.post_key_add_chat_to_id, toId);
 		this.setParameter(R.string.post_key_add_chat_content, content);

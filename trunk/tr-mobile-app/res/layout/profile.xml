@@ -38,7 +38,6 @@
                     android:layout_alignTop="@+id/profile_profile_pic"
                     android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@+id/profile_profile_pic"
-                    android:text="Duke Nukem"
                     android:textSize="32dp"
                     android:textStyle="bold" />
 
@@ -77,7 +76,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/profile_layout_name_and_pic"
-                android:text="Time to kick ass and chew bubblegum... and I&apos;m all outta gum."
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </RelativeLayout>
 

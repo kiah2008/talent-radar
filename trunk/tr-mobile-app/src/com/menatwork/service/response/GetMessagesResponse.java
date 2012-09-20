@@ -12,33 +12,36 @@ import com.menatwork.service.ResponseException;
 
 public class GetMessagesResponse extends BaseResponse {
 
-	public GetMessagesResponse(JSONObject response) {
+	public GetMessagesResponse(final JSONObject response) {
 		super(response);
 	}
 
 	public List<ChatMessage> getMessages() {
 		try {
-			List<ChatMessage> messagesList = new ArrayList<ChatMessage>();
-			JSONObject messages = getResult().getJSONObject("messages");
-			Iterator<String> keys = getKeys(messages);
+			final List<ChatMessage> messagesList = new ArrayList<ChatMessage>();
+			final JSONObject messages = getResult().getJSONObject("messages");
+			final Iterator<String> keys = getKeys(messages);
 			while (keys.hasNext()) {
-				JSONObject message = messages.getJSONObject(keys.next())
+				final JSONObject message = messages.getJSONObject(keys.next())
 						.getJSONObject("UsersMessage");
-				String messageId = message.getString("id");
-				String fromId = message.getString("user_from_id");
-				String toId = message.getString("user_to_id");
-				String content = message.getString("content");
+				final String messageId = message.getString("id");
+				final String fromId = message.getString("user_from_id");
+				final String toId = message.getString("user_to_id");
+				final String content = message.getString("content");
+				// TODO - see what wave this codifcation - boris - 20/09/2012
+				// content =  Arrays.toString(Base64.decode(content, Base64.DEFAULT));
 				messagesList.add(ChatMessage.newInstance(messageId, toId,
 						fromId, content));
 			}
 			return messagesList;
-		} catch (JSONException e) {
+		} catch (final JSONException e) {
 			throw new ResponseException(e);
 		}
 	}
 
-	private Iterator<String> getKeys(JSONObject messages) {
+	private Iterator<String> getKeys(final JSONObject messages) {
 		@SuppressWarnings("unchecked")
+		final
 		Iterator<String> keys = messages.keys();
 		return keys;
 	}

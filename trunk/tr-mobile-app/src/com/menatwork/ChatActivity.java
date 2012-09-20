@@ -191,6 +191,7 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 				final String fromId = args[0];
 				final String toId = args[1];
 				final String content = args[2];
+				
 				final AddChatMessage addChat = AddChatMessage.newInstance(
 						ChatActivity.this, fromId, toId, content);
 				return addChat.execute();
