@@ -64,9 +64,9 @@ public class DispatcherActivity extends TalentRadarActivity {
 			final Date expirationDate = new SimpleDateFormat("dd/MM/yyyy")
 					.parse("21/09/2012");
 			return expirationDate.getTime();
+
 		} catch (final ParseException e) {
-			e.printStackTrace();
-			throw new RuntimeException();
+			throw new RuntimeException("invalid date format");
 		}
 	}
 }
