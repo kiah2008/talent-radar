@@ -21,20 +21,23 @@ public class PingTask extends AsyncTask<String, Void, Response> {
 
 	private final Activity activity;
 
+	private String toUsername;
+
 	public PingTask(final Activity activity) {
 		this.activity = activity;
 	}
 
 	@Override
 	protected void onPreExecute() {
-		progressDialog = ProgressDialog.show(activity, "", activity.getString(R.string.generic_wait));
+		progressDialog = ProgressDialog.show(activity, "",
+				activity.getString(R.string.generic_wait));
 	}
 
 	@Override
 	protected void onPostExecute(final Response result) {
 		progressDialog.dismiss();
 		if (result.isSuccessful())
-			Toast.makeText(activity, activity.getString(R.string.pinged_successfully), Toast.LENGTH_SHORT).show();
+			Toast.makeText(activity, String.format(activity.getString(R.string.pinged_successfully), toUsername), Toast.LENGTH_SHORT).show();
 		else
 			Toast.makeText(activity, activity.getString(R.string.generic_error), Toast.LENGTH_SHORT).show();
 	}
@@ -45,8 +48,11 @@ public class PingTask extends AsyncTask<String, Void, Response> {
 			final String localUserId = params[0];
 			final String toId = params[1];
 
-			final Ping ping = Ping.newInstance(activity, localUserId, toId, TalentRadarApplication
-					.getContext().getPreferences().getPingMessage());
+			toUsername = params[2];
+
+			final Ping ping = Ping.newInstance(activity, localUserId, toId,
+					TalentRadarApplication.getContext().getPreferences()
+							.getPingMessage());
 			return ping.execute();
 
 		} catch (final JSONException e) {

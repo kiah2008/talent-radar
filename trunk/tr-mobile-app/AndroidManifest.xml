@@ -43,9 +43,9 @@
         </activity>
         <activity
             android:name="com.menatwork.LoginActivity"
+            android:configChanges="orientation"
             android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Light"
-            android:configChanges="orientation" >
+            android:theme="@android:style/Theme.Light" >
             <intent-filter>
                 <data android:scheme="talent.call.linkedin.back" />
 
@@ -136,6 +136,10 @@
             android:theme="@android:style/Theme.Black" >
         </activity>
         <activity android:name=".dashboard.DashboardNotificationListActivity" >
+        </activity>
+        <activity
+            android:name="ExpiredActivity"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
