@@ -18,10 +18,18 @@ public class DispatcherActivity extends TalentRadarActivity {
 		super.onCreate(savedInstanceState);
 
 		if (hasExpired()) {
+			setExpired();
 			startActivity(new Intent(this, ExpiredActivity.class));
 		} else {
 			startApplication();
 		} // if hasExpired
+	}
+
+	private void setExpired() {
+		final TalentRadarPreferences preferences = getPreferences();
+		preferences.beginNewEdition();
+		preferences.setApplicationExpired(true);
+		preferences.commitChanges();
 	}
 
 	private void startApplication() {
@@ -56,6 +64,14 @@ public class DispatcherActivity extends TalentRadarActivity {
 	// ************************************************ //
 
 	private boolean hasExpired() {
+		return expirationSaved() || expirationDatePassed();
+	}
+
+	private boolean expirationSaved() {
+		return getPreferences().isApplicationExpired();
+	}
+
+	private boolean expirationDatePassed() {
 		return System.currentTimeMillis() >= expirationTimeMillis();
 	}
 

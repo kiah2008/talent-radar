@@ -59,8 +59,8 @@ public class TalentRadarApplication extends Application implements
 			@Override
 			public void uncaughtException(final Thread paramThread,
 					final Throwable paramThrowable) {
-				Log.e(paramThread.toString(), paramThrowable.toString());
-				Toast.makeText(TalentRadarApplication.this, R.string.generic_error, Toast.LENGTH_LONG).show();
+				Log.e(paramThread.toString(), "Uncaught ex = " + paramThrowable.toString());
+				Toast.makeText(TalentRadarApplication.getContext(), R.string.generic_error, Toast.LENGTH_LONG).show();
 			}
 		});
 	}
