@@ -200,4 +200,22 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences,
 		editor.putString(key, id);
 	}
 
+	// ************************************************ //
+	// ====== Expiration ======
+	// ************************************************ //
+
+	@Override
+	public boolean isApplicationExpired() {
+		return sharedPreferences.getBoolean(
+				context.getString(R.string.preferences_expiration_key), //
+				false);
+	}
+
+	@Override
+	public void setApplicationExpired(final boolean checked) {
+		final String key = context
+				.getString(R.string.preferences_expiration_key);
+		keysChanged.add(key);
+		editor.putBoolean(key, checked);
+	}
 }

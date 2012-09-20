@@ -33,5 +33,9 @@
 
     <!-- Local user persistent data -->
     <string name="preferences_user_id_key">user_id</string>
+    
+    <!-- Expiration -->
+    <string name="preferences_expiration_key">expiration</string>
+
 
 </resources>

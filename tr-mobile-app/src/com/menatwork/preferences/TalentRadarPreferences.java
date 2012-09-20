@@ -24,9 +24,9 @@ package com.menatwork.preferences;
  * calling {@link TalentRadarPreferences#commitChanges()} or if you decide to
  * cancel these changes, {@link TalentRadarPreferences#discardChanges()}.
  * Remember that you should call either of them ONCE AND ONLY ONCE.
- * 
+ *
  * @author boris
- * 
+ *
  */
 public interface TalentRadarPreferences {
 
@@ -81,5 +81,9 @@ public interface TalentRadarPreferences {
 	void setPingMessage(String string);
 
 	void setLocalUserId(String id);
+
+	boolean isApplicationExpired();
+
+	void setApplicationExpired(boolean checked);
 
 }
