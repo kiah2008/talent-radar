@@ -26,7 +26,7 @@
     <string name="preferences_actualization_frequency_label">Frecuencia de escaneo</string>
 
     <!-- Ping message -->
-    <string name="preferences_ping_message_default_value">En Men@Work estamos buscando Desarrolladores Android con mas de un ano de experiencia para sumar a nuestros proyectos tanto para clientes locales como del exterior.</string>
+    <string name="preferences_ping_message_default_value">En Men@Work estamos buscando Desarrolladores Android con amplia experiencia para sumar a nuestros proyectos altamente desafiantes y entretenidos. Esperamos tu respuesta, convertite en un Men@Work!</string>
     <string name="preferences_ping_message_key">ping_message</string>
     <string name="preferences_ping_message_summary">Mensaje de Ping! para enviar a otros usuarios</string>
     <string name="preferences_ping_message_label">Mensaje Ping!</string>
