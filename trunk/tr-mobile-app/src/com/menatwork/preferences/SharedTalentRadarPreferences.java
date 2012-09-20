@@ -167,8 +167,10 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences,
 
 	@Override
 	public void setPingMessage(final String pingMessage) {
+		final String key = context.getString(R.string.preferences_ping_message_key);
+		keysChanged.add(key);
 		editor.putString( //
-				context.getString(R.string.preferences_ping_message_key), //
+				key, //
 				pingMessage);
 	}
 

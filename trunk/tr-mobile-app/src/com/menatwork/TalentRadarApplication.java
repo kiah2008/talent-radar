@@ -61,6 +61,7 @@ public class TalentRadarApplication extends Application implements
 					final Throwable paramThrowable) {
 				Log.e(paramThread.toString(), "Uncaught ex = " + paramThrowable.toString());
 				Toast.makeText(TalentRadarApplication.getContext(), R.string.generic_error, Toast.LENGTH_LONG).show();
+				// TODO - run on ui thread de alguna forma - boris - 20/09/2012
 			}
 		});
 	}

@@ -7,25 +7,25 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.menatwork.notification.TrNotification;
 import com.menatwork.notification.TrNotificationListener;
 import com.menatwork.notification.TrNotificationManager;
 
-public class DashboardActivity extends ListActivity implements
-		TrNotificationListener {
+public class DashboardActivity extends ListActivity implements TrNotificationListener {
 
 	private static final String KEY_TIMESTAMP = "timestamp";
 	private static final String KEY_ICON = "icon";
 	private static final String KEY_HEADER = "header";
 	private static final String KEY_DESCRIPTION = "description";
+	private static final String KEY_INTENT = "intent";
 
 	private static final String[] DATA_KEYS = new String[] { //
 	/*    */KEY_TIMESTAMP, //
@@ -82,15 +82,14 @@ public class DashboardActivity extends ListActivity implements
 	}
 
 	@Override
-	protected void onListItemClick(final ListView l, final View v,
-			final int position, final long id) {
+	@SuppressWarnings("unchecked")
+	protected void onListItemClick(final ListView l, final View v, final int position, final long id) {
 		super.onListItemClick(l, v, position, id);
-		// TODO - lo que debe pasar cuando hacen click - miguel - 10/09/2012
-		final Object o = this.getListAdapter().getItem(position);
-		final String notification = o.toString();
-		Toast.makeText(this,
-				"You have chosen the notification: " + " " + notification,
-				Toast.LENGTH_SHORT).show();
+		final Map<String, Object> notification = (Map<String, Object>) getListAdapter().getItem(position);
+		final Intent intent = (Intent) notification.get(KEY_INTENT);
+		
+		if (intent != null)
+			startActivity(intent);
 	}
 
 	public void notifyDataSetChanged() {
@@ -111,8 +110,8 @@ public class DashboardActivity extends ListActivity implements
 	 * notification manager and shows it in the list.
 	 */
 	private void initializeAlreadyExistentNotifications() {
-		final Collection<TrNotification> notifications = getTalentRadarApplication()
-				.getNotificationManager().getNotifications();
+		final Collection<TrNotification> notifications = getTalentRadarApplication().getNotificationManager()
+				.getNotifications();
 
 		addNofiticationsAndNotify(notifications);
 
@@ -123,21 +122,18 @@ public class DashboardActivity extends ListActivity implements
 	 * Suscribes to new notifications from the notification manager.
 	 */
 	private void suscribeToNewNotications() {
-		getTalentRadarApplication().getNotificationManager()
-				.addNotificationListener(this);
+		getTalentRadarApplication().getNotificationManager().addNotificationListener(this);
 	}
 
 	/**
 	 * Unsuscribes from new notifications from the notification manager.
 	 */
 	private void unsuscribeFromNofitications() {
-		getTalentRadarApplication().getNotificationManager()
-				.removeNotificationListener(this);
+		getTalentRadarApplication().getNotificationManager().removeNotificationListener(this);
 	}
 
 	@Override
-	public void onNewNotification(
-			final TrNotificationManager notificationManager,
+	public void onNewNotification(final TrNotificationManager notificationManager,
 			final TrNotification notification) {
 		addNofiticationsAndNotify(notificationManager.getNotifications());
 	}
@@ -159,8 +155,7 @@ public class DashboardActivity extends ListActivity implements
 		list.add(notificationMap);
 	}
 
-	protected void addNotifications(
-			final Collection<TrNotification> notifications) {
+	protected void addNotifications(final Collection<TrNotification> notifications) {
 		list.clear();
 		for (final TrNotification trNotification : notifications)
 			list.add(trNotification2NotificationMap(trNotification));
@@ -175,8 +170,7 @@ public class DashboardActivity extends ListActivity implements
 	 * 
 	 * @param notification
 	 */
-	protected void addNofiticationsAndNotify(
-			final Collection<TrNotification> notifications) {
+	protected void addNofiticationsAndNotify(final Collection<TrNotification> notifications) {
 		mainLooperHandler = new Handler(this.getMainLooper());
 		mainLooperHandler.post(new Runnable() {
 			@Override
@@ -194,13 +188,13 @@ public class DashboardActivity extends ListActivity implements
 	 * @param notification
 	 * @return
 	 */
-	protected Map<String, Object> trNotification2NotificationMap(
-			final TrNotification notification) {
+	protected Map<String, Object> trNotification2NotificationMap(final TrNotification notification) {
 		final Map<String, Object> notificationMap = new HashMap<String, Object>();
 		notificationMap.put(KEY_TIMESTAMP, notification.getDate());
 		notificationMap.put(KEY_HEADER, notification.getHeader());
 		notificationMap.put(KEY_DESCRIPTION, notification.getDescription());
 		notificationMap.put(KEY_ICON, notification.getIcon());
+		notificationMap.put(KEY_INTENT, notification.getIntent());
 		return notificationMap;
 	}
 
