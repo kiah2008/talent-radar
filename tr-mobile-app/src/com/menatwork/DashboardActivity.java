@@ -114,8 +114,7 @@ public class DashboardActivity extends ListActivity implements
 		final Collection<TrNotification> notifications = getTalentRadarApplication()
 				.getNotificationManager().getNotifications();
 
-		for (final TrNotification notification : notifications)
-			addNofiticationAndNotify(notification);
+		addNofiticationsAndNotify(notifications);
 
 		notifyDataSetChanged();
 	}
@@ -140,7 +139,7 @@ public class DashboardActivity extends ListActivity implements
 	public void onNewNotification(
 			final TrNotificationManager notificationManager,
 			final TrNotification notification) {
-		addNofiticationAndNotify(notification);
+		addNofiticationsAndNotify(notificationManager.getNotifications());
 	}
 
 	/**
@@ -160,6 +159,13 @@ public class DashboardActivity extends ListActivity implements
 		list.add(notificationMap);
 	}
 
+	protected void addNotifications(
+			final Collection<TrNotification> notifications) {
+		list.clear();
+		for (final TrNotification trNotification : notifications)
+			list.add(trNotification2NotificationMap(trNotification));
+	}
+
 	/**
 	 * Adds a TrNotification to the list of notifications shown in the
 	 * Dashboard, mapping it to the correct representation.
@@ -169,12 +175,13 @@ public class DashboardActivity extends ListActivity implements
 	 * 
 	 * @param notification
 	 */
-	protected void addNofiticationAndNotify(final TrNotification notification) {
+	protected void addNofiticationsAndNotify(
+			final Collection<TrNotification> notifications) {
 		mainLooperHandler = new Handler(this.getMainLooper());
 		mainLooperHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				addNofitication(notification);
+				addNotifications(notifications);
 				notifyDataSetChanged();
 			}
 		});
