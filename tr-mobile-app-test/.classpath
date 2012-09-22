@@ -5,5 +5,15 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/tr-mobile-app"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="lib" path="libs/bsh-core-2.0b4.jar"/>
+	<classpathentry kind="lib" path="libs/cglib-2.1_3-src.jar"/>
+	<classpathentry kind="lib" path="libs/cglib-nodep-2.1_3.jar"/>
+	<classpathentry kind="lib" path="libs/hamcrest-all-1.1.jar"/>
+	<classpathentry kind="lib" path="libs/jmock-2.5.1.jar"/>
+	<classpathentry kind="lib" path="libs/jmock-junit3-2.5.1.jar"/>
+	<classpathentry kind="lib" path="libs/jmock-legacy-2.5.1.jar"/>
+	<classpathentry kind="lib" path="libs/objenesis-1.0.jar"/>
+	<classpathentry kind="lib" path="libs/robotium-solo-3.4.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="libs/robotium-solo-3.4.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
