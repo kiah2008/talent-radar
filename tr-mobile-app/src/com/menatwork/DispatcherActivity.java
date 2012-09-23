@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.menatwork.model.User;
-import com.menatwork.preferences.TalentRadarPreferences;
+import com.menatwork.preferences.TalentRadarConfiguration;
 
 public class DispatcherActivity extends TalentRadarActivity {
 
@@ -29,7 +29,7 @@ public class DispatcherActivity extends TalentRadarActivity {
 	}
 
 	private void setExpired() {
-		final TalentRadarPreferences preferences = getPreferences();
+		final TalentRadarConfiguration preferences = getPreferences();
 		preferences.beginNewEdition();
 		preferences.setApplicationExpired(true);
 		preferences.commitChanges();
@@ -39,7 +39,7 @@ public class DispatcherActivity extends TalentRadarActivity {
 		// final ProgressDialog progress = ProgressDialog.show(this,
 		// getString(R.string.generic_wait), "");
 
-		final TalentRadarPreferences preferences = getTalentRadarApplication()
+		final TalentRadarConfiguration preferences = getTalentRadarApplication()
 				.getPreferences();
 
 		final String localUserId = preferences.getLocalUserId();

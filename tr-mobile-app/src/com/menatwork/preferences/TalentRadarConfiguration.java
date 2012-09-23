@@ -15,20 +15,24 @@ package com.menatwork.preferences;
  * <p />
  * <b>1)</b> You should first start a new transaction before setting the
  * preferences. This is done by calling the
- * {@link TalentRadarPreferences#beginNewEdition()}
+ * {@link TalentRadarConfiguration#beginNewEdition()}
  * <p />
  * <b>2)</b> Now you are able to set the new values of the preferences just by
  * calling the bunch of <code>setXXX</code> methods.
  * <p />
  * <b>3)</b> Last of all, you should either accept and confirm those changes by
- * calling {@link TalentRadarPreferences#commitChanges()} or if you decide to
- * cancel these changes, {@link TalentRadarPreferences#discardChanges()}.
+ * calling {@link TalentRadarConfiguration#commitChanges()} or if you decide to
+ * cancel these changes, {@link TalentRadarConfiguration#discardChanges()}.
  * Remember that you should call either of them ONCE AND ONLY ONCE.
  *
  * @author boris
  *
  */
-public interface TalentRadarPreferences {
+public interface TalentRadarConfiguration {
+
+	// ************************************************ //
+	// ====== Transaction messages ======
+	// ************************************************ //
 
 	/**
 	 * This method should be called before trying to change any preference. It
@@ -41,7 +45,8 @@ public interface TalentRadarPreferences {
 	 * preferences. It confirms the changes in the configuration.
 	 * <p />
 	 * <b>IMPORTANT:</b> This method shouldn't be called before starting a new
-	 * edition session calling {@link TalentRadarPreferences#beginNewEdition()}.
+	 * edition session calling
+	 * {@link TalentRadarConfiguration#beginNewEdition()}.
 	 */
 	void commitChanges();
 
@@ -50,9 +55,14 @@ public interface TalentRadarPreferences {
 	 * preferences. It discard the changes made.
 	 * <p />
 	 * <b>IMPORTANT:</b> This method shouldn't be called before starting a new
-	 * edition session calling {@link TalentRadarPreferences#beginNewEdition()}.
+	 * edition session calling
+	 * {@link TalentRadarConfiguration#beginNewEdition()}.
 	 */
 	void discardChanges();
+
+	// ************************************************ //
+	// ====== Getter messages ======
+	// ************************************************ //
 
 	boolean isNetworkLocationActivation();
 
@@ -68,7 +78,13 @@ public interface TalentRadarPreferences {
 
 	String getPingMessage();
 
+	boolean isApplicationExpired();
+
 	String getLocalUserId();
+
+	// ************************************************ //
+	// ====== Setter messages ======
+	// ************************************************ //
 
 	void setNetworkLocationActivation(boolean checked);
 
@@ -81,8 +97,6 @@ public interface TalentRadarPreferences {
 	void setPingMessage(String string);
 
 	void setLocalUserId(String id);
-
-	boolean isApplicationExpired();
 
 	void setApplicationExpired(boolean checked);
 

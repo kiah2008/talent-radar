@@ -12,16 +12,16 @@ import com.menatwork.location.LocationSourceManager;
 import com.menatwork.location.NetworkLocationSource;
 import com.menatwork.model.User;
 import com.menatwork.notification.TrNotificationManager;
-import com.menatwork.preferences.PreferencesChanges;
-import com.menatwork.preferences.SharedTalentRadarPreferences;
-import com.menatwork.preferences.TalentRadarPreferences;
-import com.menatwork.preferences.TalentRadarPreferencesListener;
+import com.menatwork.preferences.ConfigurationChanges;
+import com.menatwork.preferences.SharedTalentRadarConfiguration;
+import com.menatwork.preferences.TalentRadarConfiguration;
+import com.menatwork.preferences.TalentRadarConfigurationListener;
 import com.menatwork.skills.DefaultSkillButtonFactory;
 import com.menatwork.skills.SkillButtonFactory;
 import com.menatwork.utils.AndroidUtils;
 
 public class TalentRadarApplication extends Application implements
-		TalentRadarPreferencesListener {
+		TalentRadarConfigurationListener {
 
 	private static TalentRadarApplication applicationContext;
 
@@ -32,7 +32,7 @@ public class TalentRadarApplication extends Application implements
 
 	private SkillButtonFactory skillButtonFactory;
 	private LocationSourceManager locationSourceManager;
-	private TalentRadarPreferences preferences;
+	private TalentRadarConfiguration preferences;
 	private TrNotificationManager notificationManager;
 	private ChatSessionManager chatSessionManager;
 
@@ -47,7 +47,7 @@ public class TalentRadarApplication extends Application implements
 		setDefaultUncaughtExceptionHandler();
 
 		skillButtonFactory = DefaultSkillButtonFactory.newInstance();
-		preferences = new SharedTalentRadarPreferences(
+		preferences = new SharedTalentRadarConfiguration(
 				PreferenceManager.getDefaultSharedPreferences(this), this, this);
 		notificationManager = TrNotificationManager.newInstance();
 		locationSourceManager = new NaiveLocationSourceManager();
@@ -122,17 +122,17 @@ public class TalentRadarApplication extends Application implements
 	// ====== Preferences ======
 	// ************************************************ //
 
-	public TalentRadarPreferences getPreferences() {
+	public TalentRadarConfiguration getPreferences() {
 		return preferences;
 	}
 
 	@Override
-	public synchronized void onPreferencesChanged(
-			final PreferencesChanges changes,
-			final TalentRadarPreferences preferences) {
-		Log.d("TalentRadarApplication", "onPreferencesChanged");
+	public synchronized void onConfigurationChanged(
+			final ConfigurationChanges changes,
+			final TalentRadarConfiguration preferences) {
+		Log.d("TalentRadarApplication", "onConfigurationChanged");
 
-		if (changes.hasLocationSourceManagerPreferencesChanged()) {
+		if (changes.hasLocationSourceManagerConfigurationChanged()) {
 			locationSourceManager.deactivate();
 			updateLocationSourceManagerConfiguration(preferences);
 			locationSourceManager.activate();
@@ -166,7 +166,7 @@ public class TalentRadarApplication extends Application implements
 	}
 
 	private void updateLocationSourceManagerConfiguration(
-			final TalentRadarPreferences preferences) {
+			final TalentRadarConfiguration preferences) {
 
 		final long actualizationFrequencyMilliseconds = preferences
 				.getActualizationFrequencyMilliseconds();
