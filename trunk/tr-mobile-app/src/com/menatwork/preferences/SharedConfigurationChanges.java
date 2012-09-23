@@ -8,16 +8,19 @@ import android.content.Context;
 import com.menatwork.R;
 import com.menatwork.TalentRadarApplication;
 
-public class SharedPreferencesChanges implements PreferencesChanges {
+public class SharedConfigurationChanges implements ConfigurationChanges {
 
 	private final List<String> keysThatChanged;
 
-	public SharedPreferencesChanges(final String... keysThatChanged) {
+	public SharedConfigurationChanges(final String... keysThatChanged) {
 		this.keysThatChanged = Arrays.asList(keysThatChanged);
 	}
 
+	// TODO - what if i changed this List<String> to a List<Integer (Ids)> and
+	// avoid using the context - miguel - 22/09/2012
+
 	@Override
-	public boolean hasLocationSourceManagerPreferencesChanged() {
+	public boolean hasLocationSourceManagerConfigurationChanged() {
 		return hasKeyChanged(R.string.preferences_actualization_duration_key)
 				|| hasKeyChanged(R.string.preferences_actualization_frequency_key)
 				|| hasKeyChanged(R.string.preferences_network_activation_key)

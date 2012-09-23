@@ -11,21 +11,21 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import com.menatwork.R;
 import com.menatwork.model.User;
 
-public class SharedTalentRadarPreferences implements TalentRadarPreferences,
-		OnSharedPreferenceChangeListener {
+public class SharedTalentRadarConfiguration implements
+		TalentRadarConfiguration, OnSharedPreferenceChangeListener {
 
 	private final SharedPreferences sharedPreferences;
-	private final TalentRadarPreferencesListener[] listeners;
+	private final TalentRadarConfigurationListener[] listeners;
 
 	private Editor editor;
 	private Set<String> keysChanged;
 
 	private final Context context;
 
-	public SharedTalentRadarPreferences(
+	public SharedTalentRadarConfiguration(
 			final SharedPreferences sharedPreferences, //
 			final Context context, //
-			final TalentRadarPreferencesListener... listeners) {
+			final TalentRadarConfigurationListener... listeners) {
 		this.sharedPreferences = sharedPreferences;
 		this.context = context;
 		this.listeners = listeners;
@@ -55,8 +55,8 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences,
 	}
 
 	private void notifyChanges(final String... keys) {
-		for (final TalentRadarPreferencesListener listener : listeners)
-			listener.onPreferencesChanged(new SharedPreferencesChanges(keys),
+		for (final TalentRadarConfigurationListener listener : listeners)
+			listener.onConfigurationChanged(new SharedConfigurationChanges(keys),
 					this);
 	}
 
@@ -167,7 +167,8 @@ public class SharedTalentRadarPreferences implements TalentRadarPreferences,
 
 	@Override
 	public void setPingMessage(final String pingMessage) {
-		final String key = context.getString(R.string.preferences_ping_message_key);
+		final String key = context
+				.getString(R.string.preferences_ping_message_key);
 		keysChanged.add(key);
 		editor.putString( //
 				key, //

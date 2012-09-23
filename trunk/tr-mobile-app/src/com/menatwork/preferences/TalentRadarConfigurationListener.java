@@ -1,6 +1,6 @@
 package com.menatwork.preferences;
 
-public interface TalentRadarPreferencesListener {
+public interface TalentRadarConfigurationListener {
 
 	/**
 	 * Notifies whenever there were changes made to the application's
@@ -12,7 +12,8 @@ public interface TalentRadarPreferencesListener {
 	 * @param preferences
 	 *            Preferences which were modified, should have the new values
 	 */
-	void onPreferencesChanged(PreferencesChanges changes,
-			TalentRadarPreferences preferences);
+	void onConfigurationChanged( //
+			ConfigurationChanges changes, //
+			TalentRadarConfiguration preferences);
 
 }
