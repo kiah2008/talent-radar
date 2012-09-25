@@ -21,18 +21,11 @@ public class DispatcherActivity extends TalentRadarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dispatcher);
 
-		if (hasExpired()) {
-			setExpired();
-			startActivity(new Intent(this, ExpiredActivity.class));
-		} else
-			startApplication();
-	}
-
-	private void setExpired() {
-		final TalentRadarConfiguration preferences = getPreferences();
-		preferences.beginNewEdition();
-		preferences.setApplicationExpired(true);
-		preferences.commitChanges();
+		// if (hasExpired()) {
+		// setExpired();
+		// startActivity(new Intent(this, ExpiredActivity.class));
+		// } else
+		startApplication();
 	}
 
 	private void startApplication() {
@@ -68,6 +61,13 @@ public class DispatcherActivity extends TalentRadarActivity {
 	// ************************************************ //
 	// ====== Trial mode ======
 	// ************************************************ //
+
+	private void setExpired() {
+		final TalentRadarConfiguration preferences = getPreferences();
+		preferences.beginNewEdition();
+		preferences.setApplicationExpired(true);
+		preferences.commitChanges();
+	}
 
 	private boolean hasExpired() {
 		return expirationSaved() || expirationDatePassed();
