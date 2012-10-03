@@ -16,3 +16,26 @@ basic functional tests
 	- someone is close
 	- it appears in the list
 * ...
+
+talent hunting!
+* creating a hunt for java devs
+	- go to hunt tab
+	- create new hunt
+	- select preferred skill -> java
+	- accept
+	- assert: new hunt should appear in the hunt list
+	- assert: new hunt should be active
+* hunting for scala devs
+	- precond: having scala devs hunt activated
+	- a wild scala dev appears!
+	- radar takes hold of it => hunting engine accepts it => portfolio adds scala dev
+	- look at contact portfolio
+	- assert: there you are scala dev!
+* hunting for scala devs but just backgrown engineers on scene
+	- precond: having scala devs hunt activated
+	- backgrown strikes again!
+	- radar takes hold of it => hunting engine doesn't accept it [the end]
+	- look at contact portfolio
+	- assert: no one under scala dev hunting
+
+
