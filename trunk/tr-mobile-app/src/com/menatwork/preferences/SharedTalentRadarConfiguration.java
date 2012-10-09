@@ -1,7 +1,5 @@
 package com.menatwork.preferences;
 
-import java.util.Set;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -15,8 +13,6 @@ public class SharedTalentRadarConfiguration //
 		implements TalentRadarConfiguration, OnSharedPreferenceChangeListener {
 
 	private final TalentRadarConfigurationListener[] listeners;
-
-	private Set<String> keysChanged;
 
 	private final Context context;
 
@@ -92,7 +88,6 @@ public class SharedTalentRadarConfiguration //
 	public void setNetworkLocationActivation(final boolean checked) {
 		final String key = context
 				.getString(R.string.preferences_network_activation_key);
-		keysChanged.add(key);
 		putBoolean(key, checked);
 	}
 
@@ -100,7 +95,6 @@ public class SharedTalentRadarConfiguration //
 	public void setGpsLocationActivation(final boolean checked) {
 		final String key = context
 				.getString(R.string.preferences_gps_activation_key);
-		keysChanged.add(key);
 		this.putBoolean(key, checked);
 	}
 
@@ -116,7 +110,6 @@ public class SharedTalentRadarConfiguration //
 	public void setActualizationFrequencySeconds(final long seconds) {
 		final String key = context
 				.getString(R.string.preferences_actualization_frequency_key);
-		keysChanged.add(key);
 		this.putLong(key, seconds);
 	}
 
@@ -124,7 +117,6 @@ public class SharedTalentRadarConfiguration //
 	public void setActualizationDurationSeconds(final long seconds) {
 		final String key = context
 				.getString(R.string.preferences_actualization_duration_key);
-		keysChanged.add(key);
 		this.putLong(key, seconds);
 	}
 
@@ -140,7 +132,6 @@ public class SharedTalentRadarConfiguration //
 	public void setPingMessage(final String pingMessage) {
 		final String key = context
 				.getString(R.string.preferences_ping_message_key);
-		keysChanged.add(key);
 		this.putString( //
 				key, //
 				pingMessage);
@@ -169,7 +160,6 @@ public class SharedTalentRadarConfiguration //
 	@Override
 	public void setLocalUserId(final String id) {
 		final String key = context.getString(R.string.preferences_user_id_key);
-		keysChanged.add(key);
 		this.putString(key, id);
 	}
 
@@ -188,7 +178,6 @@ public class SharedTalentRadarConfiguration //
 	public void setApplicationExpired(final boolean checked) {
 		final String key = context
 				.getString(R.string.preferences_expiration_key);
-		keysChanged.add(key);
 		this.putBoolean(key, checked);
 	}
 }

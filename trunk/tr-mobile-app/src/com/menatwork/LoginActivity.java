@@ -48,16 +48,6 @@ public class LoginActivity extends GuiTalentRadarActivity {
 	}
 
 	@Override
-	protected void postCreate(final Bundle savedInstanceState) {
-		// XXX - test-purposed, comment if necessary
-
-		// is it because you're using the emulator? if it's just so try using
-		// the method isRunningOnEmulator() ;)
-
-		// GCMRegistrar.unregister(this);
-	}
-
-	@Override
 	protected void findViewElements() {
 		registerButton = findButtonById(R.id.login_button_register);
 		loginButton = findButtonById(R.id.login_button_login);
@@ -111,7 +101,7 @@ public class LoginActivity extends GuiTalentRadarActivity {
 	}
 
 	private void handleTestNotification() {
-		Toast.makeText(this, "Te abri— la app VITEH\'", Toast.LENGTH_LONG)
+		Toast.makeText(this, "Te abriï¿½ la app VITEH\'", Toast.LENGTH_LONG)
 				.show();
 	}
 

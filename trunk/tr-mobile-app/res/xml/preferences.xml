@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- TODO - disabled for comercial presentation -->
+    <PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:title="@string/privacy_settings_group_title" >
+        <CheckBoxPreference
+            android:defaultValue="@string/privacy_name_public_default"
+            android:key="@string/privacy_name_public_key"
+            android:summary="@string/privacy_name_public_summary"
+            android:title="@string/privacy_name_public_label" />
+        <CheckBoxPreference
+            android:defaultValue="@string/privacy_headline_public_default"
+            android:key="@string/privacy_headline_public_key"
+            android:summary="@string/privacy_headline_public_summary"
+            android:title="@string/privacy_headline_public_label" />
+        <CheckBoxPreference
+            android:defaultValue="@string/privacy_skills_public_default"
+            android:key="@string/privacy_skills_public_key"
+            android:summary="@string/privacy_skills_public_summary"
+            android:title="@string/privacy_skills_public_label" />
+    </PreferenceScreen>
 
     <CheckBoxPreference
         android:defaultValue="true"
-        android:enabled="false"
         android:key="@string/preferences_network_activation_key"
         android:summary="@string/preferences_network_activation_summary"
         android:title="@string/preferences_network_activation_label" />
