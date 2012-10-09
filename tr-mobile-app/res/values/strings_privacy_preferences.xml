@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="privacy_settings_group_title">Configuración de Privacidad</string>
+
+    <!-- * -->
+    <string name="privacy_name_public_key">privacy_name_public</string>
+    <string name="privacy_name_public_default">false</string>
+    <string name="privacy_name_public_summary">Elige si tu nombre real se mostrará públicamente</string>
+    <string name="privacy_name_public_label">Nombre real</string>
+
+    <!-- * -->
+    <string name="privacy_headline_public_key">privacy_headline_public</string>
+    <string name="privacy_headline_public_default">false</string>
+    <string name="privacy_headline_public_summary">Elige si tu "titular" será visible públicamente</string>
+    <string name="privacy_headline_public_label">Titular del perfil</string>
+
+    <!-- * -->
+    <string name="privacy_skills_public_key">privacy_skills_public</string>
+    <string name="privacy_skills_public_default">false</string>
+    <string name="privacy_skills_public_summary">Elige si tus aptitudes se mostrarán públicamente</string>
+    <string name="privacy_skills_public_label">Skills/aptitudes</string>
+
+</resources>

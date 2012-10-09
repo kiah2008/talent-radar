@@ -76,25 +76,28 @@ public abstract class TransactionalSharedPreferencesEditor {
 	}
 
 	protected Editor putBoolean(String key, boolean value) {
+		keysChanged.add(key);
 		return editor.putBoolean(key, value);
 	}
 
 	protected Editor putFloat(String key, float value) {
+		keysChanged.add(key);
 		return editor.putFloat(key, value);
 	}
 
 	protected Editor putInt(String key, int value) {
+		keysChanged.add(key);
 		return editor.putInt(key, value);
 	}
 
 	protected Editor putLong(String key, long value) {
+		keysChanged.add(key);
 		return editor.putLong(key, value);
 	}
 
 	protected Editor putString(String key, String value) {
+		keysChanged.add(key);
 		return editor.putString(key, value);
 	}
-	
-	
 
 }

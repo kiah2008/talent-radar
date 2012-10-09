@@ -46,7 +46,7 @@ public class TalentRadarApplication extends Application implements
 	public void onCreate() {
 		super.onCreate();
 		applicationContext = this;
-		setDefaultUncaughtExceptionHandler();
+		// setDefaultUncaughtExceptionHandler();
 
 		skillButtonFactory = DefaultSkillButtonFactory.newInstance();
 		preferences = new SharedTalentRadarConfiguration(

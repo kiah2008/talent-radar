@@ -1,5 +1,6 @@
 package com.menatwork;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 public interface PrivacySettings {
@@ -10,12 +11,12 @@ class SharedTalentRadarPrivacySettings //
 		extends TransactionalSharedPreferencesEditor //
 		implements PrivacySettings {
 
-	private static final String PRIVACY_SKILLS_PUBLIC = "PRIVACY_SKILLS_PUBLIC";
-	private static final String PRIVACY_HEADLINE_PUBLIC = "PRIVACY_HEADLINE_PUBLIC";
-	private static final String PRIVACY_NAME_PUBLIC = "PRIVACY_NAME_PUBLIC";
+	private final Context context;
 
-	public SharedTalentRadarPrivacySettings(SharedPreferences sharedPreferences) {
+	public SharedTalentRadarPrivacySettings(Context context,
+			SharedPreferences sharedPreferences) {
 		super(sharedPreferences);
+		this.context = context;
 	}
 
 	@Override
@@ -24,27 +25,38 @@ class SharedTalentRadarPrivacySettings //
 	}
 
 	public boolean isNamePublic() {
-		return getBoolean(PRIVACY_NAME_PUBLIC, false);
+		return getBoolean(context.getString(R.string.privacy_name_public_key),
+				Boolean.parseBoolean(context
+						.getString(R.string.privacy_name_public_default)));
 	}
 
 	public void setNamePublic(boolean pnblic) {
-		this.putBoolean(PRIVACY_NAME_PUBLIC, pnblic);
+		this.putBoolean(context.getString(R.string.privacy_name_public_key),
+				pnblic);
 	}
 
 	public boolean isHeadlinePublic() {
-		return getBoolean(PRIVACY_HEADLINE_PUBLIC, false);
+		return getBoolean(
+				context.getString(R.string.privacy_headline_public_key),
+				Boolean.parseBoolean(context
+						.getString(R.string.privacy_headline_public_default)));
 	}
 
 	public void setHeadlinePublic(boolean pnblic) {
-		this.putBoolean(PRIVACY_HEADLINE_PUBLIC, pnblic);
+		this.putBoolean(
+				context.getString(R.string.privacy_headline_public_key), pnblic);
 	}
 
 	public boolean isSkillsPublic() {
-		return getBoolean(PRIVACY_SKILLS_PUBLIC, false);
+		return getBoolean(
+				context.getString(R.string.privacy_skills_public_key),
+				Boolean.parseBoolean(context
+						.getString(R.string.privacy_skills_public_default)));
 	}
 
 	public void setSkillsPublic(boolean pnblic) {
-		this.putBoolean(PRIVACY_SKILLS_PUBLIC, pnblic);
+		this.putBoolean(context.getString(R.string.privacy_skills_public_key),
+				pnblic);
 	}
 
 }
