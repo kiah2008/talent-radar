@@ -1,23 +1,21 @@
 package com.menatwork.preferences;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 
 import com.menatwork.R;
+import com.menatwork.TransactionalSharedPreferencesEditor;
 import com.menatwork.model.User;
 
-public class SharedTalentRadarConfiguration implements
-		TalentRadarConfiguration, OnSharedPreferenceChangeListener {
+public class SharedTalentRadarConfiguration //
+		extends TransactionalSharedPreferencesEditor //
+		implements TalentRadarConfiguration, OnSharedPreferenceChangeListener {
 
-	private final SharedPreferences sharedPreferences;
 	private final TalentRadarConfigurationListener[] listeners;
 
-	private Editor editor;
 	private Set<String> keysChanged;
 
 	private final Context context;
@@ -26,7 +24,7 @@ public class SharedTalentRadarConfiguration implements
 			final SharedPreferences sharedPreferences, //
 			final Context context, //
 			final TalentRadarConfigurationListener... listeners) {
-		this.sharedPreferences = sharedPreferences;
+		super(sharedPreferences);
 		this.context = context;
 		this.listeners = listeners;
 
@@ -38,32 +36,10 @@ public class SharedTalentRadarConfiguration implements
 	// ************************************************ //
 
 	@Override
-	public void beginNewEdition() {
-		editor = sharedPreferences.edit();
-		keysChanged = new HashSet<String>();
-	}
-
-	@Override
-	public void commitChanges() {
-		final boolean commitSuccessful = editor.commit();
-
-		if (!commitSuccessful)
-			throw new RuntimeException("could not save changes to preferences");
-
-		notifyChanges(keysChanged.toArray(new String[0]));
-		discardChanges();
-	}
-
-	private void notifyChanges(final String... keys) {
+	protected void notifyChanges(final String... keys) {
 		for (final TalentRadarConfigurationListener listener : listeners)
-			listener.onConfigurationChanged(new SharedConfigurationChanges(keys),
-					this);
-	}
-
-	@Override
-	public void discardChanges() {
-		editor = null;
-		keysChanged = null;
+			listener.onConfigurationChanged(
+					new SharedConfigurationChanges(keys), this);
 	}
 
 	// ************************************************ //
@@ -72,20 +48,18 @@ public class SharedTalentRadarConfiguration implements
 
 	@Override
 	public boolean isNetworkLocationActivation() {
-		return sharedPreferences
-				.getBoolean(
-						context.getString(R.string.preferences_network_activation_key), //
-						Boolean.parseBoolean(context
-								.getString(R.string.preferences_network_activation_default_value)));
+		return getBoolean(
+				context.getString(R.string.preferences_network_activation_key), //
+				Boolean.parseBoolean(context
+						.getString(R.string.preferences_network_activation_default_value)));
 	}
 
 	@Override
 	public boolean isGpsLocationActivation() {
-		return sharedPreferences
-				.getBoolean(
-						context.getString(R.string.preferences_gps_activation_key),
-						Boolean.parseBoolean(context
-								.getString(R.string.preferences_gps_activation_default_value)));
+		return getBoolean(
+				context.getString(R.string.preferences_gps_activation_key),
+				Boolean.parseBoolean(context
+						.getString(R.string.preferences_gps_activation_default_value)));
 	}
 
 	@Override
@@ -100,20 +74,18 @@ public class SharedTalentRadarConfiguration implements
 
 	@Override
 	public long getActualizationDurationSeconds() {
-		return sharedPreferences
-				.getLong(
-						context.getString(R.string.preferences_actualization_duration_key),
-						Long.valueOf(context
-								.getString(R.string.preferences_actualization_duration_default_value)));
+		return getLong(
+				context.getString(R.string.preferences_actualization_duration_key),
+				Long.valueOf(context
+						.getString(R.string.preferences_actualization_duration_default_value)));
 	}
 
 	@Override
 	public long getActualizationFrequencySeconds() {
-		return sharedPreferences
-				.getLong(
-						context.getString(R.string.preferences_actualization_frequency_key),
-						Long.valueOf(context
-								.getString(R.string.preferences_actualization_frequency_default_value)));
+		return getLong(
+				context.getString(R.string.preferences_actualization_frequency_key),
+				Long.valueOf(context
+						.getString(R.string.preferences_actualization_frequency_default_value)));
 	}
 
 	@Override
@@ -121,7 +93,7 @@ public class SharedTalentRadarConfiguration implements
 		final String key = context
 				.getString(R.string.preferences_network_activation_key);
 		keysChanged.add(key);
-		editor.putBoolean(key, checked);
+		putBoolean(key, checked);
 	}
 
 	@Override
@@ -129,7 +101,7 @@ public class SharedTalentRadarConfiguration implements
 		final String key = context
 				.getString(R.string.preferences_gps_activation_key);
 		keysChanged.add(key);
-		editor.putBoolean(key, checked);
+		this.putBoolean(key, checked);
 	}
 
 	public void setActualizationFrequencyMilliseconds(final long milliseconds) {
@@ -145,7 +117,7 @@ public class SharedTalentRadarConfiguration implements
 		final String key = context
 				.getString(R.string.preferences_actualization_frequency_key);
 		keysChanged.add(key);
-		editor.putLong(key, seconds);
+		this.putLong(key, seconds);
 	}
 
 	@Override
@@ -153,16 +125,15 @@ public class SharedTalentRadarConfiguration implements
 		final String key = context
 				.getString(R.string.preferences_actualization_duration_key);
 		keysChanged.add(key);
-		editor.putLong(key, seconds);
+		this.putLong(key, seconds);
 	}
 
 	@Override
 	public String getPingMessage() {
-		return sharedPreferences
-				.getString(
-						//
-						context.getString(R.string.preferences_ping_message_key), //
-						context.getString(R.string.preferences_ping_message_default_value));
+		return getString(
+				//
+				context.getString(R.string.preferences_ping_message_key), //
+				context.getString(R.string.preferences_ping_message_default_value));
 	}
 
 	@Override
@@ -170,7 +141,7 @@ public class SharedTalentRadarConfiguration implements
 		final String key = context
 				.getString(R.string.preferences_ping_message_key);
 		keysChanged.add(key);
-		editor.putString( //
+		this.putString( //
 				key, //
 				pingMessage);
 	}
@@ -191,8 +162,7 @@ public class SharedTalentRadarConfiguration implements
 
 	@Override
 	public String getLocalUserId() {
-		return sharedPreferences.getString(
-				context.getString(R.string.preferences_user_id_key),
+		return getString(context.getString(R.string.preferences_user_id_key),
 				User.EMPTY_USER_ID);
 	}
 
@@ -200,7 +170,7 @@ public class SharedTalentRadarConfiguration implements
 	public void setLocalUserId(final String id) {
 		final String key = context.getString(R.string.preferences_user_id_key);
 		keysChanged.add(key);
-		editor.putString(key, id);
+		this.putString(key, id);
 	}
 
 	// ************************************************ //
@@ -209,7 +179,7 @@ public class SharedTalentRadarConfiguration implements
 
 	@Override
 	public boolean isApplicationExpired() {
-		return sharedPreferences.getBoolean(
+		return getBoolean(
 				context.getString(R.string.preferences_expiration_key), //
 				false);
 	}
@@ -219,6 +189,6 @@ public class SharedTalentRadarConfiguration implements
 		final String key = context
 				.getString(R.string.preferences_expiration_key);
 		keysChanged.add(key);
-		editor.putBoolean(key, checked);
+		this.putBoolean(key, checked);
 	}
 }

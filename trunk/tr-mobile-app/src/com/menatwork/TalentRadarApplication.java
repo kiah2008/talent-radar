@@ -1,6 +1,8 @@
 package com.menatwork;
 
 import android.app.Application;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -59,10 +61,12 @@ public class TalentRadarApplication extends Application implements
 			@Override
 			public void uncaughtException(final Thread paramThread,
 					final Throwable paramThrowable) {
-				Log.e(paramThread.toString(), "Uncaught ex = " + paramThrowable.toString());
-				Toast.makeText(TalentRadarApplication.getContext(), R.string.generic_error, Toast.LENGTH_LONG).show();
-				// TODO - run on ui thread de alguna forma - boris - 20/09/2012
+				Log.e(paramThread.toString(),
+						"Uncaught ex = " + paramThrowable.toString());
+				Handler handler = getMainLooperHandler();
+				handler.post(new DisplayGenericErrorToastRunnable());
 			}
+
 		});
 	}
 
@@ -246,10 +250,22 @@ public class TalentRadarApplication extends Application implements
 		return AndroidUtils.isRunningOnEmulator();
 	}
 
+	private final class DisplayGenericErrorToastRunnable implements Runnable {
+		@Override
+		public void run() {
+			Toast.makeText(TalentRadarApplication.getContext(),
+					R.string.generic_error, Toast.LENGTH_LONG).show();
+		}
+	}
+
+	public Handler getMainLooperHandler() {
+		Handler handler = new Handler(Looper.getMainLooper());
+		return handler;
+	}
+
 	// ************************************************ //
 	// ====== NaiveLocationSourceManager ======
 	// ************************************************ //
-
 	private final class NaiveLocationSourceManager extends
 			LocationSourceManager {
 		@Override
