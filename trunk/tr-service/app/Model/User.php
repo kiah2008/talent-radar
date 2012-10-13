@@ -15,6 +15,9 @@ class User extends AppModel {
 	
 	public function __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
+	}
+
+	public function activateValidation() {
 		$this->validate = array(
     							'username' => array(
 									'rule' => 'notEmpty',
@@ -41,6 +44,5 @@ class User extends AppModel {
 	                            	'message' => __('Required Field', true)
 			                    ),
     						);
-	}						  
-
+	}
 }
