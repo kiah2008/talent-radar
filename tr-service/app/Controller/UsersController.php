@@ -11,7 +11,7 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		
-		$this->Auth->allow('app_getUser', 'app_register', 'app_login', 'app_loginLinkedin', 'app_loginLinkedinCallback', 'app_loginLinkedinAuthorizeCallback', 'app_android_saveDeviceId');
+		$this->Auth->allow('app_getUser', 'app_register', 'app_login', 'app_setPrivacy', 'app_loginLinkedin', 'app_loginLinkedinCallback', 'app_loginLinkedinAuthorizeCallback', 'app_android_saveDeviceId');
 	}
 	
 	public function app_getUser() {
@@ -36,6 +36,7 @@ class UsersController extends AppController {
 			$response['status'] = 'ok';
 			$response['result']['status'] = 'error';
 			
+			$this->User->activateValidation();
 			$this->User->set($this->data);
 			if($ok = ($invalidFields = $this->User->invalidFields()) ? false : true)
 			{
@@ -64,6 +65,31 @@ class UsersController extends AppController {
 			
 			$this->set('response', $response);
 		}
+	}
+	
+	public function app_setPrivacy() {
+		if(!empty($this->data)) {
+			$response['status'] = 'ok';
+			$response['result']['status'] = 'error';
+			
+			if($user = $this->User->read(null, $this->data['User']['id'])) {
+				$user['User']['show_name'] = $this->data['User']['show_name'];
+				$user['User']['show_headline'] = $this->data['User']['show_headline'];
+				$user['User']['show_skills'] = $this->data['User']['show_skills'];
+				$user['User']['show_in_searches'] = $this->data['User']['show_in_searches'];
+				$this->User->set($user);
+				if($this->User->save($this->data)) {
+					$response['result']['status'] = 'ok';
+				}	
+			}
+			
+			$this->set('response', $response);
+		}
+		else
+		{
+			$this->set('users', $this->User->find('list', array('fields' => array('id', 'id'))));
+		}
+		
 	}
 	
 	public function app_android_saveDeviceId() {
