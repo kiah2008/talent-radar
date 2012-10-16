@@ -1,5 +1,7 @@
 package com.menatwork.register;
 
+import java.util.regex.Pattern;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -56,11 +58,6 @@ public class PasswordActivity extends DataInputActivity {
 
 	private class PasswordTextWatcher implements TextWatcher {
 
-		// TODO implement password validation (a..z|0..9)
-		// XXX - Tipititap - miguel - 07/08/2012
-		// Pattern pattern = Pattern.compile("(a..z|0..9)");
-		// pattern.matcher("unfuckingpasswordingresado");
-
 		private final EditText theOneToCompareAgainst;
 
 		public PasswordTextWatcher(final EditText theOneToCompareAgainst) {
@@ -74,8 +71,10 @@ public class PasswordActivity extends DataInputActivity {
 			final String thisPassword = s.toString();
 			final String otherPassword = theOneToCompareAgainst.getText()
 					.toString();
-			final boolean enabled = "".equals(thisPassword) ? false
-					: thisPassword.equals(otherPassword);
+			boolean enabled = "".equals(thisPassword) ? false : thisPassword
+					.equals(otherPassword);
+			final Pattern pattern = Pattern.compile("[a..z0-9]");
+			enabled &= pattern.matcher(thisPassword).matches();
 			nextButton.setEnabled(enabled);
 		}
 
