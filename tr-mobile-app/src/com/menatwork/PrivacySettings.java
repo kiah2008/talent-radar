@@ -10,6 +10,8 @@ public interface PrivacySettings {
 
 	public boolean isSkillsPublic();
 
+	boolean isStealthy();
+
 	public Map<String, Object> asMap();
 
 }
