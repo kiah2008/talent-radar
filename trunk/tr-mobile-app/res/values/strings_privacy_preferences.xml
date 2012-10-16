@@ -21,4 +21,10 @@
     <string name="privacy_skills_public_summary">Elige si tus aptitudes se mostrarán públicamente</string>
     <string name="privacy_skills_public_label">Skills/aptitudes</string>
 
+    <!-- * -->
+    <string name="privacy_stealthy_key">privacy_stealthy</string>
+    <string name="privacy_stealthy_default">false</string>
+    <string name="privacy_stealthy_summary">No aparecer en las búsquedas de otros usuarios</string>
+    <string name="privacy_stealthy_label">Modo oculto</string>
+    
 </resources>

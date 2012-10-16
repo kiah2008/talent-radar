@@ -19,6 +19,11 @@
             android:key="@string/privacy_skills_public_key"
             android:summary="@string/privacy_skills_public_summary"
             android:title="@string/privacy_skills_public_label" />
+        <CheckBoxPreference
+            android:defaultValue="@string/privacy_stealthy_default"
+            android:key="@string/privacy_stealthy_key"
+            android:summary="@string/privacy_stealthy_summary"
+            android:title="@string/privacy_stealthy_label" />
     </PreferenceScreen>
 
     <CheckBoxPreference
