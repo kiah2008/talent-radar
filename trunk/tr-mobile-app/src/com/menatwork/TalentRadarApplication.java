@@ -63,7 +63,7 @@ public class TalentRadarApplication extends Application implements
 					final Throwable paramThrowable) {
 				Log.e(paramThread.toString(),
 						"Uncaught ex = " + paramThrowable.toString());
-				Handler handler = getMainLooperHandler();
+				final Handler handler = getMainLooperHandler();
 				handler.post(new DisplayGenericErrorToastRunnable());
 			}
 
@@ -128,6 +128,11 @@ public class TalentRadarApplication extends Application implements
 
 	public TalentRadarConfiguration getPreferences() {
 		return preferences;
+	}
+
+	public PrivacySettings getPrivacySettings() {
+		return new SharedTalentRadarPrivacySettings(this,
+				PreferenceManager.getDefaultSharedPreferences(this));
 	}
 
 	@Override
@@ -259,7 +264,7 @@ public class TalentRadarApplication extends Application implements
 	}
 
 	public Handler getMainLooperHandler() {
-		Handler handler = new Handler(Looper.getMainLooper());
+		final Handler handler = new Handler(Looper.getMainLooper());
 		return handler;
 	}
 

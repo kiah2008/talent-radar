@@ -15,9 +15,6 @@ public class ChatSession {
 
 	final private String fromId, toId;
 	private final List<ChatMessage> messages;
-	// XXX - changed implementation to a set, because of the duplications when
-	// readding a listener that was already registered - boris - 19/09/2012
-	// private final List<SessionListener> listeners;
 	private final Set<SessionListener> listeners;
 
 	private ChatSession(final String fromId, final String toId) {
@@ -25,7 +22,6 @@ public class ChatSession {
 		this.fromId = fromId;
 		this.toId = toId;
 		this.messages = new LinkedList<ChatMessage>();
-		// this.listeners = new ArrayList<SessionListener>();
 		this.listeners = new HashSet<SessionListener>();
 	}
 
@@ -43,9 +39,8 @@ public class ChatSession {
 	}
 
 	private void notifyMessageListeners(final ChatMessage message) {
-		for (final SessionListener listener : listeners) {
+		for (final SessionListener listener : listeners)
 			listener.onNewMessage(this, message);
-		}
 	}
 
 	public List<ChatMessage> getMessages() {
