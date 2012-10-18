@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    android:padding="@dimen/default_padding" >
+
+    <RelativeLayout
+        android:id="@+id/FrameLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:id="@+id/new_hunt_layout_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/new_hunt_icon"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/hunt_icon" />
+
+            <LinearLayout
+                android:id="@+id/new_hunt_layout_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/new_hunt_label_title"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/new_hunt_icon"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/new_hunt_label_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nueva Búsqueda"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <EditText
+                    android:id="@+id/new_hunt_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/new_hunt_label_name"
+                    android:ems="10" >
+
+                    <requestFocus />
+                </EditText>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/new_hunt_layout_necessary_skill_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/new_hunt_layout_heading"
+            android:layout_marginTop="8dp" >
+
+            <TextView
+                android:id="@+id/new_hunt_label_necessary_skills"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="Skills necesarios"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <com.menatwork.view.FlowLayout
+                android:id="@+id/new_hunt_layout_necessary_skills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/new_hunt_label_necessary_skills" >
+
+                <Button
+                    android:id="@+id/foo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/skill"
+                    android:text="Foobar" />
+            </com.menatwork.view.FlowLayout>
+
+            <EditText
+                android:id="@+id/new_hunt_necessary_skill_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/new_hunt_layout_necessary_skills"
+                android:layout_marginTop="4dp"
+                android:layout_toLeftOf="@+id/new_hunt_button_add_necessary_skill"
+                android:ems="10"
+                android:inputType="textCapWords" />
+
+            <ImageButton
+                android:id="@+id/new_hunt_button_add_necessary_skill"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/new_hunt_necessary_skill_input"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/add_skill" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/new_hunt_layout_optional_skill_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/new_hunt_layout_necessary_skill_group" >
+
+            <TextView
+                android:id="@+id/new_hunt_label_optional_skills"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="Skills preferentes"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <com.menatwork.view.FlowLayout
+                android:id="@+id/new_hunt_layout_optional_skills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/new_hunt_label_optional_skills" >
+
+                <Button
+                    android:id="@+id/foo1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:enabled="false"
+                    android:text="No Skills" />
+            </com.menatwork.view.FlowLayout>
+
+            <EditText
+                android:id="@+id/new_hunt_optional_skill_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/new_hunt_layout_optional_skills"
+                android:layout_marginTop="4dp"
+                android:layout_toLeftOf="@+id/new_hunt_button_add_optional_skill"
+                android:ems="10" />
+
+            <ImageButton
+                android:id="@+id/new_hunt_button_add_optional_skill"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/new_hunt_optional_skill_input"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/add_skill" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

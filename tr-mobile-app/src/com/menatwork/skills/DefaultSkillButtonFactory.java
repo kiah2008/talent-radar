@@ -1,9 +1,13 @@
 package com.menatwork.skills;
 
-import com.menatwork.R;
+import java.util.HashMap;
+import java.util.Map;
+
 import android.content.Context;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+
+import com.menatwork.R;
 
 public class DefaultSkillButtonFactory implements SkillButtonFactory {
 
@@ -16,8 +20,8 @@ public class DefaultSkillButtonFactory implements SkillButtonFactory {
 	}
 
 	@Override
-	public Button getSkillButton(Context caller, String skill) {
-		Button button = createButton(caller);
+	public Button getSkillButton(final Context caller, final String skill) {
+		final Button button = createButton(caller);
 		button.setText(skill);
 		button.setBackgroundResource(R.drawable.skill);
 		button.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -25,18 +29,26 @@ public class DefaultSkillButtonFactory implements SkillButtonFactory {
 		return button;
 	}
 
+	Map<Context, Button> emptyButtonsCache = new HashMap<Context, Button>();
+
 	@Override
-	public Button getEmptySkillsButton(Context caller) {
-		Button button = createButton(caller);
-		button.setText(R.string.profile_no_skills_button);
-		button.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT));
-		button.setEnabled(false);
-		return button;
+	public Button getEmptySkillsButton(final Context caller) {
+		final Button cachedEmptyButton = emptyButtonsCache.get(caller);
+		if (cachedEmptyButton != null)
+			return cachedEmptyButton;
+		else {
+			final Button button = createButton(caller);
+			button.setText(R.string.profile_no_skills_button);
+			button.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+					LayoutParams.WRAP_CONTENT));
+			button.setEnabled(false);
+			emptyButtonsCache.put(caller, button);
+			return button;
+		}
 	}
 
-	private Button createButton(Context caller) {
-		Button button = new Button(caller);
+	private Button createButton(final Context caller) {
+		final Button button = new Button(caller);
 		return button;
 	}
 
