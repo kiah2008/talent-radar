@@ -59,7 +59,7 @@ public class HuntsActivity extends ListActivity {
 		setContentView(R.layout.hunts);
 		initializeListAdapter();
 		initializeListViewEvents();
-		initializeAlreadyExistentHunts();
+		initializeAlreadyExistantHunts();
 	}
 
 	// ************************************************ //
@@ -171,7 +171,7 @@ public class HuntsActivity extends ListActivity {
 	 * Adds every notification that has been already registered by the
 	 * notification manager and shows it in the list.
 	 */
-	private void initializeAlreadyExistentHunts() {
+	private void initializeAlreadyExistantHunts() {
 		final HuntingCriteriaEngine huntingCriteriaEngine = getTalentRadarApplication()
 				.getHuntingCriteriaEngine();
 		final Collection<Hunt> hunts = huntingCriteriaEngine.getHunts();
@@ -201,7 +201,7 @@ public class HuntsActivity extends ListActivity {
 												.setHeadline("QA Developer")
 												//
 												.setProfilePictureUrl(
-														"http:\\/\\/m3.licdn.com\\/mpr\\/mprx\\/0_oivHPfsr3BHERRh1ECncPuu23rOIUYr1eXTBPuIrOnoRkVFPQL5Xj2xOfjYq4MA0IhB9yIJuE9-D")
+														"http://m3.licdn.com/mpr/mprx/0_oivHPfsr3BHERRh1ECncPuu23rOIUYr1eXTBPuIrOnoRkVFPQL5Xj2xOfjYq4MA0IhB9yIJuE9-D")
 												.build(), //
 										UserBuilder
 												.newInstance()
@@ -216,7 +216,7 @@ public class HuntsActivity extends ListActivity {
 														"Ssr Java developer")
 												//
 												.setProfilePictureUrl(
-														"http:\\/\\/m3.licdn.com\\/mpr\\/mprx\\/0_gPLYkt6SyeNSY1UcgB9TkANaYflmpzUcxcA3krFxTW5YiluBAvztoKPlKGAlx-sRyKF8wBJJYJLD")
+														"http://m3.licdn.com/mpr/mprx/0_gPLYkt6SyeNSY1UcgB9TkANaYflmpzUcxcA3krFxTW5YiluBAvztoKPlKGAlx-sRyKF8wBJJYJLD")
 												.build() //
 								) //
 								.build(), //
