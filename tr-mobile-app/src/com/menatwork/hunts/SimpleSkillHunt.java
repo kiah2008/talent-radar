@@ -14,10 +14,12 @@ public class SimpleSkillHunt implements Hunt {
 	private final List<String> requiredSkills;
 	private final List<String> preferredSkills;
 	private final List<User> users;
+	private final String id;
 
-	public SimpleSkillHunt(final String title,
+	public SimpleSkillHunt(final String id, final String title,
 			final List<String> requiredSkills,
 			final List<String> preferredSkills, final List<User> users) {
+		this.id = id;
 		this.title = title;
 		this.requiredSkills = requiredSkills;
 		this.preferredSkills = preferredSkills;
@@ -52,6 +54,16 @@ public class SimpleSkillHunt implements Hunt {
 		return null;
 	}
 
+	@Override
+	public List<User> getUsers() {
+		return users;
+	}
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
 	// ************************************************ //
 	// ====== Other utils ======
 	// ************************************************ //
@@ -66,4 +78,5 @@ public class SimpleSkillHunt implements Hunt {
 		}
 		return sb.toString();
 	}
+
 }
