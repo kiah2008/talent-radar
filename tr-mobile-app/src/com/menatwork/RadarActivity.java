@@ -137,6 +137,9 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 	/* ********* LocationSourceManagerListener ***** */
 	/* ********************************************* */
 
+	// TODO - this logic that transforms a location update to users income
+	// should be moved to the Radar and RadarListener objects - miguel -
+	// 18/10/2012
 	@Override
 	public void onLocationUpdate(final Location location,
 			final LocationSource locationSource) {

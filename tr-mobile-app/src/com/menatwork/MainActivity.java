@@ -111,6 +111,11 @@ public class MainActivity extends TabActivity {
 				"profile", //
 				getString(R.string.tab_label_profile), //
 				R.drawable.icon_profile_tab);
+
+		addTab(HuntsActivity.class, //
+				"hunts", //
+				getString(R.string.tab_label_hunts), //
+				R.drawable.icon_hunt_tab);
 	}
 
 	private void addTab(final Class<? extends Activity> tabClass,

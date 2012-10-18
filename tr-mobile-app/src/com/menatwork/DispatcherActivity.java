@@ -13,7 +13,6 @@ import com.menatwork.preferences.TalentRadarConfiguration;
 
 public class DispatcherActivity extends TalentRadarActivity {
 
-	private String localUserId;
 	private User localUser;
 
 	@Override
@@ -21,6 +20,7 @@ public class DispatcherActivity extends TalentRadarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dispatcher);
 
+		// EXPIRATION SNIPPET [in case we need it one more time]
 		// if (hasExpired()) {
 		// setExpired();
 		// startActivity(new Intent(this, ExpiredActivity.class));
@@ -59,9 +59,29 @@ public class DispatcherActivity extends TalentRadarActivity {
 	}
 
 	// ************************************************ //
+	// ====== DispatcherGetUserTask ======
+	// ************************************************ //
+
+	private class DispatcherGetUserTask extends GetUserTask {
+
+		public DispatcherGetUserTask(final Activity activity) {
+			super(activity);
+		}
+
+		@Override
+		protected void onPostExecute(final User result) {
+			super.onPostExecute(result);
+			localUser = result;
+			onTaskExecuted();
+		}
+
+	}
+
+	// ************************************************ //
 	// ====== Trial mode ======
 	// ************************************************ //
 
+	@SuppressWarnings("unused")
 	private void setExpired() {
 		final TalentRadarConfiguration preferences = getPreferences();
 		preferences.beginNewEdition();
@@ -69,6 +89,7 @@ public class DispatcherActivity extends TalentRadarActivity {
 		preferences.commitChanges();
 	}
 
+	@SuppressWarnings("unused")
 	private boolean hasExpired() {
 		return expirationSaved() || expirationDatePassed();
 	}
@@ -92,19 +113,4 @@ public class DispatcherActivity extends TalentRadarActivity {
 		}
 	}
 
-	// *********
-	private class DispatcherGetUserTask extends GetUserTask {
-
-		public DispatcherGetUserTask(final Activity activity) {
-			super(activity);
-		}
-
-		@Override
-		protected void onPostExecute(final User result) {
-			super.onPostExecute(result);
-			localUser = result;
-			onTaskExecuted();
-		}
-
-	}
 }
