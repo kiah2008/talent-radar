@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.google.android.gcm.GCMRegistrar;
 import com.menatwork.chat.ChatSessionManager;
+import com.menatwork.hunts.HuntingCriteriaEngine;
 import com.menatwork.location.GpsLocationSource;
 import com.menatwork.location.LocationSourceManager;
 import com.menatwork.location.NetworkLocationSource;
@@ -37,6 +38,7 @@ public class TalentRadarApplication extends Application implements
 	private TalentRadarConfiguration preferences;
 	private TrNotificationManager notificationManager;
 	private ChatSessionManager chatSessionManager;
+	private HuntingCriteriaEngine huntingCriteriaEngine;
 
 	public static TalentRadarApplication getContext() {
 		return applicationContext;
@@ -52,8 +54,9 @@ public class TalentRadarApplication extends Application implements
 		preferences = new SharedTalentRadarConfiguration(
 				PreferenceManager.getDefaultSharedPreferences(this), this, this);
 		notificationManager = TrNotificationManager.newInstance();
-		locationSourceManager = new NaiveLocationSourceManager();
+		locationSourceManager = NaiveLocationSourceManager.newInstance();
 		chatSessionManager = ChatSessionManager.newInstance(this);
+		huntingCriteriaEngine = HuntingCriteriaEngine.newInstance();
 	}
 
 	private void setDefaultUncaughtExceptionHandler() {
@@ -120,6 +123,14 @@ public class TalentRadarApplication extends Application implements
 
 	public boolean isUserLoggedIn(final String userid) {
 		return this.getLocalUserIdFromPreferences().equals(userid);
+	}
+
+	// ************************************************ //
+	// ====== Hunts ======
+	// ************************************************ //
+
+	public HuntingCriteriaEngine getHuntingCriteriaEngine() {
+		return huntingCriteriaEngine;
 	}
 
 	// ************************************************ //
@@ -271,11 +282,15 @@ public class TalentRadarApplication extends Application implements
 	// ************************************************ //
 	// ====== NaiveLocationSourceManager ======
 	// ************************************************ //
-	private final class NaiveLocationSourceManager extends
+	private static final class NaiveLocationSourceManager extends
 			LocationSourceManager {
 		@Override
 		public void activate() {
 			// nothing to do here!
+		}
+
+		public static LocationSourceManager newInstance() {
+			return new NaiveLocationSourceManager();
 		}
 
 		@Override

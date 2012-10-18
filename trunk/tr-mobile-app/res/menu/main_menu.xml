@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <!-- <item -->
+    <!-- android:id="@+id/hunts" -->
+    <!-- android:enabled="true" -->
+    <!-- android:title="@string/menu_hunts_title" -->
+    <!-- android:visible="true"> -->
+    <!-- </item> -->
     <item
         android:id="@+id/test_new_hunt"
         android:enabled="true"
