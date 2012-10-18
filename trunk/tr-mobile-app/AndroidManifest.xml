@@ -141,6 +141,11 @@
             android:name="ExpiredActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.menatwork.NewHuntActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light" >
+        </activity>
     </application>
 
 </manifest>

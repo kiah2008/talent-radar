@@ -47,6 +47,10 @@ public class MainActivity extends TabActivity {
 		case R.id.log_out:
 			logOut();
 			return true;
+			// XXX test purpose
+		case R.id.test_new_hunt:
+			startActivity(new Intent(this, NewHuntActivity.class));
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
