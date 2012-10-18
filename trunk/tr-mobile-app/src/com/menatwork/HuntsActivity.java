@@ -11,12 +11,19 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.menatwork.hunts.Hunt;
+import com.menatwork.hunts.HuntingCriteriaEngine;
 import com.menatwork.hunts.SimpleSkillHuntBuilder;
 import com.menatwork.model.UserBuilder;
 import com.menatwork.notification.TrNotification;
@@ -27,6 +34,7 @@ public class HuntsActivity extends ListActivity {
 	private static final String KEY_QUANTITY = "quantity";
 	private static final String KEY_DESCRIPTION = "description";
 	private static final String KEY_INTENT = "intent";
+	private static final String KEY_HUNT = "hunt";
 
 	private static final String[] DATA_KEYS = new String[] { //
 	/*    */KEY_TITLE, //
@@ -50,12 +58,70 @@ public class HuntsActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.hunts);
 		initializeListAdapter();
+		initializeListViewEvents();
 		initializeAlreadyExistentHunts();
 	}
 
 	// ************************************************ //
 	// ====== ListAdapter Stuff ======
 	// ************************************************ //
+
+	private void initializeListViewEvents() {
+		final ListView listView = getListView();
+
+		registerForContextMenu(listView);
+		// listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+		//
+		// @Override
+		// public boolean onItemLongClick(final AdapterView<?> adapterView,
+		// final View view, final int pos, final long id) {
+		// onLongListItemClick(view, pos, id);
+		// return true;
+		// }
+		//
+		// });
+	}
+
+	// protected void onLongListItemClick(final View view, final int position,
+	// final long id) {
+	// final Map<String, Object> huntMap = (Map<String, Object>)
+	// getListAdapter()
+	// .getItem(position);
+	// final Hunt hunt = (Hunt) huntMap.get(KEY_HUNT);
+	//
+	// }
+
+	@Override
+	public void onCreateContextMenu(final ContextMenu menu, final View v,
+			final ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		final MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.hunt_context_menu, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(final MenuItem item) {
+		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+		switch (item.getItemId()) {
+		case R.id.edit_hunt:
+			editHunt(info.id);
+			return true;
+		case R.id.remove_hunt:
+			deleteHunt(info.id);
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
+	}
+
+	private void deleteHunt(final long id) {
+		// TODO Auto-generated constructor stub
+	}
+
+	private void editHunt(final long id) {
+		// TODO Auto-generated constructor stub
+	}
 
 	private void initializeListAdapter() {
 		final SimpleAdapter adapter = new SimpleAdapter(this, //
@@ -72,12 +138,20 @@ public class HuntsActivity extends ListActivity {
 	protected void onListItemClick(final ListView l, final View v,
 			final int position, final long id) {
 		super.onListItemClick(l, v, position, id);
-		final Map<String, Object> notification = (Map<String, Object>) getListAdapter()
-				.getItem(position);
-		final Intent intent = (Intent) notification.get(KEY_INTENT);
 
-		if (intent != null)
+		final Map<String, Object> huntMap = (Map<String, Object>) getListAdapter()
+				.getItem(position);
+		final Hunt hunt = (Hunt) huntMap.get(KEY_HUNT);
+
+		if (hunt.getQuantity() <= 0)
+			Toast.makeText(this,
+					"¡Esta búsqueda no ha encontrado usuarios todavía!",
+					Toast.LENGTH_SHORT).show();
+		else {
+			final Intent intent = new Intent(this, MiniProfilesActivity.class);
+			intent.putExtra(MiniProfilesActivity.EXTRAS_HUNT_ID, hunt.getId());
 			startActivity(intent);
+		}
 	}
 
 	public void notifyDataSetChanged() {
@@ -98,35 +172,72 @@ public class HuntsActivity extends ListActivity {
 	 * notification manager and shows it in the list.
 	 */
 	private void initializeAlreadyExistentHunts() {
-		final Collection<Hunt> hunts = getTalentRadarApplication()
-				.getHuntingCriteriaEngine().getHunts();
+		final HuntingCriteriaEngine huntingCriteriaEngine = getTalentRadarApplication()
+				.getHuntingCriteriaEngine();
+		final Collection<Hunt> hunts = huntingCriteriaEngine.getHunts();
 
 		addHuntsAndNotify(hunts);
 
 		// TODO - hardcoded data for demo purposes - miguel - 18/10/2012
-		addHuntsAndNotify(
-				SimpleSkillHuntBuilder
-						.newInstance()
-						.setTitle("Java developer")
-						.addRequiredSkills("Java", "Maven", "Struts", "JPA",
-								"Spring") //
-						.addPreferredSkills("Git") //
-						.addUsers() //
-						.build(), //
-				SimpleSkillHuntBuilder
-						.newInstance()
-						.setTitle("Webapp dev teamleader")
-						.addRequiredSkills("PHP", "SVN", "Teamwork",
-								"Management") //
-						.addPreferredSkills("PM", "Scrum master") //
-						.addUsers( //
-								UserBuilder.newInstance() //
-										.setId("1") //
-										.setUserName("Gonzalo") //
-										.setUserSurname("Balabasquer") //
-										.setHeadline("Webapp Architect") //
-										.build()) //
-						.build());
+		huntingCriteriaEngine
+				.addHunts(
+						SimpleSkillHuntBuilder
+								.newInstance()
+								.setId("2")
+								.setTitle("Java developer")
+								.addRequiredSkills("Java", "Maven", "Struts",
+										"JPA", "Spring") //
+								.addPreferredSkills("Git") //
+								.addUsers(
+										UserBuilder
+												.newInstance()
+												//
+												.setId("1")
+												//
+												.setUserName("Alejo")
+												//
+												.setUserSurname("Abdala")
+												//
+												.setHeadline("QA Developer")
+												//
+												.setProfilePictureUrl(
+														"http:\\/\\/m3.licdn.com\\/mpr\\/mprx\\/0_oivHPfsr3BHERRh1ECncPuu23rOIUYr1eXTBPuIrOnoRkVFPQL5Xj2xOfjYq4MA0IhB9yIJuE9-D")
+												.build(), //
+										UserBuilder
+												.newInstance()
+												//
+												.setId("4")
+												//
+												.setUserName("Miguel")
+												//
+												.setUserSurname("Oliva")
+												//
+												.setHeadline(
+														"Ssr Java developer")
+												//
+												.setProfilePictureUrl(
+														"http:\\/\\/m3.licdn.com\\/mpr\\/mprx\\/0_gPLYkt6SyeNSY1UcgB9TkANaYflmpzUcxcA3krFxTW5YiluBAvztoKPlKGAlx-sRyKF8wBJJYJLD")
+												.build() //
+								) //
+								.build(), //
+						SimpleSkillHuntBuilder
+								.newInstance()
+								.setId("1")
+								.setTitle("Webapp dev teamleader")
+								.addRequiredSkills("PHP", "SVN", "Teamwork",
+										"Management") //
+								.addPreferredSkills("PM", "Scrum master") //
+								.addUsers( //
+								// UserBuilder.newInstance() //
+								// .setId("2") //
+								// .setUserName("Gonzalo") //
+								// .setUserSurname("Balabasquer") //
+								// .setHeadline("Webapp Architect") //
+								// .setProfilePictureUrl("http:\\/\\/m3.licdn.com\\/mpr\\/mprx\\/0_imOA6V2nneFoQTEMiuyG6ZpQswisXTIMT2om6ZaQ5mcERLpJ7eaje4seNL_5bQovGSpfd0pnr2ks")
+								// .build() //
+								) //
+								.build());
+		addHuntsAndNotify(huntingCriteriaEngine.getHunts());
 	}
 
 	// TODO - Beware, duplication of logic, what is that 'list.clear()' doing
@@ -174,12 +285,13 @@ public class HuntsActivity extends ListActivity {
 	 * @return
 	 */
 	protected Map<String, Object> hunt2HuntMap(final Hunt hunt) {
-		final Map<String, Object> notificationMap = new HashMap<String, Object>();
-		notificationMap.put(KEY_TITLE, hunt.getTitle());
-		notificationMap.put(KEY_QUANTITY, formatQuantity(hunt.getQuantity()));
-		notificationMap.put(KEY_DESCRIPTION, hunt.getDescription());
-		notificationMap.put(KEY_INTENT, hunt.getIntent());
-		return notificationMap;
+		final Map<String, Object> huntMap = new HashMap<String, Object>();
+		huntMap.put(KEY_TITLE, hunt.getTitle());
+		huntMap.put(KEY_QUANTITY, formatQuantity(hunt.getQuantity()));
+		huntMap.put(KEY_DESCRIPTION, hunt.getDescription());
+		huntMap.put(KEY_INTENT, hunt.getIntent());
+		huntMap.put(KEY_HUNT, hunt);
+		return huntMap;
 	}
 
 	protected String formatQuantity(final int quantity) {

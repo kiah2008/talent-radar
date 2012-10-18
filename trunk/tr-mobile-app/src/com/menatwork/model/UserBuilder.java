@@ -49,8 +49,9 @@ public class UserBuilder {
 		return this;
 	}
 
-	public void setProfilePictureUrl(final String url) {
+	public UserBuilder setProfilePictureUrl(final String url) {
 		this.profilePictureUrl = url;
+		return this;
 	}
 
 	public String getProfilePictureUrl() {

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.menatwork.model.User;
+import com.menatwork.service.Defect;
 
 public class SimpleSkillHuntBuilder {
 
@@ -16,6 +17,7 @@ public class SimpleSkillHuntBuilder {
 	private final List<String> requiredSkills;
 	private final List<String> preferredSkills;
 	private final List<User> users;
+	private String id;
 
 	public static SimpleSkillHuntBuilder newInstance() {
 		return new SimpleSkillHuntBuilder();
@@ -32,13 +34,21 @@ public class SimpleSkillHuntBuilder {
 	// ************************************************ //
 
 	public SimpleSkillHunt build() {
-		return new SimpleSkillHunt(title, requiredSkills, preferredSkills,
+		if (id == null)
+			throw new Defect("can't instantiate a Hunt without id");
+
+		return new SimpleSkillHunt(id, title, requiredSkills, preferredSkills,
 				users);
 	}
 
 	// ************************************************ //
 	// ====== Setter methods ======
 	// ************************************************ //
+
+	public SimpleSkillHuntBuilder setId(final String id) {
+		this.id = id;
+		return this;
+	}
 
 	public SimpleSkillHuntBuilder setTitle(final String title) {
 		this.title = title;
