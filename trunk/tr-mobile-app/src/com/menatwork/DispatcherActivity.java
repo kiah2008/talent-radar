@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.menatwork.model.User;
 import com.menatwork.preferences.TalentRadarConfiguration;
+import com.menatwork.service.Defect;
 
 public class DispatcherActivity extends TalentRadarActivity {
 
@@ -32,15 +33,13 @@ public class DispatcherActivity extends TalentRadarActivity {
 		// final ProgressDialog progress = ProgressDialog.show(this,
 		// getString(R.string.generic_wait), "");
 
-		final TalentRadarConfiguration preferences = getTalentRadarApplication()
-				.getPreferences();
+		final TalentRadarConfiguration preferences = getTalentRadarApplication().getPreferences();
 
 		final String localUserId = preferences.getLocalUserId();
 		if (notValidUserId(localUserId))
 			startActivity(new Intent(this, LoginActivity.class));
 		else {
-			final DispatcherGetUserTask getUserTask = new DispatcherGetUserTask(
-					this);
+			final DispatcherGetUserTask getUserTask = new DispatcherGetUserTask(this);
 			getUserTask.execute(localUserId);
 		}
 	}
@@ -91,25 +90,24 @@ public class DispatcherActivity extends TalentRadarActivity {
 
 	@SuppressWarnings("unused")
 	private boolean hasExpired() {
-		return expirationSaved() || expirationDatePassed();
+		return hasExpirationSaved() || hasExpirationDatePassed();
 	}
 
-	private boolean expirationSaved() {
+	private boolean hasExpirationSaved() {
 		return getPreferences().isApplicationExpired();
 	}
 
-	private boolean expirationDatePassed() {
+	private boolean hasExpirationDatePassed() {
 		return System.currentTimeMillis() >= expirationTimeMillis();
 	}
 
 	private long expirationTimeMillis() {
 		try {
-			final Date expirationDate = new SimpleDateFormat("dd/MM/yyyy")
-					.parse("21/09/2012");
+			final Date expirationDate = new SimpleDateFormat("dd/MM/yyyy").parse("21/09/2012");
 			return expirationDate.getTime();
 
 		} catch (final ParseException e) {
-			throw new RuntimeException("invalid date format");
+			throw new Defect("invalid date format");
 		}
 	}
 

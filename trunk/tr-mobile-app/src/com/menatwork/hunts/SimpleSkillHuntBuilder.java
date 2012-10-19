@@ -9,24 +9,25 @@ import com.menatwork.service.Defect;
 
 public class SimpleSkillHuntBuilder {
 
+	private String id;
+	private String title;
+	private List<String> requiredSkills;
+	private List<String> preferredSkills;
+	private List<User> users;
+
 	// ************************************************ //
 	// ====== Creation methods ======
 	// ************************************************ //
 
-	private String title;
-	private final List<String> requiredSkills;
-	private final List<String> preferredSkills;
-	private final List<User> users;
-	private String id;
-
-	public static SimpleSkillHuntBuilder newInstance() {
-		return new SimpleSkillHuntBuilder();
-	}
-
 	protected SimpleSkillHuntBuilder() {
+		this.title = "";
 		this.requiredSkills = new ArrayList<String>();
 		this.preferredSkills = new ArrayList<String>();
 		this.users = new ArrayList<User>();
+	}
+
+	public static SimpleSkillHuntBuilder newInstance() {
+		return new SimpleSkillHuntBuilder();
 	}
 
 	// ************************************************ //
@@ -37,8 +38,7 @@ public class SimpleSkillHuntBuilder {
 		if (id == null)
 			throw new Defect("can't instantiate a Hunt without id");
 
-		return new SimpleSkillHunt(id, title, requiredSkills, preferredSkills,
-				users);
+		return new SimpleSkillHunt(id, title, requiredSkills, preferredSkills, users);
 	}
 
 	// ************************************************ //
@@ -55,14 +55,31 @@ public class SimpleSkillHuntBuilder {
 		return this;
 	}
 
-	public SimpleSkillHuntBuilder addRequiredSkills(
-			final String... requiredSkills) {
-		this.requiredSkills.addAll(Arrays.asList(requiredSkills));
+	public SimpleSkillHuntBuilder setRequiredSkills(final List<String> requiredSkills) {
+		this.requiredSkills = requiredSkills;
 		return this;
 	}
 
-	public SimpleSkillHuntBuilder addPreferredSkills(
-			final String... preferredSkills) {
+	public SimpleSkillHuntBuilder setPreferredSkills(final List<String> preferredSkills) {
+		this.preferredSkills = preferredSkills;
+		return this;
+	}
+
+	public SimpleSkillHuntBuilder setUsers(final List<User> users) {
+		this.users = users;
+		return this;
+	}
+
+	public SimpleSkillHuntBuilder addRequiredSkills(final String... requiredSkills) {
+		return addRequiredSkills(Arrays.asList(requiredSkills));
+	}
+
+	private SimpleSkillHuntBuilder addRequiredSkills(final List<String> asList) {
+		this.requiredSkills.addAll(asList);
+		return this;
+	}
+
+	public SimpleSkillHuntBuilder addPreferredSkills(final String... preferredSkills) {
 		this.preferredSkills.addAll(Arrays.asList(preferredSkills));
 		return this;
 	}
