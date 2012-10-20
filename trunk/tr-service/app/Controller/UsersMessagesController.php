@@ -56,9 +56,11 @@ class UsersMessagesController extends AppController {
 			$response['status'] = 'ok';
 			$response['result']['status'] = 'error';
 			
-			$response['result']['messages'] = $this->UsersMessage->find('all', array('conditions' => array('OR' => array(
+			$limit = !empty($this->data['UsersMessage']['limit']) ? array('limit' => $this->data['UsersMessage']['limit']) : array();
+			
+			$response['result']['messages'] = $this->UsersMessage->find('all', array_merge($limit, array('conditions' => array('OR' => array(
 																						array('UsersMessage.user_from_id' => $this->data['UsersMessage']['user1_id'], 'UsersMessage.user_to_id' => $this->data['UsersMessage']['user2_id']),
-																						array('UsersMessage.user_from_id' => $this->data['UsersMessage']['user2_id'], 'UsersMessage.user_to_id' => $this->data['UsersMessage']['user1_id'])))));
+																						array('UsersMessage.user_from_id' => $this->data['UsersMessage']['user2_id'], 'UsersMessage.user_to_id' => $this->data['UsersMessage']['user1_id']))))));
 			if($response['result']['messages']) {
 				$response['result']['status'] = 'ok';
 			}
