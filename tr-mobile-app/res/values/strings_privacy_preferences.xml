@@ -10,6 +10,12 @@
     <string name="privacy_name_public_label">Nombre real</string>
 
     <!-- * -->
+    <string name="privacy_nickname_default">juan_perez</string>
+    <string name="privacy_nickname_key">privacy_nickname</string>
+    <string name="privacy_nickname_summary">Elige cómo te verán los usuarios si tu nombre no es público</string>
+    <string name="privacy_nickname_label">Sobrenombre</string>
+
+    <!-- * -->
     <string name="privacy_headline_public_key">privacy_headline_public</string>
     <string name="privacy_headline_public_default">false</string>
     <string name="privacy_headline_public_summary">Elige si tu "titular" será visible públicamente</string>
@@ -26,5 +32,5 @@
     <string name="privacy_stealthy_default">false</string>
     <string name="privacy_stealthy_summary">No aparecer en las búsquedas de otros usuarios</string>
     <string name="privacy_stealthy_label">Modo oculto</string>
-    
+
 </resources>

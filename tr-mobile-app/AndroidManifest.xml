@@ -144,10 +144,16 @@
         <activity
             android:name="com.menatwork.NewHuntActivity"
             android:label="@string/app_name"
+            android:theme="@android:style/Theme.Black" >
+        </activity>
+        <activity
+            android:name="HuntsActivity"
             android:theme="@android:style/Theme.Light" >
         </activity>
-        <activity android:name="HuntsActivity" android:theme="@android:style/Theme.Light"></activity>
-        <activity android:name="MiniProfilesActivity" android:theme="@android:style/Theme.Light"></activity>
+        <activity
+            android:name="MiniProfilesActivity"
+            android:theme="@android:style/Theme.Light" >
+        </activity>
     </application>
 
 </manifest>

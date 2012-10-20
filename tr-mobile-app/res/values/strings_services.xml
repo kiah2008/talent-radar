@@ -69,6 +69,7 @@
     <!-- Save privacy settings -->
     <string name="post_uri_save_privacy">http://www.talent-radar.com/app/users/setPrivacy</string>
     <string name="post_key_save_privacy_user_id">data[User][id]</string>
+    <string name="post_key_save_privacy_nickname">data[User][username]</string>
     <string name="post_key_save_privacy_name_public">data[User][show_name]</string>
     <string name="post_key_save_privacy_headline_public">data[User][show_headline]</string>
     <string name="post_key_save_privacy_skills_public">data[User][show_skills]</string>
