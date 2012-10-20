@@ -9,6 +9,7 @@ public class SavePrivacySettings extends StandardServiceCall<BaseResponse> {
 
 	// post_uri_save_privacy http://www.talent-radar.com/app/users/setPrivacy
 	// data[User][id]
+	// data[User][username]
 	// data[User][show_name]
 	// data[User][show_headline]
 	// data[User][show_skills]
@@ -16,17 +17,19 @@ public class SavePrivacySettings extends StandardServiceCall<BaseResponse> {
 
 	public static SavePrivacySettings newInstance(final Context context,
 			final String userId, final Boolean isNamePublic,
-			final Boolean isHeadlinePublic, final Boolean isSkillsPublic,
-			final Boolean isStealthy) {
-		return new SavePrivacySettings(context, userId, isNamePublic,
+			final String nickname, final Boolean isHeadlinePublic,
+			final Boolean isSkillsPublic, final Boolean isStealthy) {
+		return new SavePrivacySettings(context, userId, isNamePublic, nickname,
 				isHeadlinePublic, isSkillsPublic, isStealthy);
 	}
 
 	private SavePrivacySettings(final Context context, final String userId,
-			final Boolean isNamePublic, final Boolean isHeadlinePublic,
-			final Boolean isSkillsPublic, final Boolean isStealthy) {
+			final Boolean isNamePublic, final String nickname,
+			final Boolean isHeadlinePublic, final Boolean isSkillsPublic,
+			final Boolean isStealthy) {
 		super(context, BaseResponse.class);
 		setParameter(R.string.post_key_save_privacy_user_id, userId);
+		setParameter(R.string.post_key_save_privacy_nickname, nickname);
 		setParameter(R.string.post_key_save_privacy_name_public, isNamePublic);
 		setParameter(R.string.post_key_save_privacy_headline_public,
 				isHeadlinePublic);

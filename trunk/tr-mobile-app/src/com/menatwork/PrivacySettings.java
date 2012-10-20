@@ -12,6 +12,8 @@ public interface PrivacySettings {
 
 	boolean isStealthy();
 
-	public Map<String, Object> asMap();
+	String getNickname();
+
+	Map<String, Object> asMap();
 
 }

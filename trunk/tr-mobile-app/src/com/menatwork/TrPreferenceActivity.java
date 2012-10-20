@@ -6,9 +6,13 @@ import java.util.Map;
 import org.json.JSONException;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -16,7 +20,8 @@ import android.widget.Toast;
 import com.menatwork.service.SavePrivacySettings;
 import com.menatwork.service.response.Response;
 
-public class TrPreferenceActivity extends PreferenceActivity {
+public class TrPreferenceActivity extends PreferenceActivity implements
+		OnSharedPreferenceChangeListener {
 
 	private Map<String, Object> initialPrivacySettings;
 
@@ -24,12 +29,14 @@ public class TrPreferenceActivity extends PreferenceActivity {
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
+		PreferenceManager.getDefaultSharedPreferences(getTalentRadarApp())
+				.registerOnSharedPreferenceChangeListener(this);
 		initialPrivacySettings = getCurrentPrivacySettingsAsMap();
 	}
 
 	private TalentRadarApplication getTalentRadarApp() {
 		final TalentRadarApplication trapp = (TalentRadarApplication) getApplication();
-		// it's a TRAPP!
+		/* it's a TRAPP! */
 		return trapp;
 	}
 
@@ -76,11 +83,12 @@ public class TrPreferenceActivity extends PreferenceActivity {
 				final Boolean isSkillsPublic = privacySettings.isSkillsPublic();
 				final Boolean isHeadlinePublic = privacySettings
 						.isHeadlinePublic();
+				final String nickname = privacySettings.getNickname();
 				final Boolean isNamePublic = privacySettings.isNamePublic();
 				final SavePrivacySettings savePrivacySettings = SavePrivacySettings
 						.newInstance(TrPreferenceActivity.this, localUserId,
-								isNamePublic, isHeadlinePublic, isSkillsPublic,
-								isStealthy);
+								isNamePublic, nickname, isHeadlinePublic,
+								isSkillsPublic, isStealthy);
 				return savePrivacySettings.execute();
 			} catch (final JSONException e) {
 				Log.e("SavePreferencesAsyncTask",
@@ -100,6 +108,20 @@ public class TrPreferenceActivity extends PreferenceActivity {
 				Toast.makeText(TrPreferenceActivity.this,
 						R.string.generic_error, Toast.LENGTH_LONG).show();
 			TrPreferenceActivity.this.finish();
+		}
+
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(final SharedPreferences prefs,
+			final String preferenceKey) {
+		final String isNamePublicPreferenceKey = getString(R.string.privacy_name_public_key);
+
+		if (isNamePublicPreferenceKey.equals(preferenceKey)) {
+			final Preference nicknamePreferenceControl = getPreferenceScreen()
+					.findPreference(getString(R.string.privacy_nickname_key));
+			nicknamePreferenceControl.setEnabled(!getTalentRadarApp()
+					.getPrivacySettings().isNamePublic());
 		}
 
 	}

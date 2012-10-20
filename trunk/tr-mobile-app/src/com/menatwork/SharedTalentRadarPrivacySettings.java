@@ -52,6 +52,13 @@ class SharedTalentRadarPrivacySettings //
 	}
 
 	@Override
+	public String getNickname() {
+		return sharedPreferences.getString(
+				context.getString(R.string.privacy_nickname_key),
+				context.getString(R.string.privacy_stealthy_default));
+	}
+
+	@Override
 	public Map<String, Object> asMap() {
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put(context.getString(R.string.privacy_name_public_key),
@@ -62,6 +69,8 @@ class SharedTalentRadarPrivacySettings //
 				this.isSkillsPublic());
 		map.put(context.getString(R.string.privacy_stealthy_key),
 				this.isStealthy());
+		map.put(context.getString(R.string.privacy_nickname_key),
+				this.getNickname());
 		return Collections.unmodifiableMap(map);
 	}
 
