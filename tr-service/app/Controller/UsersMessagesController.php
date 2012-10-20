@@ -10,7 +10,45 @@ class UsersMessagesController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		
-		$this->Auth->allow('app_getMessages', 'app_addMessage');
+		$this->Auth->allow('app_getChats', 'app_getMessages', 'app_addMessage');
+	}
+	
+	public function app_getChats() {
+		if(!empty($this->data)) {
+			$response['status'] = 'ok';
+			$response['result']['status'] = 'error';
+			
+			$users = $this->UsersMessage->find('all', array('fields' => array('UsersMessage.user_from_id', 'UsersMessage.user_to_id', 'MAX(UsersMessage.created) as date'),
+																					'conditions' => array('OR' => array('UsersMessage.user_from_id' => $this->data['UsersMessage']['user_id'], 'UsersMessage.user_to_id' => $this->data['UsersMessage']['user_id'])),
+																					'group' => array('UsersMessage.user_from_id', 'UsersMessage.user_to_id'),
+																					'order' => 'date desc'
+																					));
+			$usersIds = array();
+			$dates = array();
+			foreach($users as $user) {
+				$userId = $usersIds[] = $this->data['UsersMessage']['user_id'] == $user['UsersMessage']['user_from_id'] ? $user['UsersMessage']['user_to_id'] : $user['UsersMessage']['user_from_id'];
+				
+				if(!isset($dates[$userId])) {
+					$dates[$userId] = $user[0]['date'];
+				}
+			}
+			
+			$this->loadModel('User');
+			$users = $this->User->find('all', array('recursive' => -1, 'fields' => array('User.id', 'User.username', 'User.name', 'User.surname', 'User.picture'), 'conditions' => array('User.id' => $usersIds)));
+			
+			foreach($users as $user) {
+				$response['result']['chats'][] = $user;
+				$response['result']['chats'][count($response['result']['chats'])-1]['date'] = $dates[$user['User']['id']];
+			}
+			
+			$response['result']['status'] = 'ok';
+			
+			$this->set('response', $response);
+		}
+		else {
+			$this->loadModel('User');
+			$this->set('users', $this->User->find('list', array('fields' => array('id', 'id'))));
+		}
 	}
 	
 	public function app_getMessages() {
