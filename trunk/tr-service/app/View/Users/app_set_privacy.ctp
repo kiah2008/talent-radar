@@ -1,6 +1,7 @@
 <?php 
 echo $this->Form->create('User');
 	echo $this->Form->input('id', array('type' => 'select', 'options' => $users));
+	echo $this->Form->input('username');
 	echo $this->Form->input('show_name');
 	echo $this->Form->input('show_headline');
 	echo $this->Form->input('show_skills');

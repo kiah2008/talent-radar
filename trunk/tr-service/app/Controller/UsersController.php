@@ -73,6 +73,9 @@ class UsersController extends AppController {
 			$response['result']['status'] = 'error';
 			
 			if($user = $this->User->read(null, $this->data['User']['id'])) {
+				if(isset($this->data['User']['username'])) {
+					$user['User']['username'] = $this->data['User']['username'];
+				}
 				$user['User']['show_name'] = $this->data['User']['show_name'];
 				$user['User']['show_headline'] = $this->data['User']['show_headline'];
 				$user['User']['show_skills'] = $this->data['User']['show_skills'];
