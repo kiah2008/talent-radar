@@ -22,8 +22,9 @@ public interface User {
 
 	String getSurname();
 
-	String getUsername();
+	String getNickname();
 
 	String getProfilePictureUrl();
 
+	PrivacySettings getPrivacySettings();
 }

@@ -1,4 +1,4 @@
-package com.menatwork;
+package com.menatwork.model;
 
 import java.util.Map;
 

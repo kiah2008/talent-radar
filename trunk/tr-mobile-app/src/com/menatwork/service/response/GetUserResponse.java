@@ -13,6 +13,7 @@ public class GetUserResponse extends BaseResponse {
 		super(response);
 	}
 
+	// show_in_searches / username / show_headline / show_skills / show_name
 	public User getUser() {
 		final UserBuilder userBuilder = UserBuilder.newInstance();
 		try {
@@ -22,14 +23,23 @@ public class GetUserResponse extends BaseResponse {
 			userBuilder.setId(userJsonObject.getString("id"));
 			userBuilder.setUserName(userJsonObject.getString("name"));
 			userBuilder.setUserSurname(userJsonObject.getString("surname"));
+			userBuilder.setNickname(userJsonObject.getString("username"));
 			userBuilder.setEmail(userJsonObject.getString("email"));
 			userBuilder.setHeadline(userJsonObject.getString("headline"));
+			userBuilder
+					.setStealty(userJsonObject.getString("show_in_searches"));
+			userBuilder.setHeadlinePublic(userJsonObject
+					.getString("show_headline"));
+			userBuilder
+					.setSkillsPublic(userJsonObject.getString("show_skills"));
+			userBuilder.setNamePublic(userJsonObject.getString("show_name"));
 
-			try{
-			// TODO - throws an error for non LI users (picture is not included
-			// in the JSON) - miguel - 19/09/2012
-			userBuilder.setProfilePictureUrl(userJsonObject
-					.getString("picture"));
+			try {
+				// TODO - throws an error for non LI users (picture is not
+				// included
+				// in the JSON) - miguel - 19/09/2012
+				userBuilder.setProfilePictureUrl(userJsonObject
+						.getString("picture"));
 			} catch (final JSONException e) {
 				// as of today (19/09/2012) this doesn't concern us
 			}

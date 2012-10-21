@@ -8,15 +8,31 @@ public class UserBuilder {
 	private String email;
 	private String headline;
 	private String profilePictureUrl;
+	private String nickname;
+	private boolean stealthy;
+	private boolean headlinePublic;
+	private boolean skillsPublic;
+	private boolean namePublic;
 
 	public User build() {
 		final BaseUser user = new BaseUser();
 		user.setId(id);
 		user.setName(name);
 		user.setSurname(surname);
+		user.setNickname(nickname);
 		user.setEmail(email);
 		user.setHeadline(headline);
 		user.setProfilePictureUrl(profilePictureUrl);
+
+		final DataObjectPrivacySettings privacySettings = new DataObjectPrivacySettings();
+		privacySettings.setHeadlinePublic(headlinePublic);
+		privacySettings.setNamePublic(namePublic);
+		privacySettings.setNickname(nickname);
+		privacySettings.setSkillsPublic(skillsPublic);
+		privacySettings.setStealthy(stealthy);
+
+		user.setPrivacySettings(privacySettings);
+
 		return user;
 	}
 
@@ -54,8 +70,33 @@ public class UserBuilder {
 		return this;
 	}
 
-	public String getProfilePictureUrl() {
-		return profilePictureUrl;
+	/* ************************************************ */
+	/* ********* Privacy-related ****************** */
+	/* ************************************************ */
+
+	public UserBuilder setNickname(final String nickname) {
+		this.nickname = nickname;
+		return this;
+	}
+
+	public UserBuilder setStealty(final String string) {
+		this.stealthy = Boolean.parseBoolean(string);
+		return this;
+	}
+
+	public UserBuilder setHeadlinePublic(final String string) {
+		this.headlinePublic = Boolean.parseBoolean(string);
+		return this;
+	}
+
+	public UserBuilder setSkillsPublic(final String string) {
+		this.skillsPublic = Boolean.parseBoolean(string);
+		return this;
+	}
+
+	public UserBuilder setNamePublic(final String string) {
+		this.namePublic = Boolean.parseBoolean(string);
+		return this;
 	}
 
 	/* ************************************************ */

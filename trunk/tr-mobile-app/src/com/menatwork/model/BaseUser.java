@@ -12,6 +12,12 @@ public class BaseUser implements User {
 	private String headline;
 	private List<String> skills = new LinkedList<String>();
 	private String profilePictureUrl;
+	private DataObjectPrivacySettings privacySettings;
+	private String nickname;
+
+	public DataObjectPrivacySettings getPrivacySettings() {
+		return privacySettings;
+	}
 
 	@Override
 	public String getProfilePictureUrl() {
@@ -51,7 +57,10 @@ public class BaseUser implements User {
 	@Override
 	public String toString() {
 		return "BaseUser [id=" + id + ", name=" + name + ", surname=" + surname
-				+ ", email=" + email + ", headline=" + headline + "]";
+				+ ", email=" + email + ", headline=" + headline + ", skills="
+				+ skills + ", profilePictureUrl=" + profilePictureUrl
+				+ ", privacySettings=" + privacySettings + ", nickname="
+				+ nickname + "]";
 	}
 
 	@Override
@@ -85,14 +94,21 @@ public class BaseUser implements User {
 	}
 
 	@Override
-	public String getUsername() {
-		// TODO - this must return the username rather than the name - boris -
-		// 16/08/2012
-		return name;
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(final String nickname) {
+		this.nickname = nickname;
 	}
 
 	public void setProfilePictureUrl(final String profilePictureUrl) {
 		this.profilePictureUrl = profilePictureUrl;
+	}
+
+	public void setPrivacySettings(
+			final DataObjectPrivacySettings privacySettings) {
+		this.privacySettings = privacySettings;
 	}
 
 }
