@@ -1,5 +1,7 @@
 package com.menatwork;
 
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
@@ -15,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.menatwork.skills.SkillButtonFactory;
+import com.menatwork.skills.SkillSuggestionBox;
 
 public class NewHuntActivity extends GuiTalentRadarActivity {
 
@@ -37,10 +40,12 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 	private void initializeTextWatchers() {
 		this.necessarySkillTextView
 				.addTextChangedListener(new SkillsTextWatcher(
-						addNecessarySkillButton));
+						addNecessarySkillButton, necessarySkillsContainer,
+						necessarySkillsSuggestionsContainer));
 		this.optionalSkillTextView
 				.addTextChangedListener(new SkillsTextWatcher(
-						addOptionalSkillButton));
+						addOptionalSkillButton, optionalSkillsContainer,
+						optionalSkillsSuggestionsContainer));
 	}
 
 	private void initializeContainers() {
@@ -80,20 +85,12 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 		return R.layout.new_hunt;
 	}
 
-	protected void removeNecessarySkill(final View buttonToDelete) {
-		necessarySkillsContainer.removeView(buttonToDelete);
-		if (necessarySkillsContainer.getChildCount() == 0)
-			necessarySkillsContainer.addView(getTalentRadarApplication()
+	protected void removeSkillFromViewGroup(final View buttonToDelete,
+			final ViewGroup skillsContainer) {
+		skillsContainer.removeView(buttonToDelete);
+		if (skillsContainer.getChildCount() == 0)
+			skillsContainer.addView(getTalentRadarApplication()
 					.getSkillButtonFactory().getEmptySkillsButton(this));
-		// remove skill from hunt model or whatever
-	}
-
-	protected void removeOptionalSkill(final View buttonToDelete) {
-		optionalSkillsContainer.removeView(buttonToDelete);
-		if (optionalSkillsContainer.getChildCount() == 0)
-			optionalSkillsContainer.addView(getTalentRadarApplication()
-					.getSkillButtonFactory().getEmptySkillsButton(this));
-		// remove skill from hunt model or whatever
 	}
 
 	private class AddSkillOnClickListener implements OnClickListener {
@@ -158,10 +155,14 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 			public void onClick(final DialogInterface arg0, final int arg1) {
 				if (findViewInViewGroup(necessarySkillsContainer,
 						buttonToDelete))
-					removeNecessarySkill(buttonToDelete);
+					removeSkillFromViewGroup(buttonToDelete,
+							necessarySkillsContainer);
+				// remove skill from hunt model or whatever
 				else if (findViewInViewGroup(optionalSkillsContainer,
 						buttonToDelete))
-					removeOptionalSkill(buttonToDelete);
+					removeSkillFromViewGroup(buttonToDelete,
+							optionalSkillsContainer);
+				// remove skill from hunt model or whatever
 			}
 
 			private boolean findViewInViewGroup(final ViewGroup viewGroup,
@@ -179,9 +180,15 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 	private class SkillsTextWatcher implements TextWatcher {
 
 		private final ImageButton button;
+		private final ViewGroup suggestionContainer;
+		private final ViewGroup skillContainer;
 
-		public SkillsTextWatcher(final ImageButton button) {
+		public SkillsTextWatcher(final ImageButton button,
+				final ViewGroup skillContainer,
+				final ViewGroup suggestionContainer) {
 			this.button = button;
+			this.skillContainer = skillContainer;
+			this.suggestionContainer = suggestionContainer;
 		}
 
 		@Override
@@ -189,13 +196,31 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 			if (editable == null)
 				return;
 			final String inputString = editable.toString();
-			button.setEnabled(inputString.length() > 0);
-			// TODO - suggestions sample snippet
-			// if ("java".startsWith(inputString.toLowerCase()))
-			// necessarySkillsSuggestionsContainer
-			// .addView(getTalentRadarApplication()
-			// .getSkillButtonFactory().getSkillButton(
-			// NewHuntActivity.this, "Java"));
+			final boolean inputNotEmpty = inputString.length() > 0;
+			button.setEnabled(inputNotEmpty);
+			if (!inputNotEmpty) {
+				// if input is empty... return (I know)
+				suggestionContainer.removeAllViews();
+				return;
+			}
+
+			// add suggestions to suggestions-box
+			final SkillSuggestionBox skillSuggestionBox = getTalentRadarApplication()
+					.getSkillSuggestionBox();
+			final List<String> suggestions = skillSuggestionBox
+					.getSuggestionsFor(inputString);
+
+			suggestionContainer.removeAllViews();
+			for (final String suggestion : suggestions) {
+				final Button suggestionButton = getTalentRadarApplication()
+						.getSkillButtonFactory().getSkillButton(
+								NewHuntActivity.this, suggestion);
+				suggestionButton
+						.setOnClickListener(new SuggestionOnClickListener(
+								suggestionContainer, skillContainer, editable));
+				suggestionContainer.addView(suggestionButton);
+			}
+
 		}
 
 		@Override
@@ -206,6 +231,30 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 		@Override
 		public void onTextChanged(final CharSequence arg0, final int arg1,
 				final int arg2, final int arg3) {
+		}
+
+	}
+
+	private class SuggestionOnClickListener implements OnClickListener {
+
+		private final ViewGroup suggestionContainer;
+		private final ViewGroup skillContainer;
+		private final Editable editable;
+
+		public SuggestionOnClickListener(final ViewGroup suggestionContainer,
+				final ViewGroup skillContainer, final Editable editable) {
+			this.suggestionContainer = suggestionContainer;
+			this.skillContainer = skillContainer;
+			this.editable = editable;
+		}
+
+		@Override
+		public void onClick(final View view) {
+			if (view != null) {
+				suggestionContainer.removeAllViews();
+				skillContainer.addView(view);
+				editable.clear();
+			}
 		}
 
 	}
