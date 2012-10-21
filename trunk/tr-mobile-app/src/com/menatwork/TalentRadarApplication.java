@@ -1,5 +1,8 @@
 package com.menatwork;
 
+import java.util.Arrays;
+import java.util.List;
+
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -23,6 +26,7 @@ import com.menatwork.preferences.TalentRadarConfiguration;
 import com.menatwork.preferences.TalentRadarConfigurationListener;
 import com.menatwork.skills.DefaultSkillButtonFactory;
 import com.menatwork.skills.SkillButtonFactory;
+import com.menatwork.skills.SkillSuggestionBox;
 import com.menatwork.utils.AndroidUtils;
 
 public class TalentRadarApplication extends Application implements
@@ -304,6 +308,17 @@ public class TalentRadarApplication extends Application implements
 		public void deactivate() {
 			// nothing to do here!
 		}
+	}
+
+	public SkillSuggestionBox getSkillSuggestionBox() {
+		return new SkillSuggestionBox() {
+
+			@Override
+			public List<String> getSuggestionsFor(final String term) {
+				return Arrays.asList("Java", "Javelin", "JIRA");
+			}
+
+		};
 	}
 
 }
