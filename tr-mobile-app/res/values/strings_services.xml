@@ -73,6 +73,6 @@
     <string name="post_key_save_privacy_name_public">data[User][show_name]</string>
     <string name="post_key_save_privacy_headline_public">data[User][show_headline]</string>
     <string name="post_key_save_privacy_skills_public">data[User][show_skills]</string>
-    <string name="post_key_save_privacy_stealthy">data[User][show_in_searches]</string>
+    <string name="post_key_save_privacy_show_in_searches">data[User][show_in_searches]</string>
 
 </resources>

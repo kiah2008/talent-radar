@@ -35,7 +35,8 @@ public class SavePrivacySettings extends StandardServiceCall<BaseResponse> {
 				isHeadlinePublic);
 		setParameter(R.string.post_key_save_privacy_skills_public,
 				isSkillsPublic);
-		setParameter(R.string.post_key_save_privacy_stealthy, isStealthy);
+		setParameter(R.string.post_key_save_privacy_show_in_searches,
+				!isStealthy);
 	}
 
 	@Override
