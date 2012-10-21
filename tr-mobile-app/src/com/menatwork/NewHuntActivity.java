@@ -1,5 +1,6 @@
 package com.menatwork;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -16,8 +17,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.menatwork.hunts.Hunt;
+import com.menatwork.hunts.HuntingCriteriaEngine;
+import com.menatwork.hunts.SimpleSkillHuntBuilder;
 import com.menatwork.skills.SkillButtonFactory;
 import com.menatwork.skills.SkillSuggestionBox;
+import com.menatwork.utils.CloseActivityClickListener;
 
 public class NewHuntActivity extends GuiTalentRadarActivity {
 
@@ -30,6 +35,8 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 	private TextView nameTextView;
 	private ViewGroup optionalSkillsSuggestionsContainer;
 	private ViewGroup necessarySkillsSuggestionsContainer;
+	private Button saveButton;
+	private Button cancelButton;
 
 	@Override
 	protected void postCreate(final Bundle savedInstanceState) {
@@ -65,6 +72,8 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 				optionalSkillsContainer, optionalSkillTextView));
 		addNecessarySkillButton.setEnabled(false);
 		addOptionalSkillButton.setEnabled(false);
+		cancelButton.setOnClickListener(new CloseActivityClickListener(this));
+		saveButton.setOnClickListener(new SaveHuntClickListener());
 	}
 
 	@Override
@@ -77,6 +86,8 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 		addOptionalSkillButton = findImageButtonById(R.id.new_hunt_button_add_optional_skill);
 		necessarySkillTextView = findTextViewById(R.id.new_hunt_necessary_skill_input);
 		optionalSkillTextView = findTextViewById(R.id.new_hunt_optional_skill_input);
+		saveButton = findButtonById(R.id.new_hunt_button_save);
+		cancelButton = findButtonById(R.id.new_hunt_button_cancel);
 		nameTextView = findTextViewById(R.id.new_hunt_name);
 	}
 
@@ -91,6 +102,34 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 		if (skillsContainer.getChildCount() == 0)
 			skillsContainer.addView(getTalentRadarApplication()
 					.getSkillButtonFactory().getEmptySkillsButton(this));
+	}
+
+	private Hunt buildHunt() {
+		final SimpleSkillHuntBuilder builder = SimpleSkillHuntBuilder
+				.newInstance();
+		final String huntName = nameTextView.getText().toString();
+		builder.setTitle(huntName);
+		builder.setId(generateHuntId(huntName));
+		builder.setRequiredSkills(getSkillsFromContainer(necessarySkillsContainer));
+		builder.setPreferredSkills(getSkillsFromContainer(optionalSkillsContainer));
+		return builder.build();
+	}
+
+	protected String generateHuntId(final String huntName) {
+		final StringBuilder stringBuilder = new StringBuilder(getLocalUser()
+				.getId());
+		stringBuilder.append("_");
+		stringBuilder.append(huntName.replace(' ', '_'));
+		return stringBuilder.toString();
+	}
+
+	private List<String> getSkillsFromContainer(final ViewGroup skillContainer) {
+		final int childCount = skillContainer.getChildCount();
+		final List<String> skills = new ArrayList<String>(childCount);
+		for (int i = 0; i < childCount; i++)
+			skills.add(((Button) skillContainer.getChildAt(i)).getText()
+					.toString());
+		return skills;
 	}
 
 	private class AddSkillOnClickListener implements OnClickListener {
@@ -259,4 +298,16 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 
 	}
 
+	private class SaveHuntClickListener implements OnClickListener {
+
+		@Override
+		public void onClick(final View v) {
+			final Hunt newHunt = buildHunt();
+			final HuntingCriteriaEngine huntingCriteriaEngine = getTalentRadarApplication()
+					.getHuntingCriteriaEngine();
+			huntingCriteriaEngine.addHunt(newHunt);
+			finish();
+		}
+
+	}
 }
