@@ -1,8 +1,5 @@
 package com.menatwork;
 
-import java.util.Arrays;
-import java.util.List;
-
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -24,7 +21,9 @@ import com.menatwork.preferences.ConfigurationChanges;
 import com.menatwork.preferences.SharedTalentRadarConfiguration;
 import com.menatwork.preferences.TalentRadarConfiguration;
 import com.menatwork.preferences.TalentRadarConfigurationListener;
+import com.menatwork.skills.BruteForceSearchAlgorithm;
 import com.menatwork.skills.DefaultSkillButtonFactory;
+import com.menatwork.skills.InMemorySkillSuggestionBox;
 import com.menatwork.skills.SkillButtonFactory;
 import com.menatwork.skills.SkillSuggestionBox;
 import com.menatwork.utils.AndroidUtils;
@@ -46,6 +45,7 @@ public class TalentRadarApplication extends Application implements
 	private TrNotificationManager notificationManager;
 	private ChatSessionManager chatSessionManager;
 	private HuntingCriteriaEngine huntingCriteriaEngine;
+	private SkillSuggestionBox skillSuggestionBox;
 
 	public static TalentRadarApplication getContext() {
 		return applicationContext;
@@ -68,6 +68,7 @@ public class TalentRadarApplication extends Application implements
 		locationSourceManager = NaiveLocationSourceManager.newInstance();
 		chatSessionManager = ChatSessionManager.newInstance(this);
 		huntingCriteriaEngine = HuntingCriteriaEngine.newInstance();
+		skillSuggestionBox = new InMemorySkillSuggestionBox();
 	}
 
 	private void setDefaultUncaughtExceptionHandler() {
@@ -311,14 +312,9 @@ public class TalentRadarApplication extends Application implements
 	}
 
 	public SkillSuggestionBox getSkillSuggestionBox() {
-		return new SkillSuggestionBox() {
-
-			@Override
-			public List<String> getSuggestionsFor(final String term) {
-				return Arrays.asList("Java", "Javelin", "JIRA");
-			}
-
-		};
+		skillSuggestionBox.setSkills("Java", "Javelin", "Jasper", "Juno",
+				"Git", "Gitorious", "Subversion", "Subversive");
+		skillSuggestionBox.setSearchAlgorithm(new BruteForceSearchAlgorithm());
+		return skillSuggestionBox;
 	}
-
 }
