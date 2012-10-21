@@ -118,7 +118,7 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 			public void onClick(final View v) {
 				final String localUserId = getTalentRadarApplication().getLocalUser().getId();
 				new PingTask(ProfileActivity.this).execute(localUserId, getUser().getId(), getUser()
-						.getUsername());
+						.getNickname());
 			}
 		});
 

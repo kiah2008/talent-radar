@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.menatwork.model.PrivacySettings;
 import com.menatwork.service.SavePrivacySettings;
 import com.menatwork.service.response.Response;
 

@@ -1,6 +1,7 @@
 package com.menatwork;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
@@ -13,6 +14,7 @@ import com.menatwork.hunts.HuntingCriteriaEngine;
 import com.menatwork.location.GpsLocationSource;
 import com.menatwork.location.LocationSourceManager;
 import com.menatwork.location.NetworkLocationSource;
+import com.menatwork.model.PrivacySettings;
 import com.menatwork.model.User;
 import com.menatwork.notification.TrNotificationManager;
 import com.menatwork.preferences.ConfigurationChanges;
@@ -36,6 +38,7 @@ public class TalentRadarApplication extends Application implements
 	private SkillButtonFactory skillButtonFactory;
 	private LocationSourceManager locationSourceManager;
 	private TalentRadarConfiguration preferences;
+	private SharedPrivacySettings sharedPrivacySettings;
 	private TrNotificationManager notificationManager;
 	private ChatSessionManager chatSessionManager;
 	private HuntingCriteriaEngine huntingCriteriaEngine;
@@ -51,8 +54,12 @@ public class TalentRadarApplication extends Application implements
 		// setDefaultUncaughtExceptionHandler();
 
 		skillButtonFactory = DefaultSkillButtonFactory.newInstance();
+		final SharedPreferences defaultSharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
 		preferences = new SharedTalentRadarConfiguration(
-				PreferenceManager.getDefaultSharedPreferences(this), this, this);
+				defaultSharedPreferences, this, this);
+		sharedPrivacySettings = new SharedPrivacySettings(this,
+				defaultSharedPreferences);
 		notificationManager = TrNotificationManager.newInstance();
 		locationSourceManager = NaiveLocationSourceManager.newInstance();
 		chatSessionManager = ChatSessionManager.newInstance(this);
@@ -93,6 +100,7 @@ public class TalentRadarApplication extends Application implements
 		Log.d("TalentRadarApplication", "loadLocalUser() " + user);
 		this.localUser = user;
 		this.persistLocalUserId(user.getId());
+		this.sharedPrivacySettings.loadFrom(user.getPrivacySettings());
 	}
 
 	private void persistLocalUserId(final String id) {
@@ -142,8 +150,7 @@ public class TalentRadarApplication extends Application implements
 	}
 
 	public PrivacySettings getPrivacySettings() {
-		return new SharedTalentRadarPrivacySettings(this,
-				PreferenceManager.getDefaultSharedPreferences(this));
+		return sharedPrivacySettings;
 	}
 
 	@Override
