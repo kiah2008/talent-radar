@@ -33,6 +33,8 @@ public class GetUserResponse extends BaseResponse {
 			userBuilder
 					.setSkillsPublic(userJsonObject.getString("show_skills"));
 			userBuilder.setNamePublic(userJsonObject.getString("show_name"));
+			// TODO - field missing in user response, shoud de-comment soon
+			// userBuilder.setProfilePicturePublic(userJsonObject.getString("show_picture"));
 
 			try {
 				// TODO - throws an error for non LI users (picture is not

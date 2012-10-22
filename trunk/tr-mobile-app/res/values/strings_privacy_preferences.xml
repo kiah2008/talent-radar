@@ -33,4 +33,10 @@
     <string name="privacy_stealthy_summary">No aparecer en las búsquedas de otros usuarios</string>
     <string name="privacy_stealthy_label">Modo oculto</string>
 
+    <!-- * -->
+    <string name="privacy_picture_public_default">false</string>
+    <string name="privacy_picture_public_key">privacy_picture_public</string>
+    <string name="privacy_picture_public_summary">Elige si tu imagen de perfil será visible públicamente</string>
+    <string name="privacy_picture_public_label">Imagen de perfil</string>
+
 </resources>

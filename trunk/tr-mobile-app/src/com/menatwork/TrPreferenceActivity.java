@@ -87,10 +87,11 @@ public class TrPreferenceActivity extends PreferenceActivity implements
 						.isHeadlinePublic();
 				final String nickname = privacySettings.getNickname();
 				final Boolean isNamePublic = privacySettings.isNamePublic();
+				final Boolean isPicturePublic = privacySettings.isPicturePublic();
 				final SavePrivacySettings savePrivacySettings = SavePrivacySettings
 						.newInstance(TrPreferenceActivity.this, localUserId,
 								isNamePublic, nickname, isHeadlinePublic,
-								isSkillsPublic, isStealthy);
+								isSkillsPublic, isPicturePublic, isStealthy);
 				return savePrivacySettings.execute();
 			} catch (final JSONException e) {
 				Log.e("SavePreferencesAsyncTask",

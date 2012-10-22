@@ -12,6 +12,7 @@ import com.menatwork.TalentRadarApplication;
 public class DataObjectPrivacySettings implements PrivacySettings {
 	private boolean namePublic, headlinePublic, skillsPublic, stealthy;
 	private String nickname;
+	private boolean picturePublic;
 
 	@Override
 	public boolean isNamePublic() {
@@ -59,6 +60,15 @@ public class DataObjectPrivacySettings implements PrivacySettings {
 	}
 
 	@Override
+	public boolean isPicturePublic() {
+		return picturePublic;
+	}
+
+	public void setPicturePublic(final boolean picturePublic) {
+		this.picturePublic = picturePublic;
+	}
+
+	@Override
 	public Map<String, Object> asMap() {
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		final Context context = TalentRadarApplication.getContext();
@@ -70,6 +80,8 @@ public class DataObjectPrivacySettings implements PrivacySettings {
 				this.isSkillsPublic());
 		map.put(context.getString(R.string.privacy_stealthy_key),
 				this.isStealthy());
+		map.put(context.getString(R.string.privacy_picture_public_key),
+				this.isPicturePublic());
 		map.put(context.getString(R.string.privacy_nickname_key),
 				this.getNickname());
 		return Collections.unmodifiableMap(map);
@@ -80,9 +92,7 @@ public class DataObjectPrivacySettings implements PrivacySettings {
 		return "DataObjectPrivacySettings [namePublic=" + namePublic
 				+ ", headlinePublic=" + headlinePublic + ", skillsPublic="
 				+ skillsPublic + ", stealthy=" + stealthy + ", nickname="
-				+ nickname + "]";
+				+ nickname + ", picturePublic=" + picturePublic + "]";
 	}
-	
-	
 
 }

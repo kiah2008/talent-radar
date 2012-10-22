@@ -16,6 +16,12 @@
             android:key="@string/privacy_nickname_key"
             android:summary="@string/privacy_nickname_summary"
             android:title="@string/privacy_nickname_label" />
+        
+        <CheckBoxPreference
+            android:defaultValue="@string/privacy_picture_public_default"
+            android:key="@string/privacy_picture_public_key"
+            android:summary="@string/privacy_picture_public_summary"
+            android:title="@string/privacy_picture_public_label" />
 
         <CheckBoxPreference
             android:defaultValue="@string/privacy_headline_public_default"

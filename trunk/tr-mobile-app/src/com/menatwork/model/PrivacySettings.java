@@ -10,6 +10,8 @@ public interface PrivacySettings {
 
 	public boolean isSkillsPublic();
 
+	boolean isPicturePublic();
+
 	boolean isStealthy();
 
 	String getNickname();
