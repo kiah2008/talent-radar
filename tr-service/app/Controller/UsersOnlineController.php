@@ -16,7 +16,34 @@ class UsersOnlineController extends AppController {
 		$conditions['UsersOnline.user_id <>'] = $data['UsersOnline']['user_id'];
 		$conditions['TIMEDIFF(ADDTIME(UsersOnline.modified, SEC_TO_TIME(UsersOnline.duration)), NOW()) >'] = 0;
 					
-		return $this->UsersOnline->find('all', array('conditions' => $conditions));
+		$users = $this->UsersOnline->find('all', array('conditions' => $conditions));
+		
+		foreach($users as $key => $user) {
+			//TODO: Change this directly in the query
+			unset($user['User']['auth_token']);
+			unset($user['User']['email']);
+			unset($user['User']['password']);
+			unset($user['User']['birthday']);
+			unset($user['User']['linkedin_key']);
+			unset($user['User']['linkedin_secret']);
+			unset($user['User']['android_device_id']);
+			//
+			
+			if(!$user['User']['show_name']) {
+				unset($user['User']['name']);
+				unset($user['User']['surname']);
+			}
+			if(!$user['User']['show_headline']) {
+				unset($user['User']['headline']);
+			}
+			if(!$user['User']['show_picture']) {
+				unset($user['User']['picture']);
+			}
+			
+			$users[$key] = $user;
+		}
+		
+		return $users;
 	}
 	
 	public function app_shareLocationAndGetUsers() {
