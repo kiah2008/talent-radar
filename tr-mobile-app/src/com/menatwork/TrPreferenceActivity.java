@@ -30,6 +30,7 @@ public class TrPreferenceActivity extends PreferenceActivity implements
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
+		enableOrDisableNicknameEditing();
 		PreferenceManager.getDefaultSharedPreferences(getTalentRadarApp())
 				.registerOnSharedPreferenceChangeListener(this);
 		initialPrivacySettings = getCurrentPrivacySettingsAsMap();
@@ -118,13 +119,16 @@ public class TrPreferenceActivity extends PreferenceActivity implements
 			final String preferenceKey) {
 		final String isNamePublicPreferenceKey = getString(R.string.privacy_name_public_key);
 
-		if (isNamePublicPreferenceKey.equals(preferenceKey)) {
-			final Preference nicknamePreferenceControl = getPreferenceScreen()
-					.findPreference(getString(R.string.privacy_nickname_key));
-			nicknamePreferenceControl.setEnabled(!getTalentRadarApp()
-					.getPrivacySettings().isNamePublic());
-		}
+		if (isNamePublicPreferenceKey.equals(preferenceKey))
+			enableOrDisableNicknameEditing();
 
+	}
+
+	protected void enableOrDisableNicknameEditing() {
+		final Preference nicknamePreferenceControl = getPreferenceScreen()
+				.findPreference(getString(R.string.privacy_nickname_key));
+		nicknamePreferenceControl.setEnabled(!getTalentRadarApp()
+				.getPrivacySettings().isNamePublic());
 	}
 
 }

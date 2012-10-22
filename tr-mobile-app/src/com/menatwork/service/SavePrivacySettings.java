@@ -30,13 +30,18 @@ public class SavePrivacySettings extends StandardServiceCall<BaseResponse> {
 		super(context, BaseResponse.class);
 		setParameter(R.string.post_key_save_privacy_user_id, userId);
 		setParameter(R.string.post_key_save_privacy_nickname, nickname);
-		setParameter(R.string.post_key_save_privacy_name_public, isNamePublic);
+		setParameter(R.string.post_key_save_privacy_name_public,
+				replaceFor(isNamePublic));
 		setParameter(R.string.post_key_save_privacy_headline_public,
-				isHeadlinePublic);
+				replaceFor(isHeadlinePublic));
 		setParameter(R.string.post_key_save_privacy_skills_public,
-				isSkillsPublic);
+				replaceFor(isSkillsPublic));
 		setParameter(R.string.post_key_save_privacy_show_in_searches,
-				!isStealthy);
+				replaceFor(!isStealthy));
+	}
+
+	private String replaceFor(final boolean value) {
+		return value ? "1" : "0";
 	}
 
 	@Override

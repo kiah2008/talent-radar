@@ -80,7 +80,7 @@ public class UserBuilder {
 	}
 
 	public UserBuilder setStealty(final String string) {
-		this.stealthy = Boolean.parseBoolean(string);
+		this.stealthy = !Boolean.parseBoolean(string);
 		return this;
 	}
 
