@@ -79,6 +79,7 @@ class UsersController extends AppController {
 				$user['User']['show_name'] = $this->data['User']['show_name'];
 				$user['User']['show_headline'] = $this->data['User']['show_headline'];
 				$user['User']['show_skills'] = $this->data['User']['show_skills'];
+				$user['User']['show_picture'] = $this->data['User']['show_picture'];
 				$user['User']['show_in_searches'] = $this->data['User']['show_in_searches'];
 				$this->User->set($user);
 				if($this->User->save($this->data)) {
