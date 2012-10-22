@@ -13,6 +13,7 @@ public class UserBuilder {
 	private boolean headlinePublic;
 	private boolean skillsPublic;
 	private boolean namePublic;
+	private boolean picturePublic;
 
 	public User build() {
 		final BaseUser user = new BaseUser();
@@ -30,6 +31,7 @@ public class UserBuilder {
 		privacySettings.setNickname(nickname);
 		privacySettings.setSkillsPublic(skillsPublic);
 		privacySettings.setStealthy(stealthy);
+		privacySettings.setPicturePublic(picturePublic);
 
 		user.setPrivacySettings(privacySettings);
 
@@ -96,6 +98,11 @@ public class UserBuilder {
 
 	public UserBuilder setNamePublic(final String string) {
 		this.namePublic = Boolean.parseBoolean(string);
+		return this;
+	}
+
+	public UserBuilder setProfilePicturePublic(final String picturePublic) {
+		this.picturePublic = Boolean.parseBoolean(picturePublic);
 		return this;
 	}
 

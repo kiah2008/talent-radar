@@ -84,6 +84,19 @@ class SharedPrivacySettings //
 		this.putString(getString(R.string.privacy_nickname_key), nickname);
 	}
 
+	@Override
+	public boolean isPicturePublic() {
+		return this
+				.getBoolean(
+						getString(R.string.privacy_picture_public_key),
+						Boolean.parseBoolean(getString(R.string.privacy_picture_public_default)));
+	}
+
+	public void setPicturePublic(final boolean picturePublic) {
+		this.putBoolean(getString(R.string.privacy_picture_public_key),
+				picturePublic);
+	}
+
 	private String getString(final int resId) {
 		return context.getString(resId);
 	}
@@ -101,6 +114,8 @@ class SharedPrivacySettings //
 				this.isStealthy());
 		map.put(context.getString(R.string.privacy_nickname_key),
 				this.getNickname());
+		map.put(context.getString(R.string.privacy_picture_public_key),
+				this.isPicturePublic());
 		return Collections.unmodifiableMap(map);
 	}
 
@@ -137,12 +152,12 @@ class SharedPrivacySettings //
 
 	@Override
 	public String toString() {
-		return "SharedPrivacySettings [isNamePublic()=" + isNamePublic()
+		return "SharedPrivacySettings [context=" + context
+				+ ", isNamePublic()=" + isNamePublic()
 				+ ", isHeadlinePublic()=" + isHeadlinePublic()
 				+ ", isSkillsPublic()=" + isSkillsPublic() + ", isStealthy()="
-				+ isStealthy() + ", getNickname()=" + getNickname() + "]";
+				+ isStealthy() + ", getNickname()=" + getNickname()
+				+ ", isPicturePublic()=" + isPicturePublic() + "]";
 	}
-	
-	
 
 }

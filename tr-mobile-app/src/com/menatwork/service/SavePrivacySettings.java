@@ -13,20 +13,22 @@ public class SavePrivacySettings extends StandardServiceCall<BaseResponse> {
 	// data[User][show_name]
 	// data[User][show_headline]
 	// data[User][show_skills]
+	// data[User][show_picture]
 	// data[User][show_in_searches]
 
 	public static SavePrivacySettings newInstance(final Context context,
 			final String userId, final Boolean isNamePublic,
 			final String nickname, final Boolean isHeadlinePublic,
-			final Boolean isSkillsPublic, final Boolean isStealthy) {
+			final Boolean isSkillsPublic, final Boolean isPicturePublic,
+			final Boolean isStealthy) {
 		return new SavePrivacySettings(context, userId, isNamePublic, nickname,
-				isHeadlinePublic, isSkillsPublic, isStealthy);
+				isHeadlinePublic, isSkillsPublic, isPicturePublic, isStealthy);
 	}
 
 	private SavePrivacySettings(final Context context, final String userId,
 			final Boolean isNamePublic, final String nickname,
 			final Boolean isHeadlinePublic, final Boolean isSkillsPublic,
-			final Boolean isStealthy) {
+			final Boolean isPicturePublic, final Boolean isStealthy) {
 		super(context, BaseResponse.class);
 		setParameter(R.string.post_key_save_privacy_user_id, userId);
 		setParameter(R.string.post_key_save_privacy_nickname, nickname);
