@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import com.menatwork.model.User;
-import com.menatwork.model.UserBuilder;
 import com.menatwork.service.ResponseException;
 
 public class ShareLocationAndGetUsersResponse extends BaseResponse {
@@ -51,22 +50,7 @@ public class ShareLocationAndGetUsersResponse extends BaseResponse {
 	}
 
 	private User parseUser(final JSONObject userJson) throws JSONException {
-		final UserBuilder userBuilder = UserBuilder.newInstance();
-
-		userBuilder.setId(userJson.getString("id"));
-		// FIXME - Woooow, wait a minute here... User name ain't username! -
-		// miguel - 03/08/2012
-		// XXX - username is nickname (not yet implemented)
-		// alme - 07/06/2012
-		// userBuilder.setUsername(userJson.getString("username"));
-		userBuilder.setUserName(userJson.getString("name"));
-		userBuilder.setUserSurname(userJson.getString("surname"));
-		userBuilder.setEmail(userJson.getString("email"));
-		userBuilder.setHeadline(userJson.getString("headline"));
-		userBuilder.setProfilePictureUrl(userJson.getString("picture"));
-		// userBuilder.setExtract(userJsonObject.getString("extract"));
-
-		return userBuilder.build();
+		return new JsonUserParser(userJson).parse();
 	}
 
 	/**

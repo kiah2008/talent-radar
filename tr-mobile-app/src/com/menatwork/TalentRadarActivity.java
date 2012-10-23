@@ -49,14 +49,21 @@ public class TalentRadarActivity extends Activity {
 	}
 
 	User getUserById(final String userid) {
+		return this.getUserById(userid, getLocalUser().getId());
+	}
+
+	User getUserById(final String userid, final String userRequestId) {
 		try {
-			final GetUser getUser = GetUser.newInstance(this, userid);
+			final GetUser getUser = GetUser.newInstance(this, userid,
+					userRequestId);
 			final GetUserResponse response = getUser.execute();
 			final User user = response.getUser();
 
 			try {
-				final GetUserSkills getUserSkills = GetUserSkills.newInstance(this, userid);
-				final GetUserSkillsResponse userSkillsResponse = getUserSkills.execute();
+				final GetUserSkills getUserSkills = GetUserSkills.newInstance(
+						this, userid);
+				final GetUserSkillsResponse userSkillsResponse = getUserSkills
+						.execute();
 				user.setSkills(userSkillsResponse.getSkills());
 			} catch (final ResponseException e) {
 				// TODO Auto-generated catch block
