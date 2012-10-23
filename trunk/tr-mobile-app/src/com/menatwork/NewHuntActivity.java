@@ -132,6 +132,25 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 		return skills;
 	}
 
+	void addSkill(final String newSkillText, ViewGroup destinationContainer,
+			Editable input) {
+		final SkillButtonFactory skillButtonFactory = getTalentRadarApplication()
+				.getSkillButtonFactory();
+		final Button newSkillButton = skillButtonFactory.getSkillButton(
+				NewHuntActivity.this, newSkillText);
+		newSkillButton.setOnLongClickListener(new SkillOnLongClickListener());
+
+		// remove empty skill button if present
+		if (destinationContainer.getChildCount() == 1)
+			if (destinationContainer.getChildAt(0).equals(
+					skillButtonFactory
+							.getEmptySkillsButton(NewHuntActivity.this)))
+				destinationContainer.removeAllViews();
+
+		destinationContainer.addView(newSkillButton);
+		input.clear();
+	}
+
 	private class AddSkillOnClickListener implements OnClickListener {
 		private final ViewGroup destinationContainer;
 		private final TextView input;
@@ -145,23 +164,9 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 
 		@Override
 		public void onClick(final View arg0) {
-			final SkillButtonFactory skillButtonFactory = getTalentRadarApplication()
-					.getSkillButtonFactory();
 			final String newSkillText = input.getText().toString();
-			final Button newSkillButton = skillButtonFactory.getSkillButton(
-					NewHuntActivity.this, newSkillText);
-			newSkillButton
-					.setOnLongClickListener(new SkillOnLongClickListener());
-
-			// remove empty skill button if present
-			if (destinationContainer.getChildCount() == 1)
-				if (destinationContainer.getChildAt(0).equals(
-						skillButtonFactory
-								.getEmptySkillsButton(NewHuntActivity.this)))
-					destinationContainer.removeAllViews();
-
-			destinationContainer.addView(newSkillButton);
-			input.setText("");
+			addSkill(newSkillText, destinationContainer,
+					input.getEditableText());
 		}
 
 	}
@@ -291,8 +296,9 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 		public void onClick(final View view) {
 			if (view != null) {
 				suggestionContainer.removeAllViews();
-				skillContainer.addView(view);
 				editable.clear();
+				addSkill(((Button) view).getText().toString(), skillContainer,
+						editable);
 			}
 		}
 
