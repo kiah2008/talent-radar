@@ -13,7 +13,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -123,7 +122,7 @@ public class LoginActivity extends GuiTalentRadarActivity {
 				getString(R.string.login_authenticating), true);
 		Log.d("LoginActivity", "Returning id from Login with Linkedin service");
 		Log.d("LoginActivity", userid);
-		final User user = getUserById(userid);
+		final User user = getUserById(userid, userid);
 		this.finishSuccessfulLogin(user, progressDialog);
 	}
 

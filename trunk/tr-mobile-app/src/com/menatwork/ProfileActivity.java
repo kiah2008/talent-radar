@@ -2,7 +2,6 @@ package com.menatwork;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,7 +43,6 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 	private ImageButton pingButton;
 	private ImageButton captureButton;
 	private User user;
-	private TextView email;
 	private ProgressBar loadingProfilePic;
 	private ImageView profilePic;
 
@@ -62,16 +60,9 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 	}
 
 	private void loadUserData() {
-		fullname.setText(user.getFullName());
+		fullname.setText(user.getDisplayableLongName());
 		this.headline.setText(getHeadlineTextFromUser(user));
 		this.loadSkills();
-		this.loadEmail();
-	}
-
-	private void loadEmail() {
-		final String email = this.user.getEmail();
-		this.email.setText(email.equals("null") ? user.getName().toLowerCase() + "."
-				+ user.getSurname().toLowerCase() + "@gmail.com" : email);
 	}
 
 	private void initializeUser() {
@@ -131,7 +122,6 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 		skillsLayout = findViewGroupById(R.id.profile_layout_skills);
 		pingButton = findImageButtonById(R.id.profile_button_ping);
 		captureButton = findImageButtonById(R.id.profile_button_capture);
-		email = findTextViewById(R.id.profile_email);
 		loadingProfilePic = (ProgressBar) findViewById(R.id.profile_loading_profile_pic);
 		profilePic = findImageViewById(R.id.profile_profile_pic);
 	}
@@ -164,7 +154,7 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 
 	private class SeeProfileGetUserTask extends GetUserTask {
 
-		public SeeProfileGetUserTask(final Activity activity) {
+		public SeeProfileGetUserTask(final TalentRadarActivity activity) {
 			super(activity);
 		}
 

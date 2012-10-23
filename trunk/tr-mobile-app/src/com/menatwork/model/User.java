@@ -8,7 +8,7 @@ public interface User {
 
 	String getId();
 
-	String getFullName();
+	String getDisplayableLongName();
 
 	String getHeadline();
 

@@ -64,8 +64,14 @@ public class BaseUser implements User {
 	}
 
 	@Override
-	public String getFullName() {
-		return name + " " + surname;
+	/**
+	 * Gets the 'long way' to identify this user (either name+surname if visible, or just the nickname)
+	 */
+	public String getDisplayableLongName() {
+		if (privacySettings.isNamePublic())
+			return name + " " + surname;
+		else
+			return nickname;
 	}
 
 	@Override

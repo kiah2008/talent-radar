@@ -1,6 +1,5 @@
 package com.menatwork;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
@@ -14,10 +13,10 @@ import com.menatwork.service.response.GetUserSkillsResponse;
 public class GetUserTask extends AsyncTask<String, Void, User> {
 
 	private ProgressDialog progressDialog;
-	private final Activity activity;
+	private final TalentRadarActivity activity;
 	private boolean finished;
 
-	public GetUserTask(final Activity activity) {
+	public GetUserTask(final TalentRadarActivity activity) {
 		this.activity = activity;
 	}
 
@@ -39,7 +38,8 @@ public class GetUserTask extends AsyncTask<String, Void, User> {
 			final String userid = params[0];
 
 			// getting user profile
-			final GetUser getUser = GetUser.newInstance(activity, userid);
+			final GetUser getUser = GetUser.newInstance(activity, userid,
+					activity.getTalentRadarApplication().getLocalUserId());
 			final GetUserResponse response = getUser.execute();
 			final User user = response.getUser();
 

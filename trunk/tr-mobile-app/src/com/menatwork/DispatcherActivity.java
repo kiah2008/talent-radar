@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -63,7 +62,7 @@ public class DispatcherActivity extends TalentRadarActivity {
 
 	private class DispatcherGetUserTask extends GetUserTask {
 
-		public DispatcherGetUserTask(final Activity activity) {
+		public DispatcherGetUserTask(final TalentRadarActivity activity) {
 			super(activity);
 		}
 
