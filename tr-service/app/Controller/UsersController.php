@@ -19,9 +19,33 @@ class UsersController extends AppController {
 			$response['status'] = 'ok';
 			$response['result']['status'] = 'error';
 			
-			if($response['result']['user'] = $this->User->find('first', array('fields' => array('id', 'auth_token', 'email', 'username', 'name', 'surname', 'headline', 'picture', 'show_name', 'show_headline', 'show_picture', 'show_skills', 'show_in_searches'), 'conditions' => array('User.id' => $this->data['User']['id'])))) {
+			if($allowedProfile = isset($this->data['User']['user_request_id'])) {
+				$this->loadModel('AllowedProfile');
+				$allowedProfile = $this->AllowedProfile->find('first', array('conditions' => array('user_allowed_id' => $this->data['User']['user_request_id'], 'user_access_id' => $this->data['User']['id'])));
+			}
+			
+			if($user = $this->User->find('first', array('fields' => array('id', 'auth_token', 'email', 'username', 'name', 'surname', 'headline', 'picture', 'show_name', 'show_headline', 'show_picture', 'show_skills', 'show_in_searches'), 'conditions' => array('User.id' => $this->data['User']['id'])))) {
+				if(!$allowedProfile) {
+					if(!$user['User']['show_name']) {
+						unset($user['User']['name']);
+						unset($user['User']['surname']);
+					}
+					if(!$user['User']['show_headline']) {
+						unset($user['User']['headline']);
+					}
+					if(!$user['User']['show_picture']) {
+						unset($user['User']['picture']);
+					}
+					if(!$user['User']['show_skills']) {
+						unset($user['UsersSkill']);
+					}
+				}
+				
+				$response['result']['user'] = $user;
 				$response['result']['status'] = 'ok';
 			}
+			
+			
 			
 			$this->set('response', $response);
 		}
