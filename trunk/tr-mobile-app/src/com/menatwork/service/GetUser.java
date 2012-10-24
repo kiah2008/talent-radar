@@ -18,12 +18,13 @@ public class GetUser extends ServiceCall<GetUserResponse> {
 	private String localUserId;
 
 	public static GetUser newInstance(Context context, String userId, String localUserId) {
-		return new GetUser(context, userId);
+		return new GetUser(context, userId, localUserId);
 	}
 
-	private GetUser(Context context, String userId) {
+	private GetUser(Context context, String userId, String localUserId) {
 		super(context);
 		this.userId = userId;
+		this.localUserId = localUserId;
 	}
 
 	@Override
@@ -36,6 +37,7 @@ public class GetUser extends ServiceCall<GetUserResponse> {
 		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>(1);
 		params.add(new BasicNameValuePair(getString(R.string.post_key_userId),
 				userId));
+		// TODO extract string
 		params.add(new BasicNameValuePair("data[User][user_request_id]", localUserId));
 		return params;
 	}
