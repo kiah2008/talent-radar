@@ -68,9 +68,9 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 	protected void setupButtons() {
 		addNecessarySkillButton.setOnClickListener(new AddSkillOnClickListener(
 				necessarySkillsContainer, necessarySkillTextView));
+		addNecessarySkillButton.setEnabled(false);
 		addOptionalSkillButton.setOnClickListener(new AddSkillOnClickListener(
 				optionalSkillsContainer, optionalSkillTextView));
-		addNecessarySkillButton.setEnabled(false);
 		addOptionalSkillButton.setEnabled(false);
 		cancelButton.setOnClickListener(new CloseActivityClickListener(this));
 		saveButton.setOnClickListener(new SaveHuntClickListener());
@@ -132,8 +132,8 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 		return skills;
 	}
 
-	void addSkill(final String newSkillText, ViewGroup destinationContainer,
-			Editable input) {
+	void addSkill(final String newSkillText, final ViewGroup destinationContainer,
+			final Editable input) {
 		final SkillButtonFactory skillButtonFactory = getTalentRadarApplication()
 				.getSkillButtonFactory();
 		final Button newSkillButton = skillButtonFactory.getSkillButton(

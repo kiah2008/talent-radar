@@ -36,7 +36,6 @@ public class LoginWithTalentRadarActivity extends AbstractLoginActivity {
 	protected void setupButtons() {
 		registerButton.setOnClickListener(new StartActivityListener(this,
 				EssentialsActivity.class));
-		registerButton.setEnabled(false);
 		loginButton.setOnClickListener(new LoginButtonListener());
 	}
 
@@ -124,16 +123,16 @@ public class LoginWithTalentRadarActivity extends AbstractLoginActivity {
 				if (result.isValid() && result.isSuccessful())
 					finishSuccessfulLogin(LoginWithTalentRadarActivity.this,
 							result.getUser(), progressDialog);
-				else if (result.isValid())
+				else if (result.isValid()) {
 					showDialog(DIALOG_INCORRECT_LOGIN);
-				else
+					progressDialog.dismiss();
+				} else {
 					showDialog(DIALOG_ERROR);
-			} else {
-				progressDialog.dismiss();
+					progressDialog.dismiss();
+				}
+			} else
 				showIOExceptionMessage();
-			}
-			// this code is just here for testing purpose only when inet
-			// connection is not available
+			progressDialog.dismiss();
 
 			// final UserBuilder userBuilder = UserBuilder.newInstance();
 			// userBuilder.setId("asdfsdf");

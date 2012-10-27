@@ -56,6 +56,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.menatwork.LoginWithTalentRadarActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light" >
+        </activity>
+        <activity
             android:name="com.menatwork.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleInstance"

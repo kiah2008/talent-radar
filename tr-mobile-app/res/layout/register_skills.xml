@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,133 +9,121 @@
     android:paddingRight="8dp"
     android:paddingTop="8dp" >
 
-    <TextView
-        android:id="@+id/register_skills_label_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true" 
-        android:layout_alignParentTop="true"
-        android:text="@string/register_skills_title"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <LinearLayout
-        android:id="@+id/register_skills_layout_headline"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/register_skills_label_title"
-        android:layout_below="@+id/register_skills_label_title"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/register_label_headline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="@string/register_headline"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <EditText
-            android:id="@+id/register_skills_headline"
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_below="@+id/register_label_headline"
-            android:ems="10"
-            android:inputType="textMultiLine" />
-    </LinearLayout>
-
     <RelativeLayout
-        android:id="@+id/register_skills_layout_skills"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/register_skills_layout_headline"
-        android:layout_centerHorizontal="true" >
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/register_skills_label_skills"
+            android:id="@+id/register_skills_label_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:text="@string/register_skills_skills"
+            android:text="@string/register_skills_title"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <LinearLayout
-            android:id="@+id/register_skills_layout_available"
+            android:id="@+id/register_skills_layout_headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/register_skills_label_title"
+            android:layout_below="@+id/register_skills_label_title"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/register_label_headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="@string/register_headline"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/register_skills_headline"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:layout_below="@+id/register_label_headline"
+                android:ems="10"
+                android:inputType="textMultiLine" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/register_skills_layout_skill_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/register_skills_layout_headline" >
+
+            <TextView
+                android:id="@+id/register_skills_label_skills"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/register_skills_skills"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <com.menatwork.view.FlowLayout
+                android:id="@+id/register_skills_layout_skills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/register_skills_label_skills" >
+
+                <Button
+                    android:id="@+id/foo1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:enabled="false"
+                    android:text="No Skills" />
+            </com.menatwork.view.FlowLayout>
+
+            <EditText
+                android:id="@+id/register_skills_skill_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/register_skills_layout_skills"
+                android:layout_marginTop="4dp"
+                android:layout_toLeftOf="@+id/register_skills_button_add_skill"
+                android:ems="10" />
+
+            <ImageButton
+                android:id="@+id/register_skills_button_add_skill"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/register_skills_skill_input"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/add_skill" />
+
+            <com.menatwork.view.FlowLayout
+                android:id="@+id/register_skills_layout_suggestions_skills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/register_skills_skill_input" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/register_skills_layout_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/register_skills_label_skills"
+            android:layout_below="@+id/register_skills_layout_skill_group"
             android:layout_centerHorizontal="true" >
 
             <Button
-                android:id="@+id/register_skills_button_java"
+                android:id="@+id/register_skills_button_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/skill"
-                android:text="@string/skills_java"
-                android:textColor="@android:color/white" />
+                android:text="@string/register_cancel" />
 
             <Button
-                android:id="@+id/register_skills_button_eclipse"
+                android:id="@+id/register_skills_button_finish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/skill"
-                android:text="@string/skills_eclipse"
-                android:textColor="@android:color/white" />
-
-            <Button
-                android:id="@+id/register_skills_button_maven"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/skill"
-                android:text="@string/skills_maven"
-                android:textColor="@android:color/white" />
-
-            <Button
-                android:id="@+id/register_skills_button_subversion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/skill"
-                android:text="@string/skills_subversion"
-                android:textColor="@android:color/white" />
-
-            <Button
-                android:id="@+id/register_skills_button_git"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/skill"
-                android:text="@string/skills_git"
-                android:textColor="@android:color/white" />
+                android:text="@string/register_skills_finish" />
         </LinearLayout>
-
-        <EditText
-            android:id="@+id/register_skills_skills"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/register_skills_layout_available"
-            android:editable="false"
-            android:ems="10"
-            android:inputType="textMultiLine" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/register_skills_layout_buttons"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/register_skills_layout_skills"
-        android:layout_centerHorizontal="true" >
-
-        <Button
-            android:id="@+id/register_skills_button_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/register_cancel" />
-
-        <Button
-            android:id="@+id/register_skills_button_finish"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/register_skills_finish" />
-    </LinearLayout>
-
-</RelativeLayout>
+</ScrollView>
