@@ -32,14 +32,16 @@ public class DispatcherActivity extends TalentRadarActivity {
 		// final ProgressDialog progress = ProgressDialog.show(this,
 		// getString(R.string.generic_wait), "");
 
-		final TalentRadarConfiguration preferences = getTalentRadarApplication().getPreferences();
+		final TalentRadarConfiguration preferences = getTalentRadarApplication()
+				.getPreferences();
 
 		final String localUserId = preferences.getLocalUserId();
 		if (notValidUserId(localUserId))
 			startActivity(new Intent(this, LoginActivity.class));
 		else {
-			final DispatcherGetUserTask getUserTask = new DispatcherGetUserTask(this);
-			getUserTask.execute(localUserId);
+			final DispatcherGetUserTask getUserTask = new DispatcherGetUserTask(
+					this);
+			getUserTask.execute(localUserId, localUserId);
 		}
 	}
 
@@ -102,7 +104,8 @@ public class DispatcherActivity extends TalentRadarActivity {
 
 	private long expirationTimeMillis() {
 		try {
-			final Date expirationDate = new SimpleDateFormat("dd/MM/yyyy").parse("21/09/2012");
+			final Date expirationDate = new SimpleDateFormat("dd/MM/yyyy")
+					.parse("21/09/2012");
 			return expirationDate.getTime();
 
 		} catch (final ParseException e) {

@@ -26,5 +26,8 @@ public interface User {
 
 	String getProfilePictureUrl();
 
+	String forceGetRealName();
+
 	PrivacySettings getPrivacySettings();
+
 }

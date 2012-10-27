@@ -15,6 +15,7 @@ public class BaseUser implements User {
 	private DataObjectPrivacySettings privacySettings;
 	private String nickname;
 
+	@Override
 	public DataObjectPrivacySettings getPrivacySettings() {
 		return privacySettings;
 	}
@@ -115,6 +116,11 @@ public class BaseUser implements User {
 	public void setPrivacySettings(
 			final DataObjectPrivacySettings privacySettings) {
 		this.privacySettings = privacySettings;
+	}
+
+	@Override
+	public String forceGetRealName() {
+		return this.name + " " + this.surname;
 	}
 
 }

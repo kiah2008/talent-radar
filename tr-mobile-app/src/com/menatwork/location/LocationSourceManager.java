@@ -73,6 +73,7 @@ public class LocationSourceManager {
 		Log.d("LocationSourceManager", "deactivate()");
 
 		active = false;
+		this.removeAllLocationSources();
 		updatingThread.interrupt();
 		updatingThread = null;
 	}
@@ -134,7 +135,7 @@ public class LocationSourceManager {
 	/**
 	 * Tests whether a given comparing location is better than the original one
 	 * by some criteria.
-	 *
+	 * 
 	 * @param comparing
 	 * @param original
 	 * @return <code>true</code> - if comparing is better than the original
