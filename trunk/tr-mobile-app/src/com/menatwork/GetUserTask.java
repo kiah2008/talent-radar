@@ -36,10 +36,16 @@ public class GetUserTask extends AsyncTask<String, Void, User> {
 	protected User doInBackground(final String... params) {
 		try {
 			final String userid = params[0];
+			String requesterUserId;
+			if (params.length > 1)
+				requesterUserId = params[1];
+			else
+				requesterUserId = activity.getTalentRadarApplication()
+						.getLocalUserId();
 
 			// getting user profile
 			final GetUser getUser = GetUser.newInstance(activity, userid,
-					activity.getTalentRadarApplication().getLocalUserId());
+					requesterUserId);
 			final GetUserResponse response = getUser.execute();
 			final User user = response.getUser();
 
