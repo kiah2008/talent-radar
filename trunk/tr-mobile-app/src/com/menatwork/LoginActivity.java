@@ -11,18 +11,21 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.menatwork.model.User;
 import com.menatwork.utils.LogUtils;
 import com.menatwork.utils.NaiveDialogClickListener;
+import com.menatwork.utils.StartActivityListener;
 
 public class LoginActivity extends AbstractLoginActivity {
 	public static final int DIALOG_INCORRECT_LOGIN = 1;
 	public static final int DIALOG_ERROR = 2;
 
 	private ImageButton linkedInButton;
+	private Button normalLoginButton;
 
 	@Override
 	protected int getViewLayoutId() {
@@ -32,11 +35,14 @@ public class LoginActivity extends AbstractLoginActivity {
 	@Override
 	protected void findViewElements() {
 		linkedInButton = findImageButtonById(R.id.login_button_linkedin);
+		normalLoginButton = findButtonById(R.id.login_button_normal_login);
 	}
 
 	@Override
 	protected void setupButtons() {
 		linkedInButton.setOnClickListener(new LoginWithLinkedinListener());
+		normalLoginButton.setOnClickListener(new StartActivityListener(this,
+				LoginWithTalentRadarActivity.class));
 	}
 
 	@Override
