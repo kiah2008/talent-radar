@@ -29,6 +29,15 @@ public class LocationSourceManager {
 		this.millisecondsBetweenUpdates = millisecondsBetweenUpdates;
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		super.finalize();
+		deactivate(); // deactive the manager interrupting the updating thread
+		listeners.clear(); // removes all listeners [just in case]
+		removeAllLocationSources(); // unregisters from all location sources
+									// [deactiving gps, network, ...]
+	}
+
 	public void setMillisecondsBetweenUpdates(
 			final long millisecondsBetweenUpdates) {
 		this.millisecondsBetweenUpdates = millisecondsBetweenUpdates;
@@ -119,10 +128,7 @@ public class LocationSourceManager {
 						}
 					}
 
-					// notify listeners
-					for (final LocationSourceManagerListener listener : listeners)
-						listener.onLocationUpdate(bestLocation,
-								bestLocationSource);
+					notifyLocationUpdate(bestLocation, bestLocationSource);
 
 					Thread.sleep(millisecondsBetweenUpdates);
 				} // while active
@@ -135,7 +141,7 @@ public class LocationSourceManager {
 	/**
 	 * Tests whether a given comparing location is better than the original one
 	 * by some criteria.
-	 * 
+	 *
 	 * @param comparing
 	 * @param original
 	 * @return <code>true</code> - if comparing is better than the original
@@ -146,4 +152,9 @@ public class LocationSourceManager {
 		return comparing.getTime() > original.getTime();
 	}
 
+	private void notifyLocationUpdate(final Location bestLocation,
+			final LocationSource bestLocationSource) {
+		for (final LocationSourceManagerListener listener : listeners)
+			listener.onLocationUpdate(bestLocation, bestLocationSource);
+	}
 }

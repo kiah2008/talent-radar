@@ -1,36 +1,24 @@
 package com.menatwork;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.json.JSONException;
-
 import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
-import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.SlidingDrawer;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
-import com.menatwork.location.LocationBuilder;
-import com.menatwork.location.LocationSource;
-import com.menatwork.location.LocationSourceManager;
-import com.menatwork.location.LocationSourceManagerListener;
 import com.menatwork.miniprofile.MiniProfileItemRow;
 import com.menatwork.miniprofile.MiniProfileListController;
 import com.menatwork.model.User;
-import com.menatwork.radar.RadarService;
-import com.menatwork.service.ShareLocationAndGetUsers;
-import com.menatwork.service.response.ShareLocationAndGetUsersResponse;
+import com.menatwork.radar.Radar;
+import com.menatwork.radar.RadarListener;
 
 public class RadarActivity extends GuiTalentRadarActivity implements
-		LocationSourceManagerListener {
+		RadarListener {
 
 	// TODO - used for the RadarService implementation -> Not used right now! -
 	// boris - 17/08/2012
@@ -70,13 +58,27 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 	protected void postCreate(final Bundle savedInstanceState) {
 		super.postCreate(savedInstanceState);
 
-		final LocationSourceManager locationSourceManager = getTalentRadarApplication()
-				.getLocationSourceManager();
-		locationSourceManager.addListener(this);
+		final Radar radar = getTalentRadarApplication().getRadar();
+		radar.addListeners(this);
 
 		listController = new MiniProfileListController(RadarActivity.this,
 				R.id.radar_mini_profiles_list_view,
 				new LinkedList<MiniProfileItemRow>());
+	}
+
+	// ************************************************ //
+	// ====== RadarListener implementation ======
+	// ************************************************ //
+
+	@Override
+	public void onNewSurroundingUsers(
+			final List<? extends User> surroundingUsers) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				updateSurroundingContacts(surroundingUsers);
+			}
+		});
 	}
 
 	// ************************************************ //
@@ -88,19 +90,19 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 		super.onStart();
 
 		// Binding with RadarService
-		final Intent intent = new Intent(this, RadarService.class);
-		bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-		Log.i("RadarActivity", "binding service");
+		// final Intent intent = new Intent(this, RadarService.class);
+		// bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+		// Log.i("RadarActivity", "binding service");
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
 
-		if (boundToRadarService) {
-			unbindService(serviceConnection);
-			boundToRadarService = false;
-		}
+		// if (boundToRadarService) {
+		// unbindService(serviceConnection);
+		// boundToRadarService = false;
+		// }
 	}
 
 	public synchronized void updateSurroundingContacts(
@@ -133,81 +135,6 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 		listController.updateList(copy);
 	}
 
-	/* ********************************************* */
-	/* ********* LocationSourceManagerListener ***** */
-	/* ********************************************* */
-
-	// TODO - this logic that transforms a location update to users income
-	// should be moved to the Radar and RadarListener objects - miguel -
-	// 18/10/2012
-	@Override
-	public void onLocationUpdate(final Location location,
-			final LocationSource locationSource) {
-		Log.d("RadarActivity", "new location = " + location);
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				new ShareLocationAndGetUsersTask().execute(location);
-			}
-		});
-	}
-
-	// ************************************************ //
-	// ====== ShareLocationAsyncTask ======
-	// ************************************************ //
-
-	private class ShareLocationAndGetUsersTask extends
-			AsyncTask<Location, Void, ShareLocationAndGetUsersResponse> {
-
-		@Override
-		protected ShareLocationAndGetUsersResponse doInBackground(
-				final Location... locations) {
-			try {
-				final Location location = initializeLocation(locations);
-				if (location != null) {
-					final User localUser = getTalentRadarApplication()
-							.getLocalUser();
-
-					final double latitude = location.getLatitude();
-					final double longitude = location.getLongitude();
-
-					final long durationSeconds = getPreferences()
-							.getActualizationDurationSeconds();
-
-					final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers
-							.newInstance(RadarActivity.this, localUser.getId(),
-									latitude, longitude, durationSeconds);
-
-					final ShareLocationAndGetUsersResponse response = handleResponse(serviceCall
-							.execute());
-
-					updateSurroundingContacts(response.parseSurroundingUsers());
-				}
-			} catch (final JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (final IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			return null;
-		}
-
-		private Location initializeLocation(final Location... locations) {
-			return isRunningOnEmulator() ? LocationBuilder.newInstance()
-					.setCoordinates(0, 0).build() : locations[0];
-		}
-
-		private ShareLocationAndGetUsersResponse handleResponse(
-				final ShareLocationAndGetUsersResponse response) {
-			Log.d("ShareLocationAndGetUsersTask", "JSON Response");
-			Log.d("ShareLocationAndGetUsersTask", response.toString());
-			return response;
-		}
-
-	}
-
 	/* *************************************************** */
 	/* ********* RadarServiceConnection ****************** */
 	/* *************************************************** */
@@ -233,4 +160,5 @@ public class RadarActivity extends GuiTalentRadarActivity implements
 			boundToRadarService = false;
 		}
 	}
+
 }

@@ -21,6 +21,7 @@ import com.menatwork.preferences.ConfigurationChanges;
 import com.menatwork.preferences.SharedTalentRadarConfiguration;
 import com.menatwork.preferences.TalentRadarConfiguration;
 import com.menatwork.preferences.TalentRadarConfigurationListener;
+import com.menatwork.radar.Radar;
 import com.menatwork.skills.BruteForceSearchAlgorithm;
 import com.menatwork.skills.DefaultSkillButtonFactory;
 import com.menatwork.skills.InMemorySkillSuggestionBox;
@@ -46,6 +47,7 @@ public class TalentRadarApplication extends Application implements
 	private ChatSessionManager chatSessionManager;
 	private HuntingCriteriaEngine huntingCriteriaEngine;
 	private SkillSuggestionBox skillSuggestionBox;
+	private Radar radar;
 
 	public static TalentRadarApplication getContext() {
 		return applicationContext;
@@ -60,15 +62,20 @@ public class TalentRadarApplication extends Application implements
 		skillButtonFactory = DefaultSkillButtonFactory.newInstance();
 		final SharedPreferences defaultSharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(this);
+
 		preferences = new SharedTalentRadarConfiguration(
 				defaultSharedPreferences, this, this);
 		sharedPrivacySettings = new SharedPrivacySettings(this,
 				defaultSharedPreferences);
+
 		notificationManager = TrNotificationManager.newInstance();
 		locationSourceManager = NaiveLocationSourceManager.newInstance();
 		chatSessionManager = ChatSessionManager.newInstance(this);
 		huntingCriteriaEngine = HuntingCriteriaEngine.newInstance();
 		skillSuggestionBox = new InMemorySkillSuggestionBox();
+
+		radar = Radar.observingLocationUpdatesFrom(locationSourceManager);
+		radar.addListeners(huntingCriteriaEngine);
 	}
 
 	private void setDefaultUncaughtExceptionHandler() {
@@ -186,6 +193,7 @@ public class TalentRadarApplication extends Application implements
 
 	public void startLocationSourceManager() {
 		final LocationSourceManager locationSourceManager = new LocationSourceManager();
+		locationSourceManager.addListener(radar);
 
 		setLocationSourceManager(locationSourceManager);
 		updateLocationSourceManagerConfiguration(getPreferences());
@@ -311,10 +319,18 @@ public class TalentRadarApplication extends Application implements
 		}
 	}
 
+	// ************************************************ //
+	// ====== Others ======
+	// ************************************************ //
+
 	public SkillSuggestionBox getSkillSuggestionBox() {
 		skillSuggestionBox.setSkills("Java", "Javelin", "Jasper", "Juno",
 				"Git", "Gitorious", "Subversion", "Subversive");
 		skillSuggestionBox.setSearchAlgorithm(new BruteForceSearchAlgorithm());
 		return skillSuggestionBox;
+	}
+
+	public Radar getRadar() {
+		return radar;
 	}
 }

@@ -80,7 +80,7 @@ public class ShareLocationAndGetUsersResponseTest extends AndroidTestCase {
 				user.getId());
 		assertEquals("surrounding user full name", //
 				"Mike Wazowski", //
-				user.getFullName());
+				user.getDisplayableLongName());
 		// FIXME - see FIXME in UserBuilder class - miguel - 03/08/2012
 		// assertEquals("surrounding user username", //
 		// "monstrous-mike!", //

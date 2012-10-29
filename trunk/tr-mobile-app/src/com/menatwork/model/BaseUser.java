@@ -123,4 +123,9 @@ public class BaseUser implements User {
 		return this.name + " " + this.surname;
 	}
 
+	@Override
+	public boolean hasSkill(final String skill) {
+		return skills.contains(skill);
+	}
+
 }
