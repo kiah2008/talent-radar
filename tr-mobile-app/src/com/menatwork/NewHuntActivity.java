@@ -132,8 +132,8 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 		return skills;
 	}
 
-	void addSkill(final String newSkillText, final ViewGroup destinationContainer,
-			final Editable input) {
+	void addSkill(final String newSkillText,
+			final ViewGroup destinationContainer, final Editable input) {
 		final SkillButtonFactory skillButtonFactory = getTalentRadarApplication()
 				.getSkillButtonFactory();
 		final Button newSkillButton = skillButtonFactory.getSkillButton(
@@ -309,6 +309,8 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 		@Override
 		public void onClick(final View v) {
 			final Hunt newHunt = buildHunt();
+			// XXX - dunno if we should add the hunt to the HuntsActivity maybe
+			// - miguel - 29/10/2012
 			final HuntingCriteriaEngine huntingCriteriaEngine = getTalentRadarApplication()
 					.getHuntingCriteriaEngine();
 			huntingCriteriaEngine.addHunt(newHunt);

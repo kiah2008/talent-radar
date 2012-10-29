@@ -1,6 +1,11 @@
 package com.menatwork.radar;
 
-// TODO - add methods to the interface and extract them from RadarActivity to uncouple those responsibilites from the GUI - miguel - 18/10/2012
+import java.util.List;
+
+import com.menatwork.model.User;
+
 public interface RadarListener {
+
+	void onNewSurroundingUsers(List<? extends User> surroundingUsers);
 
 }

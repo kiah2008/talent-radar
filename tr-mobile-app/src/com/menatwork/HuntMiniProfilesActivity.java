@@ -9,7 +9,13 @@ import com.menatwork.miniprofile.MiniProfileItemRow;
 import com.menatwork.miniprofile.MiniProfileListController;
 import com.menatwork.model.User;
 
-public class MiniProfilesActivity extends GuiTalentRadarActivity {
+/**
+ * Shows a list of miniprofiles contained in a given hunt.
+ *
+ * @author miguel
+ *
+ */
+public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 
 	public static final String EXTRAS_HUNT_ID = "extras-users";
 
@@ -53,7 +59,7 @@ public class MiniProfilesActivity extends GuiTalentRadarActivity {
 
 	private List<User> getUsers(final Bundle extras) {
 		return getTalentRadarApplication().getHuntingCriteriaEngine()
-				.getHuntById((String) extras.get(EXTRAS_HUNT_ID)).getUsers();
+				.findHuntById((String) extras.get(EXTRAS_HUNT_ID)).getUsers();
 	}
 
 }

@@ -156,7 +156,7 @@
             android:theme="@android:style/Theme.Light" >
         </activity>
         <activity
-            android:name="MiniProfilesActivity"
+            android:name=".HuntMiniProfilesActivity"
             android:theme="@android:style/Theme.Light" >
         </activity>
     </application>

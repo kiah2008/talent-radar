@@ -2,23 +2,25 @@ package com.menatwork.hunts;
 
 import java.util.List;
 
-import android.content.Intent;
-
 import com.menatwork.model.User;
 
 public class SimpleSkillHunt implements Hunt {
 
 	private static final String SEPARATOR_BETWEEN_REQUIREMENTS = "\n";
 	private static final String SEPARATOR_BETWEEN_SKILLS = ", ";
+
 	private final String title;
 	private final List<String> requiredSkills;
 	private final List<String> preferredSkills;
 	private final List<User> users;
 	private final String id;
 
-	public SimpleSkillHunt(final String id, final String title,
-			final List<String> requiredSkills,
-			final List<String> preferredSkills, final List<User> users) {
+	public SimpleSkillHunt( //
+			final String id, //
+			final String title, //
+			final List<String> requiredSkills, //
+			final List<String> preferredSkills, //
+			final List<User> users) {
 		this.id = id;
 		this.title = title;
 		this.requiredSkills = requiredSkills;
@@ -50,11 +52,6 @@ public class SimpleSkillHunt implements Hunt {
 	}
 
 	@Override
-	public Intent getIntent() {
-		return null;
-	}
-
-	@Override
 	public List<User> getUsers() {
 		return users;
 	}
@@ -77,6 +74,29 @@ public class SimpleSkillHunt implements Hunt {
 			sep = separator;
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public boolean addUserIfCriteriaMatched(final User user) {
+		if (hasRequiredSkills(user)) {
+			addUser(user);
+			return true;
+		}
+
+		return false;
+	}
+
+	private void addUser(final User user) {
+		if (!users.contains(user))
+			users.add(user);
+	}
+
+	private boolean hasRequiredSkills(final User user) {
+		for (final String requiredSkill : requiredSkills)
+			if (!user.hasSkill(requiredSkill))
+				return false;
+
+		return true;
 	}
 
 }

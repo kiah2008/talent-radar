@@ -30,4 +30,6 @@ public interface User {
 
 	PrivacySettings getPrivacySettings();
 
+	boolean hasSkill(String requiredSkill);
+
 }

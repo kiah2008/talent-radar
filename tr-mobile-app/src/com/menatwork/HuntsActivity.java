@@ -70,26 +70,7 @@ public class HuntsActivity extends ListActivity {
 		final ListView listView = getListView();
 
 		registerForContextMenu(listView);
-		// listView.setOnItemLongClickListener(new OnItemLongClickListener() {
-		//
-		// @Override
-		// public boolean onItemLongClick(final AdapterView<?> adapterView,
-		// final View view, final int pos, final long id) {
-		// onLongListItemClick(view, pos, id);
-		// return true;
-		// }
-		//
-		// });
 	}
-
-	// protected void onLongListItemClick(final View view, final int position,
-	// final long id) {
-	// final Map<String, Object> huntMap = (Map<String, Object>)
-	// getListAdapter()
-	// .getItem(position);
-	// final Hunt hunt = (Hunt) huntMap.get(KEY_HUNT);
-	//
-	// }
 
 	@Override
 	public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenuInfo menuInfo) {
@@ -153,8 +134,8 @@ public class HuntsActivity extends ListActivity {
 			Toast.makeText(this, "¡Esta búsqueda no ha encontrado usuarios todavía!", Toast.LENGTH_SHORT)
 					.show();
 		else {
-			final Intent intent = new Intent(this, MiniProfilesActivity.class);
-			intent.putExtra(MiniProfilesActivity.EXTRAS_HUNT_ID, hunt.getId());
+			final Intent intent = new Intent(this, HuntMiniProfilesActivity.class);
+			intent.putExtra(HuntMiniProfilesActivity.EXTRAS_HUNT_ID, hunt.getId());
 			startActivity(intent);
 		}
 	}
@@ -262,10 +243,10 @@ public class HuntsActivity extends ListActivity {
 	/**
 	 * Adds a Hunt to the list of notifications shown in the HuntsActivity,
 	 * mapping it to the correct representation.
-	 * 
+	 *
 	 * This method ALSO notifies the ListAdapter for the list shown to be
 	 * refreshed in screen.
-	 * 
+	 *
 	 * @param hunts
 	 */
 	protected void addHuntsAndNotify(final Collection<? extends Hunt> hunts) {
@@ -286,7 +267,7 @@ public class HuntsActivity extends ListActivity {
 	/**
 	 * Maps a {@link TrNotification} to a map containing every value that will
 	 * be showed in the Dashboard.
-	 * 
+	 *
 	 * @param hunt
 	 * @return
 	 */
