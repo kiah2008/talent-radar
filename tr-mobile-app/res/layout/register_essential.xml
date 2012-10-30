@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_background" >
-
+
     <RelativeLayout
         android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
@@ -19,6 +19,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:text="@string/register_title"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -46,8 +48,6 @@
                 android:id="@+id/register_label_realname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/register_label_title"
                 android:text="@string/register_name"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -55,8 +55,6 @@
                 android:id="@+id/register_realname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/register_label_realname"
                 android:ems="10"
                 android:inputType="textPersonName" />
 
@@ -72,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/register_label_title"
-            android:layout_below="@+id/register_layout_name"
+            android:layout_below="@+id/register_layout_nickname"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:orientation="vertical" >
@@ -81,8 +79,6 @@
                 android:id="@+id/register_label_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/register_realname"
                 android:text="@string/register_label_email"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -90,15 +86,9 @@
                 android:id="@+id/register_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/register_label_nickname"
-                android:ems="10" android:bufferType="normal" android:inputType="textEmailAddress"/>
-
-            <CheckBox
-                android:id="@+id/register_checkbox_public_email"
-                android:layout_width="wrap_content"
-                android:layout_height="34dp"
-                android:text="@string/register_label_public_data" />
+                android:bufferType="normal"
+                android:ems="10"
+                android:inputType="textEmailAddress" />
         </LinearLayout>
 
         <LinearLayout
@@ -106,7 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/register_label_title"
-            android:layout_below="@+id/register_layout_email"
+            android:layout_below="@+id/register_layout_name"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:orientation="vertical" >
@@ -115,8 +105,6 @@
                 android:id="@+id/register_label_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/register_realname"
                 android:text="@string/register_nickname"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -124,8 +112,6 @@
                 android:id="@+id/register_nickname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/register_label_nickname"
                 android:ems="10" />
         </LinearLayout>
 
@@ -133,7 +119,7 @@
             android:id="@+id/register_layout_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/register_layout_nickname"
+            android:layout_below="@+id/register_layout_email"
             android:layout_centerHorizontal="true" >
 
             <Button

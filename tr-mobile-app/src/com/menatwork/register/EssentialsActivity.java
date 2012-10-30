@@ -12,13 +12,12 @@ public class EssentialsActivity extends DataInputActivity {
 	private EditText realname;
 	private EditText nickname;
 	private EditText email;
-	private CheckBox publicEmail;
 	private CheckBox publicRealname;
 	private Button nextButton;
 	private Button cancelButton;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register_essential);
 		findViewElements();
@@ -29,7 +28,6 @@ public class EssentialsActivity extends DataInputActivity {
 		realname = (EditText) findViewById(R.id.register_realname);
 		nickname = (EditText) findViewById(R.id.register_nickname);
 		email = (EditText) findViewById(R.id.register_email);
-		publicEmail = (CheckBox) findViewById(R.id.register_checkbox_public_email);
 		publicRealname = (CheckBox) findViewById(R.id.register_checkbox_public_realname);
 		nextButton = (Button) findViewById(R.id.register_button_next);
 		cancelButton = (Button) findViewById(R.id.register_button_cancel);
@@ -42,8 +40,9 @@ public class EssentialsActivity extends DataInputActivity {
 		cancelButton.setOnClickListener(new CancelButtonListener(this));
 	}
 
+	@Override
 	Bundle getConfiguredData() {
-		Bundle data = new Bundle();
+		final Bundle data = new Bundle();
 		data.putString(RegistrationExtras.REALNAME, realname.getText()
 				.toString());
 		data.putBoolean(RegistrationExtras.PUBLIC_REALNAME,
@@ -51,8 +50,6 @@ public class EssentialsActivity extends DataInputActivity {
 		data.putString(RegistrationExtras.NICKNAME, nickname.getText()
 				.toString());
 		data.putString(RegistrationExtras.EMAIL, email.getText().toString());
-		data.putBoolean(RegistrationExtras.PUBLIC_EMAIL,
-				publicEmail.isChecked());
 		return data;
 	}
 
