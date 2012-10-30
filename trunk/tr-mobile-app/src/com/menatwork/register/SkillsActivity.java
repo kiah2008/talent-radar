@@ -2,6 +2,7 @@ package com.menatwork.register;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.json.JSONException;
 
@@ -21,6 +22,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -44,6 +46,8 @@ public class SkillsActivity extends DataInputActivity {
 	private ImageButton addSkillButton;
 	private ViewGroup skillsSuggestionsContainer;
 	private ViewGroup skillsContainer;
+	private CheckBox headlinePublic;
+	private CheckBox skillsPublic;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -59,10 +63,12 @@ public class SkillsActivity extends DataInputActivity {
 		finishButton = (Button) findViewById(R.id.register_skills_button_finish);
 		cancelButton = (Button) findViewById(R.id.register_skills_button_cancel);
 		headline = (EditText) findViewById(R.id.register_skills_headline);
+		headlinePublic = (CheckBox) findViewById(R.id.register_skills_headline_public);
 		skillsInput = (EditText) findViewById(R.id.register_skills_skill_input);
 		addSkillButton = (ImageButton) findViewById(R.id.register_skills_button_add_skill);
 		skillsSuggestionsContainer = (ViewGroup) findViewById(R.id.register_skills_layout_suggestions_skills);
 		skillsContainer = (ViewGroup) findViewById(R.id.register_skills_layout_skills);
+		skillsPublic = (CheckBox) findViewById(R.id.register_skills_skills_public);
 	}
 
 	private void setupButtons() {
@@ -77,8 +83,6 @@ public class SkillsActivity extends DataInputActivity {
 	@Override
 	Bundle getConfiguredData() {
 		final Bundle bundle = new Bundle();
-		bundle.putString(RegistrationExtras.HEADLINE, headline.getText()
-				.toString());
 		return bundle;
 	}
 
@@ -131,10 +135,8 @@ public class SkillsActivity extends DataInputActivity {
 								.getString(RegistrationExtras.NICKNAME),
 						bundleWithRegistrationData
 								.getString(RegistrationExtras.PASSWORD),
-						bundleWithRegistrationData
-								.getString(RegistrationExtras.REALNAME),
-						bundleWithRegistrationData
-								.getString(RegistrationExtras.REALNAME),
+						getNameFromFullname(bundleWithRegistrationData),
+						getSurnameFromFullname(bundleWithRegistrationData),
 						bundleWithRegistrationData
 								.getString(RegistrationExtras.HEADLINE));
 				return this.handleResponse(register.execute());
@@ -170,6 +172,21 @@ public class SkillsActivity extends DataInputActivity {
 			return response.isSuccessful() ? SUCCESS : FAILURE;
 		}
 
+		protected String getNameFromFullname(
+				final Bundle bundleWithRegistrationData) {
+			final String name = bundleWithRegistrationData
+					.getString(RegistrationExtras.REALNAME);
+
+			return new StringTokenizer(name, " ").nextToken();
+		}
+
+		protected String getSurnameFromFullname(
+				final Bundle bundleWithRegistrationData) {
+			final String fullname = bundleWithRegistrationData
+					.getString(RegistrationExtras.REALNAME);
+			final String nameFromFullname = getNameFromFullname(bundleWithRegistrationData);
+			return fullname.substring(nameFromFullname.length() + 1);
+		}
 	}
 
 	// methods/stuff copied from newhuntactivity

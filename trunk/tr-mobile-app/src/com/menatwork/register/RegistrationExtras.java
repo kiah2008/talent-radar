@@ -6,6 +6,6 @@ class RegistrationExtras {
 	static final String REALNAME = "realname";
 	static final String PASSWORD = "password";
 	static final String PUBLIC_REALNAME = "public_realname";
-	static final String PUBLIC_EMAIL = "public_email";
+	static final String PUBLIC_HEADLINE = "public_headline";
 	static final String HEADLINE = "headline";
 }

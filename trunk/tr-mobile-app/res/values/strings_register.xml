@@ -5,6 +5,7 @@
     <string name="register_name">Nombre real</string>
     <string name="register_nickname">Pseudónimo/alias</string>
     <string name="register_headline">Descripción (140 caracteres)</string>
+    <string name="register_headline_public">Mostrar en perfil público</string>
     <string name="register_cancel">Cancelar</string>
     <string name="register_next">Siguiente!</string>
     <string name="register_description">Por favor, cuéntenos sobre usted. Los siguientes datos son necesarios para poder usar Talent Radar. No se preocupe que no divulgaremos sus datos a menos que usted expresamente lo configure!</string>
