@@ -39,16 +39,18 @@
                 android:id="@+id/login_label_login_with_linkedin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/login_layout_title"
+                android:layout_below="@+id/login_button_linkedin"
                 android:layout_centerHorizontal="true"
                 android:text="@string/login_label_login_with_linkedin"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textColor="@android:color/primary_text_dark"
+                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <ImageButton
                 android:id="@+id/login_button_linkedin"
                 android:layout_width="wrap_content"
                 android:layout_height="76dp"
-                android:layout_below="@+id/login_label_login_with_linkedin"
+                android:layout_below="@+id/login_layout_title"
                 android:layout_centerHorizontal="true"
                 android:background="@null"
                 android:focusable="true"
@@ -60,12 +62,22 @@
     <Button
         android:id="@+id/login_button_normal_login"
         style="?android:attr/buttonStyleSmall"
-        android:background="@drawable/background_gradient_blue"
+        android:background="@drawable/radar_list_handle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:layout_height="36dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:paddingBottom="6dp"
+        android:textColor="@android:color/primary_text_dark"
         android:text="Ingresar con usuario Talent Radar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@color/tr_dark_light"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical" >
+    </LinearLayout>
 
 </RelativeLayout>
