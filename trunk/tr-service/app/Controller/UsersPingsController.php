@@ -25,6 +25,10 @@ class UsersPingsController extends AppController {
 				$response['result']['status'] = 'ok';
 				$response['result']['UsersPing'] = $usersPing['UsersPing'];
 				
+				//Save profile permission
+				$this->_allowToSeeFullProfile($usersPing['UsersPing']['user_to_id'], $usersPing['UsersPing']['user_from_id']);
+				
+				//Send Notification
 				$this->loadModel('User');
 				$userTo = $this->User->find('first', array('fields' => array('User.android_device_id'), 'conditions' => array('User.id' => $this->data['UsersPing']['user_to_id'])));
 				if(!empty($userTo['User']['android_device_id'])) {
@@ -61,6 +65,10 @@ class UsersPingsController extends AppController {
 						$this->UsersBanned->save($data);
 					}
 					else if ($this->data['UsersPing']['response'] == PING_ACCEPTED) {
+						//Save profile permission
+						$this->_allowToSeeFullProfile($usersPing['UsersPing']['user_from_id'], $usersPing['UsersPing']['user_to_id']);
+						
+						//Send Notification
 						$this->loadModel('User');
 						if($userFrom = $this->User->find('first', array('fields' => array('User.android_device_id'), 'conditions' => array('User.id' => $usersPing['UsersPing']['user_from_id'])))) {
 							$userTo = $this->User->find('first', array('fields' => array('User.id', 'User.name', 'User.surname', 'User.username', 'User.picture'), 'conditions' => array('User.id' => $usersPing['UsersPing']['user_to_id'])));
@@ -103,6 +111,16 @@ class UsersPingsController extends AppController {
 			$this->set('ids', $this->UsersPing->find('list', array('fields' => array('id', 'id'))));
 			$this->loadModel('User');
 			$this->set('users', $this->User->find('list', array('fields' => array('id', 'id'))));
+		}
+	}
+	
+	private function _allowToSeeFullProfile($user_allowed_id, $user_profile_id) {
+		$this->loadModel('AllowedProfile');
+		if(!$this->AllowedProfile->find('first', array('conditions' => array('user_allowed_id' => $user_allowed_id, 'user_profile_id' => $user_profile_id)))) {
+			$allowedProfile['AllowedProfile']['user_allowed_id'] = $user_allowed_id;
+			$allowedProfile['AllowedProfile']['user_profile_id'] = $user_profile_id;
+			$this->AllowedProfile->create();
+			$this->AllowedProfile->save($allowedProfile);
 		}
 	}
 }
