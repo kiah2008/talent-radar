@@ -22,7 +22,7 @@ class UsersController extends AppController {
 			if(!$allowedProfile = $this->data['User']['user_request_id'] == $this->data['User']['id']) {
 				if($allowedProfile = isset($this->data['User']['user_request_id'])) {
 					$this->loadModel('AllowedProfile');
-					$allowedProfile = $this->AllowedProfile->find('first', array('conditions' => array('user_allowed_id' => $this->data['User']['user_request_id'], 'user_access_id' => $this->data['User']['id'])));
+					$allowedProfile = $this->AllowedProfile->find('first', array('conditions' => array('user_allowed_id' => $this->data['User']['user_request_id'], 'user_profile_id' => $this->data['User']['id'])));
 				}
 			}
 			
