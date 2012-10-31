@@ -67,7 +67,35 @@ class UsersController extends AppController {
 			if($ok = ($invalidFields = $this->User->invalidFields()) ? false : true)
 			{
 				$this->request->data['User']['password'] = $this->Auth->password($this->request->data['User']['password']);
+				
 				if($ok = $this->User->save($this->data)) {
+					
+					//Save Skills
+					if(isset($this->data['UsersSkill']) && !empty($this->data['UsersSkill'])) {
+						$this->loadModel('Skill');
+						$skills = $this->Skill->find('list', array('fields' => array('id', 'name')));
+						$skillsToSave = array_diff($this->data['UsersSkill'], $skills);
+						
+						if(!empty($skillsToSave)) {
+							foreach($skillsToSave as $i => $v) {
+								$skillsToSaveDB[] = array('name' => $v);
+							}
+							$this->Skill->create();
+							$this->Skill->saveAll($skillsToSaveDB);
+						}
+						
+						$userSkills = $this->Skill->find('list', array('conditions' => array('Skill.name' => $this->data['UsersSkill']), 'fields' => array('id', 'name')));
+						$this->loadModel('UsersSkill');
+						if(!empty($userSkills)) {
+							foreach($userSkills as $k => $v) {
+								$userSkillsDB[] = array('user_id' => $ok['User']['id'], 'skill_id' => $k);
+							}
+							$this->loadModel('UsersSkill');
+							$this->UsersSkill->saveAll($userSkillsDB);
+						}
+					}
+					//
+					
 					$response['result']['status'] = 'ok';
 				}
 			}
