@@ -82,6 +82,12 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 		else
 			new LoadProfilePictureTask(activity, holder.imgPicture,
 					miniProfileItem.getPicture()).execute();
+
+		setupButtons(row, miniProfileItem);
+	}
+
+	private void setupButtons(final View row,
+			final MiniProfileItemRow miniProfileItem) {
 		// find thy buttons
 		final Button seeProfileButton = (Button) row
 				.findViewById(R.id.mini_profile_see_profile_button);

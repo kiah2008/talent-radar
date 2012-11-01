@@ -25,11 +25,11 @@ import android.widget.Toast;
 
 import com.menatwork.hunts.Hunt;
 import com.menatwork.hunts.HuntingCriteriaEngine;
-import com.menatwork.hunts.SimpleSkillHuntBuilder;
-import com.menatwork.model.UserBuilder;
+import com.menatwork.hunts.HuntingCriteriaListener;
 import com.menatwork.notification.TrNotification;
 
-public class HuntsActivity extends ListActivity {
+public class HuntsActivity extends ListActivity implements
+		HuntingCriteriaListener {
 
 	private static final String KEY_TITLE = "header";
 	private static final String KEY_QUANTITY = "quantity";
@@ -46,11 +46,13 @@ public class HuntsActivity extends ListActivity {
 			R.id.hunt_quantity, //
 			R.id.hunt_description };
 
+	private static final int REQUEST_CODE = 1989;
+
 	// ************************************************ //
 	// ====== Instance members ======
 	// ************************************************ //
 
-	private final List<Map<String, ?>> list = new ArrayList<Map<String, ?>>();
+	private final List<Map<String, ?>> huntMaps = new ArrayList<Map<String, ?>>();
 	private Handler mainLooperHandler;
 
 	@Override
@@ -59,7 +61,14 @@ public class HuntsActivity extends ListActivity {
 		setContentView(R.layout.hunts);
 		initializeListAdapter();
 		initializeListViewEvents();
-		initializeAlreadyExistantHunts();
+
+		getHuntingCriteriaEngine().addListener(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		initializeAlreadyExistentHunts();
 	}
 
 	// ************************************************ //
@@ -73,7 +82,8 @@ public class HuntsActivity extends ListActivity {
 	}
 
 	@Override
-	public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(final ContextMenu menu, final View v,
+			final ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		final MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.hunt_context_menu, menu);
@@ -81,7 +91,8 @@ public class HuntsActivity extends ListActivity {
 
 	@Override
 	public boolean onContextItemSelected(final MenuItem item) {
-		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
 		switch (item.getItemId()) {
 		case R.id.edit_hunt:
 			editHunt(huntAt((int) info.id));
@@ -95,28 +106,32 @@ public class HuntsActivity extends ListActivity {
 	}
 
 	private void deleteHunt(final Hunt hunt) {
-		getTalentRadarApplication().getHuntingCriteriaEngine().removeHunt(hunt);
+		getHuntingCriteriaEngine().removeHunt(hunt);
 
 		// delete it from the ui
-		list.remove(findHuntMapFor(hunt));
+		huntMaps.remove(findHuntMapFor(hunt));
 		notifyDataSetChanged();
 	}
 
 	private Map<String, ?> findHuntMapFor(final Hunt hunt) {
-		for (final Map<String, ?> huntMap : list)
+		for (final Map<String, ?> huntMap : huntMaps)
 			if (hunt.equals(huntMap.get(KEY_HUNT)))
 				return huntMap;
 
-		throw new NoSuchElementException("there's no hunt map with hunt = " + hunt);
+		throw new NoSuchElementException("there's no hunt map with hunt = "
+				+ hunt);
 	}
 
 	private void editHunt(final Hunt hunt) {
-		// start new hunt activity by passing the hunt id to be edited
+		final Intent intent = new Intent(this, NewHuntActivity.class);
+		intent.putExtra(NewHuntActivity.EXTRAS_HUNT_ID, hunt.getId());
+		startActivity(intent);
+		// TODO - refresh hunts later - miguel - 01/11/2012
 	}
 
 	private void initializeListAdapter() {
 		final SimpleAdapter adapter = new SimpleAdapter(this, //
-				list, //
+				huntMaps, //
 				R.layout.hunt_row_view, //
 				DATA_KEYS, //
 				DATA_VIEW_IDS);
@@ -125,24 +140,28 @@ public class HuntsActivity extends ListActivity {
 	}
 
 	@Override
-	protected void onListItemClick(final ListView l, final View v, final int position, final long id) {
+	protected void onListItemClick(final ListView l, final View v,
+			final int position, final long id) {
 		super.onListItemClick(l, v, position, id);
 
 		final Hunt hunt = huntAt(position);
 
 		if (hunt.getQuantity() <= 0)
-			Toast.makeText(this, "¡Esta búsqueda no ha encontrado usuarios todavía!", Toast.LENGTH_SHORT)
+			Toast.makeText(this, R.string.hunts_empty, Toast.LENGTH_SHORT)
 					.show();
 		else {
-			final Intent intent = new Intent(this, HuntMiniProfilesActivity.class);
-			intent.putExtra(HuntMiniProfilesActivity.EXTRAS_HUNT_ID, hunt.getId());
+			final Intent intent = new Intent(this,
+					HuntMiniProfilesActivity.class);
+			intent.putExtra(HuntMiniProfilesActivity.EXTRAS_HUNT_ID,
+					hunt.getId());
 			startActivity(intent);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	protected Hunt huntAt(final int position) {
-		final Map<String, Object> huntMap = (Map<String, Object>) getListAdapter().getItem(position);
+		final Map<String, Object> huntMap = (Map<String, Object>) getListAdapter()
+				.getItem(position);
 		final Hunt hunt = (Hunt) huntMap.get(KEY_HUNT);
 		return hunt;
 	}
@@ -164,80 +183,25 @@ public class HuntsActivity extends ListActivity {
 	 * Adds every notification that has been already registered by the
 	 * notification manager and shows it in the list.
 	 */
-	private void initializeAlreadyExistantHunts() {
-		final HuntingCriteriaEngine huntingCriteriaEngine = getTalentRadarApplication()
-				.getHuntingCriteriaEngine();
-		final Collection<Hunt> hunts = huntingCriteriaEngine.getHunts();
+	private void initializeAlreadyExistentHunts() {
+		final Collection<Hunt> hunts = getHuntingCriteriaEngine().getHunts();
 
+		removeAllHunts();
 		addHuntsAndNotify(hunts);
-
-		// TODO - hardcoded data for demo purposes - miguel - 18/10/2012
-		huntingCriteriaEngine
-				.addHunts(
-						SimpleSkillHuntBuilder.newInstance().setId("2")
-								.setTitle("Java developer")
-								.addRequiredSkills("Java", "Maven", "Struts", "JPA", "Spring")
-								//
-								.addPreferredSkills("Git")
-								//
-								.addUsers(
-										UserBuilder
-												.newInstance()
-												//
-												.setId("1")
-												//
-												.setUserName("Alejo")
-												//
-												.setUserSurname("Abdala")
-												//
-												.setHeadline("QA Developer")
-												//
-												.setProfilePictureUrl(
-														"http://m3.licdn.com/mpr/mprx/0_oivHPfsr3BHERRh1ECncPuu23rOIUYr1eXTBPuIrOnoRkVFPQL5Xj2xOfjYq4MA0IhB9yIJuE9-D")
-												.build(), //
-										UserBuilder
-												.newInstance()
-												//
-												.setId("4")
-												//
-												.setUserName("Miguel")
-												//
-												.setUserSurname("Oliva")
-												//
-												.setHeadline("Ssr Java developer")
-												//
-												.setProfilePictureUrl(
-														"http://m3.licdn.com/mpr/mprx/0_gPLYkt6SyeNSY1UcgB9TkANaYflmpzUcxcA3krFxTW5YiluBAvztoKPlKGAlx-sRyKF8wBJJYJLD")
-												.build() //
-								) //
-								.build(), //
-						SimpleSkillHuntBuilder.newInstance().setId("1").setTitle("Webapp dev teamleader")
-								.addRequiredSkills("PHP", "SVN", "Teamwork", "Management") //
-								.addPreferredSkills("PM", "Scrum master") //
-								.addUsers( //
-								// UserBuilder.newInstance() //
-								// .setId("2") //
-								// .setUserName("Gonzalo") //
-								// .setUserSurname("Balabasquer") //
-								// .setHeadline("Webapp Architect") //
-								// .setProfilePictureUrl("http:\\/\\/m3.licdn.com\\/mpr\\/mprx\\/0_imOA6V2nneFoQTEMiuyG6ZpQswisXTIMT2om6ZaQ5mcERLpJ7eaje4seNL_5bQovGSpfd0pnr2ks")
-								// .build() //
-								) //
-								.build());
-		addHuntsAndNotify(huntingCriteriaEngine.getHunts());
 	}
 
-	// TODO - Beware, duplication of logic, what is that 'list.clear()' doing
-	// there? - miguel - 18/10/2012
+	private void removeAllHunts() {
+		huntMaps.clear();
+	}
+
 	public void addHunt(final Hunt hunt) {
 		final Map<String, Object> huntMap = hunt2HuntMap(hunt);
-		list.add(huntMap);
+		huntMaps.add(huntMap);
 	}
 
 	protected void addHunts(final Collection<? extends Hunt> hunts) {
-		list.clear();
 		for (final Hunt hunt : hunts)
-			list.add(hunt2HuntMap(hunt));
+			addHunt(hunt);
 	}
 
 	/**
@@ -266,7 +230,7 @@ public class HuntsActivity extends ListActivity {
 
 	/**
 	 * Maps a {@link TrNotification} to a map containing every value that will
-	 * be showed in the Dashboard.
+	 * be showed in the activity.
 	 *
 	 * @param hunt
 	 * @return
@@ -284,11 +248,24 @@ public class HuntsActivity extends ListActivity {
 		return quantity > 0 ? "(" + quantity + ")" : "";
 	}
 
+	// ****************************************************** //
+	// ====== HuntinCriteriaListener implementation ======
+	// ****************************************************** //
+
+	@Override
+	public void onHuntsSateModified() {
+		initializeAlreadyExistentHunts();
+	}
+
 	// ************************************************ //
 	// ====== TalentRadarCommons ======
 	// ************************************************ //
 
-	public TalentRadarApplication getTalentRadarApplication() {
+	private TalentRadarApplication getTalentRadarApplication() {
 		return (TalentRadarApplication) getApplication();
+	}
+
+	private HuntingCriteriaEngine getHuntingCriteriaEngine() {
+		return getTalentRadarApplication().getHuntingCriteriaEngine();
 	}
 }

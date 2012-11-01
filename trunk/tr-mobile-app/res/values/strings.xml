@@ -54,5 +54,7 @@
 
     <!-- Hunts -->
     <string name="hunts_no_hunts_label">¡No has creado búsquedas aún!</string>
+    <string name="hunts_empty">¡Esta búsqueda no ha encontrado usuarios todavía!</string>
+    <string name="new_hunt_edit_title">Editar Búsqueda</string>
 
 </resources>

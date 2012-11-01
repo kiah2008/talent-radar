@@ -14,15 +14,16 @@ import android.widget.ToggleButton;
 
 /**
  * Common Activity superclass for all our GUI activities.
- * 
+ *
  * @author miguel
- * 
+ *
  */
 public abstract class GuiTalentRadarActivity extends TalentRadarActivity {
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		preCreate(savedInstanceState);
 		setContentView(getViewLayoutId());
 		findViewElements();
 		setupButtons();
@@ -42,9 +43,19 @@ public abstract class GuiTalentRadarActivity extends TalentRadarActivity {
 	}
 
 	/**
+	 * This method is called once the activity is created, but its view content
+	 * as well as its view elements and buttons have not been configured.
+	 *
+	 * @param savedInstanceState
+	 */
+	protected void preCreate(final Bundle savedInstanceState) {
+		// Won't do anything by default
+	}
+
+	/**
 	 * This method is called once the activity is created, its view content is
 	 * initialized as well as its view elements found and buttons configured.
-	 * 
+	 *
 	 * @param savedInstanceState
 	 */
 	protected void postCreate(final Bundle savedInstanceState) {
@@ -65,7 +76,7 @@ public abstract class GuiTalentRadarActivity extends TalentRadarActivity {
 	/**
 	 * Returns a view layout ID. Tipically would be something like
 	 * R.layout.myLayout
-	 * 
+	 *
 	 * @return Layout ID
 	 */
 	protected abstract int getViewLayoutId();

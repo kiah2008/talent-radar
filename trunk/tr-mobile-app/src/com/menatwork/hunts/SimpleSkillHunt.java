@@ -9,9 +9,10 @@ public class SimpleSkillHunt implements Hunt {
 	private static final String SEPARATOR_BETWEEN_REQUIREMENTS = "\n";
 	private static final String SEPARATOR_BETWEEN_SKILLS = ", ";
 
-	private final String title;
-	private final List<String> requiredSkills;
-	private final List<String> preferredSkills;
+	private String title;
+	private List<String> requiredSkills;
+	private List<String> preferredSkills;
+
 	private final List<User> users;
 	private final String id;
 
@@ -78,17 +79,29 @@ public class SimpleSkillHunt implements Hunt {
 
 	@Override
 	public boolean addUserIfCriteriaMatched(final User user) {
-		if (hasRequiredSkills(user)) {
-			addUser(user);
-			return true;
-		}
+		if (hasRequiredSkills(user))
+			return addUser(user);
 
 		return false;
 	}
 
-	private void addUser(final User user) {
-		if (!users.contains(user))
-			users.add(user);
+	private boolean addUser(final User user) {
+		if (!isUserAlreadyInHunt(user))
+			return users.add(user);
+
+		return false;
+	}
+
+	private boolean isUserAlreadyInHunt(final User user) {
+		return users.contains(user) || hasUserWithSameId(user);
+	}
+
+	private boolean hasUserWithSameId(final User newUser) {
+		for (final User user : users)
+			if (user.getId().equals(newUser.getId()))
+				return true;
+
+		return false;
 	}
 
 	private boolean hasRequiredSkills(final User user) {
@@ -99,4 +112,28 @@ public class SimpleSkillHunt implements Hunt {
 		return true;
 	}
 
+	@Override
+	public List<String> getRequiredSkills() {
+		return requiredSkills;
+	}
+
+	@Override
+	public List<String> getPreferredSkills() {
+		return preferredSkills;
+	}
+
+	@Override
+	public void setTitle(final String title) {
+		this.title = title;
+	}
+
+	@Override
+	public void setRequiredSkills(final List<String> requiredSkills) {
+		this.requiredSkills = requiredSkills;
+	}
+
+	@Override
+	public void setPreferredSkills(final List<String> preferredSkills) {
+		this.preferredSkills = preferredSkills;
+	}
 }
