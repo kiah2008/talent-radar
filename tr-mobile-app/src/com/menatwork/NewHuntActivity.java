@@ -26,6 +26,8 @@ import com.menatwork.utils.CloseActivityClickListener;
 
 public class NewHuntActivity extends GuiTalentRadarActivity {
 
+	public static final String EXTRAS_HUNT_ID = "hunt-id-to-be-edited";
+
 	private ViewGroup necessarySkillsContainer;
 	private ViewGroup optionalSkillsContainer;
 	private ImageButton addNecessarySkillButton;
@@ -42,6 +44,50 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 	protected void postCreate(final Bundle savedInstanceState) {
 		this.initializeContainers();
 		this.initializeTextWatchers();
+		this.initializeHuntContentAppropiately();
+	}
+
+	private Hunt getHunt() {
+		final String huntId = getIntent().getExtras().getString(EXTRAS_HUNT_ID);
+		final HuntingCriteriaEngine huntingCriteriaEngine = TalentRadarApplication
+				.getContext().getHuntingCriteriaEngine();
+		return huntingCriteriaEngine.findHuntById(huntId);
+	}
+
+	/**
+	 * Initializes the hunt to be edited if the activity was called with a hunt
+	 * ID.
+	 *
+	 * @param bundle
+	 */
+	private void initializeHuntContentAppropiately() {
+		if (isCreationMode())
+			return;
+
+		final String huntId = getIntent().getExtras().getString(EXTRAS_HUNT_ID);
+
+		// check if there is such huntId and start edit mode
+		if (huntId != null) {
+			final Hunt hunt = getHunt();
+
+			final TextView titleLabel = findTextViewById(R.id.new_hunt_label_title);
+			titleLabel.setText(R.string.new_hunt_edit_title);
+
+			// XXX - watch out for language indefinitions! - miguel - 01/11/2012
+			nameTextView.setText(hunt.getTitle());
+
+			for (final String requiredSkill : hunt.getRequiredSkills())
+				addSkill(requiredSkill, necessarySkillsContainer);
+
+			for (final String preferredSkill : hunt.getPreferredSkills())
+				addSkill(preferredSkill, optionalSkillsContainer);
+		}
+	}
+
+	private boolean isCreationMode() {
+		final Bundle extras = getIntent().getExtras();
+
+		return extras == null || !extras.containsKey(EXTRAS_HUNT_ID);
 	}
 
 	private void initializeTextWatchers() {
@@ -110,6 +156,8 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 		final String huntName = nameTextView.getText().toString();
 		builder.setTitle(huntName);
 		builder.setId(generateHuntId(huntName));
+		// FIXME - The "No skills" string is being added as a skill! - miguel -
+		// 01/11/2012
 		builder.setRequiredSkills(getSkillsFromContainer(necessarySkillsContainer));
 		builder.setPreferredSkills(getSkillsFromContainer(optionalSkillsContainer));
 		return builder.build();
@@ -134,6 +182,12 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 
 	void addSkill(final String newSkillText,
 			final ViewGroup destinationContainer, final Editable input) {
+		addSkill(newSkillText, destinationContainer);
+		input.clear();
+	}
+
+	private void addSkill(final String newSkillText,
+			final ViewGroup destinationContainer) {
 		final SkillButtonFactory skillButtonFactory = getTalentRadarApplication()
 				.getSkillButtonFactory();
 		final Button newSkillButton = skillButtonFactory.getSkillButton(
@@ -148,7 +202,6 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 				destinationContainer.removeAllViews();
 
 		destinationContainer.addView(newSkillButton);
-		input.clear();
 	}
 
 	private class AddSkillOnClickListener implements OnClickListener {
@@ -308,14 +361,21 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 
 		@Override
 		public void onClick(final View v) {
-			final Hunt newHunt = buildHunt();
-			// XXX - dunno if we should add the hunt to the HuntsActivity maybe
-			// - miguel - 29/10/2012
-			final HuntingCriteriaEngine huntingCriteriaEngine = getTalentRadarApplication()
-					.getHuntingCriteriaEngine();
-			huntingCriteriaEngine.addHunt(newHunt);
+			if (isCreationMode()) {
+				final Hunt newHunt = buildHunt();
+				final HuntingCriteriaEngine huntingCriteriaEngine = getTalentRadarApplication()
+						.getHuntingCriteriaEngine();
+				huntingCriteriaEngine.addHunt(newHunt);
+			} else { // isEditionMode -> update hunt state
+				final Hunt huntBeingEdited = getHunt();
+				final Hunt newHunt = buildHunt();
+
+				huntBeingEdited.setTitle(newHunt.getTitle());
+				huntBeingEdited.setRequiredSkills(newHunt.getRequiredSkills());
+				huntBeingEdited.setPreferredSkills(newHunt.getPreferredSkills());
+			}
+
 			finish();
 		}
-
 	}
 }
