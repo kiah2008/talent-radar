@@ -22,8 +22,9 @@ public class DispatcherActivity extends AbstractLoginActivity {
 	}
 
 	private void startApplication() {
-		// final ProgressDialog progress = ProgressDialog.show(this,
-		// getString(R.string.generic_wait), "");
+		// start the task that will asynchronously retrieve all existing skills
+		// in the system
+		new GetSkillsTask(getTalentRadarApplication()).execute();
 
 		final TalentRadarConfiguration preferences = getTalentRadarApplication()
 				.getPreferences();
