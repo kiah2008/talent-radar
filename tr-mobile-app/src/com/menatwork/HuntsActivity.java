@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,6 +64,25 @@ public class HuntsActivity extends ListActivity implements
 		initializeListViewEvents();
 
 		getHuntingCriteriaEngine().addListener(this);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(final Menu menu) {
+		final MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.hunt_menu, menu);
+		super.onCreateOptionsMenu(menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.new_hunt:
+			startActivity(new Intent(this, NewHuntActivity.class));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -207,10 +227,10 @@ public class HuntsActivity extends ListActivity implements
 	/**
 	 * Adds a Hunt to the list of notifications shown in the HuntsActivity,
 	 * mapping it to the correct representation.
-	 *
+	 * 
 	 * This method ALSO notifies the ListAdapter for the list shown to be
 	 * refreshed in screen.
-	 *
+	 * 
 	 * @param hunts
 	 */
 	protected void addHuntsAndNotify(final Collection<? extends Hunt> hunts) {
@@ -231,7 +251,7 @@ public class HuntsActivity extends ListActivity implements
 	/**
 	 * Maps a {@link TrNotification} to a map containing every value that will
 	 * be showed in the activity.
-	 *
+	 * 
 	 * @param hunt
 	 * @return
 	 */

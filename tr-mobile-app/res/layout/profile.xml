@@ -99,10 +99,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/profile_label_skills"
-                android:layout_marginBottom="4dp"
-                android:padding="4dp"
                 app:horizontalSpacing="4dp"
+                android:layout_marginTop="4dp"
                 app:verticalSpacing="4dp" >
+
             </com.menatwork.view.FlowLayout>
 
             <TextView

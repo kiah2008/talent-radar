@@ -25,6 +25,7 @@ public class TrPreferenceActivity extends PreferenceActivity implements
 		OnSharedPreferenceChangeListener {
 
 	private Map<String, Object> initialPrivacySettings;
+	private boolean wasKeyBackHandled;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -47,11 +48,21 @@ public class TrPreferenceActivity extends PreferenceActivity implements
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			final Map<String, Object> currentPrivacySettingsAsMap = getCurrentPrivacySettingsAsMap();
 			if (!initialPrivacySettings.equals(currentPrivacySettingsAsMap)) {
+				wasKeyBackHandled = true;
 				savePreferences(currentPrivacySettingsAsMap);
 				return true; // handled event
 			}
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	public boolean onKeyUp(final int keyCode, final KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && wasKeyBackHandled) {
+			wasKeyBackHandled = false;
+			return true;
+		} else
+			return super.onKeyUp(keyCode, event);
 	}
 
 	private Map<String, Object> getCurrentPrivacySettingsAsMap() {
@@ -87,7 +98,8 @@ public class TrPreferenceActivity extends PreferenceActivity implements
 						.isHeadlinePublic();
 				final String nickname = privacySettings.getNickname();
 				final Boolean isNamePublic = privacySettings.isNamePublic();
-				final Boolean isPicturePublic = privacySettings.isPicturePublic();
+				final Boolean isPicturePublic = privacySettings
+						.isPicturePublic();
 				final SavePrivacySettings savePrivacySettings = SavePrivacySettings
 						.newInstance(TrPreferenceActivity.this, localUserId,
 								isNamePublic, nickname, isHeadlinePublic,

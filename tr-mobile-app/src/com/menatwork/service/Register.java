@@ -14,29 +14,40 @@ import com.menatwork.service.response.RegisterResponse;
 
 public class Register extends ServiceCall<RegisterResponse> {
 
-	private String email;
-	private String nickname;
-	private String password;
-	private String name;
-	private String surname;
-	private String headline;
+	private final String email;
+	private final String nickname;
+	private final String password;
+	private final String name;
+	private final String surname;
+	private final String headline;
+	private final String namePublic;
+	private final String headlinePublic;
+	private final String skillsPublic;
 
-	public static Register newInstance(Context context, String email,
-			String nickname, String password, String name, String surname,
-			String headline) {
+	public static Register newInstance(final Context context,
+			final String email, final String nickname, final String password,
+			final String name, final String surname, final String namePublic,
+			final String headline, final String headlinePublic,
+			final String skillsPublic) {
 		return new Register(context, email, nickname, password, name, surname,
-				headline);
+				namePublic, headline, headlinePublic, skillsPublic);
 	}
 
-	private Register(Context context, String email, String nickname,
-			String password, String name, String surname, String headline) {
+	private Register(final Context context, final String email,
+			final String nickname, final String password, final String name,
+			final String surname, final String namePublic,
+			final String headline, final String headlinePublic,
+			final String skillsPublic) {
 		super(context);
 		this.email = email;
 		this.nickname = nickname;
 		this.password = password;
 		this.name = name;
 		this.surname = surname;
+		this.namePublic = namePublic;
 		this.headline = headline;
+		this.headlinePublic = headlinePublic;
+		this.skillsPublic = skillsPublic;
 	}
 
 	@Override
@@ -46,7 +57,7 @@ public class Register extends ServiceCall<RegisterResponse> {
 
 	@Override
 	protected List<NameValuePair> buildPostParametersList() {
-		List<NameValuePair> params = new ArrayList<NameValuePair>(6);
+		final List<NameValuePair> params = new ArrayList<NameValuePair>(6);
 
 		params.add(new BasicNameValuePair(
 				getString(R.string.post_key_register_email), email));
@@ -59,12 +70,25 @@ public class Register extends ServiceCall<RegisterResponse> {
 		params.add(new BasicNameValuePair(
 				getString(R.string.post_key_register_surname), surname));
 		params.add(new BasicNameValuePair(
+				getString(R.string.post_key_register_name_public),
+				replacementFor(namePublic)));
+		params.add(new BasicNameValuePair(
 				getString(R.string.post_key_register_headline), headline));
+		params.add(new BasicNameValuePair(
+				getString(R.string.post_key_register_headline_public),
+				replacementFor(headlinePublic)));
+		params.add(new BasicNameValuePair(
+				getString(R.string.post_key_register_skills_public),
+				replacementFor(skillsPublic)));
 		return params;
 	}
 
+	private String replacementFor(final String booleanValue) {
+		return "true".equals(booleanValue) ? "1" : "0";
+	}
+
 	@Override
-	protected RegisterResponse wrap(JSONObject response) {
+	protected RegisterResponse wrap(final JSONObject response) {
 		return new RegisterResponse(response);
 	}
 }

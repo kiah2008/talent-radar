@@ -19,12 +19,19 @@ public class InMemorySkillSuggestionBox implements SkillSuggestionBox {
 	@Override
 	public void setSkills(final String... skills) {
 		skillList = new ArrayList<String>(Arrays.asList(skills));
+		this.searchAlgorithm.initialize(skillList);
+	}
+
+	@Override
+	public void setSkills(final List<String> skills) {
+		skillList = skills;
+		this.searchAlgorithm.initialize(skillList);
 	}
 
 	@Override
 	public void setSearchAlgorithm(final SearchAlgorithm searchAlgorithm) {
 		this.searchAlgorithm = searchAlgorithm;
-		searchAlgorithm.initialize(skillList);
+		this.searchAlgorithm.initialize(skillList);
 	}
 
 	@Override

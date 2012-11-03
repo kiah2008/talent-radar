@@ -8,6 +8,8 @@ public interface SkillSuggestionBox {
 
 	public void setSkills(String... skills);
 
+	void setSkills(List<String> skills);
+
 	public void setSearchAlgorithm(SearchAlgorithm searchAlgorithm);
 
 }
