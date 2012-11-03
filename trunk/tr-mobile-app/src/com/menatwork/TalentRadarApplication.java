@@ -1,5 +1,7 @@
 package com.menatwork;
 
+import java.util.List;
+
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -72,10 +74,18 @@ public class TalentRadarApplication extends Application implements
 		locationSourceManager = NaiveLocationSourceManager.newInstance();
 		chatSessionManager = ChatSessionManager.newInstance(this);
 		huntingCriteriaEngine = HuntingCriteriaEngine.newInstance();
-		skillSuggestionBox = new InMemorySkillSuggestionBox();
+		skillSuggestionBox = initializeSkillSuggestionBox();
 
 		radar = Radar.observingLocationUpdatesFrom(locationSourceManager);
 		radar.addListeners(huntingCriteriaEngine);
+	}
+
+	protected InMemorySkillSuggestionBox initializeSkillSuggestionBox() {
+		final InMemorySkillSuggestionBox skillSuggestionBox = new InMemorySkillSuggestionBox();
+		skillSuggestionBox.setSkills("Java", "Javelin", "Jasper", "Juno",
+				"Git", "Gitorious", "Subversion", "Subversive");
+		skillSuggestionBox.setSearchAlgorithm(new BruteForceSearchAlgorithm());
+		return skillSuggestionBox;
 	}
 
 	private void setDefaultUncaughtExceptionHandler() {
@@ -324,13 +334,16 @@ public class TalentRadarApplication extends Application implements
 	// ************************************************ //
 
 	public SkillSuggestionBox getSkillSuggestionBox() {
-		skillSuggestionBox.setSkills("Java", "Javelin", "Jasper", "Juno",
-				"Git", "Gitorious", "Subversion", "Subversive");
-		skillSuggestionBox.setSearchAlgorithm(new BruteForceSearchAlgorithm());
 		return skillSuggestionBox;
+	}
+
+	public void loadSkills(final List<String> skills) {
+		if (!skills.isEmpty())
+			skillSuggestionBox.setSkills(skills);
 	}
 
 	public Radar getRadar() {
 		return radar;
 	}
+
 }

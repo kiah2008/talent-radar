@@ -11,8 +11,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.menatwork.model.User;
+import com.menatwork.service.GetSkills;
 import com.menatwork.service.SaveDeviceId;
 import com.menatwork.service.response.SaveDeviceIdResponse;
+import com.menatwork.service.response.SkillsResponse;
 import com.menatwork.utils.LogUtils;
 
 public abstract class AbstractLoginActivity extends GuiTalentRadarActivity {
@@ -35,7 +37,13 @@ public abstract class AbstractLoginActivity extends GuiTalentRadarActivity {
 	void doFinishSuccesfulLogin(final Activity caller, final User user,
 			final ProgressDialog progressDialog) {
 		getTalentRadarApplication().loadLocalUser(user);
-		progressDialog.dismiss();
+		if (progressDialog != null)
+			progressDialog.dismiss();
+
+		// start the task that will asynchronously retrieve all existing skills
+		// in the system
+		new GetSkillsTask(getTalentRadarApplication()).execute();
+
 		final Intent intent = new Intent(caller, MainActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
@@ -78,6 +86,40 @@ public abstract class AbstractLoginActivity extends GuiTalentRadarActivity {
 			}
 		}
 
+	}
+
+	private class GetSkillsTask extends AsyncTask<Void, Void, SkillsResponse> {
+
+		private final TalentRadarApplication trApplication;
+
+		private GetSkillsTask(final TalentRadarApplication trApplication) {
+			super();
+			this.trApplication = trApplication;
+		}
+
+		@Override
+		protected SkillsResponse doInBackground(final Void... arg0) {
+			try {
+				final GetSkills getSkills = GetSkills
+						.newInstance(AbstractLoginActivity.this);
+				SkillsResponse skillsResponse;
+				skillsResponse = getSkills.execute();
+				return skillsResponse;
+			} catch (final JSONException e) {
+				Log.e("GetSkillsTask", "Error parsing JSON response", e);
+				throw new RuntimeException(e);
+			} catch (final IOException e) {
+				Log.e("GetSkillsTask", "IO error trying to get system skills",
+						e);
+				throw new RuntimeException(e);
+			}
+		}
+
+		@Override
+		protected void onPostExecute(final SkillsResponse result) {
+			if (result.isSuccessful())
+				trApplication.loadSkills(result.getSkills());
+		}
 	}
 
 }

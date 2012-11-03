@@ -128,17 +128,26 @@ public class SkillsActivity extends DataInputActivity {
 		protected Integer doInBackground(final Bundle... params) {
 			try {
 				final Bundle bundleWithRegistrationData = params[0];
+				final String email = bundleWithRegistrationData
+						.getString(RegistrationExtras.EMAIL);
+				final String nickname = bundleWithRegistrationData
+						.getString(RegistrationExtras.NICKNAME);
+				final String password = bundleWithRegistrationData
+						.getString(RegistrationExtras.PASSWORD);
+				final String name = getNameFromFullname(bundleWithRegistrationData);
+				final String surname = getSurnameFromFullname(bundleWithRegistrationData);
+				final String headline = bundleWithRegistrationData
+						.getString(RegistrationExtras.HEADLINE);
+				final String namePublic = bundleWithRegistrationData
+						.getString(RegistrationExtras.PUBLIC_REALNAME);
+				final String headlinePublic = String
+						.valueOf(SkillsActivity.this.headlinePublic.isChecked());
+				final String skillsPublic = String
+						.valueOf(SkillsActivity.this.skillsPublic.isChecked());
 				final Register register = Register.newInstance(
-						SkillsActivity.this, bundleWithRegistrationData
-								.getString(RegistrationExtras.EMAIL),
-						bundleWithRegistrationData
-								.getString(RegistrationExtras.NICKNAME),
-						bundleWithRegistrationData
-								.getString(RegistrationExtras.PASSWORD),
-						getNameFromFullname(bundleWithRegistrationData),
-						getSurnameFromFullname(bundleWithRegistrationData),
-						bundleWithRegistrationData
-								.getString(RegistrationExtras.HEADLINE));
+						SkillsActivity.this, email, nickname, password, name,
+						surname, namePublic, headline, headlinePublic,
+						skillsPublic);
 				return this.handleResponse(register.execute());
 			} catch (final JSONException e) {
 				// TODO Auto-generated catch block
@@ -155,6 +164,7 @@ public class SkillsActivity extends DataInputActivity {
 			super.onPostExecute(result);
 			progressDialog.dismiss();
 			if (result == SUCCESS)
+				// TODO = show a nice cartelito and then redirect to login page
 				startActivity(new Intent(SkillsActivity.this,
 						LoginWithTalentRadarActivity.class));
 			else {

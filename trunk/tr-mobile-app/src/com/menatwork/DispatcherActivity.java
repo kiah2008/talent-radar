@@ -11,20 +11,13 @@ import com.menatwork.model.User;
 import com.menatwork.preferences.TalentRadarConfiguration;
 import com.menatwork.service.Defect;
 
-public class DispatcherActivity extends TalentRadarActivity {
+public class DispatcherActivity extends AbstractLoginActivity {
 
 	private User localUser;
 
 	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dispatcher);
-
-		// EXPIRATION SNIPPET [in case we need it one more time]
-		// if (hasExpired()) {
-		// setExpired();
-		// startActivity(new Intent(this, ExpiredActivity.class));
-		// } else
+	protected void postCreate(final Bundle savedInstanceState) {
+		super.postCreate(savedInstanceState);
 		startApplication();
 	}
 
@@ -48,10 +41,10 @@ public class DispatcherActivity extends TalentRadarActivity {
 	private void onTaskExecuted() {
 		if (localUser == null)
 			startActivity(new Intent(this, LoginActivity.class));
-		else {
-			getTalentRadarApplication().loadLocalUser(localUser);
-			startActivity(new Intent(this, MainActivity.class));
-		}
+		else
+			// this actually should have been an "onSuccessfulLogin", so, here
+			// it goes
+			finishSuccessfulLogin(this, localUser, null);
 	}
 
 	private boolean notValidUserId(final String localUserId) {
@@ -111,6 +104,19 @@ public class DispatcherActivity extends TalentRadarActivity {
 		} catch (final ParseException e) {
 			throw new Defect("invalid date format");
 		}
+	}
+
+	@Override
+	protected void setupButtons() {
+	}
+
+	@Override
+	protected void findViewElements() {
+	}
+
+	@Override
+	protected int getViewLayoutId() {
+		return R.layout.dispatcher;
 	}
 
 }

@@ -38,6 +38,8 @@ public class SavePrivacySettings extends StandardServiceCall<BaseResponse> {
 				replaceFor(isHeadlinePublic));
 		setParameter(R.string.post_key_save_privacy_skills_public,
 				replaceFor(isSkillsPublic));
+		setParameter(R.string.post_key_save_privacy_picture_public,
+				replaceFor(isPicturePublic));
 		setParameter(R.string.post_key_save_privacy_show_in_searches,
 				replaceFor(!isStealthy));
 	}
