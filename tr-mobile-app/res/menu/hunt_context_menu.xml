@@ -2,12 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/new_hunt"
-        android:enabled="true"
-        android:title="Nueva búsqueda"
-        android:visible="true">
-    </item>
-    <item
         android:id="@+id/edit_hunt"
         android:enabled="true"
         android:title="Editar búsqueda"

@@ -38,7 +38,9 @@ import com.menatwork.utils.NaiveDialogClickListener;
 
 public class SkillsActivity extends DataInputActivity {
 
+	private static final int MINIMUM_CHARACTERS_FOR_SUGGESTION = 2;
 	public static final int DIALOG_ERROR = 0;
+
 	private Button finishButton;
 	private Button cancelButton;
 	private EditText headline;
@@ -301,6 +303,9 @@ public class SkillsActivity extends DataInputActivity {
 				return;
 			}
 
+			if (inputString.length() < MINIMUM_CHARACTERS_FOR_SUGGESTION)
+				return;
+
 			// add suggestions to suggestions-box
 			final SkillSuggestionBox skillSuggestionBox = getTalentRadarApplication()
 					.getSkillSuggestionBox();
@@ -359,6 +364,9 @@ public class SkillsActivity extends DataInputActivity {
 
 	void addSkill(final String newSkillText,
 			final ViewGroup destinationContainer, final Editable input) {
+		if (containerHasSkill(destinationContainer, newSkillText))
+			return;
+
 		final SkillButtonFactory skillButtonFactory = getTalentRadarApplication()
 				.getSkillButtonFactory();
 		final Button newSkillButton = skillButtonFactory.getSkillButton(
@@ -374,6 +382,18 @@ public class SkillsActivity extends DataInputActivity {
 
 		destinationContainer.addView(newSkillButton);
 		input.clear();
+	}
+
+	private boolean containerHasSkill(final ViewGroup destinationContainer,
+			final String newSkillText) {
+		final int childCount = destinationContainer.getChildCount();
+		for (int i = 0; i < childCount; i++) {
+			final Button skillButton = (Button) destinationContainer
+					.getChildAt(i);
+			if (skillButton.getText().toString().equals(newSkillText))
+				return true;
+		}
+		return false;
 	}
 
 	protected void removeSkillFromViewGroup(final View buttonToDelete,
