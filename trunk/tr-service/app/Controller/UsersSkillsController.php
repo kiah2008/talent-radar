@@ -71,10 +71,14 @@ class UsersSkillsController extends AppController {
 			}
 			else
 			{
-				$response['result']['status'] = 'error';
-				$response['result']['message'] = __('There isn\'t a Linkedin account associated', true);
+				/*$response['result']['status'] = 'error';
+				$response['result']['message'] = __('There isn\'t a Linkedin account associated', true);*/
+				
+				$response['result']['status'] = 'ok';
+				$userSkillsIds = $this->UsersSkill->find('list', array('fields' => array('UsersSkill.id', 'UsersSkill.skill_id'), 'conditions' => array('UsersSkill.user_id' => $this->data['UsersSkill']['user_id'])));
+				$this->loadModel('Skill');
+				$response['result']['skills'] = $this->Skill->find('list', array('conditions' => array('Skill.id' => $userSkillsIds), 'fields' => array('id', 'name')));;
 			}
-			
 			$this->set('response', $response);
 		}
 		else
