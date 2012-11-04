@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.menatwork.hunts.DefaultHunt;
 import com.menatwork.hunts.Hunt;
 import com.menatwork.hunts.HuntingCriteriaEngine;
 import com.menatwork.hunts.HuntingCriteriaListener;
@@ -47,8 +48,6 @@ public class HuntsActivity extends ListActivity implements
 			R.id.hunt_quantity, //
 			R.id.hunt_description };
 
-	private static final int REQUEST_CODE = 1989;
-
 	// ************************************************ //
 	// ====== Instance members ======
 	// ************************************************ //
@@ -64,6 +63,7 @@ public class HuntsActivity extends ListActivity implements
 		initializeListViewEvents();
 
 		getHuntingCriteriaEngine().addListener(this);
+		DefaultHunt.getInstance().addListener(this);
 	}
 
 	@Override
@@ -105,8 +105,8 @@ public class HuntsActivity extends ListActivity implements
 	public void onCreateContextMenu(final ContextMenu menu, final View v,
 			final ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		final MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.hunt_context_menu, menu);
+
+		getMenuInflater().inflate(R.menu.hunt_context_menu, menu);
 	}
 
 	@Override
@@ -118,19 +118,25 @@ public class HuntsActivity extends ListActivity implements
 			editHunt(huntAt((int) info.id));
 			return true;
 		case R.id.remove_hunt:
-			deleteHunt(huntAt((int) info.id));
+			removeHunt(huntAt((int) info.id));
 			return true;
 		default:
 			return super.onContextItemSelected(item);
 		}
 	}
 
-	private void deleteHunt(final Hunt hunt) {
-		getHuntingCriteriaEngine().removeHunt(hunt);
+	private void removeHunt(final Hunt hunt) {
+		if (isDefaultHunt(hunt))
+			Toast.makeText(this,
+					"No es posible remover la búsqueda por defecto",
+					Toast.LENGTH_SHORT).show();
+		else {
+			getHuntingCriteriaEngine().removeHunt(hunt);
 
-		// delete it from the ui
-		huntMaps.remove(findHuntMapFor(hunt));
-		notifyDataSetChanged();
+			// delete it from the ui
+			huntMaps.remove(findHuntMapFor(hunt));
+			notifyDataSetChanged();
+		}
 	}
 
 	private Map<String, ?> findHuntMapFor(final Hunt hunt) {
@@ -143,10 +149,15 @@ public class HuntsActivity extends ListActivity implements
 	}
 
 	private void editHunt(final Hunt hunt) {
-		final Intent intent = new Intent(this, NewHuntActivity.class);
-		intent.putExtra(NewHuntActivity.EXTRAS_HUNT_ID, hunt.getId());
-		startActivity(intent);
-		// TODO - refresh hunts later - miguel - 01/11/2012
+		if (isDefaultHunt(hunt))
+			Toast.makeText(this,
+					"No es posible editar la búsqueda por defecto",
+					Toast.LENGTH_SHORT).show();
+		else {
+			final Intent intent = new Intent(this, NewHuntActivity.class);
+			intent.putExtra(NewHuntActivity.EXTRAS_HUNT_ID, hunt.getId());
+			startActivity(intent);
+		}
 	}
 
 	private void initializeListAdapter() {
@@ -166,7 +177,7 @@ public class HuntsActivity extends ListActivity implements
 
 		final Hunt hunt = huntAt(position);
 
-		if (hunt.getQuantity() <= 0)
+		if (hunt.getUsersQuantity() <= 0)
 			Toast.makeText(this, R.string.hunts_empty, Toast.LENGTH_SHORT)
 					.show();
 		else {
@@ -207,6 +218,9 @@ public class HuntsActivity extends ListActivity implements
 		final Collection<Hunt> hunts = getHuntingCriteriaEngine().getHunts();
 
 		removeAllHunts();
+		// TODO - validate! default hunt should be included in hunting engine -
+		// miguel - 04/11/2012
+		// addHuntsAndNotify(DefaultHunt.getInstance());
 		addHuntsAndNotify(hunts);
 	}
 
@@ -227,10 +241,10 @@ public class HuntsActivity extends ListActivity implements
 	/**
 	 * Adds a Hunt to the list of notifications shown in the HuntsActivity,
 	 * mapping it to the correct representation.
-	 * 
+	 *
 	 * This method ALSO notifies the ListAdapter for the list shown to be
 	 * refreshed in screen.
-	 * 
+	 *
 	 * @param hunts
 	 */
 	protected void addHuntsAndNotify(final Collection<? extends Hunt> hunts) {
@@ -251,14 +265,14 @@ public class HuntsActivity extends ListActivity implements
 	/**
 	 * Maps a {@link TrNotification} to a map containing every value that will
 	 * be showed in the activity.
-	 * 
+	 *
 	 * @param hunt
 	 * @return
 	 */
 	protected Map<String, Object> hunt2HuntMap(final Hunt hunt) {
 		final Map<String, Object> huntMap = new HashMap<String, Object>();
 		huntMap.put(KEY_TITLE, hunt.getTitle());
-		huntMap.put(KEY_QUANTITY, formatQuantity(hunt.getQuantity()));
+		huntMap.put(KEY_QUANTITY, formatQuantity(hunt.getUsersQuantity()));
 		huntMap.put(KEY_DESCRIPTION, hunt.getDescription());
 		huntMap.put(KEY_HUNT, hunt);
 		return huntMap;
@@ -266,6 +280,10 @@ public class HuntsActivity extends ListActivity implements
 
 	protected String formatQuantity(final int quantity) {
 		return quantity > 0 ? "(" + quantity + ")" : "";
+	}
+
+	private boolean isDefaultHunt(final Hunt hunt) {
+		return hunt instanceof DefaultHunt;
 	}
 
 	// ****************************************************** //

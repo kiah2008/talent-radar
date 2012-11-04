@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.menatwork.ProfileActivity;
 import com.menatwork.R;
@@ -111,20 +110,22 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 			@Override
 			public void onClick(final View v) {
 				final String localUserId = getTalentRadarApplication()
-						.getLocalUser().getId();
+						.getLocalUserId();
+
 				new PingTask(activity).execute(localUserId,
-						miniProfileItem.getUserId(), miniProfileItem.getUsername());
+						miniProfileItem.getUserId(),
+						miniProfileItem.getUsername());
 			}
 		});
 		saveContactButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				// TODO - save the contact which means... I suppose some other
-				// kind of activity, right? - boris - 17/08/2012
-				Toast.makeText(
-						activity,
-						"saving the contact " + miniProfileItem.getUsername()
-								+ "... ohh, WTF!!!", Toast.LENGTH_SHORT).show();
+				final String localUserId = getTalentRadarApplication()
+						.getLocalUserId();
+				final String userToBeAddedId = miniProfileItem.getUserId();
+
+				new SaveUserByIdTask(activity).execute(localUserId,
+						userToBeAddedId);
 			}
 		});
 	}

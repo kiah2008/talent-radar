@@ -22,7 +22,7 @@ public interface Hunt {
 	 *
 	 * @return Integer representing the number of users in the hunt
 	 */
-	int getQuantity();
+	int getUsersQuantity();
 
 	/**
 	 * A textual representation of the hunt to be shown to the final user. May

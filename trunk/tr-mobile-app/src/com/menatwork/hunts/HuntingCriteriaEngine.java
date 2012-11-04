@@ -26,8 +26,14 @@ public class HuntingCriteriaEngine implements RadarListener {
 	// ====== Creation methods ======
 	// ************************************************ //
 
+	public static HuntingCriteriaEngine withHunts(final Hunt... hunts) {
+		final HuntingCriteriaEngine engine = new HuntingCriteriaEngine();
+		engine.addHunts(hunts);
+		return engine;
+	}
+
 	public static HuntingCriteriaEngine newInstance() {
-		return new HuntingCriteriaEngine();
+		return HuntingCriteriaEngine.withHunts(new Hunt[0]);
 	}
 
 	protected HuntingCriteriaEngine() {
