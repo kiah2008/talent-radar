@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.android.gcm.GCMRegistrar;
 import com.menatwork.chat.ChatSessionManager;
+import com.menatwork.hunts.DefaultHunt;
 import com.menatwork.hunts.HuntingCriteriaEngine;
 import com.menatwork.location.GpsLocationSource;
 import com.menatwork.location.LocationSourceManager;
@@ -73,7 +74,8 @@ public class TalentRadarApplication extends Application implements
 		notificationManager = TrNotificationManager.newInstance();
 		locationSourceManager = NaiveLocationSourceManager.newInstance();
 		chatSessionManager = ChatSessionManager.newInstance(this);
-		huntingCriteriaEngine = HuntingCriteriaEngine.newInstance();
+		huntingCriteriaEngine = HuntingCriteriaEngine.withHunts(DefaultHunt
+				.getInstance());
 		skillSuggestionBox = initializeSkillSuggestionBox();
 
 		radar = Radar.observingLocationUpdatesFrom(locationSourceManager);
@@ -312,6 +314,7 @@ public class TalentRadarApplication extends Application implements
 	// ************************************************ //
 	// ====== NaiveLocationSourceManager ======
 	// ************************************************ //
+
 	private static final class NaiveLocationSourceManager extends
 			LocationSourceManager {
 		@Override

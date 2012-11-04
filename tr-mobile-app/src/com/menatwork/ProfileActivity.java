@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.menatwork.hunts.DefaultHunt;
 import com.menatwork.miniprofile.PingTask;
 import com.menatwork.model.User;
 import com.menatwork.skills.SkillButtonFactory;
@@ -22,13 +23,13 @@ import com.menatwork.view.LoadProfilePictureTask;
  * In order to make this view reusable for viewing any user profile, you need to
  * pass along in a bundle the user id that you are trying to visualize (or
  * nothing for the local user, that means, don't put anything in the extras!)
- * 
+ *
  * key: userid / value: a string with the user id (eg. "25")
- * 
+ *
  * @see {@link ProfileActivity#EXTRAS_USERID}
- * 
+ *
  * @author aabdala
- * 
+ *
  */
 public class ProfileActivity extends GuiTalentRadarActivity {
 
@@ -56,7 +57,8 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 
 	private void loadProfilePicture() {
 		final String profilePicUrl = this.user.getProfilePictureUrl();
-		new LoadProfilePictureTask(this, profilePic, loadingProfilePic, profilePicUrl).execute();
+		new LoadProfilePictureTask(this, profilePic, loadingProfilePic,
+				profilePicUrl).execute();
 	}
 
 	private void loadUserData() {
@@ -72,7 +74,8 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 		final Bundle extras = getIntent().getExtras();
 		if (extras != null && extras.containsKey(EXTRAS_USERID))
 			// user = this.getUserById(extras.getString(EXTRAS_USERID));
-			new SeeProfileGetUserTask(this).execute(extras.getString(EXTRAS_USERID));
+			new SeeProfileGetUserTask(this).execute(extras
+					.getString(EXTRAS_USERID));
 		else {
 			user = getLocalUser();
 			this.disablePingAndCaptureButtons();
@@ -88,7 +91,8 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 	}
 
 	private String getHeadlineText(final String headline) {
-		return "null".equals(headline) ? getString(R.string.profile_no_headline) : headline;
+		return "null".equals(headline) ? getString(R.string.profile_no_headline)
+				: headline;
 	}
 
 	private void makeTitleLabelsTransparent() {
@@ -107,16 +111,17 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 
 			@Override
 			public void onClick(final View v) {
-				final String localUserId = getTalentRadarApplication().getLocalUser().getId();
-				new PingTask(ProfileActivity.this).execute(localUserId, getUser().getId(), getUser()
-						.getNickname());
+				final String localUserId = getTalentRadarApplication()
+						.getLocalUser().getId();
+				new PingTask(ProfileActivity.this).execute(localUserId,
+						getUser().getId(), getUser().getNickname());
 			}
 		});
 		captureButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(final View v) {
-				// do some stuff
+				DefaultHunt.getInstance().addUser(user);
 			}
 		});
 	}
@@ -139,12 +144,14 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 
 	private void loadSkills() {
 		final List<String> userSkills = user.getSkills();
-		final SkillButtonFactory skillButtonFactory = getTalentRadarApplication().getSkillButtonFactory();
+		final SkillButtonFactory skillButtonFactory = getTalentRadarApplication()
+				.getSkillButtonFactory();
 		if (userSkills.isEmpty())
 			skillsLayout.addView(skillButtonFactory.getEmptySkillsButton(this));
 		else
 			for (final String skill : userSkills) {
-				final Button skillButton = skillButtonFactory.getSkillButton(this, skill);
+				final Button skillButton = skillButtonFactory.getSkillButton(
+						this, skill);
 
 				skillsLayout.addView(skillButton);
 			}

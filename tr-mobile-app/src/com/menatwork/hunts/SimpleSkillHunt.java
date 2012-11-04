@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.menatwork.model.User;
 
-public class SimpleSkillHunt implements Hunt {
+public class SimpleSkillHunt extends BaseHunt {
 
 	private static final String SEPARATOR_BETWEEN_REQUIREMENTS = "\n";
 	private static final String SEPARATOR_BETWEEN_SKILLS = ", ";
@@ -13,7 +13,6 @@ public class SimpleSkillHunt implements Hunt {
 	private List<String> requiredSkills;
 	private List<String> preferredSkills;
 
-	private final List<User> users;
 	private final String id;
 
 	public SimpleSkillHunt( //
@@ -26,17 +25,11 @@ public class SimpleSkillHunt implements Hunt {
 		this.title = title;
 		this.requiredSkills = requiredSkills;
 		this.preferredSkills = preferredSkills;
-		this.users = users;
 	}
 
 	@Override
 	public String getTitle() {
 		return title;
-	}
-
-	@Override
-	public int getQuantity() {
-		return users.size();
 	}
 
 	@Override
@@ -53,53 +46,14 @@ public class SimpleSkillHunt implements Hunt {
 	}
 
 	@Override
-	public List<User> getUsers() {
-		return users;
-	}
-
-	@Override
 	public String getId() {
 		return id;
-	}
-
-	// ************************************************ //
-	// ====== Other utils ======
-	// ************************************************ //
-
-	public String concatStringsWithSep(final List<String> strings,
-			final String separator) {
-		final StringBuilder sb = new StringBuilder();
-		String sep = "";
-		for (final String s : strings) {
-			sb.append(sep).append(s);
-			sep = separator;
-		}
-		return sb.toString();
 	}
 
 	@Override
 	public boolean addUserIfCriteriaMatched(final User user) {
 		if (hasRequiredSkills(user))
 			return addUser(user);
-
-		return false;
-	}
-
-	private boolean addUser(final User user) {
-		if (!isUserAlreadyInHunt(user))
-			return users.add(user);
-
-		return false;
-	}
-
-	private boolean isUserAlreadyInHunt(final User user) {
-		return users.contains(user) || hasUserWithSameId(user);
-	}
-
-	private boolean hasUserWithSameId(final User newUser) {
-		for (final User user : users)
-			if (user.getId().equals(newUser.getId()))
-				return true;
 
 		return false;
 	}
@@ -136,4 +90,27 @@ public class SimpleSkillHunt implements Hunt {
 	public void setPreferredSkills(final List<String> preferredSkills) {
 		this.preferredSkills = preferredSkills;
 	}
+
+	@Override
+	public String toString() {
+		return "SimpleSkillHunt [title=" + title + ", requiredSkills="
+				+ requiredSkills + ", preferredSkills=" + preferredSkills
+				+ ", users=" + users + ", id=" + id + "]";
+	}
+
+	// ************************************************ //
+	// ====== Other utils ======
+	// ************************************************ //
+
+	public String concatStringsWithSep(final List<String> strings,
+			final String separator) {
+		final StringBuilder sb = new StringBuilder();
+		String sep = "";
+		for (final String s : strings) {
+			sb.append(sep).append(s);
+			sep = separator;
+		}
+		return sb.toString();
+	}
+
 }
