@@ -26,6 +26,7 @@ import com.menatwork.utils.CloseActivityClickListener;
 
 public class NewHuntActivity extends GuiTalentRadarActivity {
 
+	private static final int MINIMUM_CHARACTERS_FOR_SUGGESTION = 2;
 	public static final String EXTRAS_HUNT_ID = "hunt-id-to-be-edited";
 
 	private ViewGroup necessarySkillsContainer;
@@ -57,7 +58,7 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 	/**
 	 * Initializes the hunt to be edited if the activity was called with a hunt
 	 * ID.
-	 *
+	 * 
 	 * @param bundle
 	 */
 	private void initializeHuntContentAppropiately() {
@@ -156,8 +157,6 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 		final String huntName = nameTextView.getText().toString();
 		builder.setTitle(huntName);
 		builder.setId(generateHuntId(huntName));
-		// FIXME - The "No skills" string is being added as a skill! - miguel -
-		// 01/11/2012
 		builder.setRequiredSkills(getSkillsFromContainer(necessarySkillsContainer));
 		builder.setPreferredSkills(getSkillsFromContainer(optionalSkillsContainer));
 		return builder.build();
@@ -172,11 +171,18 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 	}
 
 	private List<String> getSkillsFromContainer(final ViewGroup skillContainer) {
+		final Button emptySkillsButton = getTalentRadarApplication()
+				.getSkillButtonFactory().getEmptySkillsButton(this);
+		final String emptySkillText = emptySkillsButton.getText().toString();
+
 		final int childCount = skillContainer.getChildCount();
 		final List<String> skills = new ArrayList<String>(childCount);
-		for (int i = 0; i < childCount; i++)
-			skills.add(((Button) skillContainer.getChildAt(i)).getText()
-					.toString());
+		for (int i = 0; i < childCount; i++) {
+			final String skillText = ((Button) skillContainer.getChildAt(i))
+					.getText().toString();
+			if (!emptySkillText.equals(skillText))
+				skills.add(skillText);
+		}
 		return skills;
 	}
 
@@ -188,6 +194,9 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 
 	private void addSkill(final String newSkillText,
 			final ViewGroup destinationContainer) {
+		if (containerHasSkill(destinationContainer, newSkillText))
+			return;
+
 		final SkillButtonFactory skillButtonFactory = getTalentRadarApplication()
 				.getSkillButtonFactory();
 		final Button newSkillButton = skillButtonFactory.getSkillButton(
@@ -202,6 +211,18 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 				destinationContainer.removeAllViews();
 
 		destinationContainer.addView(newSkillButton);
+	}
+
+	private boolean containerHasSkill(final ViewGroup destinationContainer,
+			final String newSkillText) {
+		final int childCount = destinationContainer.getChildCount();
+		for (int i = 0; i < childCount; i++) {
+			final Button skillButton = (Button) destinationContainer
+					.getChildAt(i);
+			if (skillButton.getText().toString().equals(newSkillText))
+				return true;
+		}
+		return false;
 	}
 
 	private class AddSkillOnClickListener implements OnClickListener {
@@ -301,6 +322,10 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 				return;
 			}
 
+			if (inputString.length() < MINIMUM_CHARACTERS_FOR_SUGGESTION)
+				// dont add suggestions if you wrote just 1 or 2 letters
+				return;
+
 			// add suggestions to suggestions-box
 			final SkillSuggestionBox skillSuggestionBox = getTalentRadarApplication()
 					.getSkillSuggestionBox();
@@ -372,7 +397,8 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 
 				huntBeingEdited.setTitle(newHunt.getTitle());
 				huntBeingEdited.setRequiredSkills(newHunt.getRequiredSkills());
-				huntBeingEdited.setPreferredSkills(newHunt.getPreferredSkills());
+				huntBeingEdited
+						.setPreferredSkills(newHunt.getPreferredSkills());
 			}
 
 			finish();
