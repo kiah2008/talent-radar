@@ -3,6 +3,7 @@ package com.menatwork.hunts;
 import java.util.List;
 
 import com.menatwork.model.User;
+import com.menatwork.utils.StringUtils;
 
 public class SimpleSkillHunt extends BaseHunt {
 
@@ -21,6 +22,7 @@ public class SimpleSkillHunt extends BaseHunt {
 			final List<String> requiredSkills, //
 			final List<String> preferredSkills, //
 			final List<User> users) {
+		super(users);
 		this.id = id;
 		this.title = title;
 		this.requiredSkills = requiredSkills;
@@ -37,11 +39,13 @@ public class SimpleSkillHunt extends BaseHunt {
 		final StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Requerido: ");
 		stringBuilder.append( //
-				concatStringsWithSep(requiredSkills, SEPARATOR_BETWEEN_SKILLS));
+				StringUtils.concatStringsWithSep(requiredSkills,
+						SEPARATOR_BETWEEN_SKILLS));
 		stringBuilder.append(SEPARATOR_BETWEEN_REQUIREMENTS);
 		stringBuilder.append("Preferido: ");
 		stringBuilder.append( //
-				concatStringsWithSep(preferredSkills, SEPARATOR_BETWEEN_SKILLS));
+				StringUtils.concatStringsWithSep(preferredSkills,
+						SEPARATOR_BETWEEN_SKILLS));
 		return stringBuilder.toString();
 	}
 
@@ -96,21 +100,6 @@ public class SimpleSkillHunt extends BaseHunt {
 		return "SimpleSkillHunt [title=" + title + ", requiredSkills="
 				+ requiredSkills + ", preferredSkills=" + preferredSkills
 				+ ", users=" + users + ", id=" + id + "]";
-	}
-
-	// ************************************************ //
-	// ====== Other utils ======
-	// ************************************************ //
-
-	public String concatStringsWithSep(final List<String> strings,
-			final String separator) {
-		final StringBuilder sb = new StringBuilder();
-		String sep = "";
-		for (final String s : strings) {
-			sb.append(sep).append(s);
-			sep = separator;
-		}
-		return sb.toString();
 	}
 
 }

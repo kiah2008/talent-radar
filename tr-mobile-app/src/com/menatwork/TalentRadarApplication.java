@@ -1,5 +1,7 @@
 package com.menatwork;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Application;
@@ -13,7 +15,9 @@ import android.widget.Toast;
 import com.google.android.gcm.GCMRegistrar;
 import com.menatwork.chat.ChatSessionManager;
 import com.menatwork.hunts.DefaultHunt;
+import com.menatwork.hunts.Hunt;
 import com.menatwork.hunts.HuntingCriteriaEngine;
+import com.menatwork.hunts.TalentRadarDao;
 import com.menatwork.location.GpsLocationSource;
 import com.menatwork.location.LocationSourceManager;
 import com.menatwork.location.NetworkLocationSource;
@@ -74,12 +78,35 @@ public class TalentRadarApplication extends Application implements
 		notificationManager = TrNotificationManager.newInstance();
 		locationSourceManager = NaiveLocationSourceManager.newInstance();
 		chatSessionManager = ChatSessionManager.newInstance(this);
-		huntingCriteriaEngine = HuntingCriteriaEngine.withHunts(DefaultHunt
-				.getInstance());
+		initializeHuntingCriteriaEngine();
 		skillSuggestionBox = initializeSkillSuggestionBox();
 
 		radar = Radar.observingLocationUpdatesFrom(locationSourceManager);
 		radar.addListeners(huntingCriteriaEngine);
+	}
+
+	public void saveHuntsState() {
+		TalentRadarDao.withContext(this).saveDefaultHunt();
+		TalentRadarDao.withContext(this).saveHunts(getHuntsButDefault());
+	}
+
+	private Collection<Hunt> getHuntsButDefault() {
+		final LinkedList<Hunt> hunts = new LinkedList<Hunt>(
+				huntingCriteriaEngine.getHunts());
+		hunts.remove(DefaultHunt.getInstance());
+		return hunts;
+	}
+
+	private void initializeHuntingCriteriaEngine() {
+		final TalentRadarDao huntsDao = TalentRadarDao.withContext(this);
+
+		huntsDao.open();
+		huntsDao.loadDefaultHunt();
+		huntingCriteriaEngine = HuntingCriteriaEngine.withHunts(DefaultHunt
+				.getInstance());
+
+		huntsDao.open();
+		huntingCriteriaEngine.addHunts(huntsDao.getAllHunts());
 	}
 
 	protected InMemorySkillSuggestionBox initializeSkillSuggestionBox() {
@@ -90,6 +117,7 @@ public class TalentRadarApplication extends Application implements
 		return skillSuggestionBox;
 	}
 
+	@SuppressWarnings("unused")
 	private void setDefaultUncaughtExceptionHandler() {
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override

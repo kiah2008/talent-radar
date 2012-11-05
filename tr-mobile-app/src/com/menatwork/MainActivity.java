@@ -28,6 +28,7 @@ public class MainActivity extends TabActivity {
 		super.onDestroy();
 
 		stopRadarService();
+		getTalentRadarApplication().saveHuntsState();
 	}
 
 	@Override
