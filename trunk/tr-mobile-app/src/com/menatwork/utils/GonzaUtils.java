@@ -58,7 +58,7 @@ public class GonzaUtils {
 			throws IOException {
 		try {
 			final BufferedReader reader = new BufferedReader(
-					new InputStreamReader(content), 8);
+					new InputStreamReader(content, "UTF-8"), 8);
 			final StringBuilder stringBuilder = new StringBuilder();
 			String line = null;
 			while ((line = reader.readLine()) != null)
