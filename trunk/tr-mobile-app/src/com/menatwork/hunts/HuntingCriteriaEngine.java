@@ -57,6 +57,10 @@ public class HuntingCriteriaEngine implements RadarListener {
 		return hunts;
 	}
 
+	public void addHunts(final List<? extends Hunt> hunts) {
+		addHunts(hunts.toArray(new Hunt[0]));
+	}
+
 	public void addHunts(final Hunt... hunts) {
 		for (final Hunt hunt : hunts)
 			addHunt(hunt);
@@ -132,4 +136,5 @@ public class HuntingCriteriaEngine implements RadarListener {
 	public void addListener(final HuntingCriteriaListener listener) {
 		listeners.add(listener);
 	}
+
 }

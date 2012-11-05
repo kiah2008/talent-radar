@@ -67,6 +67,12 @@ public class HuntsActivity extends ListActivity implements
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		initializeAlreadyExistentHunts();
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
 		final MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.hunt_menu, menu);
@@ -83,12 +89,6 @@ public class HuntsActivity extends ListActivity implements
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		initializeAlreadyExistentHunts();
 	}
 
 	// ************************************************ //

@@ -5,23 +5,31 @@ import java.util.List;
 
 import com.menatwork.model.User;
 
+/**
+ * Base class for hunts, defining common behaviour (users manipulation).
+ *
+ * @author miguel
+ *
+ */
 public abstract class BaseHunt implements Hunt {
 
 	protected final List<User> users;
 
+	// ************************************************ //
+	// ====== Creation methods ======
+	// ************************************************ //
+
 	public BaseHunt() {
-		this.users = new ArrayList<User>();
+		this(new ArrayList<User>());
 	}
 
-	@Override
-	public int getUsersQuantity() {
-		return users.size();
+	public BaseHunt(final List<User> users) {
+		this.users = users;
 	}
 
-	@Override
-	public List<User> getUsers() {
-		return users;
-	}
+	// ************************************************ //
+	// ====== Instance methods ======
+	// ************************************************ //
 
 	protected boolean addUser(final User user) {
 		if (!isUserAlreadyInHunt(user))
@@ -40,6 +48,16 @@ public abstract class BaseHunt implements Hunt {
 				return true;
 
 		return false;
+	}
+
+	@Override
+	public int getUsersQuantity() {
+		return users.size();
+	}
+
+	@Override
+	public List<User> getUsers() {
+		return users;
 	}
 
 }

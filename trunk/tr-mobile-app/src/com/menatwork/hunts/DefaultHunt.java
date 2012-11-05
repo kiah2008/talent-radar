@@ -5,6 +5,13 @@ import java.util.List;
 
 import com.menatwork.model.User;
 
+/**
+ * DefaultHunt represents the hunt availabe for everyone where each user is
+ * saved by demand and not a certain criteria.
+ *
+ * @author miguel
+ *
+ */
 public class DefaultHunt extends BaseHunt {
 
 	private static final DefaultHunt DEFAULT_HUNT_SINGLETON;
@@ -75,6 +82,11 @@ public class DefaultHunt extends BaseHunt {
 			notifyHuntStateModified();
 
 		return userAdded;
+	}
+
+	public void addUsers(final List<User> usersFromUserIds) {
+		for (final User user : usersFromUserIds)
+			addUser(user);
 	}
 
 	private void notifyHuntStateModified() {
