@@ -14,6 +14,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,7 +40,7 @@ public class GonzaUtils {
 			final List<NameValuePair> params) {
 		try {
 			final HttpPost httpPost = new HttpPost(url);
-			httpPost.setEntity(new UrlEncodedFormEntity(params));
+			httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
 			return httpPost;
 		} catch (final UnsupportedEncodingException e) {
 			// should not happen

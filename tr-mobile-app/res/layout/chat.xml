@@ -30,10 +30,27 @@
             android:padding="@dimen/extra_padding" >
 
             <LinearLayout
-                android:id="@+id/chat_layout_chat"
+                android:id="@+id/chat_layout_chat_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/chat_older_messages"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Cargar mensajes anteriores" />
+
+                <LinearLayout
+                    android:id="@+id/chat_layout_chat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
 
@@ -44,6 +61,8 @@
             android:layout_alignTop="@+id/chat_profile_pic"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@+id/chat_profile_pic"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:text="Juan Carlos Perez Companc"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 

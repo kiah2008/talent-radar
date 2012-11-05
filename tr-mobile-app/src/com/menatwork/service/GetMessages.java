@@ -1,7 +1,5 @@
 package com.menatwork.service;
 
-
-
 import android.content.Context;
 
 import com.menatwork.R;
@@ -9,9 +7,18 @@ import com.menatwork.service.response.GetMessagesResponse;
 
 public class GetMessages extends StandardServiceCall<GetMessagesResponse> {
 
-	public static GetMessages newInstance(Context context, String userId1,
-			String userId2) {
-		return new GetMessages(context, userId1, userId2);
+	/**
+	 * 
+	 * @param context
+	 * @param userId1
+	 * @param userId2
+	 * @param limit
+	 *            (2, 5, 10, 20, 30, Todos)
+	 * @return
+	 */
+	public static GetMessages newInstance(final Context context,
+			final String userId1, final String userId2, final String limit) {
+		return new GetMessages(context, userId1, userId2, limit);
 	}
 
 	/*
@@ -22,12 +29,16 @@ public class GetMessages extends StandardServiceCall<GetMessagesResponse> {
 	 * data[UsersMessage][user1_id]
 	 * 
 	 * data[UsersMessage][user2_id]
+	 * 
+	 * data[UsersMessage][limit]
 	 */
 
-	private GetMessages(Context context, String userId1, String userId2) {
+	private GetMessages(final Context context, final String userId1,
+			final String userId2, final String limit) {
 		super(context, GetMessagesResponse.class);
 		setParameter(R.string.post_key_get_chat_messages_id_1, userId1);
 		setParameter(R.string.post_key_get_chat_messages_id_2, userId2);
+		setParameter(R.string.post_key_get_chat_messages_limit, limit);
 	}
 
 	@Override

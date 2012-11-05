@@ -12,6 +12,7 @@
     <string name="post_key_register_headline">data[User][headline]</string>
     <string name="post_key_register_headline_public">data[User][show_headline]</string>
     <string name="post_key_register_skills_public">data[User][show_skills]</string>
+    <string name="post_key_register_skills">data[UsersSkill][]</string>
 
     <!-- Login -->
     <string name="post_uri_login">http://www.talent-radar.com/app/users/login</string>
@@ -68,6 +69,7 @@
     <string name="post_uri_get_chat_messages">http://www.talent-radar.com/app/usersMessages/getMessages</string>
     <string name="post_key_get_chat_messages_id_1">data[UsersMessage][user1_id]</string>
     <string name="post_key_get_chat_messages_id_2">data[UsersMessage][user2_id]</string>
+    <string name="post_key_get_chat_messages_limit">data[UsersMessage][limit]</string>
 
     <!-- Save privacy settings -->
     <string name="post_uri_save_privacy">http://www.talent-radar.com/app/users/setPrivacy</string>

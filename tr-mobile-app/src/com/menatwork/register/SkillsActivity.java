@@ -1,6 +1,7 @@
 package com.menatwork.register;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -138,17 +139,18 @@ public class SkillsActivity extends DataInputActivity {
 						.getString(RegistrationExtras.PASSWORD);
 				final String name = getNameFromFullname(bundleWithRegistrationData);
 				final String surname = getSurnameFromFullname(bundleWithRegistrationData);
-				final String headline = bundleWithRegistrationData
-						.getString(RegistrationExtras.HEADLINE);
+				final String headline = SkillsActivity.this.headline.getText()
+						.toString();
 				final String namePublic = bundleWithRegistrationData
 						.getString(RegistrationExtras.PUBLIC_REALNAME);
 				final String headlinePublic = String
 						.valueOf(SkillsActivity.this.headlinePublic.isChecked());
 				final String skillsPublic = String
 						.valueOf(SkillsActivity.this.skillsPublic.isChecked());
+				final List<String> skills = getSkillsFromContainer(skillsContainer);
 				final Register register = Register.newInstance(
 						SkillsActivity.this, email, nickname, password, name,
-						surname, namePublic, headline, headlinePublic,
+						surname, namePublic, headline, headlinePublic, skills,
 						skillsPublic);
 				return this.handleResponse(register.execute());
 			} catch (final JSONException e) {
@@ -202,6 +204,22 @@ public class SkillsActivity extends DataInputActivity {
 	}
 
 	// methods/stuff copied from newhuntactivity
+
+	List<String> getSkillsFromContainer(final ViewGroup skillContainer) {
+		final Button emptySkillsButton = getTalentRadarApplication()
+				.getSkillButtonFactory().getEmptySkillsButton(this);
+		final String emptySkillText = emptySkillsButton.getText().toString();
+
+		final int childCount = skillContainer.getChildCount();
+		final List<String> skills = new ArrayList<String>(childCount);
+		for (int i = 0; i < childCount; i++) {
+			final String skillText = ((Button) skillContainer.getChildAt(i))
+					.getText().toString();
+			if (!emptySkillText.equals(skillText))
+				skills.add(skillText);
+		}
+		return skills;
+	}
 
 	private void initializeTextWatchers() {
 		this.skillsInput.addTextChangedListener(new SkillsTextWatcher(
