@@ -60,4 +60,16 @@ public class ChatSession {
 	public void removeSessionListener(final SessionListener listener) {
 		this.listeners.remove(listener);
 	}
+
+	/**
+	 * This method won't notify any listeners since it is triggered from the UI,
+	 * therefore, the one calling it should know what to do (besides, it would
+	 * mess up any logic depending on the listeners, since these messages are
+	 * old ones)
+	 * 
+	 * @param oldMessages
+	 */
+	public void addOldMessages(final List<ChatMessage> oldMessages) {
+		this.messages.addAll(0, oldMessages);
+	}
 }

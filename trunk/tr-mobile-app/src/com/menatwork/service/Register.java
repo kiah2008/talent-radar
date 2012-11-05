@@ -23,21 +23,22 @@ public class Register extends ServiceCall<RegisterResponse> {
 	private final String namePublic;
 	private final String headlinePublic;
 	private final String skillsPublic;
+	private final List<String> skills;
 
 	public static Register newInstance(final Context context,
 			final String email, final String nickname, final String password,
 			final String name, final String surname, final String namePublic,
 			final String headline, final String headlinePublic,
-			final String skillsPublic) {
+			final List<String> skills, final String skillsPublic) {
 		return new Register(context, email, nickname, password, name, surname,
-				namePublic, headline, headlinePublic, skillsPublic);
+				namePublic, headline, headlinePublic, skills, skillsPublic);
 	}
 
 	private Register(final Context context, final String email,
 			final String nickname, final String password, final String name,
 			final String surname, final String namePublic,
 			final String headline, final String headlinePublic,
-			final String skillsPublic) {
+			final List<String> skills, final String skillsPublic) {
 		super(context);
 		this.email = email;
 		this.nickname = nickname;
@@ -47,6 +48,7 @@ public class Register extends ServiceCall<RegisterResponse> {
 		this.namePublic = namePublic;
 		this.headline = headline;
 		this.headlinePublic = headlinePublic;
+		this.skills = skills;
 		this.skillsPublic = skillsPublic;
 	}
 
@@ -77,10 +79,17 @@ public class Register extends ServiceCall<RegisterResponse> {
 		params.add(new BasicNameValuePair(
 				getString(R.string.post_key_register_headline_public),
 				replacementFor(headlinePublic)));
+		this.addSkillsParam(params);
 		params.add(new BasicNameValuePair(
 				getString(R.string.post_key_register_skills_public),
 				replacementFor(skillsPublic)));
 		return params;
+	}
+
+	private void addSkillsParam(final List<NameValuePair> params) {
+		for (final String skill : skills)
+			params.add(new BasicNameValuePair(
+					getString(R.string.post_key_register_skills), skill));
 	}
 
 	private String replacementFor(final String booleanValue) {

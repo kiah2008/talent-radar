@@ -24,7 +24,9 @@ import com.menatwork.chat.ChatSession;
 import com.menatwork.chat.ChatSession.SessionListener;
 import com.menatwork.model.ChatMessage;
 import com.menatwork.service.AddChatMessage;
+import com.menatwork.service.GetMessages;
 import com.menatwork.service.response.ErroneousResponse;
+import com.menatwork.service.response.GetMessagesResponse;
 import com.menatwork.service.response.Response;
 import com.menatwork.view.LoadProfilePictureTask;
 
@@ -35,6 +37,7 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 	public static final String EXTRAS_HEADLINE = "headline";
 	public static final String EXTRAS_USERNAME = "username";
 	public static final String EXTRAS_PROFILE_PIC_URL = "profilePicUrl";
+	public static final String OLD_MESSAGES_AMOUNT_TO_REFRESH = "10";
 
 	private ViewGroup chatLayout;
 	private TextView username;
@@ -47,6 +50,7 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 	private ChatSession chatSession;
 	private Handler handler;
 	private ScrollView scrollView;
+	private Button olderMessagesButton;
 
 	@Override
 	protected void postCreate(final Bundle savedInstanceState) {
@@ -117,6 +121,7 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 	@Override
 	protected void setupButtons() {
 		sendButton.setOnClickListener(new SendButtonListener());
+		olderMessagesButton.setOnClickListener(new OlderMessagesListener());
 	}
 
 	@Override
@@ -129,6 +134,7 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 		profilePicture = findImageViewById(R.id.chat_profile_pic);
 		loadingProfilePic = (ProgressBar) findViewById(R.id.chat_loading_profile_pic);
 		scrollView = (ScrollView) findViewById(R.id.chat_scroll_view);
+		olderMessagesButton = findButtonById(R.id.chat_older_messages);
 	}
 
 	@Override
@@ -136,11 +142,27 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 		return R.layout.chat;
 	}
 
+	/**
+	 * Append as last message.
+	 * 
+	 * @param message
+	 */
 	private void appendMessageToView(final ChatMessage message) {
+		final int index = chatLayout.getChildCount();
+		this.appendMessageToView(message, index);
+	}
+
+	/**
+	 * Append message to the specified position on the chat
+	 * 
+	 * @param message
+	 * @param index
+	 */
+	private void appendMessageToView(final ChatMessage message, final int index) {
 		final TextView newMessageView = new TextView(this);
 		final String displayableMessage = getDisplayableForm(message);
 		newMessageView.setText(displayableMessage);
-		chatLayout.addView(newMessageView);
+		chatLayout.addView(newMessageView, index);
 	}
 
 	private String getDisplayableForm(final ChatMessage message) {
@@ -167,8 +189,10 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 		@Override
 		public void onClick(final View v) {
 			final String message = input.getText().toString();
-			final String messageAsciiStandard = message.replaceAll(
-					"[^\\x00-\\x7F]", "");
+			// final String messageAsciiStandard = message.replaceAll(
+			// "[^\\x00-\\x7F]", "");
+			final String messageAsciiStandard = message;
+
 			final String fromId = getTalentRadarApplication().getLocalUser()
 					.getId();
 			// TODO - pass the message to the task and, when the response comes,
@@ -191,7 +215,7 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 				final String fromId = args[0];
 				final String toId = args[1];
 				final String content = args[2];
-				
+
 				final AddChatMessage addChat = AddChatMessage.newInstance(
 						ChatActivity.this, fromId, toId, content);
 				return addChat.execute();
@@ -219,6 +243,11 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 					"ChatActivity is listening to messages of unrelated chatSession");
 	}
 
+	private void loadProfilePic(final String profilePicUrl) {
+		new LoadProfilePictureTask(this, profilePicture, loadingProfilePic,
+				profilePicUrl).execute();
+	}
+
 	private final class UpdateViewWithMessageRunnable implements Runnable {
 		private final ChatMessage message;
 
@@ -232,8 +261,53 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 		}
 	}
 
-	private void loadProfilePic(final String profilePicUrl) {
-		new LoadProfilePictureTask(this, profilePicture, loadingProfilePic,
-				profilePicUrl).execute();
+	private class OlderMessagesListener implements OnClickListener {
+
+		@Override
+		public void onClick(final View v) {
+			new GetMessagesTask() {
+
+				@Override
+				protected void onPostExecute(final GetMessagesResponse result) {
+					if (result != null && result.isSuccessful()) {
+						final List<ChatMessage> oldMessages = result
+								.getMessages();
+						chatSession.addOldMessages(oldMessages);
+						addOldMessagesToView(oldMessages);
+					}
+				}
+
+			}.execute();
+		}
+
+	}
+
+	public void addOldMessagesToView(final List<ChatMessage> oldMessages) {
+		for (final ChatMessage oldMessage : oldMessages)
+			appendMessageToView(oldMessage, oldMessages.indexOf(oldMessage));
+	}
+
+	private class GetMessagesTask extends
+			AsyncTask<Void, Void, GetMessagesResponse> {
+
+		@Override
+		protected GetMessagesResponse doInBackground(final Void... arg0) {
+			try {
+				final GetMessages getMessages = GetMessages
+						.newInstance(ChatActivity.this, chatSession.getToId(),
+								chatSession.getFromId(),
+								OLD_MESSAGES_AMOUNT_TO_REFRESH);
+
+				return getMessages.execute();
+			} catch (final JSONException e) {
+				Log.e("GetMessagesTask", "Error receiving response");
+				e.printStackTrace();
+			} catch (final IOException e) {
+				Log.e("GetMessagesTask", "Error receiving response");
+				e.printStackTrace();
+			}
+			return null;
+		}
+
 	}
 }
