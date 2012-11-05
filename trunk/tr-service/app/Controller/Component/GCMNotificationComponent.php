@@ -12,8 +12,7 @@ class GCMNotificationComponent extends Component {
 			$devices = array($devices);
 		}
 		
-		$notification = json_encode(array('registration_ids' => $devices, 'data' => array('message' => $message, 'type' => $type, 'userId' => $userId, 'data' => $data)));
-		 
+		$notification = json_encode(array('registration_ids' => $devices, 'data' => array('message' => utf8_encode($message), 'type' => $type, 'userId' => $userId, 'data' => $data)));
 		$url = "https://android.googleapis.com/gcm/send";
 		 
 		$headers = array('Authorization: key=' . $this->key, "Content-Type: application/json");
@@ -25,6 +24,7 @@ class GCMNotificationComponent extends Component {
 		curl_setopt($x, CURLOPT_POSTFIELDS, $notification); 
 		curl_setopt($x, CURLOPT_RETURNTRANSFER, 1); 
 		curl_setopt($x, CURLOPT_SSL_VERIFYPEER, false);
+		
 		$response = curl_exec($x); 
 		$http_code = curl_getinfo($x, CURLINFO_HTTP_CODE);
 		 
