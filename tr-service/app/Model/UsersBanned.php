@@ -6,7 +6,7 @@ class UsersBanned extends AppModel {
 	
 	public $useTable = 'users_banned';
 	
-	/*public $belongsTo = array(
-    							'User'
-							  );*/
+	public $belongsTo = array(
+    							'UserFrom' => array('className' => 'User', 'foreignKey' => 'user_from_id', 'fields' => array('name', 'surname', 'username', 'picture'))
+							  );
 }
