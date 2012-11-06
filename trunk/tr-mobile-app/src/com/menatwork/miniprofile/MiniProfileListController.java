@@ -67,6 +67,7 @@ public class MiniProfileListController {
 		// adapter.notifyDataSetChanged();
 	}
 
+	@SuppressWarnings("unused")
 	private void removeMiniProfile(final MiniProfileItemRow miniProfileItemRow,
 			final List<MiniProfileItemRow> adapterItems) {
 		MiniProfileItemRow toBeRemoved = null;
@@ -78,6 +79,7 @@ public class MiniProfileListController {
 		adapterItems.remove(toBeRemoved);
 	}
 
+	@SuppressWarnings("unused")
 	private boolean containsSameUser(
 			final MiniProfileItemRow miniProfileItemRow,
 			final List<MiniProfileItemRow> adapterItems) {
@@ -93,6 +95,7 @@ public class MiniProfileListController {
 		return adapterItem.getUserId().equals(miniProfileItemRow.getUserId());
 	}
 
+	@SuppressWarnings("unused")
 	private List<MiniProfileItemRow> adapterItems() {
 		final LinkedList<MiniProfileItemRow> adapterItems = new LinkedList<MiniProfileItemRow>();
 
@@ -100,6 +103,10 @@ public class MiniProfileListController {
 			adapterItems.add(adapter.getItem(i));
 
 		return adapterItems;
+	}
+
+	public ListView getListView() {
+		return listView;
 	}
 
 	// ************************************************ //
