@@ -46,15 +46,18 @@ public class TalentRadarApplication extends Application implements
 
 	private User localUser;
 
-	private SkillButtonFactory skillButtonFactory;
-	private LocationSourceManager locationSourceManager;
 	private TalentRadarConfiguration preferences;
 	private SharedPrivacySettings sharedPrivacySettings;
+
+	private SkillButtonFactory skillButtonFactory;
+	private SkillSuggestionBox skillSuggestionBox;
+
 	private TrNotificationManager notificationManager;
 	private ChatSessionManager chatSessionManager;
-	private HuntingCriteriaEngine huntingCriteriaEngine;
-	private SkillSuggestionBox skillSuggestionBox;
+
+	private LocationSourceManager locationSourceManager;
 	private Radar radar;
+	private HuntingCriteriaEngine huntingCriteriaEngine;
 
 	public static TalentRadarApplication getContext() {
 		return applicationContext;
@@ -83,30 +86,6 @@ public class TalentRadarApplication extends Application implements
 
 		radar = Radar.observingLocationUpdatesFrom(locationSourceManager);
 		radar.addListeners(huntingCriteriaEngine);
-	}
-
-	public void saveHuntsState() {
-		TalentRadarDao.withContext(this).saveDefaultHunt();
-		TalentRadarDao.withContext(this).saveHunts(getHuntsButDefault());
-	}
-
-	private Collection<Hunt> getHuntsButDefault() {
-		final LinkedList<Hunt> hunts = new LinkedList<Hunt>(
-				huntingCriteriaEngine.getHunts());
-		hunts.remove(DefaultHunt.getInstance());
-		return hunts;
-	}
-
-	private void initializeHuntingCriteriaEngine() {
-		final TalentRadarDao huntsDao = TalentRadarDao.withContext(this);
-
-		huntsDao.open();
-		huntsDao.loadDefaultHunt();
-		huntingCriteriaEngine = HuntingCriteriaEngine.withHunts(DefaultHunt
-				.getInstance());
-
-		huntsDao.open();
-		huntingCriteriaEngine.addHunts(huntsDao.getAllHunts());
 	}
 
 	protected InMemorySkillSuggestionBox initializeSkillSuggestionBox() {
@@ -191,6 +170,30 @@ public class TalentRadarApplication extends Application implements
 
 	public HuntingCriteriaEngine getHuntingCriteriaEngine() {
 		return huntingCriteriaEngine;
+	}
+
+	public void saveHuntsState() {
+		TalentRadarDao.withContext(this).saveDefaultHunt();
+		TalentRadarDao.withContext(this).saveHunts(getHuntsButDefault());
+	}
+
+	private Collection<Hunt> getHuntsButDefault() {
+		final LinkedList<Hunt> hunts = new LinkedList<Hunt>(
+				huntingCriteriaEngine.getHunts());
+		hunts.remove(DefaultHunt.getInstance());
+		return hunts;
+	}
+
+	private void initializeHuntingCriteriaEngine() {
+		final TalentRadarDao huntsDao = TalentRadarDao.withContext(this);
+
+		huntsDao.open();
+		huntsDao.loadDefaultHunt();
+		huntingCriteriaEngine = HuntingCriteriaEngine.withHunts(DefaultHunt
+				.getInstance());
+
+		huntsDao.open();
+		huntingCriteriaEngine.addHunts(huntsDao.getAllHunts());
 	}
 
 	// ************************************************ //

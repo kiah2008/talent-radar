@@ -28,10 +28,12 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 
 	@Override
 	protected void setupButtons() {
+		// Nothing to do
 	}
 
 	@Override
 	protected void findViewElements() {
+		// Nothing to do
 	}
 
 	@Override
@@ -46,8 +48,6 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 
 			listController = new MiniProfileListController(this,
 					R.id.mini_profiles_list_view, miniProfiles);
-		} else {
-			// notify there are no users
 		}
 	}
 
