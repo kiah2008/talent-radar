@@ -38,7 +38,8 @@ public class SimpleSkillHuntBuilder {
 		if (id == null)
 			throw new Defect("can't instantiate a Hunt without id");
 
-		return new SimpleSkillHunt(id, title, requiredSkills, preferredSkills, users);
+		return new SimpleSkillHunt(id, title, requiredSkills, preferredSkills,
+				users);
 	}
 
 	// ************************************************ //
@@ -55,12 +56,14 @@ public class SimpleSkillHuntBuilder {
 		return this;
 	}
 
-	public SimpleSkillHuntBuilder setRequiredSkills(final List<String> requiredSkills) {
+	public SimpleSkillHuntBuilder setRequiredSkills(
+			final List<String> requiredSkills) {
 		this.requiredSkills = requiredSkills;
 		return this;
 	}
 
-	public SimpleSkillHuntBuilder setPreferredSkills(final List<String> preferredSkills) {
+	public SimpleSkillHuntBuilder setPreferredSkills(
+			final List<String> preferredSkills) {
 		this.preferredSkills = preferredSkills;
 		return this;
 	}
@@ -70,17 +73,23 @@ public class SimpleSkillHuntBuilder {
 		return this;
 	}
 
-	public SimpleSkillHuntBuilder addRequiredSkills(final String... requiredSkills) {
+	public SimpleSkillHuntBuilder addRequiredSkills(
+			final String... requiredSkills) {
 		return addRequiredSkills(Arrays.asList(requiredSkills));
 	}
 
-	private SimpleSkillHuntBuilder addRequiredSkills(final List<String> asList) {
+	public SimpleSkillHuntBuilder addRequiredSkills(final List<String> asList) {
 		this.requiredSkills.addAll(asList);
 		return this;
 	}
 
-	public SimpleSkillHuntBuilder addPreferredSkills(final String... preferredSkills) {
-		this.preferredSkills.addAll(Arrays.asList(preferredSkills));
+	public SimpleSkillHuntBuilder addPreferredSkills(
+			final String... preferredSkills) {
+		return addPreferredSkills(Arrays.asList(preferredSkills));
+	}
+
+	public SimpleSkillHuntBuilder addPreferredSkills(final List<String> asList) {
+		this.preferredSkills.addAll(asList);
 		return this;
 	}
 

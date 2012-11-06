@@ -44,21 +44,4 @@ public interface Hunt {
 	 */
 	boolean addUserIfCriteriaMatched(User user);
 
-	// ************************************************ //
-	// ====== Accessing the criteria in the hunt ======
-	// ************************************************ //
-	// FIXME - these methods shouldn't be here, may have to implement a visitor
-	// - miguel - 01/11/2012
-
-	List<String> getRequiredSkills();
-
-	List<String> getPreferredSkills();
-
-	void setTitle(String title);
-
-	void setRequiredSkills(List<String> requiredSkills);
-
-	void setPreferredSkills(List<String> preferredSkills);
-
-
 }

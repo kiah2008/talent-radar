@@ -28,6 +28,8 @@ import com.menatwork.hunts.DefaultHunt;
 import com.menatwork.hunts.Hunt;
 import com.menatwork.hunts.HuntingCriteriaEngine;
 import com.menatwork.hunts.HuntingCriteriaListener;
+import com.menatwork.hunts.SimpleSkillHunt;
+import com.menatwork.hunts.TalentRadarDao;
 import com.menatwork.notification.TrNotification;
 
 public class HuntsActivity extends ListActivity implements
@@ -130,13 +132,19 @@ public class HuntsActivity extends ListActivity implements
 			Toast.makeText(this,
 					"No es posible remover la búsqueda por defecto",
 					Toast.LENGTH_SHORT).show();
-		else {
-			getHuntingCriteriaEngine().removeHunt(hunt);
+		else if (isSimpleSkillHunt(hunt)) {
+			final SimpleSkillHunt simpleSkillHunt = (SimpleSkillHunt) hunt;
+
+			getHuntingCriteriaEngine().removeHunt(simpleSkillHunt);
+
+			TalentRadarDao.withContext(this).deleteHunt(simpleSkillHunt);
 
 			// delete it from the ui
-			huntMaps.remove(findHuntMapFor(hunt));
+			huntMaps.remove(findHuntMapFor(simpleSkillHunt));
 			notifyDataSetChanged();
-		}
+		} else
+			throw new UnsupportedOperationException(
+					"this kind of hunt is not supported for removal");
 	}
 
 	private Map<String, ?> findHuntMapFor(final Hunt hunt) {
@@ -153,11 +161,13 @@ public class HuntsActivity extends ListActivity implements
 			Toast.makeText(this,
 					"No es posible editar la búsqueda por defecto",
 					Toast.LENGTH_SHORT).show();
-		else {
+		else if (isSimpleSkillHunt(hunt)) {
 			final Intent intent = new Intent(this, NewHuntActivity.class);
 			intent.putExtra(NewHuntActivity.EXTRAS_HUNT_ID, hunt.getId());
 			startActivity(intent);
-		}
+		} else
+			throw new UnsupportedOperationException(
+					"this kind of hunt is not supported for removal");
 	}
 
 	private void initializeListAdapter() {
@@ -217,14 +227,14 @@ public class HuntsActivity extends ListActivity implements
 	private void initializeAlreadyExistentHunts() {
 		final Collection<Hunt> hunts = getHuntingCriteriaEngine().getHunts();
 
-		removeAllHunts();
+		removeAllHuntsFromUi();
 		// TODO - validate! default hunt should be included in hunting engine -
 		// miguel - 04/11/2012
 		// addHuntsAndNotify(DefaultHunt.getInstance());
 		addHuntsAndNotify(hunts);
 	}
 
-	private void removeAllHunts() {
+	private void removeAllHuntsFromUi() {
 		huntMaps.clear();
 	}
 
@@ -284,6 +294,10 @@ public class HuntsActivity extends ListActivity implements
 
 	private boolean isDefaultHunt(final Hunt hunt) {
 		return hunt instanceof DefaultHunt;
+	}
+
+	private boolean isSimpleSkillHunt(final Hunt hunt) {
+		return hunt instanceof SimpleSkillHunt;
 	}
 
 	// ****************************************************** //

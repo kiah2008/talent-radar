@@ -380,4 +380,9 @@ public class TalentRadarApplication extends Application implements
 		return radar;
 	}
 
+	public void closeDatabase() {
+		Log.i(getClass().getSimpleName(), "closing db");
+		TalentRadarDao.withContext(this).close();
+	}
+
 }

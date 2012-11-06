@@ -70,27 +70,22 @@ public class SimpleSkillHunt extends BaseHunt {
 		return true;
 	}
 
-	@Override
 	public List<String> getRequiredSkills() {
 		return requiredSkills;
 	}
 
-	@Override
 	public List<String> getPreferredSkills() {
 		return preferredSkills;
 	}
 
-	@Override
 	public void setTitle(final String title) {
 		this.title = title;
 	}
 
-	@Override
 	public void setRequiredSkills(final List<String> requiredSkills) {
 		this.requiredSkills = requiredSkills;
 	}
 
-	@Override
 	public void setPreferredSkills(final List<String> preferredSkills) {
 		this.preferredSkills = preferredSkills;
 	}

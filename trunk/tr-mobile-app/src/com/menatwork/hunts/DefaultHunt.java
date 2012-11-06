@@ -41,11 +41,6 @@ public class DefaultHunt extends BaseHunt {
 	}
 
 	@Override
-	public void setTitle(final String title) {
-		// won't change title
-	}
-
-	@Override
 	public String getDescription() {
 		return "Aquí encontrarás los usuarios que guardes a mano";
 	}
@@ -89,41 +84,17 @@ public class DefaultHunt extends BaseHunt {
 			addUser(user);
 	}
 
-	private void notifyHuntStateModified() {
-		for (final HuntingCriteriaListener listener : listeners)
-			listener.onHuntsSateModified();
-	}
-
 	// ************************************************ //
-	// ====== Not required for the default hunt ======
+	// ====== Listener manipulation ======
 	// ************************************************ //
-
-	@Override
-	public List<String> getRequiredSkills() {
-		// TODO Auto-generated constructor stub
-		throw new UnsupportedOperationException("Hunt.getRequiredSkills");
-	}
-
-	@Override
-	public List<String> getPreferredSkills() {
-		// TODO Auto-generated constructor stub
-		throw new UnsupportedOperationException("Hunt.getPreferredSkills");
-	}
-
-	@Override
-	public void setRequiredSkills(final List<String> requiredSkills) {
-		// TODO Auto-generated constructor stub
-		throw new UnsupportedOperationException("Hunt.setRequiredSkills");
-	}
-
-	@Override
-	public void setPreferredSkills(final List<String> preferredSkills) {
-		// TODO Auto-generated constructor stub
-		throw new UnsupportedOperationException("Hunt.setPreferredSkills");
-	}
 
 	public void addListener(final HuntingCriteriaListener listener) {
 		listeners.add(listener);
+	}
+
+	private void notifyHuntStateModified() {
+		for (final HuntingCriteriaListener listener : listeners)
+			listener.onHuntsSateModified();
 	}
 
 }

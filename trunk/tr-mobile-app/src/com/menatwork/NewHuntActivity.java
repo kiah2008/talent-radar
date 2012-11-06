@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.menatwork.hunts.Hunt;
 import com.menatwork.hunts.HuntingCriteriaEngine;
+import com.menatwork.hunts.SimpleSkillHunt;
 import com.menatwork.hunts.SimpleSkillHuntBuilder;
 import com.menatwork.skills.SkillButtonFactory;
 import com.menatwork.skills.SkillSuggestionBox;
@@ -48,17 +49,17 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 		this.initializeHuntContentAppropiately();
 	}
 
-	private Hunt getHunt() {
+	private SimpleSkillHunt getHunt() {
 		final String huntId = getIntent().getExtras().getString(EXTRAS_HUNT_ID);
 		final HuntingCriteriaEngine huntingCriteriaEngine = TalentRadarApplication
 				.getContext().getHuntingCriteriaEngine();
-		return huntingCriteriaEngine.findHuntById(huntId);
+		return (SimpleSkillHunt) huntingCriteriaEngine.findHuntById(huntId);
 	}
 
 	/**
 	 * Initializes the hunt to be edited if the activity was called with a hunt
 	 * ID.
-	 * 
+	 *
 	 * @param bundle
 	 */
 	private void initializeHuntContentAppropiately() {
@@ -69,7 +70,7 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 
 		// check if there is such huntId and start edit mode
 		if (huntId != null) {
-			final Hunt hunt = getHunt();
+			final SimpleSkillHunt hunt = getHunt();
 
 			final TextView titleLabel = findTextViewById(R.id.new_hunt_label_title);
 			titleLabel.setText(R.string.new_hunt_edit_title);
@@ -151,7 +152,7 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 					.getSkillButtonFactory().getEmptySkillsButton(this));
 	}
 
-	private Hunt buildHunt() {
+	private SimpleSkillHunt buildHunt() {
 		final SimpleSkillHuntBuilder builder = SimpleSkillHuntBuilder
 				.newInstance();
 		final String huntName = nameTextView.getText().toString();
@@ -391,9 +392,10 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 				final HuntingCriteriaEngine huntingCriteriaEngine = getTalentRadarApplication()
 						.getHuntingCriteriaEngine();
 				huntingCriteriaEngine.addHunt(newHunt);
+
 			} else { // isEditionMode -> update hunt state
-				final Hunt huntBeingEdited = getHunt();
-				final Hunt newHunt = buildHunt();
+				final SimpleSkillHunt huntBeingEdited = getHunt();
+				final SimpleSkillHunt newHunt = buildHunt();
 
 				huntBeingEdited.setTitle(newHunt.getTitle());
 				huntBeingEdited.setRequiredSkills(newHunt.getRequiredSkills());
