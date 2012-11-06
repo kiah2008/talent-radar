@@ -62,7 +62,7 @@ class UsersMessagesController extends AppController {
 																	array('UsersMessage.user_from_id' => $this->data['UsersMessage']['user1_id'], 'UsersMessage.user_to_id' => $this->data['UsersMessage']['user2_id']),
 																	array('UsersMessage.user_from_id' => $this->data['UsersMessage']['user2_id'], 'UsersMessage.user_to_id' => $this->data['UsersMessage']['user1_id']))));
 																	
-			if(!empty($this->data['UsersMessage']['first_message_id'])) {
+			if(isset($this->data['UsersMessage']['first_message_id']) && !empty($this->data['UsersMessage']['first_message_id'])) {
 				$conditions['conditions']['UsersMessage.id <'] = $this->data['UsersMessage']['first_message_id'];
 			}
 			
