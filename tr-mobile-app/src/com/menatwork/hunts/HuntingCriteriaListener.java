@@ -1,6 +1,8 @@
 package com.menatwork.hunts;
 
-public interface HuntingCriteriaListener {
+import java.util.EventListener;
+
+public interface HuntingCriteriaListener extends EventListener {
 
 	void onHuntsSateModified();
 

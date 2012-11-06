@@ -143,6 +143,7 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 		}
 
 		cursor.close();
+		Log.i(getClass().getSimpleName(), "loading default hunt");
 
 		return defaultHunt;
 	}
@@ -169,6 +170,7 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 	}
 
 	public List<SimpleSkillHunt> getAllHunts() {
+
 		final List<SimpleSkillHunt> hunts = new ArrayList<SimpleSkillHunt>();
 
 		// Select All Query
@@ -187,10 +189,9 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 						.setUsers(
 								usersFromUserIds(cursor.getString(2).split(
 										STRING_SEPARATOR)))
-						.addRequiredSkills(
-								cursor.getString(3).split(STRING_SEPARATOR))
+						.addRequiredSkills(parseSkillsFrom(cursor.getString(3)))
 						.addPreferredSkills(
-								cursor.getString(4).split(STRING_SEPARATOR));
+								parseSkillsFrom(cursor.getString(4)));
 
 				// Adding contact to list
 				hunts.add(builder.build());
@@ -198,9 +199,30 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 		}
 
 		cursor.close();
+		Log.i(getClass().getSimpleName(), "getting hunts=" + hunts);
 
 		// return contact list
 		return hunts;
+	}
+
+	private List<String> parseSkillsFrom(final String string) {
+		final List<String> skills = new LinkedList<String>();
+
+		for (final String maybeSkill : string.split(STRING_SEPARATOR))
+			if (maybeSkill.length() != 0)
+				skills.add(maybeSkill);
+
+		return skills;
+	}
+
+	public void deleteHunt(final SimpleSkillHunt hunt) {
+		Log.i(getClass().getSimpleName(), "deleting hunt=" + hunt);
+		final SQLiteDatabase db = getWritableDatabase();
+
+		db.delete(TABLE_SIMPLE_SKILL_HUNTS, KEY_ID + " = ?",
+				new String[] { hunt.getId() });
+
+		db.close();
 	}
 
 	public void saveHunts(final Collection<Hunt> hunts) {
@@ -208,31 +230,29 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 
 		final SQLiteDatabase db = getWritableDatabase();
 
-		// final ContentValues values = new ContentValues();
-		// values.put(KEY_ID, defaultHunt.getId());
-		// values.put(KEY_USER_IDS, //
-		// StringUtils.concatStringsWithSep(userIdsToPersist(defaultHunt),
-		// STRING_SEPARATOR));
-
-		// db.insert(TABLE_CONTACTS, null, values);
-
 		for (final Hunt hunt : hunts) {
+			if (hunt instanceof SimpleSkillHunt) {
+				final SimpleSkillHunt simpleSkillHunt = (SimpleSkillHunt) hunt;
 
-			final String insertOrUpdateString = "INSERT OR REPLACE INTO "
-					+ TABLE_SIMPLE_SKILL_HUNTS + " (" + KEY_ID + ", "
-					+ KEY_USER_IDS + ", " + KEY_REQUIRED_SKILLS + ", "
-					+ KEY_PREFERRED_SKILLS + ") " + "VALUES (?, ?, ?, ?)";
+				final String insertOrUpdateString = "INSERT OR REPLACE INTO "
+						+ TABLE_SIMPLE_SKILL_HUNTS + " (" + KEY_ID + ", "
+						+ KEY_USER_IDS + ", " + KEY_REQUIRED_SKILLS + ", "
+						+ KEY_PREFERRED_SKILLS + ") " + "VALUES (?, ?, ?, ?)";
 
-			db.execSQL(
-					insertOrUpdateString,
-					new String[] {
-							hunt.getId(),
-							StringUtils.concatStringsWithSep(
-									userIdsToPersist(hunt), STRING_SEPARATOR),
-							StringUtils.concatStringsWithSep(
-									hunt.getRequiredSkills(), STRING_SEPARATOR),
-							StringUtils.concatStringsWithSep(
-									hunt.getPreferredSkills(), STRING_SEPARATOR) });
+				db.execSQL(
+						insertOrUpdateString,
+						new String[] {
+								hunt.getId(),
+								StringUtils.concatStringsWithSep(
+										userIdsToPersist(simpleSkillHunt),
+										STRING_SEPARATOR),
+								StringUtils.concatStringsWithSep(
+										simpleSkillHunt.getRequiredSkills(),
+										STRING_SEPARATOR),
+								StringUtils.concatStringsWithSep(
+										simpleSkillHunt.getPreferredSkills(),
+										STRING_SEPARATOR) });
+			}
 		}
 
 		db.close();
