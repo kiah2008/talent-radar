@@ -58,9 +58,16 @@ class UsersMessagesController extends AppController {
 			
 			$limit = !empty($this->data['UsersMessage']['limit']) ? array('limit' => $this->data['UsersMessage']['limit']) : array();
 			
-			$response['result']['messages'] = $this->UsersMessage->find('all', array_merge($limit, array('conditions' => array('OR' => array(
-																						array('UsersMessage.user_from_id' => $this->data['UsersMessage']['user1_id'], 'UsersMessage.user_to_id' => $this->data['UsersMessage']['user2_id']),
-																						array('UsersMessage.user_from_id' => $this->data['UsersMessage']['user2_id'], 'UsersMessage.user_to_id' => $this->data['UsersMessage']['user1_id']))))));
+			$conditions = array('conditions' => array('OR' => array(
+																	array('UsersMessage.user_from_id' => $this->data['UsersMessage']['user1_id'], 'UsersMessage.user_to_id' => $this->data['UsersMessage']['user2_id']),
+																	array('UsersMessage.user_from_id' => $this->data['UsersMessage']['user2_id'], 'UsersMessage.user_to_id' => $this->data['UsersMessage']['user1_id']))));
+																	
+			if(!empty($this->data['UsersMessage']['first_message_id'])) {
+				$conditions['conditions']['UsersMessage.id <'] = $this->data['UsersMessage']['first_message_id'];
+			}
+			
+			$response['result']['messages'] = $this->UsersMessage->find('all', array_merge($limit, $conditions));
+			
 			if($response['result']['messages']) {
 				$response['result']['status'] = 'ok';
 			}
