@@ -44,4 +44,14 @@ public interface Hunt {
 	 */
 	boolean addUserIfCriteriaMatched(User user);
 
+	/**
+	 * Removes the user with the ID specified by parameter from the current
+	 * hunt.
+	 *
+	 * @param userId
+	 * @return <code>true</code> - if the user has successfully been removed<br />
+	 *         <code>false</code> - otherwise
+	 */
+	boolean removeUserWithId(String userId);
+
 }
