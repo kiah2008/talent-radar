@@ -70,6 +70,7 @@
     <string name="post_key_get_chat_messages_id_1">data[UsersMessage][user1_id]</string>
     <string name="post_key_get_chat_messages_id_2">data[UsersMessage][user2_id]</string>
     <string name="post_key_get_chat_messages_limit">data[UsersMessage][limit]</string>
+    <string name="post_key_get_chat_messages_starting_id">data[UsersMessage][first_message_id]</string>
 
     <!-- Save privacy settings -->
     <string name="post_uri_save_privacy">http://www.talent-radar.com/app/users/setPrivacy</string>

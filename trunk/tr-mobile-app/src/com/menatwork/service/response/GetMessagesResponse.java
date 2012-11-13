@@ -30,9 +30,6 @@ public class GetMessagesResponse extends BaseResponse {
 				final String fromId = message.getString("user_from_id");
 				final String toId = message.getString("user_to_id");
 				final String content = message.getString("content");
-				// TODO - see what wave this codifcation - boris - 20/09/2012
-				// content = Arrays.toString(Base64.decode(content,
-				// Base64.DEFAULT));
 				messagesList.add(ChatMessage.newInstance(messageId, fromId,
 						toId, content));
 			}

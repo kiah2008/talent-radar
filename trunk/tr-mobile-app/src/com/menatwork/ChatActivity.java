@@ -293,10 +293,12 @@ public class ChatActivity extends GuiTalentRadarActivity implements
 		@Override
 		protected GetMessagesResponse doInBackground(final Void... arg0) {
 			try {
-				final GetMessages getMessages = GetMessages
-						.newInstance(ChatActivity.this, chatSession.getToId(),
-								chatSession.getFromId(),
-								OLD_MESSAGES_AMOUNT_TO_REFRESH);
+				final String firstMessageId = chatSession.getMessages().get(0)
+						.getMessageId();
+				final GetMessages getMessages = GetMessages.newInstance(
+						ChatActivity.this, chatSession.getToId(),
+						chatSession.getFromId(), firstMessageId,
+						OLD_MESSAGES_AMOUNT_TO_REFRESH);
 
 				return getMessages.execute();
 			} catch (final JSONException e) {
