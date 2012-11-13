@@ -41,6 +41,7 @@ public class SkillsActivity extends DataInputActivity {
 
 	private static final int MINIMUM_CHARACTERS_FOR_SUGGESTION = 2;
 	public static final int DIALOG_ERROR = 0;
+	public static final int MAX_SUGGESTIONS = 8;
 
 	private Button finishButton;
 	private Button cancelButton;
@@ -327,8 +328,11 @@ public class SkillsActivity extends DataInputActivity {
 			// add suggestions to suggestions-box
 			final SkillSuggestionBox skillSuggestionBox = getTalentRadarApplication()
 					.getSkillSuggestionBox();
-			final List<String> suggestions = skillSuggestionBox
+			List<String> suggestions = skillSuggestionBox
 					.getSuggestionsFor(inputString);
+
+			suggestions = suggestions.subList(0, MAX_SUGGESTIONS < suggestions
+					.size() ? MAX_SUGGESTIONS : suggestions.size());
 
 			suggestionContainer.removeAllViews();
 			for (final String suggestion : suggestions) {
