@@ -29,6 +29,7 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 
 	private static final int MINIMUM_CHARACTERS_FOR_SUGGESTION = 2;
 	public static final String EXTRAS_HUNT_ID = "hunt-id-to-be-edited";
+	public static final int MAX_SUGGESTIONS = 8;
 
 	private ViewGroup necessarySkillsContainer;
 	private ViewGroup optionalSkillsContainer;
@@ -59,7 +60,7 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 	/**
 	 * Initializes the hunt to be edited if the activity was called with a hunt
 	 * ID.
-	 *
+	 * 
 	 * @param bundle
 	 */
 	private void initializeHuntContentAppropiately() {
@@ -330,8 +331,12 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 			// add suggestions to suggestions-box
 			final SkillSuggestionBox skillSuggestionBox = getTalentRadarApplication()
 					.getSkillSuggestionBox();
-			final List<String> suggestions = skillSuggestionBox
+			List<String> suggestions = skillSuggestionBox
 					.getSuggestionsFor(inputString);
+
+			suggestions = suggestions.subList(0,
+					MAX_SUGGESTIONS < suggestions.size() ? MAX_SUGGESTIONS
+							: suggestions.size());
 
 			suggestionContainer.removeAllViews();
 			for (final String suggestion : suggestions) {
