@@ -136,6 +136,7 @@
 
         <activity
             android:name=".TrPreferenceActivity"
+            android:excludeFromRecents="true"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Black" >
