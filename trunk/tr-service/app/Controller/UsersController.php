@@ -26,7 +26,7 @@ class UsersController extends AppController {
 				}
 			}
 			
-			if($user = $this->User->find('first', array('fields' => array('id', 'auth_token', 'email', 'username', 'name', 'surname', 'headline', 'picture', 'show_name', 'show_headline', 'show_picture', 'show_skills', 'show_in_searches'), 'conditions' => array('User.id' => $this->data['User']['id'])))) {
+			if($user = $this->User->find('first', array('fields' => array('id', 'auth_token', 'email', 'username', 'name', 'surname', 'headline', 'picture', 'show_name', 'show_headline', 'show_picture', 'show_skills', 'show_jobs', 'show_in_searches'), 'conditions' => array('User.id' => $this->data['User']['id'])))) {
 				if(!$allowedProfile) {
 					if(!$user['User']['show_name']) {
 						unset($user['User']['name']);
@@ -40,6 +40,9 @@ class UsersController extends AppController {
 					}
 					if(!$user['User']['show_skills']) {
 						unset($user['UsersSkill']);
+					}
+					if(!$user['User']['show_jobs']) {
+						unset($user['UsersJob']);
 					}
 				}
 				
@@ -132,8 +135,9 @@ class UsersController extends AppController {
 				}
 				$user['User']['show_name'] = $this->data['User']['show_name'];
 				$user['User']['show_headline'] = $this->data['User']['show_headline'];
-				$user['User']['show_skills'] = $this->data['User']['show_skills'];
 				$user['User']['show_picture'] = $this->data['User']['show_picture'];
+				$user['User']['show_skills'] = $this->data['User']['show_skills'];
+				$user['User']['show_jobs'] = $this->data['User']['show_jobs'];
 				$user['User']['show_in_searches'] = $this->data['User']['show_in_searches'];
 				$this->User->set($user);
 				if($this->User->save($this->data)) {
