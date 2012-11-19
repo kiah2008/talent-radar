@@ -13,6 +13,7 @@ public class DataObjectPrivacySettings implements PrivacySettings {
 	private boolean namePublic, headlinePublic, skillsPublic, stealthy;
 	private String nickname;
 	private boolean picturePublic;
+	private boolean jobPositionsPublic;
 
 	@Override
 	public boolean isNamePublic() {
@@ -32,6 +33,11 @@ public class DataObjectPrivacySettings implements PrivacySettings {
 	@Override
 	public boolean isStealthy() {
 		return stealthy;
+	}
+
+	@Override
+	public boolean isJobPositionsPublic() {
+		return jobPositionsPublic;
 	}
 
 	@Override
@@ -68,6 +74,10 @@ public class DataObjectPrivacySettings implements PrivacySettings {
 		this.picturePublic = picturePublic;
 	}
 
+	public void setJobPositionsPublic(final boolean jobPositionsPublic) {
+		this.jobPositionsPublic = jobPositionsPublic;
+	}
+
 	@Override
 	public Map<String, Object> asMap() {
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -82,6 +92,8 @@ public class DataObjectPrivacySettings implements PrivacySettings {
 				this.isStealthy());
 		map.put(context.getString(R.string.privacy_picture_public_key),
 				this.isPicturePublic());
+		map.put(context.getString(R.string.privacy_job_positions_public_key),
+				this.isJobPositionsPublic());
 		map.put(context.getString(R.string.privacy_nickname_key),
 				this.getNickname());
 		return Collections.unmodifiableMap(map);
@@ -92,7 +104,8 @@ public class DataObjectPrivacySettings implements PrivacySettings {
 		return "DataObjectPrivacySettings [namePublic=" + namePublic
 				+ ", headlinePublic=" + headlinePublic + ", skillsPublic="
 				+ skillsPublic + ", stealthy=" + stealthy + ", nickname="
-				+ nickname + ", picturePublic=" + picturePublic + "]";
+				+ nickname + ", picturePublic=" + picturePublic
+				+ "jobPositionsPublic=" + jobPositionsPublic + "]";
 	}
 
 }

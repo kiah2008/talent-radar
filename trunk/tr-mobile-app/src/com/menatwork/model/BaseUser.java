@@ -14,6 +14,7 @@ public class BaseUser implements User {
 	private String profilePictureUrl;
 	private DataObjectPrivacySettings privacySettings;
 	private String nickname;
+	private List<JobPosition> jobPositions;
 
 	@Override
 	public DataObjectPrivacySettings getPrivacySettings() {
@@ -126,6 +127,15 @@ public class BaseUser implements User {
 	@Override
 	public boolean hasSkill(final String skill) {
 		return skills.contains(skill);
+	}
+
+	public void setJobPositions(final List<JobPosition> jobPositions) {
+		this.jobPositions = jobPositions;
+	}
+
+	@Override
+	public List<JobPosition> getJobPositions() {
+		return jobPositions;
 	}
 
 }

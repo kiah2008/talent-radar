@@ -18,4 +18,6 @@ public interface PrivacySettings {
 
 	Map<String, Object> asMap();
 
+	boolean isJobPositionsPublic();
+
 }

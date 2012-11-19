@@ -39,6 +39,11 @@ public class ProxyUser implements User {
 	}
 
 	@Override
+	public List<JobPosition> getJobPositions() {
+		return realUser.getJobPositions();
+	}
+
+	@Override
 	public String getDisplayableLongName() {
 		loadRealUserIfNeeded();
 		return realUser.getDisplayableLongName();

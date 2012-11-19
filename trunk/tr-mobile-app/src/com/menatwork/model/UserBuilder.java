@@ -1,5 +1,10 @@
 package com.menatwork.model;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import com.menatwork.service.Defect;
+
 public class UserBuilder {
 
 	private String id;
@@ -9,13 +14,19 @@ public class UserBuilder {
 	private String headline;
 	private String profilePictureUrl;
 	private String nickname;
+	private List<JobPosition> jobPositions;
+
 	private boolean stealthy;
 	private boolean headlinePublic;
 	private boolean skillsPublic;
 	private boolean namePublic;
 	private boolean picturePublic;
+	private boolean jobPositionsPublic;
 
 	public User build() {
+		validateUserHasId();
+		validateJobPositionsAreItsOwn();
+
 		final BaseUser user = new BaseUser();
 		user.setId(id);
 		user.setName(name);
@@ -24,6 +35,7 @@ public class UserBuilder {
 		user.setEmail(email);
 		user.setHeadline(headline);
 		user.setProfilePictureUrl(profilePictureUrl);
+		user.setJobPositions(jobPositions);
 
 		final DataObjectPrivacySettings privacySettings = new DataObjectPrivacySettings();
 		privacySettings.setHeadlinePublic(headlinePublic);
@@ -32,10 +44,28 @@ public class UserBuilder {
 		privacySettings.setSkillsPublic(skillsPublic);
 		privacySettings.setStealthy(stealthy);
 		privacySettings.setPicturePublic(picturePublic);
+		privacySettings.setJobPositionsPublic(jobPositionsPublic);
 
 		user.setPrivacySettings(privacySettings);
 
 		return user;
+	}
+
+	// ************************************************ //
+	// ====== Validations ======
+	// ************************************************ //
+
+	private void validateJobPositionsAreItsOwn() {
+		for (final JobPosition jobPosition : jobPositions)
+			if (!jobPosition.getUserId().equals(id))
+				throw new Defect(
+						"user should only have job positions of his/her own and not job position = "
+								+ jobPosition);
+	}
+
+	private void validateUserHasId() {
+		if (id == null)
+			throw new Defect("user ain't have id");
 	}
 
 	/* ***************************************** */
@@ -72,6 +102,11 @@ public class UserBuilder {
 		return this;
 	}
 
+	public UserBuilder setJobPositions(final List<JobPosition> jobPositions) {
+		this.jobPositions = jobPositions;
+		return this;
+	}
+
 	/* ************************************************ */
 	/* ********* Privacy-related ****************** */
 	/* ************************************************ */
@@ -81,7 +116,7 @@ public class UserBuilder {
 		return this;
 	}
 
-	public UserBuilder setStealty(final String string) {
+	public UserBuilder setStealthy(final String string) {
 		this.stealthy = !Boolean.parseBoolean(string);
 		return this;
 	}
@@ -106,6 +141,11 @@ public class UserBuilder {
 		return this;
 	}
 
+	public UserBuilder setJobPositionsPublic(final String showJobPositions) {
+		this.jobPositionsPublic = Boolean.parseBoolean(showJobPositions);
+		return this;
+	}
+
 	/* ************************************************ */
 	/* ********* Constructor methods ****************** */
 	/* ************************************************ */
@@ -115,6 +155,6 @@ public class UserBuilder {
 	}
 
 	private UserBuilder() {
+		this.jobPositions = new LinkedList<JobPosition>();
 	}
-
 }

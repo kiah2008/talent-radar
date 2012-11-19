@@ -63,6 +63,19 @@ class SharedPrivacySettings //
 	}
 
 	@Override
+	public boolean isJobPositionsPublic() {
+		return this
+				.getBoolean(
+						getString(R.string.privacy_job_positions_public_key),
+						Boolean.parseBoolean(getString(R.string.privacy_job_positions_public_default)));
+	}
+
+	public void setJobPositionsPublic(final boolean jobPositionsPublic) {
+		this.putBoolean(getString(R.string.privacy_job_positions_public_key),
+				jobPositionsPublic);
+	}
+
+	@Override
 	public boolean isStealthy() {
 		return this
 				.getBoolean(

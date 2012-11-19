@@ -32,4 +32,6 @@ public interface User {
 
 	boolean hasSkill(String requiredSkill);
 
+	List<JobPosition> getJobPositions();
+
 }
