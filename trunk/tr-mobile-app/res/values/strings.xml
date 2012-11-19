@@ -58,5 +58,7 @@
     <string name="new_hunt_edit_title">Editar Búsqueda</string>
     <string name="hunt_miniprofile_context_menu_remove_label">Remover usuario de búsqueda</string>
     <string name="hunt_miniprofile_context_menu_remove_successfully">El usuario ha sido removido exitosamente de la búsqueda</string>
+    <string name="default_hunt_title">Portfolio de contactos</string>
+    <string name="default_hunt_description">Aquí encontrarás los usuarios que guardes a mano</string>
 
 </resources>

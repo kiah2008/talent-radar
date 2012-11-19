@@ -3,14 +3,16 @@ package com.menatwork.hunts;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.menatwork.R;
+import com.menatwork.TalentRadarApplication;
 import com.menatwork.model.User;
 
 /**
  * DefaultHunt represents the hunt availabe for everyone where each user is
  * saved by demand and not a certain criteria.
- *
+ * 
  * @author miguel
- *
+ * 
  */
 public class DefaultHunt extends BaseHunt {
 
@@ -18,7 +20,12 @@ public class DefaultHunt extends BaseHunt {
 
 	private final List<HuntingCriteriaListener> listeners;
 
+	// ************************************************ //
+	// ====== Creation methods ======
+	// ************************************************ //
+
 	static {
+		// it's created when the class is started
 		DEFAULT_HUNT_SINGLETON = new DefaultHunt();
 	}
 
@@ -30,6 +37,10 @@ public class DefaultHunt extends BaseHunt {
 		this.listeners = new LinkedList<HuntingCriteriaListener>();
 	}
 
+	// ************************************************ //
+	// ====== Instance members ======
+	// ************************************************ //
+
 	@Override
 	public String getId() {
 		return "default-hunt";
@@ -37,12 +48,12 @@ public class DefaultHunt extends BaseHunt {
 
 	@Override
 	public String getTitle() {
-		return "Búsqueda por defecto";
+		return getString(R.string.default_hunt_title);
 	}
 
 	@Override
 	public String getDescription() {
-		return "Aquí encontrarás los usuarios que guardes a mano";
+		return getString(R.string.default_hunt_description);
 	}
 
 	@Override
@@ -55,7 +66,7 @@ public class DefaultHunt extends BaseHunt {
 	 * certain criteria and for the sake of avoiding problems trying to use it
 	 * as some other hunt, it won't ever accept a user (by some criteria). Use
 	 * {@link #addUser(User)} instead to add a contact picked by the user.
-	 *
+	 * 
 	 * <b>WONT ADD THE USER!</b>
 	 */
 	@Override
@@ -66,7 +77,7 @@ public class DefaultHunt extends BaseHunt {
 	/**
 	 * For the default hunt, use this method instead of
 	 * {@link #addUserIfCriteriaMatched(User)}
-	 *
+	 * 
 	 * @param user
 	 */
 	@Override
@@ -95,6 +106,14 @@ public class DefaultHunt extends BaseHunt {
 	private void notifyHuntStateModified() {
 		for (final HuntingCriteriaListener listener : listeners)
 			listener.onHuntsSateModified();
+	}
+
+	// ************************************************ //
+	// ====== Talent Radar commons ======
+	// ************************************************ //
+
+	private String getString(final int stringId) {
+		return TalentRadarApplication.getStringById(stringId);
 	}
 
 }
