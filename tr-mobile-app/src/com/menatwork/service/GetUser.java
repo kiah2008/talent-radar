@@ -7,21 +7,21 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
+import android.content.Context;
+
 import com.menatwork.R;
 import com.menatwork.service.response.GetUserResponse;
 
-import android.content.Context;
-
 public class GetUser extends ServiceCall<GetUserResponse> {
 
-	private String userId;
-	private String localUserId;
+	private final String userId;
+	private final String localUserId;
 
-	public static GetUser newInstance(Context context, String userId, String localUserId) {
+	public static GetUser newInstance(final Context context, final String userId, final String localUserId) {
 		return new GetUser(context, userId, localUserId);
 	}
 
-	private GetUser(Context context, String userId, String localUserId) {
+	private GetUser(final Context context, final String userId, final String localUserId) {
 		super(context);
 		this.userId = userId;
 		this.localUserId = localUserId;
@@ -34,16 +34,15 @@ public class GetUser extends ServiceCall<GetUserResponse> {
 
 	@Override
 	protected List<NameValuePair> buildPostParametersList() {
-		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>(1);
+		final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>(1);
 		params.add(new BasicNameValuePair(getString(R.string.post_key_userId),
 				userId));
-		// TODO extract string
-		params.add(new BasicNameValuePair("data[User][user_request_id]", localUserId));
+		params.add(new BasicNameValuePair(getString(R.string.post_key_user_request_id), localUserId));
 		return params;
 	}
 
 	@Override
-	protected GetUserResponse wrap(JSONObject response) {
+	protected GetUserResponse wrap(final JSONObject response) {
 		return new GetUserResponse(response);
 	}
 }

@@ -32,6 +32,7 @@
     <!-- Get user -->
     <string name="post_uri_getUser">http://www.talent-radar.com/app/users/getUser</string>
     <string name="post_key_userId">data[User][id]</string>
+    <string name="post_key_user_request_id">data[User][user_request_id]</string>
 
     <!-- Get User skills -->
     <string name="post_uri_get_user_skills">http://www.talent-radar.com/app/usersSkills/getFromLinkedin</string>

@@ -39,4 +39,10 @@
     <string name="privacy_picture_public_summary">Elige si tu imagen de perfil será visible públicamente</string>
     <string name="privacy_picture_public_label">Imagen de perfil</string>
 
+    <!-- * -->
+    <string name="privacy_job_positions_public_default">false</string>
+    <string name="privacy_job_positions_public_key">privacy_job_positions_public</string>
+    <string name="privacy_job_positions_public_summary">Elige si tus puestos de trabajo serán visibles públicamente</string>
+    <string name="privacy_job_positions_public_label">Puestos de trabajo</string>
+
 </resources>

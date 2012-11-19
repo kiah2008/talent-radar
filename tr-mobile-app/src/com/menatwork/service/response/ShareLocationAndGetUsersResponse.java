@@ -20,17 +20,17 @@ public class ShareLocationAndGetUsersResponse extends BaseResponse {
 	public List<? extends User> parseSurroundingUsers() {
 		Log.i("users obtained from sharing location", getResponse().toString());
 		try {
-			final JSONObject usersArray = getResponse().getJSONObject("result")
+			final JSONObject usersObject = getResponse().getJSONObject("result")
 					.getJSONObject("users");
 
 			final LinkedList<User> surroundingUsers = new LinkedList<User>();
-			final int usersArrayLength = usersArray.length();
+			final int usersArrayLength = usersObject.length();
 
 			JSONObject userDuple;
 			for (int i = 0; i < usersArrayLength; i++) {
 				final String userIndex = String.valueOf(i);
 
-				userDuple = usersArray.getJSONObject(userIndex);
+				userDuple = usersObject.getJSONObject(userIndex);
 				final User user = parseUserDuple(userDuple);
 				surroundingUsers.add(user);
 			}
@@ -50,7 +50,7 @@ public class ShareLocationAndGetUsersResponse extends BaseResponse {
 	}
 
 	private User parseUser(final JSONObject userJson) throws JSONException {
-		return new JsonUserParser(userJson).parse();
+		return new JsonUserParser(userJson).parse().build();
 	}
 
 	/**
@@ -61,9 +61,9 @@ public class ShareLocationAndGetUsersResponse extends BaseResponse {
 	 * "longitude":"1", <br />
 	 * "created":"2012-07-05 09:37:56", <br />
 	 * "modified":"2012-07-27 16:16:47"
-	 * 
+	 *
 	 * @param onlineJson
-	 * 
+	 *
 	 * @throws JSONException
 	 */
 	private void parseOnlineStatus(final JSONObject onlineJson)
