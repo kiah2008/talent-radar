@@ -36,8 +36,7 @@ import com.menatwork.skills.SkillButtonFactory;
 import com.menatwork.skills.SkillSuggestionBox;
 import com.menatwork.utils.AndroidUtils;
 
-public class TalentRadarApplication extends Application implements
-		TalentRadarConfigurationListener {
+public class TalentRadarApplication extends Application implements TalentRadarConfigurationListener {
 
 	private static TalentRadarApplication applicationContext;
 
@@ -73,10 +72,8 @@ public class TalentRadarApplication extends Application implements
 		final SharedPreferences defaultSharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(this);
 
-		preferences = new SharedTalentRadarConfiguration(
-				defaultSharedPreferences, this, this);
-		sharedPrivacySettings = new SharedPrivacySettings(this,
-				defaultSharedPreferences);
+		preferences = new SharedTalentRadarConfiguration(defaultSharedPreferences, this, this);
+		sharedPrivacySettings = new SharedPrivacySettings(this, defaultSharedPreferences);
 
 		notificationManager = TrNotificationManager.newInstance();
 		locationSourceManager = NaiveLocationSourceManager.newInstance();
@@ -90,8 +87,8 @@ public class TalentRadarApplication extends Application implements
 
 	protected InMemorySkillSuggestionBox initializeSkillSuggestionBox() {
 		final InMemorySkillSuggestionBox skillSuggestionBox = new InMemorySkillSuggestionBox();
-		skillSuggestionBox.setSkills("Java", "Javelin", "Jasper", "Juno",
-				"Git", "Gitorious", "Subversion", "Subversive");
+		skillSuggestionBox.setSkills("Java", "Javelin", "Jasper", "Juno", "Git", "Gitorious", "Subversion",
+				"Subversive");
 		skillSuggestionBox.setSearchAlgorithm(new BruteForceSearchAlgorithm());
 		return skillSuggestionBox;
 	}
@@ -100,10 +97,8 @@ public class TalentRadarApplication extends Application implements
 	private void setDefaultUncaughtExceptionHandler() {
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override
-			public void uncaughtException(final Thread paramThread,
-					final Throwable paramThrowable) {
-				Log.e(paramThread.toString(),
-						"Uncaught ex = " + paramThrowable.toString());
+			public void uncaughtException(final Thread paramThread, final Throwable paramThrowable) {
+				Log.e(paramThread.toString(), "Uncaught ex = " + paramThrowable.toString());
 				final Handler handler = getMainLooperHandler();
 				handler.post(new DisplayGenericErrorToastRunnable());
 			}
@@ -173,13 +168,13 @@ public class TalentRadarApplication extends Application implements
 	}
 
 	public void saveHuntsState() {
+		// TODO - reuse same dao - boris - 17/11/2012
 		TalentRadarDao.withContext(this).saveDefaultHunt();
 		TalentRadarDao.withContext(this).saveHunts(getHuntsButDefault());
 	}
 
 	private Collection<Hunt> getHuntsButDefault() {
-		final LinkedList<Hunt> hunts = new LinkedList<Hunt>(
-				huntingCriteriaEngine.getHunts());
+		final LinkedList<Hunt> hunts = new LinkedList<Hunt>(huntingCriteriaEngine.getHunts());
 		hunts.remove(DefaultHunt.getInstance());
 		return hunts;
 	}
@@ -189,8 +184,7 @@ public class TalentRadarApplication extends Application implements
 
 		huntsDao.open();
 		huntsDao.loadDefaultHunt();
-		huntingCriteriaEngine = HuntingCriteriaEngine.withHunts(DefaultHunt
-				.getInstance());
+		huntingCriteriaEngine = HuntingCriteriaEngine.withHunts(DefaultHunt.getInstance());
 
 		huntsDao.open();
 		huntingCriteriaEngine.addHunts(huntsDao.getAllHunts());
@@ -209,8 +203,7 @@ public class TalentRadarApplication extends Application implements
 	}
 
 	@Override
-	public synchronized void onConfigurationChanged(
-			final ConfigurationChanges changes,
+	public synchronized void onConfigurationChanged(final ConfigurationChanges changes,
 			final TalentRadarConfiguration preferences) {
 		Log.d("TalentRadarApplication", "onConfigurationChanged");
 
@@ -229,8 +222,7 @@ public class TalentRadarApplication extends Application implements
 		return locationSourceManager;
 	}
 
-	public void setLocationSourceManager(
-			final LocationSourceManager locationSourceManager) {
+	public void setLocationSourceManager(final LocationSourceManager locationSourceManager) {
 		this.locationSourceManager = locationSourceManager;
 	}
 
@@ -248,16 +240,13 @@ public class TalentRadarApplication extends Application implements
 		setLocationSourceManager(null);
 	}
 
-	private void updateLocationSourceManagerConfiguration(
-			final TalentRadarConfiguration preferences) {
+	private void updateLocationSourceManagerConfiguration(final TalentRadarConfiguration preferences) {
 
-		final long actualizationFrequencyMilliseconds = preferences
-				.getActualizationFrequencyMilliseconds();
+		final long actualizationFrequencyMilliseconds = preferences.getActualizationFrequencyMilliseconds();
 		final long millisecondsBetweenUpdates = actualizationFrequencyMilliseconds / 2;
 
 		// change actualization frequency
-		locationSourceManager
-				.setMillisecondsBetweenUpdates(actualizationFrequencyMilliseconds);
+		locationSourceManager.setMillisecondsBetweenUpdates(actualizationFrequencyMilliseconds);
 
 		// change location sources
 		locationSourceManager.removeAllLocationSources();
@@ -278,8 +267,7 @@ public class TalentRadarApplication extends Application implements
 	public String getDeviceRegistrationId() {
 		if (deviceRegistrationId == null)
 			if (!this.isDeviceRegistered())
-				throw new RuntimeException(
-						"Device not registered, deviceRegistrationId == null");
+				throw new RuntimeException("Device not registered, deviceRegistrationId == null");
 			else
 				deviceRegistrationId = GCMRegistrar.getRegistrationId(this);
 		return deviceRegistrationId;
@@ -302,8 +290,7 @@ public class TalentRadarApplication extends Application implements
 				GCMRegistrar.register(this, GCMIntentService.SENDER_ID);
 				deviceRegistrationLock.wait();
 				if (deviceRegistrationId == null)
-					Log.w("TalentRadarApp",
-							"Timeout registering device, continuing excecution...");
+					Log.w("TalentRadarApp", "Timeout registering device, continuing excecution...");
 				else
 					Log.d("TalentRadarApp", "Registered device");
 			}
@@ -332,8 +319,8 @@ public class TalentRadarApplication extends Application implements
 	private final class DisplayGenericErrorToastRunnable implements Runnable {
 		@Override
 		public void run() {
-			Toast.makeText(TalentRadarApplication.getContext(),
-					R.string.generic_error, Toast.LENGTH_LONG).show();
+			Toast.makeText(TalentRadarApplication.getContext(), R.string.generic_error, Toast.LENGTH_LONG)
+					.show();
 		}
 	}
 
@@ -342,12 +329,15 @@ public class TalentRadarApplication extends Application implements
 		return handler;
 	}
 
+	public static String getStringById(final int stringId) {
+		return getContext().getString(stringId);
+	}
+
 	// ************************************************ //
 	// ====== NaiveLocationSourceManager ======
 	// ************************************************ //
 
-	private static final class NaiveLocationSourceManager extends
-			LocationSourceManager {
+	private static final class NaiveLocationSourceManager extends LocationSourceManager {
 		@Override
 		public void activate() {
 			// nothing to do here!
