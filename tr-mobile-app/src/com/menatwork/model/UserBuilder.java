@@ -22,6 +22,8 @@ public class UserBuilder {
 	private boolean namePublic;
 	private boolean picturePublic;
 	private boolean jobPositionsPublic;
+	private DataObjectPrivacySettings privacySettings;
+	private boolean jobPositionsSet = false;
 
 	public User build() {
 		validateUserHasId();
@@ -46,8 +48,14 @@ public class UserBuilder {
 		privacySettings.setPicturePublic(picturePublic);
 		privacySettings.setJobPositionsPublic(jobPositionsPublic);
 
-		user.setPrivacySettings(privacySettings);
-
+		user.setDeclaredPrivacySettings(privacySettings);
+		
+		privacySettings.setJobPositionsPublic(jobPositionsSet);
+		privacySettings.setNickname(privacySettings.getNickname());
+		privacySettings.setSkillsPublic(privacySettings.isSkillsPublic());
+		privacySettings.setStealthy(privacySettings.isStealthy());
+		user.setRealPrivacySettings(this.privacySettings);
+		
 		return user;
 	}
 
@@ -104,6 +112,7 @@ public class UserBuilder {
 
 	public UserBuilder setJobPositions(final List<JobPosition> jobPositions) {
 		this.jobPositions = jobPositions;
+		this.jobPositionsSet = true;
 		return this;
 	}
 
@@ -146,6 +155,11 @@ public class UserBuilder {
 		return this;
 	}
 
+	public UserBuilder setRealPrivacySettings(final DataObjectPrivacySettings privacySettings) {
+		this.privacySettings = privacySettings;
+		return this;
+	}
+
 	/* ************************************************ */
 	/* ********* Constructor methods ****************** */
 	/* ************************************************ */
@@ -157,4 +171,5 @@ public class UserBuilder {
 	private UserBuilder() {
 		this.jobPositions = new LinkedList<JobPosition>();
 	}
+
 }

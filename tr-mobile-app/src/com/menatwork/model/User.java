@@ -10,6 +10,8 @@ public interface User {
 
 	String getDisplayableLongName();
 
+	String getDisplayableShortName();
+
 	String getHeadline();
 
 	List<String> getSkills();
@@ -25,8 +27,6 @@ public interface User {
 	String getNickname();
 
 	String getProfilePictureUrl();
-
-	String forceGetRealName();
 
 	PrivacySettings getPrivacySettings();
 
