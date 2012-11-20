@@ -68,6 +68,7 @@ public class LoginActivity extends AbstractLoginActivity {
 		LogUtils.d(this, "Returning from Login with Linkedin service", intent);
 		final Uri data = intent.getData();
 		final String userid = data.getPathSegments().get(0);
+		
 		if (userid == null) {
 			showDialog(DIALOG_ERROR);
 			return;
@@ -78,6 +79,7 @@ public class LoginActivity extends AbstractLoginActivity {
 			showDialog(DIALOG_ERROR);
 			return;
 		}
+		
 		final ProgressDialog progressDialog = ProgressDialog.show(this, "",
 				getString(R.string.login_authenticating), true);
 		Log.d("LoginActivity", "Returning id from Login with Linkedin service");

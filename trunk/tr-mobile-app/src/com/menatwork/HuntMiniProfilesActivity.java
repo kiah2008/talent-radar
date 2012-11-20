@@ -60,6 +60,7 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 			// TODO - make it work so you can delete users from hunt - miguel - 06/11/2012
 			final ListView listView = listController.getListView();
 			registerForContextMenu(listView);
+			
 			// listView.setOnCreateContextMenuListener(new
 			// OnCreateContextMenuListener() {
 			//
@@ -128,5 +129,4 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 		return getTalentRadarApplication().getHuntingCriteriaEngine()
 				.findHuntById((String) extras.get(EXTRAS_HUNT_ID));
 	}
-
 }
