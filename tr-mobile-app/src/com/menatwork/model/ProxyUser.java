@@ -130,8 +130,8 @@ public class ProxyUser implements User {
 			// the user as well as the hunt (or the necessary fields) or
 			// having a service which collects all users from a list of user
 			// ids - miguel - 05/11/2012
-			final GetUser getUserService = GetUser.newInstance(
-					getTalentRadarApplication(), id, getLocalUserId());
+			final GetUser getUserService = GetUser.newInstance(getTalentRadarApplication(), id,
+					getLocalUserId());
 			final GetUserResponse response = getUserService.execute();
 
 			realUser = response.getUser();

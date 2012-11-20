@@ -87,4 +87,8 @@
     <string name="post_uri_get_skills">http://www.talent-radar.com/app/skills/getSkills</string>
     <string name="post_key_get_skills_skills">data[Skill][skills]</string>
 
+    <!-- Get User Job Positions -->
+    <string name="post_uri_get_user_job_positions">http://www.talent-radar.com/app/usersSkills/getFromLinkedin</string>
+    <string name="post_key_get_user_job_positions_user_id">data[UsersSkill][user_id]</string>
+
 </resources>

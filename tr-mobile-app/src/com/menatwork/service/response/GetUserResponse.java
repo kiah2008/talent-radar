@@ -22,19 +22,15 @@ public class GetUserResponse extends BaseResponse {
 	// show_in_searches / username / show_headline / show_skills / show_name
 	public User getUser() {
 		try {
-			final JSONObject userResultObject = getResponse().getJSONObject(
-					"result").getJSONObject("user");
+			final JSONObject userResultObject = getResponse().getJSONObject("result").getJSONObject("user");
 
-			final JSONObject userJsonObject = userResultObject
-					.getJSONObject(USER_KEY);
-			final UserBuilder userBuilder = new JsonUserParser(userJsonObject)
-					.parse();
+			final JSONObject userJsonObject = userResultObject.getJSONObject(USER_KEY);
+			final UserBuilder userBuilder = new JsonUserParser(userJsonObject).parse();
 
 			if (responseHasJobPositions(userResultObject)) {
-				final JSONObject jobsPositionsJsonObject = userResultObject
-						.getJSONObject(JOB_POSITIONS_KEY);
-				final List<JobPosition> jobPositions = new JsonJobPositionsParser(
-						jobsPositionsJsonObject).parse();
+				final JSONObject jobsPositionsJsonObject = userResultObject.getJSONObject(JOB_POSITIONS_KEY);
+				final List<JobPosition> jobPositions = new JsonJobPositionsParser(jobsPositionsJsonObject)
+						.parse();
 
 				userBuilder.setJobPositions(jobPositions);
 			}
