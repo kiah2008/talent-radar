@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.menatwork.hunts.DefaultHunt;
 import com.menatwork.miniprofile.PingTask;
+import com.menatwork.model.JobPosition;
 import com.menatwork.model.User;
 import com.menatwork.skills.SkillButtonFactory;
 import com.menatwork.view.LoadProfilePictureTask;
@@ -23,13 +24,13 @@ import com.menatwork.view.LoadProfilePictureTask;
  * In order to make this view reusable for viewing any user profile, you need to
  * pass along in a bundle the user id that you are trying to visualize (or
  * nothing for the local user, that means, don't put anything in the extras!)
- *
+ * 
  * key: userid / value: a string with the user id (eg. "25")
- *
+ * 
  * @see {@link ProfileActivity#EXTRAS_USERID}
- *
+ * 
  * @author aabdala
- *
+ * 
  */
 public class ProfileActivity extends GuiTalentRadarActivity {
 
@@ -46,6 +47,8 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 	private User user;
 	private ProgressBar loadingProfilePic;
 	private ImageView profilePic;
+
+	private ViewGroup jobsLayout;
 
 	@Override
 	protected void postCreate(final Bundle savedInstanceState) {
@@ -68,6 +71,37 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 			fullname.setText(user.getDisplayableLongName());
 		this.headline.setText(getHeadlineText(user.getHeadline()));
 		this.loadSkills();
+		this.loadJobs();
+	}
+
+	private void loadJobs() {
+		if (user.equals(getLocalUser())
+				|| user.getPrivacySettings().isJobPositionsPublic()) {
+			final List<JobPosition> jobPositions = user.getJobPositions();
+			for (final JobPosition jobPosition : jobPositions) {
+				final TextView newJobPositionLabel = new TextView(this);
+				newJobPositionLabel.setText(jobPosition.getTitle());
+				int index;
+				if (jobPosition.isCurrent()) {
+					index = 0;
+					newJobPositionLabel.setTextAppearance(this,
+							android.R.style.TextAppearance_Medium);
+				} else {
+					index = jobsLayout.getChildCount();
+					newJobPositionLabel.setTextAppearance(this,
+							android.R.style.TextAppearance_Small);
+				}
+				jobsLayout.addView(newJobPositionLabel, index);
+
+			}
+		} else
+			addEmptyJobPosition();
+	}
+
+	private void addEmptyJobPosition() {
+		final TextView newJobPositionLabel = new TextView(this);
+		newJobPositionLabel.setText(getString(R.string.profile_no_jobs));
+		jobsLayout.addView(newJobPositionLabel);
 	}
 
 	private void initializeUser() {
@@ -102,7 +136,7 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 
 		// And then on your layout
 		findViewById(R.id.profile_label_skills).startAnimation(alpha);
-		findViewById(R.id.profile_label_email).startAnimation(alpha);
+		findViewById(R.id.profile_label_jobs).startAnimation(alpha);
 	}
 
 	@Override
@@ -131,6 +165,7 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 		fullname = findTextViewById(R.id.profile_fullname);
 		headline = findTextViewById(R.id.profile_headline);
 		skillsLayout = findViewGroupById(R.id.profile_layout_skills);
+		jobsLayout = findViewGroupById(R.id.profile_layout_jobs);
 		pingButton = findImageButtonById(R.id.profile_button_ping);
 		captureButton = findImageButtonById(R.id.profile_button_capture);
 		loadingProfilePic = (ProgressBar) findViewById(R.id.profile_loading_profile_pic);

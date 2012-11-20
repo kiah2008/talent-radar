@@ -104,26 +104,21 @@
             </com.menatwork.view.FlowLayout>
 
             <TextView
-                android:id="@+id/profile_label_email"
+                android:id="@+id/profile_label_jobs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/profile_layout_skills"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/background_light"
-                android:text="@string/profile_label_email"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:visibility="gone" />
+                android:text="@string/profile_label_jobs"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:id="@+id/profile_email"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/profile_layout_jobs"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/profile_label_email"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="4dp"
-                android:text="duke_nukem@3drealms.com"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:visibility="gone" />
+                android:layout_below="@+id/profile_label_jobs"
+                android:orientation="vertical" />
         </RelativeLayout>
     </RelativeLayout>
 
