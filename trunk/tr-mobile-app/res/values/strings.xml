@@ -28,7 +28,8 @@
     <string name="profile_no_skills_button">No skills</string>
     <string name="profile_no_headline">(Este usuario no ha ingresado una descripción)</string>
     <string name="profile_skills">Skills</string>
-    <string name="profile_label_email">Email</string>
+    <string name="profile_label_jobs">Experiencia laboral</string>
+    <string name="profile_no_jobs">No se registran posiciones laborales</string>
 
     <!-- Main Activity tab labels -->
     <string name="tab_label_profile">Perfil</string>
