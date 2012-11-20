@@ -66,7 +66,7 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 
 	private void loadUserData() {
 		if (user.equals(getLocalUser()))
-			fullname.setText(user.forceGetRealName());
+			fullname.setText(user.getDisplayableLongName());
 		else
 			fullname.setText(user.getDisplayableLongName());
 		this.headline.setText(getHeadlineText(user.getHeadline()));
@@ -86,6 +86,9 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 					index = 0;
 					newJobPositionLabel.setTextAppearance(this,
 							android.R.style.TextAppearance_Medium);
+					newJobPositionLabel.setText(newJobPositionLabel.getText()
+							+ " "
+							+ getString(R.string.profile_current_job_suffix));
 				} else {
 					index = jobsLayout.getChildCount();
 					newJobPositionLabel.setTextAppearance(this,

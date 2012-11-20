@@ -1,5 +1,6 @@
 package com.menatwork.model;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,23 +13,107 @@ public class BaseUser implements User {
 	private String headline;
 	private List<String> skills = new LinkedList<String>();
 	private String profilePictureUrl;
-	private DataObjectPrivacySettings privacySettings;
+	private DataObjectPrivacySettings declaredPrivacySettings;
+	private DataObjectPrivacySettings realPrivacySettings;
 	private String nickname;
 	private List<JobPosition> jobPositions;
 
 	@Override
 	public DataObjectPrivacySettings getPrivacySettings() {
-		return privacySettings;
+		return declaredPrivacySettings;
 	}
 
 	@Override
 	public String getProfilePictureUrl() {
-		return profilePictureUrl;
+		if (declaredPrivacySettings.isPicturePublic()
+				|| realPrivacySettings.isPicturePublic())
+			return profilePictureUrl;
+		else
+			return "non-parseable-url";
 	}
 
 	@Override
 	public String getId() {
 		return id;
+	}
+
+	@Override
+	public String getEmail() {
+		return email;
+	}
+
+	@Override
+	/**
+	 * Gets the 'long way' to identify this user (either name+surname if visible, or just the nickname)
+	 */
+	public String getDisplayableLongName() {
+		if (declaredPrivacySettings.isNamePublic()
+				|| realPrivacySettings.isNamePublic())
+			return name + " " + surname;
+		else
+			return nickname;
+	}
+
+	@Override
+	/**
+	 * Gets the 'long way' to identify this user (either name+surname if visible, or just the nickname)
+	 */
+	public String getDisplayableShortName() {
+		if (declaredPrivacySettings.isNamePublic()
+				|| realPrivacySettings.isNamePublic())
+			return name;
+		else
+			return nickname;
+	}
+
+	@Override
+	public String getHeadline() {
+		if (declaredPrivacySettings.isHeadlinePublic()
+				|| realPrivacySettings.isHeadlinePublic())
+			return headline;
+		else
+			return null;
+	}
+
+	@Override
+	public List<String> getSkills() {
+		if (declaredPrivacySettings.isSkillsPublic()
+				|| realPrivacySettings.isSkillsPublic())
+			return skills;
+		else
+			return Collections.emptyList();
+	}
+
+	@Override
+	public String getName() {
+		if (declaredPrivacySettings.isNamePublic()
+				|| realPrivacySettings.isNamePublic())
+			return name;
+		else
+			return null;
+	}
+
+	@Override
+	public String getSurname() {
+		if (declaredPrivacySettings.isNamePublic()
+				|| realPrivacySettings.isNamePublic())
+			return surname;
+		else
+			return null;
+	}
+
+	@Override
+	public String getNickname() {
+		return nickname;
+	}
+
+	@Override
+	public List<JobPosition> getJobPositions() {
+		if (declaredPrivacySettings.isJobPositionsPublic()
+				|| realPrivacySettings.isJobPositionsPublic())
+			return jobPositions;
+		else
+			return Collections.emptyList();
 	}
 
 	public void setId(final String id) {
@@ -41,11 +126,6 @@ public class BaseUser implements User {
 
 	public void setSurname(final String surname) {
 		this.surname = surname;
-	}
-
-	@Override
-	public String getEmail() {
-		return email;
 	}
 
 	public void setEmail(final String email) {
@@ -61,49 +141,22 @@ public class BaseUser implements User {
 		return "BaseUser [id=" + id + ", name=" + name + ", surname=" + surname
 				+ ", email=" + email + ", headline=" + headline + ", skills="
 				+ skills + ", profilePictureUrl=" + profilePictureUrl
-				+ ", privacySettings=" + privacySettings + ", nickname="
-				+ nickname + "]";
-	}
-
-	@Override
-	/**
-	 * Gets the 'long way' to identify this user (either name+surname if visible, or just the nickname)
-	 */
-	public String getDisplayableLongName() {
-		if (privacySettings.isNamePublic())
-			return name + " " + surname;
-		else
-			return nickname;
-	}
-
-	@Override
-	public String getHeadline() {
-		return headline;
-	}
-
-	@Override
-	public List<String> getSkills() {
-		return skills;
+				+ ", declaredPrivacySettings=" + declaredPrivacySettings
+				+ ", realPrivacySettings=" + realPrivacySettings
+				+ ", nickname=" + nickname + ", jobPositions=" + jobPositions
+				+ "]";
 	}
 
 	@Override
 	public void setSkills(final List<String> skills) {
+		// alme says:
+		// this is a consequence of a fucked-up design. Skills are not fetched
+		// and wrote in the same way as any other attribute, so here we must
+		// infer that if skills were wrote, we could see them, and we have real
+		// privacy visibility over them
+		if (!skills.isEmpty())
+			realPrivacySettings.setSkillsPublic(true);
 		this.skills = skills;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public String getSurname() {
-		return surname;
-	}
-
-	@Override
-	public String getNickname() {
-		return nickname;
 	}
 
 	public void setNickname(final String nickname) {
@@ -114,14 +167,14 @@ public class BaseUser implements User {
 		this.profilePictureUrl = profilePictureUrl;
 	}
 
-	public void setPrivacySettings(
+	public void setDeclaredPrivacySettings(
 			final DataObjectPrivacySettings privacySettings) {
-		this.privacySettings = privacySettings;
+		this.declaredPrivacySettings = privacySettings;
 	}
 
-	@Override
-	public String forceGetRealName() {
-		return this.name + " " + this.surname;
+	public void setRealPrivacySettings(
+			final DataObjectPrivacySettings privacySettings) {
+		realPrivacySettings = privacySettings;
 	}
 
 	@Override
@@ -131,11 +184,6 @@ public class BaseUser implements User {
 
 	public void setJobPositions(final List<JobPosition> jobPositions) {
 		this.jobPositions = jobPositions;
-	}
-
-	@Override
-	public List<JobPosition> getJobPositions() {
-		return jobPositions;
 	}
 
 }

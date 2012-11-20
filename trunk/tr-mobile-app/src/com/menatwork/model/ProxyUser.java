@@ -50,6 +50,12 @@ public class ProxyUser implements User {
 	}
 
 	@Override
+	public String getDisplayableShortName() {
+		loadRealUserIfNeeded();
+		return realUser.getDisplayableShortName();
+	}
+
+	@Override
 	public String getHeadline() {
 		loadRealUserIfNeeded();
 		return realUser.getHeadline();
@@ -98,12 +104,6 @@ public class ProxyUser implements User {
 	}
 
 	@Override
-	public String forceGetRealName() {
-		loadRealUserIfNeeded();
-		return realUser.forceGetRealName();
-	}
-
-	@Override
 	public PrivacySettings getPrivacySettings() {
 		loadRealUserIfNeeded();
 		return realUser.getPrivacySettings();
@@ -130,8 +130,8 @@ public class ProxyUser implements User {
 			// the user as well as the hunt (or the necessary fields) or
 			// having a service which collects all users from a list of user
 			// ids - miguel - 05/11/2012
-			final GetUser getUserService = GetUser.newInstance(getTalentRadarApplication(), id,
-					getLocalUserId());
+			final GetUser getUserService = GetUser.newInstance(
+					getTalentRadarApplication(), id, getLocalUserId());
 			final GetUserResponse response = getUserService.execute();
 
 			realUser = response.getUser();

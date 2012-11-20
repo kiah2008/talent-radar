@@ -3,6 +3,7 @@ package com.menatwork.service.response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.menatwork.model.DataObjectPrivacySettings;
 import com.menatwork.model.UserBuilder;
 
 public class JsonUserParser {
@@ -22,7 +23,7 @@ public class JsonUserParser {
 	/**
 	 * This method returns the UserBuilder as a lazy way to chain new user
 	 * aspects that are not contemplated in the main user data parsed here.
-	 *
+	 * 
 	 * @return UserBuilder
 	 * @throws JSONException
 	 */
@@ -30,7 +31,17 @@ public class JsonUserParser {
 		final UserBuilder userBuilder = UserBuilder.newInstance();
 		parsePrivacyOptions(userBuilder);
 		parseUserData(userBuilder);
+		inferRealPrivacy(userBuilder);
 		return userBuilder;
+	}
+
+	private void inferRealPrivacy(final UserBuilder userBuilder) {
+		final DataObjectPrivacySettings privacySettings = new DataObjectPrivacySettings();
+		privacySettings.setHeadlinePublic(responseHasHeadline());
+		privacySettings.setNamePublic(responseHasRealName());
+		privacySettings.setPicturePublic(responseHasPicture());
+		
+		userBuilder.setRealPrivacySettings(privacySettings);
 	}
 
 	private void parseUserData(final UserBuilder userBuilder)
@@ -54,8 +65,6 @@ public class JsonUserParser {
 		else
 			userBuilder.setProfilePictureUrl("non-parseable-url");
 
-		// get non-existant user data :P
-		// userBuilder.setEmail(userJsonObject.getString("email"));
 	}
 
 	private void parsePrivacyOptions(final UserBuilder userBuilder)
