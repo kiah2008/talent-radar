@@ -287,7 +287,7 @@ public class HuntsActivity extends ListActivity implements HuntingCriteriaListen
 	// ****************************************************** //
 
 	@Override
-	public void onHuntsSateModified() {
+	public void onHuntsStateModified() {
 		initializeAlreadyExistentHunts();
 	}
 

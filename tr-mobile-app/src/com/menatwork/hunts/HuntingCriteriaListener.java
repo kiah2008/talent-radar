@@ -4,6 +4,6 @@ import java.util.EventListener;
 
 public interface HuntingCriteriaListener extends EventListener {
 
-	void onHuntsSateModified();
+	void onHuntsStateModified();
 
 }

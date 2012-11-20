@@ -103,7 +103,7 @@ public class HuntingCriteriaEngine implements RadarListener {
 
 	private void notifyUsersAdded() {
 		for (final HuntingCriteriaListener listener : listeners)
-			listener.onHuntsSateModified();
+			listener.onHuntsStateModified();
 	}
 
 	/**

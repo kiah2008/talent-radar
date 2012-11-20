@@ -105,7 +105,7 @@ public class DefaultHunt extends BaseHunt {
 
 	private void notifyHuntStateModified() {
 		for (final HuntingCriteriaListener listener : listeners)
-			listener.onHuntsSateModified();
+			listener.onHuntsStateModified();
 	}
 
 	// ************************************************ //
