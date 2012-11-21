@@ -5,18 +5,18 @@ import java.io.IOException;
 import org.json.JSONException;
 
 import android.content.Context;
-import android.os.AsyncTask;
+import android.widget.Toast;
 
-import com.menatwork.hunts.DefaultHunt;
+import com.menatwork.R;
+import com.menatwork.model.User;
 import com.menatwork.service.GetUser;
 import com.menatwork.service.response.GetUserResponse;
+import com.menatwork.utils.SaveContactBaseTask;
 
-public class SaveUserByIdTask extends AsyncTask<String, Void, Void> {
-
-	private final Context context;
+public class SaveUserByIdTask extends SaveContactBaseTask<String> {
 
 	public SaveUserByIdTask(final Context context) {
-		this.context = context;
+		super(context);
 	}
 
 	// TODO - could add some progress until is has been saved - miguel -
@@ -31,7 +31,20 @@ public class SaveUserByIdTask extends AsyncTask<String, Void, Void> {
 			final GetUser getUser = GetUser.newInstance(context,
 					userToBeAddedId, localUserId);
 			final GetUserResponse response = getUser.execute();
-			DefaultHunt.getInstance().addUser(response.getUser());
+
+			if (response.isSuccessful()) {
+				final User user = response.getUser();
+				saveContact(user);
+			} else
+				handler.post(new Runnable() {
+
+					@Override
+					public void run() {
+						Toast.makeText(context,
+								R.string.save_contact_by_id_error,
+								Toast.LENGTH_SHORT).show();
+					}
+				});
 
 		} catch (final JSONException e) {
 			// TODO Auto-generated catch block

@@ -13,24 +13,24 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.menatwork.hunts.DefaultHunt;
 import com.menatwork.miniprofile.PingTask;
 import com.menatwork.model.JobPosition;
 import com.menatwork.model.User;
 import com.menatwork.skills.SkillButtonFactory;
+import com.menatwork.utils.SaveContactTask;
 import com.menatwork.view.LoadProfilePictureTask;
 
 /**
  * In order to make this view reusable for viewing any user profile, you need to
  * pass along in a bundle the user id that you are trying to visualize (or
  * nothing for the local user, that means, don't put anything in the extras!)
- * 
+ *
  * key: userid / value: a string with the user id (eg. "25")
- * 
+ *
  * @see {@link ProfileActivity#EXTRAS_USERID}
- * 
+ *
  * @author aabdala
- * 
+ *
  */
 public class ProfileActivity extends GuiTalentRadarActivity {
 
@@ -158,7 +158,7 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 
 			@Override
 			public void onClick(final View v) {
-				DefaultHunt.getInstance().addUser(user);
+				new SaveContactTask(ProfileActivity.this).execute(user);
 			}
 		});
 	}
