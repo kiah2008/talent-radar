@@ -15,34 +15,39 @@ class UsersOnlineController extends AppController {
 		$conditions['sqrt(pow(69.1 * (UsersOnline.latitude - '.$data['UsersOnline']['latitude'].'), 2) + pow(53.0 * (UsersOnline.longitude - '.$data['UsersOnline']['latitude'].'), 2)) <'] = (Configure::read('DistanceToGetUsers')/1.609344); //Calculate if distance is lower than input. (Convertion miles to kilometres)
 		$conditions['UsersOnline.user_id <>'] = $data['UsersOnline']['user_id'];
 		$conditions['TIMEDIFF(ADDTIME(UsersOnline.modified, SEC_TO_TIME(UsersOnline.duration)), NOW()) >'] = 0;
-					
-		$users = $this->UsersOnline->find('all', array('conditions' => $conditions));
+		$joins = array(
+						array('table' => 'allowed_profiles',
+							'alias' => 'AllowedProfile',
+							'type' => 'LEFT',
+							'conditions' => array(
+												'AllowedProfile.user_allowed_id = '.$data['UsersOnline']['user_id'],
+												'AllowedProfile.user_profile_id = UsersOnline.user_id'
+												)
+							)
+						);
+		$fields = array('User.id', 'User.auth_token', 'User.email', 'User.username', 'User.name', 'User.surname', 'User.headline', 'User.picture', 'User.show_name', 'User.show_headline', 'User.show_picture', 'User.show_skills', 'User.show_jobs', 'User.show_in_searches', 'UsersOnline.*', 'AllowedProfile.id');
 		
+		$users = $this->UsersOnline->find('all', array('fields' => $fields, 'joins' => $joins, 'conditions' => $conditions));
+
 		foreach($users as $key => $user) {
-			//TODO: Change this directly in the query
-			unset($user['User']['auth_token']);
-			unset($user['User']['email']);
-			unset($user['User']['password']);
-			unset($user['User']['birthday']);
-			unset($user['User']['linkedin_key']);
-			unset($user['User']['linkedin_secret']);
-			unset($user['User']['android_device_id']);
-			//
-			
-			if(!$user['User']['show_name']) {
-				unset($user['User']['name']);
-				unset($user['User']['surname']);
+			if(empty($user['AllowedProfile']['id']))
+			{
+				if(!$user['User']['show_name']) {
+					unset($user['User']['name']);
+					unset($user['User']['surname']);
+				}
+				if(!$user['User']['show_headline']) {
+					unset($user['User']['headline']);
+				}
+				if(!$user['User']['show_picture']) {
+					unset($user['User']['picture']);
+				}
 			}
-			if(!$user['User']['show_headline']) {
-				unset($user['User']['headline']);
-			}
-			if(!$user['User']['show_picture']) {
-				unset($user['User']['picture']);
-			}
+			unset($user['AllowedProfile']);
 			
 			$users[$key] = $user;
 		}
-		
+
 		return $users;
 	}
 	
