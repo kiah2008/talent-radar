@@ -52,7 +52,6 @@
     <string name="expired_subtitle">¡Su licencia de prueba de Talent Radar ya ha expirado!</string>
     <string name="expired_logo_content_description">Logo</string>
     <string name="talent_radar_site_url_to_be_shown">talent-radar.com</string>
-    
 
     <!-- Hunts -->
     <string name="hunts_no_hunts_label">¡No has creado búsquedas aún!</string>
@@ -62,5 +61,9 @@
     <string name="hunt_miniprofile_context_menu_remove_successfully">El usuario ha sido removido exitosamente de la búsqueda</string>
     <string name="default_hunt_title">Portfolio de contactos</string>
     <string name="default_hunt_description">Aquí encontrarás los usuarios que guardes a mano</string>
+
+    <!-- Save contact -->
+    <string name="save_contact_by_id_error">Ocurrió un error al querer guardar el usuario en el portfolio. Inténtelo de nuevo.</string>
+    <string name="save_contact_success_format">%s fue correctamente guardado al portfolio</string>
 
 </resources>
