@@ -61,6 +61,8 @@
     <string name="hunt_miniprofile_context_menu_remove_successfully">El usuario ha sido removido exitosamente de la búsqueda</string>
     <string name="default_hunt_title">Portfolio de contactos</string>
     <string name="default_hunt_description">Aquí encontrarás los usuarios que guardes a mano</string>
+    <string name="hunt_notification_single_user" formatted="false">La búsqueda %s ha capturado a %s</string>
+    <string name="hunt_notification_multiple_users" formatted="false">La búsqueda %s ha capturado a %s nuevos usuarios</string>
 
     <!-- Save contact -->
     <string name="save_contact_by_id_error">Ocurrió un error al querer guardar el usuario en el portfolio. Inténtelo de nuevo.</string>

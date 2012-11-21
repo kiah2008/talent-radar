@@ -30,6 +30,7 @@ import com.menatwork.hunts.HuntingCriteriaEngine;
 import com.menatwork.hunts.HuntingCriteriaListener;
 import com.menatwork.hunts.SimpleSkillHunt;
 import com.menatwork.hunts.TalentRadarDao;
+import com.menatwork.model.User;
 import com.menatwork.notification.TrNotification;
 
 public class HuntsActivity extends ListActivity implements HuntingCriteriaListener {
@@ -287,7 +288,7 @@ public class HuntsActivity extends ListActivity implements HuntingCriteriaListen
 	// ****************************************************** //
 
 	@Override
-	public void onHuntsStateModified() {
+	public void onUsersAddedToHunt(final Hunt hunts, final List<User> newUsers) {
 		initializeAlreadyExistentHunts();
 	}
 

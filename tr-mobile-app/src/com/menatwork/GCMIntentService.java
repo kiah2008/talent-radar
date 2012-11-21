@@ -17,9 +17,6 @@ package com.menatwork;
 
 import java.util.HashMap;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -118,17 +115,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	public static void generateNotification(final Context context,
 			final int id, final String message, final Intent notificationIntent) {
-		final int icon = R.drawable.ic_launcher;
-		final long when = System.currentTimeMillis();
-		final NotificationManager notificationManager = (NotificationManager) context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-		final Notification notification = new Notification(icon, message, when);
-		final String title = context.getString(R.string.app_name);
-		final PendingIntent intent = PendingIntent.getActivity(context, 0,
-				notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-		notification.setLatestEventInfo(context, title, message, intent);
-		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		notificationManager.notify(id, notification);
+		TalentRadarApplication.generateAndroidNotification(
+				context, id, message, notificationIntent);
 	}
 
 	public void generateTrNotification(final TrNotification notification) {
