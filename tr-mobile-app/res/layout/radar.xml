@@ -23,22 +23,22 @@
         android:id="@+id/radar_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:drawableTop="@drawable/radar_image"
         android:gravity="center"
-        android:paddingTop="32dp"
         android:paddingBottom="32dp"
         android:text="@string/radar_searching_state"
         android:textAppearance="?android:attr/textAppearanceMedium" >
     </TextView>
-
-    <ProgressBar
-        android:id="@+id/progressBar1"
-        style="?android:attr/progressBarStyleLarge"
+    
+    <ImageView
+        android:id="@+id/radar_hint_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/radar_status"
-        android:layout_centerInParent="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="48dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/arrow" />
 
     <SlidingDrawer
         android:id="@+id/radar_sliding_drawer"
@@ -47,11 +47,12 @@
         android:layout_marginLeft="@dimen/default_padding"
         android:layout_marginRight="@dimen/default_padding"
         android:layout_marginTop="@dimen/default_padding"
+        android:bottomOffset="4dp"
         android:content="@+id/radar_mini_profiles_list_view"
         android:handle="@+id/radar_surrounders_list_button" >
 
         <Button
-            android:id="@id/radar_surrounders_list_button"
+            android:id="@+id/radar_surrounders_list_button"
             android:layout_width="192dp"
             android:layout_height="48dp"
             android:background="@drawable/radar_list_handle"
