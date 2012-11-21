@@ -113,12 +113,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 		return super.onRecoverableError(context, errorId);
 	}
 
-	public static void generateNotification(final Context context,
-			final int id, final String message, final Intent notificationIntent) {
-		TalentRadarApplication.generateAndroidNotification(
-				context, id, message, notificationIntent);
-	}
-
 	public void generateTrNotification(final TrNotification notification) {
 		((TalentRadarApplication) this.getApplication())
 				.getNotificationManager().newNotification(notification);

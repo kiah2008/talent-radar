@@ -41,7 +41,8 @@ public class NotificationsListener implements HuntingCriteriaListener {
 		// android notification
 		TalentRadarApplication.generateAndroidNotification(
 				talentRadarApplication, hunt.hashCode(), message,
-				notificationIntent);
+				notificationIntent, talentRadarApplication.getPreferences()
+						.isVibrationEnabledOnHunts());
 
 		// talent radar notification
 		final TrNotificationBuilder builder = TrNotificationBuilder
@@ -53,7 +54,8 @@ public class NotificationsListener implements HuntingCriteriaListener {
 		builder.setType(TrNotificationType.ADDED_TO_SEARCH);
 		final Intent dashboardIntent = new Intent(talentRadarApplication,
 				HuntMiniProfilesActivity.class);
-		dashboardIntent.putExtra(HuntMiniProfilesActivity.EXTRAS_HUNT_ID, hunt.getId());
+		dashboardIntent.putExtra(HuntMiniProfilesActivity.EXTRAS_HUNT_ID,
+				hunt.getId());
 		builder.setIntent(dashboardIntent);
 		talentRadarApplication.getNotificationManager().newNotification(
 				builder.build());

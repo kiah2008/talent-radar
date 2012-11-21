@@ -80,6 +80,7 @@
     <string name="post_key_save_privacy_name_public">data[User][show_name]</string>
     <string name="post_key_save_privacy_headline_public">data[User][show_headline]</string>
     <string name="post_key_save_privacy_skills_public">data[User][show_skills]</string>
+    <string name="post_key_save_privacy_jobs_public">data[User][show_jobs]</string>
     <string name="post_key_save_privacy_picture_public">data[User][show_picture]</string>
     <string name="post_key_save_privacy_show_in_searches">data[User][show_in_searches]</string>
 

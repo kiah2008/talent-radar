@@ -43,6 +43,24 @@ public class SharedTalentRadarConfiguration //
 	// ************************************************ //
 
 	@Override
+	public boolean isVibrationEnabledOnHunts() {
+		// TODO - implement as preference?
+		return true;
+	}
+
+	@Override
+	public boolean isVibrationEnabledOnPings() {
+		// TODO - implement as preference?
+		return true;
+	}
+
+	@Override
+	public boolean isVibrationEnabledOnMessages() {
+		// TODO - implement as preference?
+		return false;
+	}
+
+	@Override
 	public boolean isNetworkLocationActivation() {
 		return getBoolean(
 				context.getString(R.string.preferences_network_activation_key), //
