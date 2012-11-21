@@ -19,16 +19,18 @@ public class SavePrivacySettings extends StandardServiceCall<BaseResponse> {
 	public static SavePrivacySettings newInstance(final Context context,
 			final String userId, final Boolean isNamePublic,
 			final String nickname, final Boolean isHeadlinePublic,
-			final Boolean isSkillsPublic, final Boolean isPicturePublic,
-			final Boolean isStealthy) {
+			final Boolean isSkillsPublic, final Boolean isJobPositionsPublic,
+			final Boolean isPicturePublic, final Boolean isStealthy) {
 		return new SavePrivacySettings(context, userId, isNamePublic, nickname,
-				isHeadlinePublic, isSkillsPublic, isPicturePublic, isStealthy);
+				isHeadlinePublic, isSkillsPublic, isJobPositionsPublic,
+				isPicturePublic, isStealthy);
 	}
 
 	private SavePrivacySettings(final Context context, final String userId,
 			final Boolean isNamePublic, final String nickname,
 			final Boolean isHeadlinePublic, final Boolean isSkillsPublic,
-			final Boolean isPicturePublic, final Boolean isStealthy) {
+			final Boolean isJobPositionsPublic, final Boolean isPicturePublic,
+			final Boolean isStealthy) {
 		super(context, BaseResponse.class);
 		setParameter(R.string.post_key_save_privacy_user_id, userId);
 		setParameter(R.string.post_key_save_privacy_nickname, nickname);
@@ -38,6 +40,8 @@ public class SavePrivacySettings extends StandardServiceCall<BaseResponse> {
 				replaceFor(isHeadlinePublic));
 		setParameter(R.string.post_key_save_privacy_skills_public,
 				replaceFor(isSkillsPublic));
+		setParameter(R.string.post_key_save_privacy_jobs_public,
+				replaceFor(isJobPositionsPublic));
 		setParameter(R.string.post_key_save_privacy_picture_public,
 				replaceFor(isPicturePublic));
 		setParameter(R.string.post_key_save_privacy_show_in_searches,

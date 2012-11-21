@@ -50,8 +50,11 @@ public class IncomingChatMessageHandler implements GcmMessageHandler {
 			// notifications of chat from each user
 			final String notificationId = createNotificationId(jsonMessage,
 					jsonUser);
-			GCMIntentService.generateNotification(context, 0, message,
-					notificationIntent);
+			final boolean vibrationEnabledOnMessages = TalentRadarApplication
+					.getContext().getPreferences()
+					.isVibrationEnabledOnMessages();
+			TalentRadarApplication.generateAndroidNotification(context, 0,
+					message, notificationIntent, vibrationEnabledOnMessages);
 
 			final TrNotificationBuilder builder = TrNotificationBuilder
 					.newInstance();

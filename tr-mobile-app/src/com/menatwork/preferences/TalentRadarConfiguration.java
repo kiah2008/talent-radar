@@ -24,9 +24,9 @@ package com.menatwork.preferences;
  * calling {@link TalentRadarConfiguration#commitChanges()} or if you decide to
  * cancel these changes, {@link TalentRadarConfiguration#discardChanges()}.
  * Remember that you should call either of them ONCE AND ONLY ONCE.
- *
+ * 
  * @author boris
- *
+ * 
  */
 public interface TalentRadarConfiguration {
 
@@ -79,6 +79,12 @@ public interface TalentRadarConfiguration {
 	String getPingMessage();
 
 	boolean isApplicationExpired();
+
+	boolean isVibrationEnabledOnHunts();
+
+	boolean isVibrationEnabledOnPings();
+
+	boolean isVibrationEnabledOnMessages();
 
 	String getLocalUserId();
 

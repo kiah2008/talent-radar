@@ -127,6 +127,8 @@ class SharedPrivacySettings //
 				this.isStealthy());
 		map.put(context.getString(R.string.privacy_nickname_key),
 				this.getNickname());
+		map.put(context.getString(R.string.privacy_job_positions_public_key),
+				this.isJobPositionsPublic());
 		map.put(context.getString(R.string.privacy_picture_public_key),
 				this.isPicturePublic());
 		return Collections.unmodifiableMap(map);
