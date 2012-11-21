@@ -1,5 +1,6 @@
 package com.menatwork.hunts;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -85,7 +86,7 @@ public class DefaultHunt extends BaseHunt {
 		final boolean userAdded = super.addUser(user);
 
 		if (userAdded)
-			notifyHuntStateModified();
+			notifyHuntStateModified(user);
 
 		return userAdded;
 	}
@@ -103,9 +104,9 @@ public class DefaultHunt extends BaseHunt {
 		listeners.add(listener);
 	}
 
-	private void notifyHuntStateModified() {
+	private void notifyHuntStateModified(final User user) {
 		for (final HuntingCriteriaListener listener : listeners)
-			listener.onHuntsStateModified();
+			listener.onUsersAddedToHunt(this, Arrays.asList(user));
 	}
 
 	// ************************************************ //

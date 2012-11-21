@@ -3,9 +3,12 @@ package com.menatwork.hunts;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.json.JSONException;
 
@@ -83,27 +86,38 @@ public class HuntingCriteriaEngine implements RadarListener {
 			final List<? extends User> surroundingUsers) {
 		if (hunts.isEmpty())
 			return;
-
-		boolean usersAdded = false;
+		
+		final HashMap<Hunt, List<User>> usersAdded = new HashMap<Hunt, List<User>>();
 
 		for (final User user : surroundingUsers) {
 			initializeUserSkills(user);
 
 			for (final Hunt hunt : hunts) {
 				final boolean userAdded = hunt.addUserIfCriteriaMatched(user);
-				// if the user is added, usersAdded will become true [so we'll
-				// need to notify]
-				usersAdded |= userAdded;
+				if(userAdded)
+					accumulateUserAdded(user, hunt, usersAdded);
 			}
 		}
-
-		if (usersAdded)
-			notifyUsersAdded();
+		
+		notifyUsersAdded(usersAdded);
 	}
 
-	private void notifyUsersAdded() {
-		for (final HuntingCriteriaListener listener : listeners)
-			listener.onHuntsStateModified();
+	private void accumulateUserAdded(final User user, final Hunt hunt,
+			final HashMap<Hunt, List<User>> usersAdded) {
+		if(!usersAdded.containsKey(hunt))
+			usersAdded.put(hunt, new ArrayList<User>());
+		
+		usersAdded.get(hunt).add(user);
+	}
+
+	private void notifyUsersAdded(final HashMap<Hunt, List<User>> usersAdded) {
+		final Set<Entry<Hunt,List<User>>> entrySet = usersAdded.entrySet();
+		for (final Entry<Hunt, List<User>> entry : entrySet) {
+			final Hunt hunt = entry.getKey();
+			final List<User> newUsers = entry.getValue();
+			for (final HuntingCriteriaListener listener : listeners)
+				listener.onUsersAddedToHunt(hunt, newUsers);
+		}
 	}
 
 	/**
