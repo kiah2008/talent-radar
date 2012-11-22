@@ -18,8 +18,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -56,16 +58,41 @@ public class HuntsActivity extends ListActivity implements HuntingCriteriaListen
 
 	private final List<Map<String, ?>> huntMaps = new ArrayList<Map<String, ?>>();
 	private Handler mainLooperHandler;
+	
+	private ImageButton addNewHuntButton;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.hunts);
+		findViewElements();
+		setupButtons();
+		postCreate();
+	}
+
+	private void postCreate() {
 		initializeListAdapter();
 		initializeListViewEvents();
 
 		getHuntingCriteriaEngine().addListener(this);
 		DefaultHunt.getInstance().addListener(this);
+	}
+
+	private void findViewElements() {
+		addNewHuntButton = (ImageButton) findViewById(R.id.new_hunt_button_add_necessary_skill);
+	}
+
+	private void setupButtons() {
+		addNewHuntButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				startNewHuntActivity();
+			}
+		});
+	}
+
+	private void startNewHuntActivity() {
+		startActivity(new Intent(this, NewHuntActivity.class));
 	}
 
 	@Override
@@ -86,7 +113,7 @@ public class HuntsActivity extends ListActivity implements HuntingCriteriaListen
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.new_hunt:
-			startActivity(new Intent(this, NewHuntActivity.class));
+			startNewHuntActivity();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

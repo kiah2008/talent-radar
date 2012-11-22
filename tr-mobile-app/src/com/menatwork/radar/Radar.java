@@ -2,6 +2,7 @@ package com.menatwork.radar;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,8 +29,7 @@ public class Radar implements LocationSourceManagerListener {
 	// ====== Creation methods ======
 	// ************************************************ //
 
-	public static Radar observingLocationUpdatesFrom(
-			final LocationSourceManager locationSourceManager) {
+	public static Radar observingLocationUpdatesFrom(final LocationSourceManager locationSourceManager) {
 		return new Radar(locationSourceManager);
 	}
 
@@ -55,8 +55,7 @@ public class Radar implements LocationSourceManagerListener {
 	/* ********************************************* */
 
 	@Override
-	public void onLocationUpdate(final Location loc,
-			final LocationSource locationSource) {
+	public void onLocationUpdate(final Location loc, final LocationSource locationSource) {
 		Log.d("Radar", "new location = " + loc);
 
 		new ShareLocationAndGetUsersThread(loc).start();
@@ -66,8 +65,7 @@ public class Radar implements LocationSourceManagerListener {
 		return TalentRadarApplication.getContext();
 	}
 
-	public void notifySurroundingUsers(
-			final List<? extends User> surroundingUsers) {
+	public void notifySurroundingUsers(final List<? extends User> surroundingUsers) {
 		for (final RadarListener listener : listeners)
 			listener.onNewSurroundingUsers(surroundingUsers);
 	}
@@ -91,27 +89,26 @@ public class Radar implements LocationSourceManagerListener {
 				final Location location = initializeLocation(loc);
 				if (location != null) {
 					final TalentRadarApplication talentRadarApplication = getTalentRadarApplication();
-					final User localUser = talentRadarApplication
-							.getLocalUser();
+					final User localUser = talentRadarApplication.getLocalUser();
 
 					final double latitude = location.getLatitude();
 					final double longitude = location.getLongitude();
 
-					final long durationSeconds = talentRadarApplication
-							.getPreferences().getActualizationDurationSeconds();
+					final long durationSeconds = talentRadarApplication.getPreferences()
+							.getActualizationDurationSeconds();
 
-					final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers
-							.newInstance( //
-									talentRadarApplication, //
-									localUser.getId(), //
-									latitude, //
-									longitude, //
-									durationSeconds);
+					final ShareLocationAndGetUsers serviceCall = ShareLocationAndGetUsers.newInstance( //
+							talentRadarApplication, //
+							localUser.getId(), //
+							latitude, //
+							longitude, //
+							durationSeconds);
 
-					final ShareLocationAndGetUsersResponse response = handleResponse(serviceCall
-							.execute());
+					final ShareLocationAndGetUsersResponse response = handleResponse(serviceCall.execute());
 
-					notifySurroundingUsers(response.parseSurroundingUsers());
+					final List<? extends User> surroundingUsers = response.parseSurroundingUsers();
+
+					notifySurroundingUsers(Collections.unmodifiableList(surroundingUsers));
 				}
 			} catch (final JSONException e) {
 				e.printStackTrace();
@@ -121,8 +118,8 @@ public class Radar implements LocationSourceManagerListener {
 		}
 
 		private Location initializeLocation(final Location... locations) {
-			return AndroidUtils.isRunningOnEmulator() ? LocationBuilder
-					.newInstance().setCoordinates(0, 0).build() : locations[0];
+			return AndroidUtils.isRunningOnEmulator() ? LocationBuilder.newInstance().setCoordinates(0, 0)
+					.build() : locations[0];
 		}
 
 		private ShareLocationAndGetUsersResponse handleResponse(
