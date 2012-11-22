@@ -13,6 +13,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -430,4 +432,13 @@ public class SkillsActivity extends DataInputActivity {
 		return TalentRadarApplication.getContext();
 	}
 
+	@Override
+	/**
+	 * Prevent orientation changes
+	 */
+	public void onConfigurationChanged(final Configuration newConfig) {
+		// newConfig.orientation = Configuration.ORIENTATION_PORTRAIT;
+		super.onConfigurationChanged(newConfig);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	}
 }

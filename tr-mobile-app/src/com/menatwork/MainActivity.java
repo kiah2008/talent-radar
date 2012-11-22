@@ -3,6 +3,8 @@ package com.menatwork;
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -135,4 +137,13 @@ public class MainActivity extends TabActivity {
 		tabHost.addTab(tabSpec);
 	}
 
+	@Override
+	/**
+	 * Prevent orientation changes... EVERYWHERE
+	 */
+	public void onConfigurationChanged(final Configuration newConfig) {
+		// newConfig.orientation = Configuration.ORIENTATION_PORTRAIT;
+		super.onConfigurationChanged(newConfig);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	}
 }

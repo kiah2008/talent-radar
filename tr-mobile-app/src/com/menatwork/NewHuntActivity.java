@@ -6,6 +6,8 @@ import java.util.List;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -410,5 +412,15 @@ public class NewHuntActivity extends GuiTalentRadarActivity {
 
 			finish();
 		}
+	}
+	
+	@Override
+	/**
+	 * Prevent orientation changes
+	 */
+	public void onConfigurationChanged(final Configuration newConfig) {
+		// newConfig.orientation = Configuration.ORIENTATION_PORTRAIT;
+		super.onConfigurationChanged(newConfig);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 }
