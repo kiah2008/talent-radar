@@ -130,6 +130,5 @@ public class LoginActivity extends AbstractLoginActivity {
 		// newConfig.orientation = Configuration.ORIENTATION_PORTRAIT;
 		super.onConfigurationChanged(newConfig);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
 	}
 }

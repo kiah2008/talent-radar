@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.menatwork.model.User;
@@ -120,4 +122,13 @@ public class DispatcherActivity extends AbstractLoginActivity {
 		return R.layout.dispatcher;
 	}
 
+	@Override
+	/**
+	 * Prevent orientation changes
+	 */
+	public void onConfigurationChanged(final Configuration newConfig) {
+		// newConfig.orientation = Configuration.ORIENTATION_PORTRAIT;
+		super.onConfigurationChanged(newConfig);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	}
 }

@@ -107,10 +107,12 @@ public class TalentRadarApplication extends Application implements
 			@Override
 			public void uncaughtException(final Thread paramThread,
 					final Throwable paramThrowable) {
-				Log.e(paramThread.toString(),
-						"Uncaught ex = " + paramThrowable.toString());
-				final Handler handler = getMainLooperHandler();
-				handler.post(new DisplayGenericErrorToastRunnable());
+//				Log.e(paramThread.toString(),
+//						"Uncaught ex = " + paramThrowable.toString());
+//				final Handler handler = getMainLooperHandler();
+//				handler.post(new DisplayGenericErrorToastRunnable());
+				TalentRadarApplication.this.closeDatabase();
+				Log.e("com.menatwork", "Uncaught Exception", paramThrowable);
 			}
 
 		});
