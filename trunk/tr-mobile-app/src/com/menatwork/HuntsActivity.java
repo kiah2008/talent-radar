@@ -58,7 +58,7 @@ public class HuntsActivity extends ListActivity implements HuntingCriteriaListen
 
 	private final List<Map<String, ?>> huntMaps = new ArrayList<Map<String, ?>>();
 	private Handler mainLooperHandler;
-	
+
 	private ImageButton addNewHuntButton;
 
 	@Override
@@ -73,9 +73,7 @@ public class HuntsActivity extends ListActivity implements HuntingCriteriaListen
 	private void postCreate() {
 		initializeListAdapter();
 		initializeListViewEvents();
-
-		getHuntingCriteriaEngine().addListener(this);
-		DefaultHunt.getInstance().addListener(this);
+		initializeHuntEvents();
 	}
 
 	private void findViewElements() {
@@ -89,6 +87,11 @@ public class HuntsActivity extends ListActivity implements HuntingCriteriaListen
 				startNewHuntActivity();
 			}
 		});
+	}
+
+	private void initializeHuntEvents() {
+		getHuntingCriteriaEngine().addListener(this);
+		DefaultHunt.getInstance().addListener(this);
 	}
 
 	private void startNewHuntActivity() {

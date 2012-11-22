@@ -119,20 +119,20 @@ public class ProxyUser implements User {
 	// ====== Proxy stuff ======
 	// ************************************************ //
 
-	private void loadRealUserIfNeeded() {
+	public void loadRealUserIfNeeded() {
 		if (realUser == null)
 			loadRealUser();
 	}
 
-	private void loadRealUser() {
+	public void loadRealUser() {
 		try {
 			// TODO - this solution should be reconsidered, maybe persisting
 			// the user as well as the hunt (or the necessary fields) or
 			// having a service which collects all users from a list of user
 			// ids - miguel - 05/11/2012
 			// TODO - alme: this shouldnt be done in the ui thread
-			final GetUser getUserService = GetUser.newInstance(
-					getTalentRadarApplication(), id, getLocalUserId());
+			final GetUser getUserService = GetUser.newInstance(getTalentRadarApplication(), id,
+					getLocalUserId());
 			final GetUserResponse response = getUserService.execute();
 
 			realUser = response.getUser();
