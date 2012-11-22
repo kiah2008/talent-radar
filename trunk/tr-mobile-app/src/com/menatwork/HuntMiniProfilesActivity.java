@@ -63,8 +63,6 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 
 			listController = new MiniProfileListController(this, R.id.mini_profiles_list_view, miniProfiles);
 
-			// TODO - make it work so you can delete users from hunt - miguel -
-			// 06/11/2012
 			final ListView listView = listController.getListView();
 			registerForContextMenu(listView);
 
@@ -101,8 +99,27 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 	private void removeUser(final String userId) {
 		final boolean userSuccessfullyRemoved = getHunt().removeUserWithId(userId);
 		if (userSuccessfullyRemoved)
-			Toast.makeText(this, R.string.hunt_miniprofile_context_menu_remove_successfully,
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(
+					//
+					this, //
+					String.format(getString(R.string.hunt_miniprofile_context_menu_remove_successfully),
+							getUserById(userId).getDisplayableShortName()), //
+					Toast.LENGTH_SHORT //
+			).show();
+
+		// listController.removeMiniProfileBeUserId(userId);
+		// listController.getListView().invalidate();
+		listController.updateList(usersToMiniProfiles(getUsers()));
+	}
+
+	private List<MiniProfileItemRow> usersToMiniProfiles(final List<User> users) {
+		final List<MiniProfileItemRow> rows = new LinkedList<MiniProfileItemRow>();
+
+		for (final User user : users) {
+			rows.add(new MiniProfileItemRow(user));
+		}
+
+		return rows;
 	}
 
 	private String userIdFromMiniprofileAt(final int position) {

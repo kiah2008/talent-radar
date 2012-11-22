@@ -68,8 +68,7 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 	}
 
 	@Override
-	public void onUpgrade(final SQLiteDatabase db, final int oldVersion,
-			final int newVersion) {
+	public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
 		// Drop older table if existed
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SIMPLE_SKILL_HUNTS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_DEFAULT_HUNTS);
@@ -89,10 +88,10 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 	 * Saves the state of the default hunt into database.
 	 */
 	public void saveDefaultHunt() {
-		Log.i(getClass().getSimpleName(), "saving default hunt");
-		final SQLiteDatabase db = getWritableDatabase();
-
 		final DefaultHunt defaultHunt = DefaultHunt.getInstance();
+		Log.i(getClass().getSimpleName(), "saving default hunt = " + defaultHunt);
+
+		final SQLiteDatabase db = getWritableDatabase();
 
 		// final ContentValues values = new ContentValues();
 		// values.put(KEY_ID, defaultHunt.getId());
@@ -102,19 +101,14 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 
 		// db.insert(TABLE_CONTACTS, null, values);
 
-		final String insertOrUpdateString = "INSERT OR REPLACE INTO "
-				+ TABLE_DEFAULT_HUNTS + " (" //
+		final String insertOrUpdateString = "INSERT OR REPLACE INTO " + TABLE_DEFAULT_HUNTS + " (" //
 				+ KEY_ID + ", " + KEY_USER_IDS + ") " //
 				+ "VALUES (?, ?)";
 
 		db.execSQL(
 				insertOrUpdateString,
-				new String[] {
-						defaultHunt.getId(),
-						StringUtils
-								.concatStringsWithSep(
-										userIdsToPersist(defaultHunt),
-										STRING_SEPARATOR) });
+				new String[] { defaultHunt.getId(),
+						StringUtils.concatStringsWithSep(userIdsToPersist(defaultHunt), STRING_SEPARATOR) });
 
 		db.close();
 	}
@@ -122,7 +116,7 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 	/**
 	 * Loads the default hunt from the database into the singleton object
 	 * referred from {@link DefaultHunt#getInstance()}
-	 *
+	 * 
 	 * @return the default hunt
 	 */
 	public DefaultHunt loadDefaultHunt() {
@@ -131,8 +125,7 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 		final DefaultHunt defaultHunt = DefaultHunt.getInstance();
 		final String id = defaultHunt.getId();
 
-		final Cursor cursor = db.query(TABLE_DEFAULT_HUNTS,
-				new String[] { KEY_USER_IDS }, KEY_ID + "=?",
+		final Cursor cursor = db.query(TABLE_DEFAULT_HUNTS, new String[] { KEY_USER_IDS }, KEY_ID + "=?",
 				new String[] { id }, null, null, null, null);
 
 		// if there was a default hunt previously saved
@@ -155,14 +148,11 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 		values.put(KEY_ID, hunt.getId());
 		values.put(KEY_TITLE, hunt.getTitle());
 		values.put(KEY_USER_IDS, //
-				StringUtils.concatStringsWithSep(userIdsToPersist(hunt),
-						STRING_SEPARATOR));
+				StringUtils.concatStringsWithSep(userIdsToPersist(hunt), STRING_SEPARATOR));
 		values.put(KEY_REQUIRED_SKILLS, //
-				StringUtils.concatStringsWithSep(hunt.getRequiredSkills(),
-						STRING_SEPARATOR));
+				StringUtils.concatStringsWithSep(hunt.getRequiredSkills(), STRING_SEPARATOR));
 		values.put(KEY_PREFERRED_SKILLS, //
-				StringUtils.concatStringsWithSep(hunt.getPreferredSkills(),
-						STRING_SEPARATOR));
+				StringUtils.concatStringsWithSep(hunt.getPreferredSkills(), STRING_SEPARATOR));
 
 		// Inserting Row
 		db.insert(TABLE_SIMPLE_SKILL_HUNTS, null, values);
@@ -181,17 +171,12 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 
 		if (cursor.moveToFirst()) {
 			do {
-				final SimpleSkillHuntBuilder builder = SimpleSkillHuntBuilder
-						.newInstance();
+				final SimpleSkillHuntBuilder builder = SimpleSkillHuntBuilder.newInstance();
 
-				builder.setId(cursor.getString(0))
-						.setTitle(cursor.getString(1))
-						.setUsers(
-								usersFromUserIds(cursor.getString(2).split(
-										STRING_SEPARATOR)))
+				builder.setId(cursor.getString(0)).setTitle(cursor.getString(1))
+						.setUsers(usersFromUserIds(cursor.getString(2).split(STRING_SEPARATOR)))
 						.addRequiredSkills(parseSkillsFrom(cursor.getString(3)))
-						.addPreferredSkills(
-								parseSkillsFrom(cursor.getString(4)));
+						.addPreferredSkills(parseSkillsFrom(cursor.getString(4)));
 
 				// Adding contact to list
 				hunts.add(builder.build());
@@ -219,14 +204,13 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 		Log.i(getClass().getSimpleName(), "deleting hunt=" + hunt);
 		final SQLiteDatabase db = getWritableDatabase();
 
-		db.delete(TABLE_SIMPLE_SKILL_HUNTS, KEY_ID + " = ?",
-				new String[] { hunt.getId() });
+		db.delete(TABLE_SIMPLE_SKILL_HUNTS, KEY_ID + " = ?", new String[] { hunt.getId() });
 
 		db.close();
 	}
 
 	public void saveHunts(final Collection<Hunt> hunts) {
-		Log.i(getClass().getSimpleName(), "saving hunts=" + hunts);
+		Log.i(getClass().getSimpleName(), "saving hunts = " + hunts);
 
 		final SQLiteDatabase db = getWritableDatabase();
 
@@ -234,23 +218,19 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 			if (hunt instanceof SimpleSkillHunt) {
 				final SimpleSkillHunt simpleSkillHunt = (SimpleSkillHunt) hunt;
 
-				final String insertOrUpdateString = "INSERT OR REPLACE INTO "
-						+ TABLE_SIMPLE_SKILL_HUNTS + " (" + KEY_ID + ", "
-						+ KEY_USER_IDS + ", " + KEY_REQUIRED_SKILLS + ", "
+				final String insertOrUpdateString = "INSERT OR REPLACE INTO " + TABLE_SIMPLE_SKILL_HUNTS
+						+ " (" + KEY_ID + ", " + KEY_USER_IDS + ", " + KEY_REQUIRED_SKILLS + ", "
 						+ KEY_PREFERRED_SKILLS + ") " + "VALUES (?, ?, ?, ?)";
 
 				db.execSQL(
 						insertOrUpdateString,
 						new String[] {
 								hunt.getId(),
-								StringUtils.concatStringsWithSep(
-										userIdsToPersist(simpleSkillHunt),
+								StringUtils.concatStringsWithSep(userIdsToPersist(simpleSkillHunt),
 										STRING_SEPARATOR),
-								StringUtils.concatStringsWithSep(
-										simpleSkillHunt.getRequiredSkills(),
+								StringUtils.concatStringsWithSep(simpleSkillHunt.getRequiredSkills(),
 										STRING_SEPARATOR),
-								StringUtils.concatStringsWithSep(
-										simpleSkillHunt.getPreferredSkills(),
+								StringUtils.concatStringsWithSep(simpleSkillHunt.getPreferredSkills(),
 										STRING_SEPARATOR) });
 			}
 		}
