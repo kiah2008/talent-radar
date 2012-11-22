@@ -1,32 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_background"
     android:orientation="vertical" >
 
-    <ListView
-        android:id="@id/android:list"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:background="@android:color/transparent"
-        android:drawSelectorOnTop="false" >
-    </ListView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/login_background"
+        android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@id/android:empty"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-
-        <TextView
-            android:id="@+id/no_hunts"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/add_new_hunt"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:background="@color/tr_dark_strong" >
+
+            <ImageButton
+                android:id="@+id/new_hunt_button_add_necessary_skill"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/new_hunt_necessary_skill_input"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/add_skill" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/new_hunt_message"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@id/android:list"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             android:background="@android:color/transparent"
-            android:text="@string/hunts_no_hunts_label" />
-    </RelativeLayout>
+            android:drawSelectorOnTop="false" >
+        </ListView>
+
+        <RelativeLayout
+            android:id="@id/android:empty"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <TextView
+                android:id="@+id/no_hunts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:text="@string/hunts_no_hunts_label" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>
