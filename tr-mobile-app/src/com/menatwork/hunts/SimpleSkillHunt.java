@@ -97,4 +97,9 @@ public class SimpleSkillHunt extends BaseHunt {
 				+ ", users=" + users + ", id=" + id + "]";
 	}
 
+	@Override
+	public void emptyUsers() {
+		users.clear();
+	}
+
 }

@@ -148,14 +148,29 @@ public class HuntsActivity extends ListActivity implements HuntingCriteriaListen
 			editHunt(huntAt((int) info.id));
 			return true;
 		case R.id.remove_hunt:
-			removeHunt(huntAt((int) info.id));
+			removeHuntFromUi(huntAt((int) info.id));
+			return true;
+		case R.id.empty_hunt:
+			emptyHunt(huntAt((int) info.id));
 			return true;
 		default:
 			return super.onContextItemSelected(item);
 		}
 	}
 
-	private void removeHunt(final Hunt hunt) {
+	private void emptyHunt(final Hunt hunt) {
+		hunt.emptyUsers();
+		notifyDataSetChanged();
+
+		updateHunt(hunt);
+	}
+
+	private void updateHunt(final Hunt hunt) {
+		removeHunt(hunt);
+		addHuntsAndNotify(hunt);
+	}
+
+	private void removeHuntFromUi(final Hunt hunt) {
 		if (isDefaultHunt(hunt))
 			Toast.makeText(this, "No es posible remover la búsqueda por defecto", Toast.LENGTH_SHORT).show();
 		else if (isSimpleSkillHunt(hunt)) {
@@ -166,10 +181,14 @@ public class HuntsActivity extends ListActivity implements HuntingCriteriaListen
 			TalentRadarDao.withContext(this).deleteHunt(simpleSkillHunt);
 
 			// delete it from the ui
-			huntMaps.remove(findHuntMapFor(simpleSkillHunt));
+			removeHunt(simpleSkillHunt);
 			notifyDataSetChanged();
 		} else
 			throw new UnsupportedOperationException("this kind of hunt is not supported for removal");
+	}
+
+	private void removeHunt(final Hunt simpleSkillHunt) {
+		huntMaps.remove(findHuntMapFor(simpleSkillHunt));
 	}
 
 	private Map<String, ?> findHuntMapFor(final Hunt hunt) {

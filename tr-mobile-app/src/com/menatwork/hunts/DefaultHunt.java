@@ -109,6 +109,11 @@ public class DefaultHunt extends BaseHunt {
 			listener.onUsersAddedToHunt(this, Arrays.asList(user));
 	}
 
+	@Override
+	public void emptyUsers() {
+		users.clear();
+	}
+
 	// ************************************************ //
 	// ====== Talent Radar commons ======
 	// ************************************************ //
