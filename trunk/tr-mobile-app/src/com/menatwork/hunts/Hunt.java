@@ -54,4 +54,6 @@ public interface Hunt {
 	 */
 	boolean removeUserWithId(String userId);
 
+	void emptyUsers();
+
 }

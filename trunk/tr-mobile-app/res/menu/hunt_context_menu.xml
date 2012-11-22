@@ -4,13 +4,19 @@
     <item
         android:id="@+id/edit_hunt"
         android:enabled="true"
-        android:title="Editar búsqueda"
+        android:title="@string/hunt_edit_hunt_label"
         android:visible="true">
     </item>
     <item
         android:id="@+id/remove_hunt"
         android:enabled="true"
-        android:title="Remover búsqueda"
+        android:title="@string/hunt_remove_hunt_label"
+        android:visible="true">
+    </item>
+    <item
+        android:id="@+id/empty_hunt"
+        android:enabled="true"
+        android:title="@string/hunt_empty_hunt_label"
         android:visible="true">
     </item>
 

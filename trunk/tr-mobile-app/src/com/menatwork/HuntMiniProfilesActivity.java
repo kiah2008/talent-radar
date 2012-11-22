@@ -61,7 +61,7 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 			for (final User user : users)
 				miniProfiles.add(new MiniProfileItemRow(user));
 
-			listController = new MiniProfileListController(this, R.id.mini_profiles_list_view, miniProfiles);
+			listController = new MiniProfileListController(this, R.id.mini_profiles_list_view, miniProfiles, false);
 
 			final ListView listView = listController.getListView();
 			registerForContextMenu(listView);
@@ -107,8 +107,6 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 					Toast.LENGTH_SHORT //
 			).show();
 
-		// listController.removeMiniProfileBeUserId(userId);
-		// listController.getListView().invalidate();
 		listController.updateList(usersToMiniProfiles(getUsers()));
 	}
 

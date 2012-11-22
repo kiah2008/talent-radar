@@ -23,13 +23,15 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 	private final Activity activity;
 	private final int layoutResourceId;
 	private final List<MiniProfileItemRow> items;
+	private final boolean enableSaveContactButtons;
 
 	public MiniProfileAdapter(final Activity activity, final int layoutResourceId,
-			final List<MiniProfileItemRow> itemRows) {
+			final List<MiniProfileItemRow> itemRows, final boolean enableSaveContactButtons) {
 		super(activity, layoutResourceId, itemRows);
 		this.layoutResourceId = layoutResourceId;
 		this.activity = activity;
 		this.items = itemRows;
+		this.enableSaveContactButtons = enableSaveContactButtons;
 	}
 
 	/**
@@ -46,6 +48,9 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 
 			// so that it can create a new context menu later
 			row.setLongClickable(true);
+
+			if (!enableSaveContactButtons)
+				row.findViewById(R.id.mini_profile_save_contact_button).setVisibility(View.GONE);
 
 			// initialize mini profile item row holder 'le cache'
 			holder = new MiniProfileItemRowHolder();

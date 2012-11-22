@@ -14,18 +14,26 @@ public class MiniProfileListController {
 	private MiniProfileAdapter adapter;
 	private ListView listView;
 	private final GuiTalentRadarActivity activity;
+	private final boolean enableSaveContactButtons;
 
 	public MiniProfileListController(final GuiTalentRadarActivity activity, final int listViewId,
 			final List<MiniProfileItemRow> itemRows) {
-		this.activity = activity;
-		this.adapter = new MiniProfileAdapter(activity, R.layout.mini_profile_item_row, itemRows);
-
-		initializeList(activity, listViewId);
+		this(activity, listViewId, itemRows, true);
 	}
 
 	public MiniProfileListController(final GuiTalentRadarActivity activity, final int listViewId,
 			final MiniProfileItemRow... itemRowsArray) {
 		this(activity, listViewId, toList(itemRowsArray));
+	}
+
+	public MiniProfileListController(final GuiTalentRadarActivity activity, final int listViewId,
+			final List<MiniProfileItemRow> itemRows, final boolean enableSaveContactButtons) {
+		this.activity = activity;
+		this.enableSaveContactButtons = enableSaveContactButtons;
+		this.adapter = new MiniProfileAdapter(activity, R.layout.mini_profile_item_row, itemRows,
+				enableSaveContactButtons);
+
+		initializeList(activity, listViewId);
 	}
 
 	private void initializeList(final GuiTalentRadarActivity activity, final int listViewId) {
@@ -34,7 +42,8 @@ public class MiniProfileListController {
 	}
 
 	public void updateList(final List<MiniProfileItemRow> itemsRows) {
-		adapter = new MiniProfileAdapter(activity, R.layout.mini_profile_item_row, itemsRows);
+		adapter = new MiniProfileAdapter(activity, R.layout.mini_profile_item_row, itemsRows,
+				enableSaveContactButtons);
 
 		listView.setAdapter(adapter);
 
