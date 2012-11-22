@@ -15,29 +15,26 @@ public class MiniProfileListController {
 	private ListView listView;
 	private final GuiTalentRadarActivity activity;
 
-	public MiniProfileListController(final GuiTalentRadarActivity activity,
-			final int listViewId, final List<MiniProfileItemRow> itemRows) {
+	public MiniProfileListController(final GuiTalentRadarActivity activity, final int listViewId,
+			final List<MiniProfileItemRow> itemRows) {
 		this.activity = activity;
-		this.adapter = new MiniProfileAdapter(activity,
-				R.layout.mini_profile_item_row, itemRows);
+		this.adapter = new MiniProfileAdapter(activity, R.layout.mini_profile_item_row, itemRows);
 
 		initializeList(activity, listViewId);
 	}
 
-	public MiniProfileListController(final GuiTalentRadarActivity activity,
-			final int listViewId, final MiniProfileItemRow... itemRowsArray) {
+	public MiniProfileListController(final GuiTalentRadarActivity activity, final int listViewId,
+			final MiniProfileItemRow... itemRowsArray) {
 		this(activity, listViewId, toList(itemRowsArray));
 	}
 
-	private void initializeList(final GuiTalentRadarActivity activity,
-			final int listViewId) {
+	private void initializeList(final GuiTalentRadarActivity activity, final int listViewId) {
 		listView = activity.findViewById(listViewId, ListView.class);
 		listView.setAdapter(adapter);
 	}
 
 	public void updateList(final List<MiniProfileItemRow> itemsRows) {
-		adapter = new MiniProfileAdapter(activity,
-				R.layout.mini_profile_item_row, itemsRows);
+		adapter = new MiniProfileAdapter(activity, R.layout.mini_profile_item_row, itemsRows);
 
 		listView.setAdapter(adapter);
 
@@ -67,32 +64,44 @@ public class MiniProfileListController {
 		// adapter.notifyDataSetChanged();
 	}
 
+	public void removeMiniProfileBeUserId(final String userIdToBeRemoved) {
+		final List<MiniProfileItemRow> adapterItems = adapterItems();
+		MiniProfileItemRow toBeRemoved = null;
+
+		for (final MiniProfileItemRow adapterItem : adapterItems)
+			if (isSameUser(userIdToBeRemoved, adapterItem))
+				toBeRemoved = adapterItem;
+
+		adapterItems.remove(toBeRemoved);
+		adapter.notifyDataSetChanged();
+	}
+
 	@SuppressWarnings("unused")
 	private void removeMiniProfile(final MiniProfileItemRow miniProfileItemRow,
 			final List<MiniProfileItemRow> adapterItems) {
 		MiniProfileItemRow toBeRemoved = null;
 
+		final String userIdToBeRemoved = miniProfileItemRow.getUserId();
+
 		for (final MiniProfileItemRow adapterItem : adapterItems)
-			if (isSameUser(miniProfileItemRow, adapterItem))
+			if (isSameUser(userIdToBeRemoved, adapterItem))
 				toBeRemoved = adapterItem;
 
 		adapterItems.remove(toBeRemoved);
 	}
 
 	@SuppressWarnings("unused")
-	private boolean containsSameUser(
-			final MiniProfileItemRow miniProfileItemRow,
+	private boolean containsSameUser(final MiniProfileItemRow miniProfileItemRow,
 			final List<MiniProfileItemRow> adapterItems) {
 		for (final MiniProfileItemRow adapterItem : adapterItems)
-			if (isSameUser(miniProfileItemRow, adapterItem))
+			if (isSameUser(miniProfileItemRow.getUserId(), adapterItem))
 				return true;
 
 		return false;
 	}
 
-	private boolean isSameUser(final MiniProfileItemRow miniProfileItemRow,
-			final MiniProfileItemRow adapterItem) {
-		return adapterItem.getUserId().equals(miniProfileItemRow.getUserId());
+	private boolean isSameUser(final String userIdToBeRemoved, final MiniProfileItemRow adapterItem) {
+		return adapterItem.getUserId().equals(userIdToBeRemoved);
 	}
 
 	@SuppressWarnings("unused")
@@ -113,8 +122,7 @@ public class MiniProfileListController {
 	// ====== Utils ======
 	// ************************************************ //
 
-	private static List<MiniProfileItemRow> toList(
-			final MiniProfileItemRow[] itemRowsArray) {
+	private static List<MiniProfileItemRow> toList(final MiniProfileItemRow[] itemRowsArray) {
 		final ArrayList<MiniProfileItemRow> arrayList = new ArrayList<MiniProfileItemRow>(
 				itemRowsArray.length);
 
