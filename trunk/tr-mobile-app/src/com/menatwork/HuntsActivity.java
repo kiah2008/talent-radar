@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
@@ -60,6 +61,7 @@ public class HuntsActivity extends ListActivity implements HuntingCriteriaListen
 	private Handler mainLooperHandler;
 
 	private ImageButton addNewHuntButton;
+	private ViewGroup addNewHuntViewGroup;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -77,16 +79,19 @@ public class HuntsActivity extends ListActivity implements HuntingCriteriaListen
 	}
 
 	private void findViewElements() {
-		addNewHuntButton = (ImageButton) findViewById(R.id.new_hunt_button_add_necessary_skill);
+		addNewHuntButton = (ImageButton) findViewById(R.id.hunts_button_add_necessary_skill);
+		addNewHuntViewGroup = (ViewGroup) findViewById(R.id.hunts_layout_add_new_hunt);
 	}
 
 	private void setupButtons() {
-		addNewHuntButton.setOnClickListener(new OnClickListener() {
+		final OnClickListener listener = new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
 				startNewHuntActivity();
 			}
-		});
+		};
+		addNewHuntButton.setOnClickListener(listener);
+		addNewHuntViewGroup.setOnClickListener(listener);
 	}
 
 	private void initializeHuntEvents() {

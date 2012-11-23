@@ -12,23 +12,24 @@
         android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/add_new_hunt"
+            android:id="@+id/hunts_layout_add_new_hunt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/default_padding"
+            android:paddingBottom="@dimen/default_padding"
+            android:paddingLeft="@dimen/default_padding"
             android:background="@color/tr_dark_strong" >
-
+
             <ImageButton
-                android:id="@+id/new_hunt_button_add_necessary_skill"
+                android:id="@+id/hunts_button_add_necessary_skill"
                 android:layout_width="51dp"
                 android:layout_height="51dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/new_hunt_necessary_skill_input"
                 android:background="@android:color/transparent"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/add_skill" />
-
+
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"

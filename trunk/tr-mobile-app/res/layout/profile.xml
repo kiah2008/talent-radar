@@ -48,6 +48,7 @@
                     android:layout_alignLeft="@+id/profile_fullname"
                     android:layout_below="@+id/profile_fullname"
                     android:layout_toRightOf="@+id/profile_profile_pic"
+                    android:scaleType="fitCenter"
                     android:background="@null"
                     android:src="@drawable/poke" />
 
@@ -59,6 +60,7 @@
                     android:layout_marginLeft="4dp"
                     android:layout_toRightOf="@+id/profile_button_ping"
                     android:background="@null"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/capture" />
 
                 <ProgressBar
