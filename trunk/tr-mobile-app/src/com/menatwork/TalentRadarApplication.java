@@ -201,7 +201,7 @@ public class TalentRadarApplication extends Application implements
 				.getInstance());
 
 		huntsDao.open();
-		huntingCriteriaEngine.addHunts(huntsDao.getAllHunts());
+		huntingCriteriaEngine.addHunts(huntsDao.loadAllSimpleSkillHunts());
 		huntingCriteriaEngine.addListener(new NotificationsListener(this));
 	}
 
