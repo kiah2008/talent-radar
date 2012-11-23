@@ -159,7 +159,7 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 		db.close();
 	}
 
-	public List<SimpleSkillHunt> getAllHunts() {
+	public List<SimpleSkillHunt> loadAllSimpleSkillHunts() {
 
 		final List<SimpleSkillHunt> hunts = new ArrayList<SimpleSkillHunt>();
 
@@ -180,6 +180,7 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 
 				// Adding contact to list
 				hunts.add(builder.build());
+				
 			} while (cursor.moveToNext());
 		}
 
@@ -219,13 +220,18 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 				final SimpleSkillHunt simpleSkillHunt = (SimpleSkillHunt) hunt;
 
 				final String insertOrUpdateString = "INSERT OR REPLACE INTO " + TABLE_SIMPLE_SKILL_HUNTS
-						+ " (" + KEY_ID + ", " + KEY_USER_IDS + ", " + KEY_REQUIRED_SKILLS + ", "
-						+ KEY_PREFERRED_SKILLS + ") " + "VALUES (?, ?, ?, ?)";
+						+ " (" + KEY_ID //
+						+ ", " + KEY_USER_IDS //
+						+ ", " + KEY_TITLE //
+						+ ", " + KEY_REQUIRED_SKILLS //
+						+ ", " + KEY_PREFERRED_SKILLS //
+						+ ") " + "VALUES (?, ?, ?, ?, ?)";
 
 				db.execSQL(
 						insertOrUpdateString,
 						new String[] {
-								hunt.getId(),
+								simpleSkillHunt.getId(),
+								simpleSkillHunt.getTitle(),
 								StringUtils.concatStringsWithSep(userIdsToPersist(simpleSkillHunt),
 										STRING_SEPARATOR),
 								StringUtils.concatStringsWithSep(simpleSkillHunt.getRequiredSkills(),

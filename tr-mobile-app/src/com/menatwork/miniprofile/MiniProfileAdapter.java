@@ -122,9 +122,17 @@ public class MiniProfileAdapter extends ArrayAdapter<MiniProfileItemRow> {
 		});
 	}
 
+	// ************************************************ //
+	// ====== Talent Radar commons ======
+	// ************************************************ //
+
 	private TalentRadarApplication getTalentRadarApplication() {
 		return (TalentRadarApplication) activity.getApplication();
 	}
+
+	// ************************************************ //
+	// ====== MiniProfileItemRowHolder ======
+	// ************************************************ //
 
 	/**
 	 * Class created for the sake of performance (as donde in the 'tutorial'),
