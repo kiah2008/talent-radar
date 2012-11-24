@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
+    android:layout_height="150dp"
     android:background="@drawable/mini_profile_background"
     android:orientation="vertical"
-    android:padding="5dp" >
+    android:padding="4dp" >
 
     <!-- android:background="@android:color/darker_gray" -->
 
@@ -17,6 +17,7 @@
         android:textColor="@android:color/primary_text_dark" />
 
     <LinearLayout
+        android:layout_marginTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -36,6 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Headline"
+                android:layout_marginLeft="4dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@android:color/white" />
         </LinearLayout>
@@ -44,6 +46,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_gravity="center_horizontal" >
 
         <Button

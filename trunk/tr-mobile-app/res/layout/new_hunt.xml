@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.menatwork"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -79,7 +80,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/new_hunt_label_necessary_skills" >
+                    android:layout_below="@+id/new_hunt_label_necessary_skills"
+                    app:horizontalSpacing="4dp"
+                    app:verticalSpacing="4dp" >
 
                     <Button
                         android:id="@+id/foo"
@@ -115,7 +118,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/new_hunt_necessary_skill_input" />
+                    android:layout_below="@+id/new_hunt_necessary_skill_input"
+                    app:horizontalSpacing="4dp"
+                    app:verticalSpacing="4dp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -138,7 +143,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/new_hunt_label_optional_skills" >
+                    android:layout_below="@+id/new_hunt_label_optional_skills"
+                    app:horizontalSpacing="4dp"
+                    app:verticalSpacing="4dp" >
 
                     <Button
                         android:id="@+id/foo1"
@@ -173,7 +180,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/new_hunt_optional_skill_input" />
+                    android:layout_below="@+id/new_hunt_optional_skill_input"
+                    app:horizontalSpacing="4dp"
+                    app:verticalSpacing="4dp" />
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
