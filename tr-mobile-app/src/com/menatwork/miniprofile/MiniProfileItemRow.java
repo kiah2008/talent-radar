@@ -15,7 +15,8 @@ public class MiniProfileItemRow {
 	}
 
 	public String getUsername() {
-		return user.getDisplayableShortName();
+		// on gonza's request...
+		return user.getDisplayableLongName();
 	}
 
 	public String getPicture() {
