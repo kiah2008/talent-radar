@@ -30,6 +30,12 @@ public class MainActivity extends TabActivity {
 		super.onDestroy();
 
 		stopRadarService();
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		
 		final TalentRadarApplication talentRadarApplication = getTalentRadarApplication();
 		talentRadarApplication.saveHuntsState();
 		talentRadarApplication.closeDatabase();
@@ -66,8 +72,7 @@ public class MainActivity extends TabActivity {
 	}
 
 	private void showPreferences() {
-		final Intent preferencesIntent = new Intent(this,
-				TrPreferenceActivity.class);
+		final Intent preferencesIntent = new Intent(this, TrPreferenceActivity.class);
 		startActivity(preferencesIntent);
 	}
 
@@ -119,8 +124,8 @@ public class MainActivity extends TabActivity {
 				R.drawable.icon_hunt_tab);
 	}
 
-	private void addTab(final Class<? extends Activity> tabClass,
-			final String tabTag, final String tabLabel, final int tabIconId) {
+	private void addTab(final Class<? extends Activity> tabClass, final String tabTag, final String tabLabel,
+			final int tabIconId) {
 
 		// get tab host
 		final TabHost tabHost = getTabHost();

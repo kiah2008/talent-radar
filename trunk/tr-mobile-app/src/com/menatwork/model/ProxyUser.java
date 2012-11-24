@@ -150,6 +150,11 @@ public class ProxyUser implements User {
 		e.printStackTrace();
 	}
 
+	@Override
+	public String toString() {
+		return "ProxyUser [id=" + id + "]";
+	}
+
 	// ************************************************ //
 	// ====== Talent Radar commons ======
 	// ************************************************ //

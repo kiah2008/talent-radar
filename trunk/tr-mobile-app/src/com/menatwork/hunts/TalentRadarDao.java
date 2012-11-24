@@ -136,7 +136,8 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 		}
 
 		cursor.close();
-		Log.i(getClass().getSimpleName(), "loading default hunt");
+		db.close();
+		Log.i(getClass().getSimpleName(), "loading default hunt = " + defaultHunt);
 
 		return defaultHunt;
 	}
@@ -164,7 +165,12 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 		final List<SimpleSkillHunt> hunts = new ArrayList<SimpleSkillHunt>();
 
 		// Select All Query
-		final String selectQuery = "SELECT  * FROM " + TABLE_SIMPLE_SKILL_HUNTS;
+		final String selectQuery = "SELECT  " //
+				+ KEY_ID + "," //
+				+ KEY_TITLE + "," //
+				+ KEY_USER_IDS + "," //
+				+ KEY_REQUIRED_SKILLS + "," //
+				+ KEY_PREFERRED_SKILLS + " FROM " + TABLE_SIMPLE_SKILL_HUNTS;
 
 		final SQLiteDatabase db = getReadableDatabase();
 		final Cursor cursor = db.rawQuery(selectQuery, null);
@@ -180,11 +186,12 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 
 				// Adding contact to list
 				hunts.add(builder.build());
-				
+
 			} while (cursor.moveToNext());
 		}
 
 		cursor.close();
+		db.close();
 		Log.i(getClass().getSimpleName(), "getting hunts=" + hunts);
 
 		// return contact list
@@ -198,7 +205,7 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 			if (maybeSkill.length() != 0)
 				skills.add(maybeSkill);
 
-		return skills;
+		return StringUtils.removeEmptyStrings(skills);
 	}
 
 	public void deleteHunt(final SimpleSkillHunt hunt) {
@@ -221,8 +228,8 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 
 				final String insertOrUpdateString = "INSERT OR REPLACE INTO " + TABLE_SIMPLE_SKILL_HUNTS
 						+ " (" + KEY_ID //
-						+ ", " + KEY_USER_IDS //
 						+ ", " + KEY_TITLE //
+						+ ", " + KEY_USER_IDS //
 						+ ", " + KEY_REQUIRED_SKILLS //
 						+ ", " + KEY_PREFERRED_SKILLS //
 						+ ") " + "VALUES (?, ?, ?, ?, ?)";
@@ -258,7 +265,7 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 	private List<User> usersFromUserIds(final String... userIds) {
 		final List<User> users = new LinkedList<User>();
 
-		for (final String userId : userIds)
+		for (final String userId : StringUtils.removeEmptyStrings(userIds))
 			users.add(ProxyUser.withId(userId));
 
 		return users;
