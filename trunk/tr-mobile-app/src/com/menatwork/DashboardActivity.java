@@ -142,19 +142,25 @@ public class DashboardActivity extends ListActivity implements
 	public void onNewNotification(
 			final TrNotificationManager notificationManager,
 			final TrNotification notification) {
-		addNofiticationsAndNotify(notificationManager.getNotifications());
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				addNofiticationsAndNotify(notificationManager
+						.getNotifications());
+			}
+		});
 	}
 
 	/**
 	 * Adds a TrNotification to the list of notifications shown in the
 	 * Dashboard, mapping it to the correct representation.
-	 * 
+	 *
 	 * <b>NOTE:</b> This method DOESN'T notify the ListAdapter that it has to
 	 * refresh its view. You should call
 	 * {@link DashboardActivity#notifyDataSetChanged()} afterwards or use
 	 * {@link DashboardActivity#addNofiticationAndNotify(TrNotification)}
 	 * instead.
-	 * 
+	 *
 	 * @param notification
 	 */
 	protected void addNofitication(final TrNotification notification) {
@@ -172,10 +178,10 @@ public class DashboardActivity extends ListActivity implements
 	/**
 	 * Adds a TrNotification to the list of notifications shown in the
 	 * Dashboard, mapping it to the correct representation.
-	 * 
+	 *
 	 * This method ALSO notifies the ListAdapter for the list shown to be
 	 * refreshed in screen.
-	 * 
+	 *
 	 * @param notification
 	 */
 	protected void addNofiticationsAndNotify(
@@ -193,7 +199,7 @@ public class DashboardActivity extends ListActivity implements
 	/**
 	 * Maps a {@link TrNotification} to a map containing every value that will
 	 * be showed in the Dashboard.
-	 * 
+	 *
 	 * @param notification
 	 * @return
 	 */

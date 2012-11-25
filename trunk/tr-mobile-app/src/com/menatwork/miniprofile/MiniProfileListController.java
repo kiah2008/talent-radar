@@ -16,33 +16,37 @@ public class MiniProfileListController {
 	private final GuiTalentRadarActivity activity;
 	private final boolean enableSaveContactButtons;
 
-	public MiniProfileListController(final GuiTalentRadarActivity activity, final int listViewId,
-			final List<MiniProfileItemRow> itemRows) {
+	public MiniProfileListController(final GuiTalentRadarActivity activity,
+			final int listViewId, final List<MiniProfileItemRow> itemRows) {
 		this(activity, listViewId, itemRows, true);
 	}
 
-	public MiniProfileListController(final GuiTalentRadarActivity activity, final int listViewId,
-			final MiniProfileItemRow... itemRowsArray) {
+	public MiniProfileListController(final GuiTalentRadarActivity activity,
+			final int listViewId, final MiniProfileItemRow... itemRowsArray) {
 		this(activity, listViewId, toList(itemRowsArray));
 	}
 
-	public MiniProfileListController(final GuiTalentRadarActivity activity, final int listViewId,
-			final List<MiniProfileItemRow> itemRows, final boolean enableSaveContactButtons) {
+	public MiniProfileListController(final GuiTalentRadarActivity activity,
+			final int listViewId, final List<MiniProfileItemRow> itemRows,
+			final boolean enableSaveContactButtons) {
 		this.activity = activity;
 		this.enableSaveContactButtons = enableSaveContactButtons;
-		this.adapter = new MiniProfileAdapter(activity, R.layout.mini_profile_item_row, itemRows,
+		this.adapter = new MiniProfileAdapter(activity,
+				R.layout.mini_profile_item_row, itemRows,
 				enableSaveContactButtons);
 
 		initializeList(activity, listViewId);
 	}
 
-	private void initializeList(final GuiTalentRadarActivity activity, final int listViewId) {
+	private void initializeList(final GuiTalentRadarActivity activity,
+			final int listViewId) {
 		listView = activity.findViewById(listViewId, ListView.class);
 		listView.setAdapter(adapter);
 	}
 
 	public void updateList(final List<MiniProfileItemRow> itemsRows) {
-		adapter = new MiniProfileAdapter(activity, R.layout.mini_profile_item_row, itemsRows,
+		adapter = new MiniProfileAdapter(activity,
+				R.layout.mini_profile_item_row, itemsRows,
 				enableSaveContactButtons);
 
 		listView.setAdapter(adapter);
@@ -81,7 +85,8 @@ public class MiniProfileListController {
 			if (isSameUser(userIdToBeRemoved, adapterItem))
 				toBeRemoved = adapterItem;
 
-		adapterItems.remove(toBeRemoved);
+		// adapterItems.remove(toBeRemoved);
+		adapter.remove(toBeRemoved);
 		adapter.notifyDataSetChanged();
 	}
 
@@ -100,7 +105,8 @@ public class MiniProfileListController {
 	}
 
 	@SuppressWarnings("unused")
-	private boolean containsSameUser(final MiniProfileItemRow miniProfileItemRow,
+	private boolean containsSameUser(
+			final MiniProfileItemRow miniProfileItemRow,
 			final List<MiniProfileItemRow> adapterItems) {
 		for (final MiniProfileItemRow adapterItem : adapterItems)
 			if (isSameUser(miniProfileItemRow.getUserId(), adapterItem))
@@ -109,7 +115,8 @@ public class MiniProfileListController {
 		return false;
 	}
 
-	private boolean isSameUser(final String userIdToBeRemoved, final MiniProfileItemRow adapterItem) {
+	private final boolean isSameUser(final String userIdToBeRemoved,
+			final MiniProfileItemRow adapterItem) {
 		return adapterItem.getUserId().equals(userIdToBeRemoved);
 	}
 
@@ -131,7 +138,8 @@ public class MiniProfileListController {
 	// ====== Utils ======
 	// ************************************************ //
 
-	private static List<MiniProfileItemRow> toList(final MiniProfileItemRow[] itemRowsArray) {
+	private static List<MiniProfileItemRow> toList(
+			final MiniProfileItemRow[] itemRowsArray) {
 		final ArrayList<MiniProfileItemRow> arrayList = new ArrayList<MiniProfileItemRow>(
 				itemRowsArray.length);
 

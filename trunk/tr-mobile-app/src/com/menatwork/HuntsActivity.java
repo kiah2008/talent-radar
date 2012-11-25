@@ -363,7 +363,12 @@ public class HuntsActivity extends ListActivity implements
 
 	@Override
 	public void onUsersAddedToHunt(final Hunt hunts, final List<User> newUsers) {
-		initializeAlreadyExistentHunts();
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				initializeAlreadyExistentHunts();
+			}
+		});
 	}
 
 	// ************************************************ //
