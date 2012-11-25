@@ -45,8 +45,8 @@ class UsersJobsController extends AppController {
 					else if($data['person']['positions']['@total'] == 1)
 					{
 						$userJobs[]['user_id'] = $this->data['UsersJob']['user_id'];
-						$userJobs[count($userJobs)-1]['title'] = $userJob['title'];
-						$userJobs[count($userJobs)-1]['is_current'] = $userJob['is-current'] == 'true' ? 1 : 0;
+						$userJobs[count($userJobs)-1]['title'] = $data['person']['positions']['position']['title'];
+						$userJobs[count($userJobs)-1]['is_current'] = $data['person']['positions']['position']['is-current'] == 'true' ? 1 : 0;
 					}
 				}
 				
