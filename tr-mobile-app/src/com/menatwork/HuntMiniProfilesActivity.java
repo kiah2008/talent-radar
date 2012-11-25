@@ -23,9 +23,9 @@ import com.menatwork.model.User;
 
 /**
  * Shows a list of miniprofiles contained in a given hunt.
- * 
+ *
  * @author miguel
- * 
+ *
  */
 public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 
@@ -61,7 +61,8 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 			for (final User user : users)
 				miniProfiles.add(new MiniProfileItemRow(user));
 
-			listController = new MiniProfileListController(this, R.id.mini_profiles_list_view, miniProfiles, false);
+			listController = new MiniProfileListController(this,
+					R.id.mini_profiles_list_view, miniProfiles, false);
 
 			final ListView listView = listController.getListView();
 			registerForContextMenu(listView);
@@ -80,13 +81,15 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 	}
 
 	@Override
-	public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(final ContextMenu menu, final View v,
+			final ContextMenuInfo menuInfo) {
 		getMenuInflater().inflate(R.menu.hunt_miniprofile_context_menu, menu);
 	}
 
 	@Override
 	public boolean onContextItemSelected(final MenuItem item) {
-		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
 		switch (item.getItemId()) {
 		case R.id.remove_miniprofile:
 			removeUser(userIdFromMiniprofileAt((int) info.id));
@@ -97,17 +100,26 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 	}
 
 	private void removeUser(final String userId) {
-		final boolean userSuccessfullyRemoved = getHunt().removeUserWithId(userId);
+		final boolean userSuccessfullyRemoved = getHunt().removeUserWithId(
+				userId);
 		if (userSuccessfullyRemoved)
 			Toast.makeText(
 					//
 					this, //
-					String.format(getString(R.string.hunt_miniprofile_context_menu_remove_successfully),
+					String.format(
+							getString(R.string.hunt_miniprofile_context_menu_remove_successfully),
 							getUserById(userId).getDisplayableShortName()), //
 					Toast.LENGTH_SHORT //
 			).show();
 
-		listController.updateList(usersToMiniProfiles(getUsers()));
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				// listController.updateList(usersToMiniProfiles(getUsers()));
+				listController.removeMiniProfileBeUserId(userId);
+				// listController.notifyDataSetChanged();
+			}
+		});
 	}
 
 	private List<MiniProfileItemRow> usersToMiniProfiles(final List<User> users) {
@@ -121,8 +133,8 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 	}
 
 	private String userIdFromMiniprofileAt(final int position) {
-		final MiniProfileItemRow miniprofile = ((MiniProfileAdapter) listController.getListView()
-				.getAdapter()).getItem(position);
+		final MiniProfileItemRow miniprofile = ((MiniProfileAdapter) listController
+				.getListView().getAdapter()).getItem(position);
 		final String userId = miniprofile.getUserId();
 		return userId;
 	}
@@ -144,8 +156,8 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 
 	private Hunt getHunt() {
 		final Bundle extras = getExtras();
-		return getTalentRadarApplication().getHuntingCriteriaEngine().findHuntById(
-				(String) extras.get(EXTRAS_HUNT_ID));
+		return getTalentRadarApplication().getHuntingCriteriaEngine()
+				.findHuntById((String) extras.get(EXTRAS_HUNT_ID));
 	}
 
 	// ************************************************ //
@@ -174,7 +186,8 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 
 		@Override
 		protected void onPreExecute() {
-			progressDialog = ProgressDialog.show(activity, "", activity.getString(R.string.generic_wait));
+			progressDialog = ProgressDialog.show(activity, "",
+					activity.getString(R.string.generic_wait));
 		}
 
 		@Override
