@@ -151,7 +151,7 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 				final String localUserId = getTalentRadarApplication()
 						.getLocalUser().getId();
 				new PingTask(ProfileActivity.this).execute(localUserId,
-						getUser().getId(), getUser().getNickname());
+						getUser().getId(), getUser().getDisplayableShortName());
 			}
 		});
 		captureButton.setOnClickListener(new OnClickListener() {
