@@ -3,7 +3,7 @@ package com.menatwork.notification;
 import com.menatwork.R;
 
 public enum TrNotificationType {
-	PING(R.drawable.poke, 1), //
+	PING(R.drawable.poke_up, 1), //
 	ADDED_TO_SEARCH(R.drawable.new_hunt_icon2, 2), //
 	CHAT(R.drawable.chat, 3);
 
