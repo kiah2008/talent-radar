@@ -99,4 +99,9 @@ public class SimpleSkillHunt extends BaseHunt {
 	public int getIcon() {
 		return R.drawable.new_hunt_icon2;
 	}
+
+	@Override
+	public boolean isSaveableToPortfolio() {
+		return true;
+	}
 }

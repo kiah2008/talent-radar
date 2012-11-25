@@ -72,5 +72,7 @@
     <string name="hunt_remove_hunt_label">Remover búsqueda</string>
     <string name="hunt_empty_hunt_label">Vaciar búsqueda</string>
     <string name="hunts_new_hunt_button_content_description">Crear nueva búsqueda</string>
+    <string name="hunts_default_hunt_wont_be_removed">No es posible remover la búsqueda por defecto</string>
+    <string name="hunts_default_hunt_wont_be_edited">No es posible editar la búsqueda por defecto</string>
 
 </resources>

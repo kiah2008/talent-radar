@@ -58,4 +58,6 @@ public interface Hunt {
 
 	int getIcon();
 
+	boolean isSaveableToPortfolio();
+
 }

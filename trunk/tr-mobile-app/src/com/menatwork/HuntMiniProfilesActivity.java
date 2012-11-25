@@ -62,7 +62,7 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 				miniProfiles.add(new MiniProfileItemRow(user));
 
 			listController = new MiniProfileListController(this,
-					R.id.mini_profiles_list_view, miniProfiles, true);
+					R.id.mini_profiles_list_view, miniProfiles, getHunt().isSaveableToPortfolio());
 
 			final ListView listView = listController.getListView();
 			registerForContextMenu(listView);
