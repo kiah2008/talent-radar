@@ -5,9 +5,12 @@ import android.app.Application;
 
 import com.menatwork.model.User;
 import com.menatwork.preferences.TalentRadarConfiguration;
+import com.menatwork.service.Defect;
 import com.menatwork.service.GetUser;
+import com.menatwork.service.GetUserJobPositions;
 import com.menatwork.service.GetUserSkills;
 import com.menatwork.service.ResponseException;
+import com.menatwork.service.response.GetUserJobPositionsResponse;
 import com.menatwork.service.response.GetUserResponse;
 import com.menatwork.service.response.GetUserSkillsResponse;
 
@@ -54,6 +57,12 @@ public class TalentRadarActivity extends Activity {
 
 	User getUserById(final String userid, final String userRequestId) {
 		try {
+			final GetUserJobPositions getUserJobPositions = GetUserJobPositions.newInstance(this, userid);
+			final GetUserJobPositionsResponse getUserJobPositionsResponse = getUserJobPositions.execute();
+			
+			if(!getUserJobPositionsResponse.isValid())
+				throw new Defect("getUserJobPositions failed, blame Gonza");
+			
 			final GetUser getUser = GetUser.newInstance(this, userid,
 					userRequestId);
 			final GetUserResponse response = getUser.execute();
