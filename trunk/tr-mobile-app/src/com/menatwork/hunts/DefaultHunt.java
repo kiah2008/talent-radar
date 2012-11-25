@@ -111,7 +111,7 @@ public class DefaultHunt extends BaseHunt {
 
 	@Override
 	public int getIcon() {
-		return R.drawable.portfolio1;
+		return R.drawable.portfolio_up;
 	}
 
 	@Override
