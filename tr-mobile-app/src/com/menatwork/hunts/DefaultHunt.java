@@ -110,8 +110,8 @@ public class DefaultHunt extends BaseHunt {
 	}
 
 	@Override
-	public void emptyUsers() {
-		users.clear();
+	public int getIcon() {
+		return R.drawable.portfolio1;
 	}
 
 	// ************************************************ //
