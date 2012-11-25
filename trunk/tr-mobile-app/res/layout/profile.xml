@@ -61,7 +61,7 @@
                     android:layout_toRightOf="@+id/profile_button_ping"
                     android:background="@null"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/capture" />
+                    android:src="@drawable/portfolio1" />
 
                 <ProgressBar
                     android:id="@+id/profile_loading_profile_pic"

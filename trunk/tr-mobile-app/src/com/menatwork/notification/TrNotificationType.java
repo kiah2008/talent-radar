@@ -4,8 +4,8 @@ import com.menatwork.R;
 
 public enum TrNotificationType {
 	PING(R.drawable.poke, 1), //
-	ADDED_TO_SEARCH(R.drawable.capture, 2), //
-	CHAT(R.drawable.poke, 3); // TODO change icon
+	ADDED_TO_SEARCH(R.drawable.new_hunt_icon2, 2), //
+	CHAT(R.drawable.chat, 3);
 
 	private final int iconId, typeId;
 
