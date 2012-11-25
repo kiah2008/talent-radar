@@ -114,6 +114,11 @@ public class DefaultHunt extends BaseHunt {
 		return R.drawable.portfolio1;
 	}
 
+	@Override
+	public boolean isSaveableToPortfolio() {
+		return false;
+	}
+
 	// ************************************************ //
 	// ====== Talent Radar commons ======
 	// ************************************************ //

@@ -185,7 +185,7 @@ public class HuntsActivity extends ListActivity implements HuntingCriteriaListen
 
 	private void removeHuntFromUi(final Hunt hunt) {
 		if (isDefaultHunt(hunt))
-			Toast.makeText(this, "No es posible remover la búsqueda por defecto", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.hunts_default_hunt_wont_be_removed, Toast.LENGTH_SHORT).show();
 		else if (isSimpleSkillHunt(hunt)) {
 			final SimpleSkillHunt simpleSkillHunt = (SimpleSkillHunt) hunt;
 
@@ -214,7 +214,7 @@ public class HuntsActivity extends ListActivity implements HuntingCriteriaListen
 
 	private void editHunt(final Hunt hunt) {
 		if (isDefaultHunt(hunt))
-			Toast.makeText(this, "No es posible editar la búsqueda por defecto", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.hunts_default_hunt_wont_be_edited, Toast.LENGTH_SHORT).show();
 		else if (isSimpleSkillHunt(hunt)) {
 			final Intent intent = new Intent(this, NewHuntActivity.class);
 			intent.putExtra(NewHuntActivity.EXTRAS_HUNT_ID, hunt.getId());
