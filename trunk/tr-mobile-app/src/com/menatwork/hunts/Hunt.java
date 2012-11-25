@@ -56,4 +56,6 @@ public interface Hunt {
 
 	void emptyUsers();
 
+	int getIcon();
+
 }

@@ -2,6 +2,7 @@ package com.menatwork.hunts;
 
 import java.util.List;
 
+import com.menatwork.R;
 import com.menatwork.model.User;
 import com.menatwork.utils.StringUtils;
 
@@ -39,13 +40,11 @@ public class SimpleSkillHunt extends BaseHunt {
 		final StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Requerido: ");
 		stringBuilder.append( //
-				StringUtils.concatStringsWithSep(requiredSkills,
-						SEPARATOR_BETWEEN_SKILLS));
+				StringUtils.concatStringsWithSep(requiredSkills, SEPARATOR_BETWEEN_SKILLS));
 		stringBuilder.append(SEPARATOR_BETWEEN_REQUIREMENTS);
 		stringBuilder.append("Preferido: ");
 		stringBuilder.append( //
-				StringUtils.concatStringsWithSep(preferredSkills,
-						SEPARATOR_BETWEEN_SKILLS));
+				StringUtils.concatStringsWithSep(preferredSkills, SEPARATOR_BETWEEN_SKILLS));
 		return stringBuilder.toString();
 	}
 
@@ -92,14 +91,12 @@ public class SimpleSkillHunt extends BaseHunt {
 
 	@Override
 	public String toString() {
-		return "SimpleSkillHunt [title=" + title + ", requiredSkills="
-				+ requiredSkills + ", preferredSkills=" + preferredSkills
-				+ ", users=" + users + ", id=" + id + "]";
+		return "SimpleSkillHunt [title=" + title + ", requiredSkills=" + requiredSkills
+				+ ", preferredSkills=" + preferredSkills + ", users=" + users + ", id=" + id + "]";
 	}
 
 	@Override
-	public void emptyUsers() {
-		users.clear();
+	public int getIcon() {
+		return R.drawable.new_hunt_icon2;
 	}
-
 }
