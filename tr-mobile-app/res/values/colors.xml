@@ -3,5 +3,7 @@
     <color name="tr_dark_strong">#343434</color>
     <color name="tr_dark_light">#171717</color>
     <color name="tr_light">#33b5e5</color>
-    <color name="tr_light_darkened">#41b0D9</color>
+     <color name="tr_light_darkened">#41b0D9</color>
+<!--     <color name="tr_light_darkened">#41b0D9</color> -->
+
 </resources>
