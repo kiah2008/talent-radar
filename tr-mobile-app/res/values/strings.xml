@@ -71,5 +71,6 @@
     <string name="hunt_edit_hunt_label">Editar búsqueda</string>
     <string name="hunt_remove_hunt_label">Remover búsqueda</string>
     <string name="hunt_empty_hunt_label">Vaciar búsqueda</string>
+    <string name="hunts_new_hunt_button_content_description">Crear nueva búsqueda</string>
 
 </resources>
