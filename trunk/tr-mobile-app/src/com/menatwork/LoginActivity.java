@@ -60,15 +60,14 @@ public class LoginActivity extends AbstractLoginActivity {
 	}
 
 	private void handleTestNotification() {
-		Toast.makeText(this, "Te abri� la app VITEH\'", Toast.LENGTH_LONG)
-				.show();
+		Toast.makeText(this, "Te abri� la app VITEH\'", Toast.LENGTH_LONG).show();
 	}
 
 	private void handleLoginWithLinkedin(final Intent intent) {
 		LogUtils.d(this, "Returning from Login with Linkedin service", intent);
 		final Uri data = intent.getData();
 		final String userid = data.getPathSegments().get(0);
-		
+
 		if (userid == null) {
 			showDialog(DIALOG_ERROR);
 			return;
@@ -79,7 +78,7 @@ public class LoginActivity extends AbstractLoginActivity {
 			showDialog(DIALOG_ERROR);
 			return;
 		}
-		
+
 		final ProgressDialog progressDialog = ProgressDialog.show(this, "",
 				getString(R.string.login_authenticating), true);
 		Log.d("LoginActivity", "Returning id from Login with Linkedin service");
@@ -93,16 +92,13 @@ public class LoginActivity extends AbstractLoginActivity {
 		final Builder builder = new AlertDialog.Builder(this);
 		switch (id) {
 		case DIALOG_INCORRECT_LOGIN:
-			builder.setTitle(this
-					.getString(R.string.login_dialog_incorrectLogin_title));
-			builder.setMessage(this
-					.getString(R.string.login_dialog_incorrectLogin_message));
+			builder.setTitle(this.getString(R.string.login_dialog_incorrectLogin_title));
+			builder.setMessage(this.getString(R.string.login_dialog_incorrectLogin_message));
 			builder.setPositiveButton("OK", new NaiveDialogClickListener());
 			return builder.create();
 		case DIALOG_ERROR:
 			builder.setTitle(this.getString(R.string.login_dialog_error_title));
-			builder.setMessage(this
-					.getString(R.string.login_dialog_error_message));
+			builder.setMessage(this.getString(R.string.login_dialog_error_message));
 			builder.setPositiveButton("OK", new NaiveDialogClickListener());
 			return builder.create();
 		}
@@ -117,8 +113,8 @@ public class LoginActivity extends AbstractLoginActivity {
 
 		@Override
 		public void onClick(final View v) {
-			final Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-					Uri.parse(getString(R.string.uri_login_with_linkedin)));
+			final String uri = getString(R.string.post_uri) + getString(R.string.uri_login_with_linkedin);
+			final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
 			browserIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			startActivityForResult(browserIntent, LINKED_IN_REQUEST_CODE);
 		}

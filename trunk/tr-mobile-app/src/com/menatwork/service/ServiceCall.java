@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
+import com.menatwork.R;
 import com.menatwork.service.response.Response;
 import com.menatwork.utils.GonzaUtils;
 import com.menatwork.utils.LogUtils;
@@ -18,20 +19,21 @@ public abstract class ServiceCall<T extends Response> {
 
 	protected final Context context;
 
-	public ServiceCall(Context context) {
+	public ServiceCall(final Context context) {
 		super();
 		this.context = context;
 	}
 
-	protected String getString(int resId) {
+	protected String getString(final int resId) {
 		return context.getString(resId);
 	}
 
 	public T execute() throws JSONException, IOException {
-		HttpPost httpPost = GonzaUtils.buildPost(this.getMethodUri(),
-				this.buildPostParametersList());
+		final String uri = getString(R.string.post_uri) + getMethodUri();
+
+		final HttpPost httpPost = GonzaUtils.buildPost(uri, this.buildPostParametersList());
 		LogUtils.d(this, "About to execute POST:", httpPost);
-		JSONObject response = GonzaUtils.executePost(httpPost);
+		final JSONObject response = GonzaUtils.executePost(httpPost);
 		LogUtils.d(this, "Received response:", response);
 		return this.wrap(response);
 	}
