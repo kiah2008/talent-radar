@@ -63,10 +63,6 @@
     <string name="default_hunt_description">Aquí encontrarás los usuarios que guardes a mano</string>
     <string name="hunt_notification_single_user" formatted="false">La búsqueda %s ha capturado a %s</string>
     <string name="hunt_notification_multiple_users" formatted="false">La búsqueda %s ha capturado a %s nuevos usuarios</string>
-
-    <!-- Save contact -->
-    <string name="save_contact_by_id_error">Ocurrió un error al querer guardar el usuario en el portfolio. Inténtelo de nuevo.</string>
-    <string name="save_contact_success_format">%s fue correctamente guardado al portfolio</string>
     <string name="new_hunt_message">Crear nueva búsqueda</string>
     <string name="hunt_edit_hunt_label">Editar búsqueda</string>
     <string name="hunt_remove_hunt_label">Remover búsqueda</string>
@@ -74,5 +70,10 @@
     <string name="hunts_new_hunt_button_content_description">Crear nueva búsqueda</string>
     <string name="hunts_default_hunt_wont_be_removed">No es posible remover la búsqueda por defecto</string>
     <string name="hunts_default_hunt_wont_be_edited">No es posible editar la búsqueda por defecto</string>
+    <string name="hunts_empty_hunt_successful">¡La búsqueda %s ha sido vaciada exitosamente!</string>
+
+    <!-- Save contact -->
+    <string name="save_contact_by_id_error">Ocurrió un error al querer guardar el usuario en el portfolio. Inténtelo de nuevo.</string>
+    <string name="save_contact_success_format">%s fue correctamente guardado al portfolio</string>
 
 </resources>

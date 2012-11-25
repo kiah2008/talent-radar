@@ -174,6 +174,9 @@ public class HuntsActivity extends ListActivity implements HuntingCriteriaListen
 			@Override
 			public void run() {
 				notifyDataSetChanged();
+				Toast.makeText(HuntsActivity.this,
+						String.format(getString(R.string.hunts_empty_hunt_successful), hunt.getTitle()),
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
