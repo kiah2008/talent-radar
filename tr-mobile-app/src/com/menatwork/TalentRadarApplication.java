@@ -414,6 +414,8 @@ public class TalentRadarApplication extends Application implements
 
 		if (vibrate)
 			notification.defaults |= Notification.DEFAULT_VIBRATE;
+		
+		notification.defaults |= Notification.DEFAULT_LIGHTS;
 		notificationManager.notify(id, notification);
 	}
 
