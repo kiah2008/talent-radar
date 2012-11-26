@@ -4,10 +4,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Gravity;
 
 import com.menatwork.model.User;
 import com.menatwork.preferences.TalentRadarConfiguration;
@@ -59,6 +61,13 @@ public class DispatcherActivity extends AbstractLoginActivity {
 	// ************************************************ //
 
 	private class DispatcherGetUserTask extends GetUserTask {
+
+		@Override
+		protected void onPreExecute() {
+			progressDialog = ProgressDialog.show(activity, "",
+					activity.getString(R.string.dispatcher_loading_message));
+			progressDialog.getWindow().setGravity(Gravity.BOTTOM);
+		}
 
 		public DispatcherGetUserTask(final TalentRadarActivity activity) {
 			super(activity);
