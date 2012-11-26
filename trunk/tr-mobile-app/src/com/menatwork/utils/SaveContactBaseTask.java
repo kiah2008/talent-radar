@@ -23,7 +23,7 @@ public abstract class SaveContactBaseTask<T> extends AsyncTask<T, Void, Void> {
 	private void initializeHandler() {
 		handler = new Handler(Looper.getMainLooper());
 	}
-
+	
 	protected void saveContact(final User user) {
 		DefaultHunt.getInstance().addUser(user);
 

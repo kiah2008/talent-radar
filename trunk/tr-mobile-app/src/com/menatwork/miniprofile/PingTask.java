@@ -14,6 +14,7 @@ import com.menatwork.TalentRadarApplication;
 import com.menatwork.service.Ping;
 import com.menatwork.service.response.ErroneousResponse;
 import com.menatwork.service.response.Response;
+import com.menatwork.utils.UserConfirmationPrompter;
 
 public class PingTask extends AsyncTask<String, Void, Response> {
 
@@ -23,23 +24,42 @@ public class PingTask extends AsyncTask<String, Void, Response> {
 
 	private String toUsername;
 
+	private final Object confirmationLock = new Object();
+
+	private boolean confirmed;
+
 	public PingTask(final Activity activity) {
 		this.activity = activity;
 	}
 
 	@Override
 	protected void onPreExecute() {
+		if (!this.userConfirmsAction()) {
+			this.cancel(true);
+			return;
+		}
 		progressDialog = ProgressDialog.show(activity, "",
 				activity.getString(R.string.generic_wait));
+	}
+
+	private boolean userConfirmsAction() {
+		return UserConfirmationPrompter.prompt(activity, "Ping",
+				String.format("Pingear a %s?", toUsername));
 	}
 
 	@Override
 	protected void onPostExecute(final Response result) {
 		progressDialog.dismiss();
 		if (result.isSuccessful())
-			Toast.makeText(activity, String.format(activity.getString(R.string.pinged_successfully), toUsername), Toast.LENGTH_SHORT).show();
+			Toast.makeText(
+					activity,
+					String.format(
+							activity.getString(R.string.pinged_successfully),
+							toUsername), Toast.LENGTH_SHORT).show();
 		else
-			Toast.makeText(activity, activity.getString(R.string.generic_error), Toast.LENGTH_SHORT).show();
+			Toast.makeText(activity,
+					activity.getString(R.string.generic_error),
+					Toast.LENGTH_SHORT).show();
 	}
 
 	@Override

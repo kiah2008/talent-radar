@@ -9,6 +9,7 @@
     <string name="menu_hunts_title">Administrar búsquedas</string>
     <string name="pinged_successfully">¡Ping! a %s enviado exitosamente!</string>
     <string name="talent_radar_site_url">http://www.talent-radar.com</string>
+    <string name="dispatcher_loading_message">Ingresando…</string>
 
     <!-- Login screen -->
     <string name="login_fancy_message">… las oportunidades están cerca…</string>

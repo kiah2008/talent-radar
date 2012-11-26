@@ -12,8 +12,8 @@ import com.menatwork.service.response.GetUserSkillsResponse;
 
 public class GetUserTask extends AsyncTask<String, Void, User> {
 
-	private ProgressDialog progressDialog;
-	private final TalentRadarActivity activity;
+	protected ProgressDialog progressDialog;
+	protected final TalentRadarActivity activity;
 	private boolean finished;
 
 	public GetUserTask(final TalentRadarActivity activity) {
