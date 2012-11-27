@@ -15,6 +15,7 @@ class UsersOnlineController extends AppController {
 		$conditions['sqrt(pow(69.1 * (UsersOnline.latitude - '.$data['UsersOnline']['latitude'].'), 2) + pow(53.0 * (UsersOnline.longitude - '.$data['UsersOnline']['latitude'].'), 2)) <'] = (Configure::read('DistanceToGetUsers')/1.609344); //Calculate if distance is lower than input. (Convertion miles to kilometres)
 		$conditions['UsersOnline.user_id <>'] = $data['UsersOnline']['user_id'];
 		$conditions['TIMEDIFF(ADDTIME(UsersOnline.modified, SEC_TO_TIME(UsersOnline.duration)), NOW()) >'] = 0;
+		$conditions['UsersBanned.id'] = null;
 		$joins = array(
 						array('table' => 'allowed_profiles',
 							'alias' => 'AllowedProfile',
@@ -22,6 +23,14 @@ class UsersOnlineController extends AppController {
 							'conditions' => array(
 												'AllowedProfile.user_allowed_id = '.$data['UsersOnline']['user_id'],
 												'AllowedProfile.user_profile_id = UsersOnline.user_id'
+												),
+							),
+						array('table' => 'users_banned',
+							'alias' => 'UsersBanned',
+							'type' => 'LEFT',
+							'conditions' => array(
+												'UsersBanned.user_to_id = '.$data['UsersOnline']['user_id'],
+												'UsersBanned.user_from_id = UsersOnline.user_id'
 												)
 							)
 						);
