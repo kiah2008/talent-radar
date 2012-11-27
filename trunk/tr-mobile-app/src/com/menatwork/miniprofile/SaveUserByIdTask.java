@@ -37,7 +37,6 @@ public class SaveUserByIdTask extends SaveContactBaseTask<String> {
 				saveContact(user);
 			} else
 				handler.post(new Runnable() {
-
 					@Override
 					public void run() {
 						Toast.makeText(context,

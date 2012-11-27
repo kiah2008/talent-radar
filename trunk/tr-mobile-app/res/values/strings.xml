@@ -57,27 +57,34 @@
     <!-- Hunts -->
     <string name="hunts_no_hunts_label">¡No has creado búsquedas aún!</string>
     <string name="hunts_empty">¡Esta búsqueda no ha encontrado usuarios todavía!</string>
+    <string name="hunts_default_hunt_empty">¡El portfolio de contactos no contiene usuarios actualmente!</string>
     <string name="new_hunt_edit_title">Editar Búsqueda</string>
-    <string name="hunt_miniprofile_context_menu_remove_label">Remover usuario de búsqueda</string>
-    <string name="hunt_miniprofile_context_menu_remove_successfully">%s ha sido removido exitosamente de la búsqueda</string>
+    <string name="hunt_miniprofile_context_menu_remove_label">Remover usuario</string>
+    <string name="hunt_miniprofile_context_menu_remove_successfully">%s ha sido removido exitosamente</string>
     <string name="default_hunt_title">Portfolio de contactos</string>
     <string name="default_hunt_description">Aquí encontrarás los usuarios que guardes a mano</string>
     <string name="hunt_notification_single_user" formatted="false">La búsqueda %s ha capturado a %s</string>
     <string name="hunt_notification_multiple_users" formatted="false">La búsqueda %s ha capturado a %s nuevos usuarios</string>
     <string name="new_hunt_message">Crear nueva búsqueda</string>
-    <string name="hunt_edit_hunt_label">Editar búsqueda</string>
-    <string name="hunt_remove_hunt_label">Remover búsqueda</string>
-    <string name="hunt_empty_hunt_label">Vaciar búsqueda</string>
+    <string name="hunt_edit_hunt_label">Editar</string>
+    <!-- <string name="hunt_edit_hunt_label">Editar búsqueda</string> -->
+    <string name="hunt_remove_hunt_label">Remover</string>
+    <!-- <string name="hunt_remove_hunt_label">Remover búsqueda</string> -->
+    <string name="hunt_empty_hunt_label">Vaciar</string>
+    <!-- <string name="hunt_empty_hunt_label">Vaciar búsqueda</string> -->
     <string name="hunts_new_hunt_button_content_description">Crear nueva búsqueda</string>
-    <string name="hunts_default_hunt_wont_be_removed">No es posible remover la búsqueda por defecto</string>
-    <string name="hunts_default_hunt_wont_be_edited">No es posible editar la búsqueda por defecto</string>
+    <string name="hunts_default_hunt_wont_be_removed">No es posible remover el porftolio de contactos</string>
+    <string name="hunts_default_hunt_wont_be_edited">No es posible editar el porftolio de contactos</string>
     <string name="hunts_empty_hunt_successful">¡La búsqueda %s ha sido vaciada exitosamente!</string>
+    <string name="hunts_empty_default_hunt_successful">¡El portfolio de contactos ha sido vaciado exitosamente!</string>
 
     <!-- Save contact -->
     <string name="save_contact_by_id_error">Ocurrió un error al querer guardar el usuario en el portfolio. Inténtelo de nuevo.</string>
-    <string name="save_contact_success_format">%s fue correctamente guardado al portfolio</string>
+    <string name="save_contact_success_format">%s fue correctamente guardado al portfolio de contactos</string>
     <string name="cancel_option_label">No</string>
     <string name="accept_option_label">Sí</string>
     <string name="ping_confirmation_question">¿Enviar ping a %s?</string>
+    <string name="hunt_title_prefix">"Búsqueda "</string>
+    <string name="hunt_miniprofile_username_format">Usuario %s</string>
 
 </resources>
