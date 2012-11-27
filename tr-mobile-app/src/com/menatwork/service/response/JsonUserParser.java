@@ -23,7 +23,7 @@ public class JsonUserParser {
 	/**
 	 * This method returns the UserBuilder as a lazy way to chain new user
 	 * aspects that are not contemplated in the main user data parsed here.
-	 * 
+	 *
 	 * @return UserBuilder
 	 * @throws JSONException
 	 */
@@ -40,7 +40,7 @@ public class JsonUserParser {
 		privacySettings.setHeadlinePublic(responseHasHeadline());
 		privacySettings.setNamePublic(responseHasRealName());
 		privacySettings.setPicturePublic(responseHasPicture());
-		
+
 		userBuilder.setRealPrivacySettings(privacySettings);
 	}
 
@@ -75,7 +75,13 @@ public class JsonUserParser {
 		final String showSkills = userJsonObject.getString("show_skills");
 		final String showName = userJsonObject.getString("show_name");
 		final String showPicture = userJsonObject.getString("show_picture");
-		final String showJobPositions = userJsonObject.getString("show_jobs");
+
+		// FIXME - added a false default when no show_jobs elements comes in the
+		// JSON data, but it may be better to add this to the register
+		// task/service 'cause that may be what's causing this to happen -
+		// miguel - 27/11/2012
+		final String showJobPositions = userJsonObject.has("show_jobs") ? userJsonObject
+				.getString("show_jobs") : "false";
 
 		userBuilder.setStealthy(showInSearches);
 		userBuilder.setHeadlinePublic(showHeadline);

@@ -14,37 +14,31 @@ import com.menatwork.TalentRadarApplication;
 import com.menatwork.service.Ping;
 import com.menatwork.service.response.ErroneousResponse;
 import com.menatwork.service.response.Response;
-import com.menatwork.utils.UserConfirmationPrompter;
 
 public class PingTask extends AsyncTask<String, Void, Response> {
 
-	private ProgressDialog progressDialog;
-
 	private final Activity activity;
 
+	private ProgressDialog progressDialog;
 	private String toUsername;
-
-	private final Object confirmationLock = new Object();
-
-	private boolean confirmed;
 
 	public PingTask(final Activity activity) {
 		this.activity = activity;
 	}
 
+	// private boolean userConfirmsAction() {
+	// return UserConfirmationPrompter.prompt(activity, "Ping",
+	// String.format("Pingear a %s?", toUsername));
+	// }
+
 	@Override
 	protected void onPreExecute() {
-		if (!this.userConfirmsAction()) {
-			this.cancel(true);
-			return;
-		}
+		// if (!this.userConfirmsAction()) {
+		// this.cancel(true);
+		// return;
+		// }
 		progressDialog = ProgressDialog.show(activity, "",
 				activity.getString(R.string.generic_wait));
-	}
-
-	private boolean userConfirmsAction() {
-		return UserConfirmationPrompter.prompt(activity, "Ping",
-				String.format("Pingear a %s?", toUsername));
 	}
 
 	@Override

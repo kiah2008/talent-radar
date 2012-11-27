@@ -76,5 +76,8 @@
     <!-- Save contact -->
     <string name="save_contact_by_id_error">Ocurrió un error al querer guardar el usuario en el portfolio. Inténtelo de nuevo.</string>
     <string name="save_contact_success_format">%s fue correctamente guardado al portfolio</string>
+    <string name="cancel_option_label">No</string>
+    <string name="accept_option_label">Sí</string>
+    <string name="ping_confirmation_question">¿Enviar ping a %s?</string>
 
 </resources>

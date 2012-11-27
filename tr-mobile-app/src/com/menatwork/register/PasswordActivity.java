@@ -36,8 +36,7 @@ public class PasswordActivity extends DataInputActivity {
 
 	private void setupPasswordTextWatchers() {
 		password1.addTextChangedListener(new PasswordTextWatcher(password2));
-		this.password2
-				.addTextChangedListener(new PasswordTextWatcher(password1));
+		password2.addTextChangedListener(new PasswordTextWatcher(password1));
 	}
 
 	private void setupButtons() {
@@ -56,6 +55,10 @@ public class PasswordActivity extends DataInputActivity {
 		return data;
 	}
 
+	// ************************************************ //
+	// ====== PasswordTextWatcher ======
+	// ************************************************ //
+
 	private class PasswordTextWatcher implements TextWatcher {
 
 		private final EditText theOneToCompareAgainst;
@@ -68,13 +71,17 @@ public class PasswordActivity extends DataInputActivity {
 		public void afterTextChanged(final Editable s) {
 			if (s == null)
 				return;
+
 			final String thisPassword = s.toString();
 			final String otherPassword = theOneToCompareAgainst.getText()
 					.toString();
+
 			boolean enabled = "".equals(thisPassword) ? false : thisPassword
 					.equals(otherPassword);
-			final Pattern pattern = Pattern.compile("[a..z0-9]");
+
+			final Pattern pattern = Pattern.compile("[A-Za-z0-9]+");
 			enabled &= pattern.matcher(thisPassword).matches();
+
 			nextButton.setEnabled(enabled);
 		}
 

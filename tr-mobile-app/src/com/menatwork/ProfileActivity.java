@@ -2,6 +2,8 @@ package com.menatwork;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -148,10 +150,35 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 
 			@Override
 			public void onClick(final View v) {
-				final String localUserId = getTalentRadarApplication()
-						.getLocalUser().getId();
-				new PingTask(ProfileActivity.this).execute(localUserId,
-						getUser().getId(), getUser().getDisplayableShortName());
+				final AlertDialog.Builder builder = new AlertDialog.Builder(
+						ProfileActivity.this);
+
+				builder.setMessage(String.format(
+						getString(R.string.ping_confirmation_question),
+						getUser().getDisplayableShortName()));
+				builder.setPositiveButton(R.string.accept_option_label,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(final DialogInterface dialog,
+									final int id) {
+								final String localUserId = getTalentRadarApplication()
+										.getLocalUser().getId();
+								new PingTask(ProfileActivity.this).execute(
+								//
+										localUserId, //
+										getUser().getId(), //
+										getUser().getDisplayableShortName());
+							}
+						});
+				builder.setNegativeButton(R.string.cancel_option_label,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(final DialogInterface dialog,
+									final int id) {
+								// Do nothing
+							}
+						});
+				builder.create().show();
 			}
 		});
 		captureButton.setOnClickListener(new OnClickListener() {
