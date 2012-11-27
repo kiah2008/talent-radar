@@ -14,6 +14,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,10 +24,25 @@ public class GonzaUtils {
 	public static JSONObject executePost(final HttpPost httpPost)
 			throws JSONException, IOException {
 		try {
+			// final DefaultHttpClient httpClient = new DefaultHttpClient();
+			// final HttpResponse httpResponse = httpClient.execute(httpPost);
+			// final HttpEntity httpEntity = httpResponse.getEntity();
+			// return readJSON(httpEntity.getContent());
+
+			// ************************************************ //
+			// ====== Empieza prueba ======
+			// ************************************************ //
+
 			final DefaultHttpClient httpClient = new DefaultHttpClient();
+			httpPost.setHeader("Accept", "application/json");
 			final HttpResponse httpResponse = httpClient.execute(httpPost);
 			final HttpEntity httpEntity = httpResponse.getEntity();
 			return readJSON(httpEntity.getContent());
+
+			// ************************************************ //
+			// ====== Fin prueba ======
+			// ************************************************ //
+
 		} catch (final UnsupportedEncodingException e) {
 			// should not happen
 			throw new RuntimeException(e);
@@ -40,6 +56,9 @@ public class GonzaUtils {
 			final List<NameValuePair> params) {
 		try {
 			final HttpPost httpPost = new HttpPost(url);
+
+			params.add(new BasicNameValuePair("_method", "POST"));
+
 			httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
 			return httpPost;
 		} catch (final UnsupportedEncodingException e) {
