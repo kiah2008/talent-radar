@@ -23,7 +23,7 @@ public abstract class SaveContactBaseTask<T> extends AsyncTask<T, Void, Void> {
 	private void initializeHandler() {
 		handler = new Handler(Looper.getMainLooper());
 	}
-	
+
 	protected void saveContact(final User user) {
 		DefaultHunt.getInstance().addUser(user);
 
@@ -32,7 +32,6 @@ public abstract class SaveContactBaseTask<T> extends AsyncTask<T, Void, Void> {
 				user.getDisplayableShortName());
 
 		handler.post(new Runnable() {
-
 			@Override
 			public void run() {
 				Toast.makeText(context, saveContactSuccessString,

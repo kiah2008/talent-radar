@@ -62,7 +62,8 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 				miniProfiles.add(new MiniProfileItemRow(user));
 
 			listController = new MiniProfileListController(this,
-					R.id.mini_profiles_list_view, miniProfiles, getHunt().isSaveableToPortfolio());
+					R.id.mini_profiles_list_view, miniProfiles, getHunt()
+							.isSaveableToPortfolio());
 
 			final ListView listView = listController.getListView();
 			registerForContextMenu(listView);
@@ -83,6 +84,16 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 	@Override
 	public void onCreateContextMenu(final ContextMenu menu, final View v,
 			final ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+
+		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+		final User user = getHunt().findUserById(
+				userIdFromMiniprofileAt((int) info.id));
+
+		menu.setHeaderTitle(String.format(
+				getString(R.string.hunt_miniprofile_username_format),
+				user.getDisplayableShortName()));
+
 		getMenuInflater().inflate(R.menu.hunt_miniprofile_context_menu, menu);
 	}
 
@@ -100,17 +111,22 @@ public class HuntMiniProfilesActivity extends GuiTalentRadarActivity {
 	}
 
 	private void removeUser(final String userId) {
-		final boolean userSuccessfullyRemoved = getHunt().removeUserWithId(
-				userId);
-		if (userSuccessfullyRemoved)
+		final Hunt hunt = getHunt();
+
+		final User user = hunt.findUserById(userId);
+		final String userShortName = user.getDisplayableShortName();
+
+		final boolean userSuccessfullyRemoved = hunt.removeUserWithId(userId);
+		if (userSuccessfullyRemoved) {
 			Toast.makeText(
 					//
 					this, //
 					String.format(
 							getString(R.string.hunt_miniprofile_context_menu_remove_successfully),
-							getUserById(userId).getDisplayableShortName()), //
+							userShortName), //
 					Toast.LENGTH_SHORT //
 			).show();
+		}
 
 		runOnUiThread(new Runnable() {
 			@Override

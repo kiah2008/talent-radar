@@ -7,9 +7,9 @@ import com.menatwork.model.User;
 
 /**
  * Base class for hunts, defining common behaviour (users manipulation).
- * 
+ *
  * @author miguel
- * 
+ *
  */
 public abstract class BaseHunt implements Hunt {
 
@@ -46,12 +46,13 @@ public abstract class BaseHunt implements Hunt {
 	/**
 	 * Searchs a user by its ID in the current hunt and returns the user object
 	 * according to it.
-	 * 
+	 *
 	 * @param userId
 	 *            ID of the user to be find
 	 * @return A {@link User} or null, if no user with userId is found
 	 */
-	protected User findUserById(final String userId) {
+	@Override
+	public User findUserById(final String userId) {
 		for (final User user : users)
 			if (user.getId().equals(userId))
 				return user;
