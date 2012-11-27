@@ -6,10 +6,12 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 
+@Deprecated
 public class UserConfirmationPrompter {
 
 	private Object confirmationLock;
 	private boolean confirmed;
+
 	private final CharSequence message;
 	private final Context activity;
 	private final String title;
@@ -40,7 +42,7 @@ public class UserConfirmationPrompter {
 			}
 		});
 		// TODO strings.xml
-		builder.setPositiveButton("S’", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(final DialogInterface dialog, final int which) {
 				UserConfirmationPrompter.this.userConfirmed();
@@ -56,6 +58,7 @@ public class UserConfirmationPrompter {
 				e.printStackTrace();
 			}
 		}
+
 		return confirmed;
 	}
 
