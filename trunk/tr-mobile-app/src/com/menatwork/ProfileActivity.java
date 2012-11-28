@@ -2,8 +2,6 @@ package com.menatwork;
 
 import java.util.List;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,10 +13,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.menatwork.miniprofile.PingTask;
 import com.menatwork.model.JobPosition;
 import com.menatwork.model.User;
 import com.menatwork.skills.SkillButtonFactory;
+import com.menatwork.utils.ConfirmPingListener;
 import com.menatwork.utils.SaveContactTask;
 import com.menatwork.view.LoadProfilePictureTask;
 
@@ -26,13 +24,13 @@ import com.menatwork.view.LoadProfilePictureTask;
  * In order to make this view reusable for viewing any user profile, you need to
  * pass along in a bundle the user id that you are trying to visualize (or
  * nothing for the local user, that means, don't put anything in the extras!)
- *
+ * 
  * key: userid / value: a string with the user id (eg. "25")
- *
+ * 
  * @see {@link ProfileActivity#EXTRAS_USERID}
- *
+ * 
  * @author aabdala
- *
+ * 
  */
 public class ProfileActivity extends GuiTalentRadarActivity {
 
@@ -146,41 +144,7 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 
 	@Override
 	protected void setupButtons() {
-		pingButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(final View v) {
-				final AlertDialog.Builder builder = new AlertDialog.Builder(
-						ProfileActivity.this);
-
-				builder.setMessage(String.format(
-						getString(R.string.ping_confirmation_question),
-						getUser().getDisplayableShortName()));
-				builder.setPositiveButton(R.string.accept_option_label,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(final DialogInterface dialog,
-									final int id) {
-								final String localUserId = getTalentRadarApplication()
-										.getLocalUser().getId();
-								new PingTask(ProfileActivity.this).execute(
-								//
-										localUserId, //
-										getUser().getId(), //
-										getUser().getDisplayableShortName());
-							}
-						});
-				builder.setNegativeButton(R.string.cancel_option_label,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(final DialogInterface dialog,
-									final int id) {
-								// Do nothing
-							}
-						});
-				builder.create().show();
-			}
-		});
+		pingButton.setOnClickListener(new ConfirmPingListener(this, getUser()));
 		captureButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -242,6 +206,7 @@ public class ProfileActivity extends GuiTalentRadarActivity {
 			user = result;
 			loadUserData();
 			loadProfilePicture();
+			setupButtons();
 		}
 
 	}
