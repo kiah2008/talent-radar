@@ -54,8 +54,7 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 	}
 
 	private void loadProfilePic(final String profilePicUrl) {
-		new LoadProfilePictureTask(this, profilePicture, loadingProfilePic,
-				profilePicUrl).execute();
+		new LoadProfilePictureTask(this, profilePicture, loadingProfilePic, profilePicUrl).execute();
 	}
 
 	private void loadDataFromExtras() {
@@ -65,13 +64,14 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 		dataMessage = extras.getString(EXTRA_MESSAGE);
 		userId = extras.getString(EXTRA_USER_ID);
 		profilePicUrl = extras.getString(EXTRAS_PROFILE_PIC_URL);
+		
 		if (pingId == null || //
 				dataUserName == null || //
 				dataMessage == null || //
 				userId == null || //
 				profilePicUrl == null)
-			throw new RuntimeException(
-					"This activity must be called with extras");
+			throw new RuntimeException("This activity must be called with extras");
+		
 		username.setText(dataUserName);
 		message.setText(dataMessage);
 		this.loadProfilePic(profilePicUrl);
@@ -104,27 +104,24 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		switch (id) {
 		case DIALOG_IGNORE_OR_BAN:
-			builder.setMessage(String.format(
-					getString(R.string.ping_alert_confirm_ban_message),
-					dataUserName));
-			builder.setNegativeButton(R.string.ping_alert_confirm_ban_no,
-					new BanDialogListener());
-			builder.setPositiveButton(R.string.ping_alert_confirm_ban_ok,
-					new BanDialogListener());
-			builder.setNeutralButton(R.string.ping_alert_confirm_ban_cancel,
-					new BanDialogListener());
+			builder.setMessage(String
+					.format(getString(R.string.ping_alert_confirm_ban_message), dataUserName));
+			builder.setNegativeButton(R.string.ping_alert_confirm_ban_no, new BanDialogListener());
+			builder.setPositiveButton(R.string.ping_alert_confirm_ban_ok, new BanDialogListener());
+			builder.setNeutralButton(R.string.ping_alert_confirm_ban_cancel, new BanDialogListener());
 		}
 		return builder.create();
 	}
 
 	void replyPing(final Answer answer) {
-		new ReplyPingTask().execute(getTalentRadarApplication().getLocalUser()
-				.getId(), pingId, answer);
+		// FIXME - local user is not loaded when this activity raises from
+		// nowhere (from an incoming ping) and getId() crashes - boris -
+		// 28/11/2012
+		new ReplyPingTask().execute(getTalentRadarApplication().getLocalUser().getId(), pingId, answer);
 	}
 
 	private void proceedToChatInterface() {
-		final Intent intent = new Intent(PingAlertActivity.this,
-				ChatActivity.class);
+		final Intent intent = new Intent(PingAlertActivity.this, ChatActivity.class);
 		// TODO - get the real headline (along with the profile pic)
 		intent.putExtra(ChatActivity.EXTRAS_HEADLINE, "");
 		intent.putExtra(ChatActivity.EXTRAS_USER_ID, userId);
@@ -152,8 +149,7 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 
 	}
 
-	private class BanDialogListener implements
-			android.content.DialogInterface.OnClickListener {
+	private class BanDialogListener implements android.content.DialogInterface.OnClickListener {
 
 		@Override
 		public void onClick(final DialogInterface dialog, final int which) {
@@ -190,8 +186,8 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 				answer = (Answer) params[2];
 				final String localUserId = (String) params[0];
 				final String pingId = (String) params[1];
-				final ReplyPing replyPing = ReplyPing.newInstance(
-						PingAlertActivity.this, localUserId, pingId, answer);
+				final ReplyPing replyPing = ReplyPing.newInstance(PingAlertActivity.this, localUserId,
+						pingId, answer);
 				return replyPing.execute();
 			} catch (final JSONException e) {
 				Log.e("ReplyPingTask", "Error receiving response");
@@ -207,8 +203,7 @@ public class PingAlertActivity extends GuiTalentRadarActivity {
 		protected void onPostExecute(final Response result) {
 			// progressDialog.dismiss();
 			if (!result.isSuccessful())
-				Toast.makeText(PingAlertActivity.this,
-						getString(R.string.generic_error), Toast.LENGTH_SHORT)
+				Toast.makeText(PingAlertActivity.this, getString(R.string.generic_error), Toast.LENGTH_SHORT)
 						.show();
 			if (Answer.ACCEPT.equals(answer))
 				// launch chat interface
