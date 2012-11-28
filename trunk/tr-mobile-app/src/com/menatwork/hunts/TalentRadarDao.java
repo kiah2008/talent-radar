@@ -131,8 +131,8 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 		// if there was a default hunt previously saved
 		if (cursor != null && cursor.moveToFirst()) {
 
-			final String userIds = cursor.getString(0);
-			defaultHunt.addUsers(usersFromUserIds(userIds));
+			final String userIdsString = cursor.getString(0);
+			defaultHunt.addUsers(usersFromUserIdsString(userIdsString));
 		}
 
 		cursor.close();
@@ -180,7 +180,7 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 				final SimpleSkillHuntBuilder builder = SimpleSkillHuntBuilder.newInstance();
 
 				builder.setId(cursor.getString(0)).setTitle(cursor.getString(1))
-						.setUsers(usersFromUserIds(cursor.getString(2).split(STRING_SEPARATOR)))
+						.setUsers(usersFromUserIdsString(cursor.getString(2)))
 						.addRequiredSkills(parseSkillsFrom(cursor.getString(3)))
 						.addPreferredSkills(parseSkillsFrom(cursor.getString(4)));
 
@@ -260,6 +260,10 @@ public class TalentRadarDao extends SQLiteOpenHelper {
 		for (final User user : hunt.getUsers())
 			userIds.add(user.getId());
 		return userIds;
+	}
+
+	private List<User> usersFromUserIdsString(final String userIdsString) {
+		return usersFromUserIds(userIdsString.split(STRING_SEPARATOR));
 	}
 
 	private List<User> usersFromUserIds(final String... userIds) {
