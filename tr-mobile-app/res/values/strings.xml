@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">Talent Radar</string>
-    <string name="generic_error">Ocurrió un error</string>
+    <!-- <string name="generic_error">Ocurrió un error</string> -->
+    <string name="generic_error">Ocurrió un error. Revise por favor su conexión a Internet.</string>
     <string name="generic_wait">Espere…</string>
     <string name="menu_preferences_title">Preferencias</string>
     <string name="menu_log_out_title">Log out</string>
