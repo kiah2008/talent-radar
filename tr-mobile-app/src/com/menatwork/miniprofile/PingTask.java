@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.json.JSONException;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -19,7 +18,7 @@ public class PingTask extends AsyncTask<String, Void, Response> {
 
 	private final Activity activity;
 
-	private ProgressDialog progressDialog;
+//	private ProgressDialog progressDialog;
 	private String toUsername;
 
 	public PingTask(final Activity activity) {
@@ -37,13 +36,13 @@ public class PingTask extends AsyncTask<String, Void, Response> {
 		// this.cancel(true);
 		// return;
 		// }
-		progressDialog = ProgressDialog.show(activity, "",
-				activity.getString(R.string.generic_wait));
+//		progressDialog = ProgressDialog.show(activity, "",
+//				activity.getString(R.string.generic_wait));
 	}
 
 	@Override
 	protected void onPostExecute(final Response result) {
-		progressDialog.dismiss();
+//		progressDialog.dismiss();
 		if (result.isSuccessful())
 			Toast.makeText(
 					activity,
