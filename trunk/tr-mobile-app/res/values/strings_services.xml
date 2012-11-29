@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--     <string name="post_uri">http://192.168.1.111/tr-service</string> -->
-    <string name="post_uri">http://www.talent-radar.com</string>
+    <string name="post_uri">http://192.168.1.111/tr-service</string>
+    <!-- <string name="post_uri">http://www.talent-radar.com</string> -->
 
     <!-- Registration -->
     <string name="post_uri_registration">/app/users/register</string>
