@@ -1,0 +1,1 @@
+Talent Radar is a mobile app capable of getting you closer to your new job.
